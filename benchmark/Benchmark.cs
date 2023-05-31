@@ -5,13 +5,35 @@ using BenchmarkDotNet.Running;
 using System.Text;
 using System.Runtime;
 using System.Runtime.InteropServices;
+using System.Buffers;
+
 namespace SimdUnicodeBenchmarks
 {
+
+    // See https://github.com/dotnet/performance/blob/cea924dd0639057c1062444a642a470deef96158/src/benchmarks/micro/libraries/System.Text.Encoding/Perf.Ascii.cs#L38
+    // for a standard benchmark
     public class Checker
     {
         List<char[]> names;
         List<bool> results;
+        public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
+        {
+            // The runtime as of NET 8.0 has a dedicated method for this, but
+            // it is not available prior to that, so let us branch.
+#if NET8_0_OR_GREATER
+            return Ascii.IsValid(s);
+#else
+            foreach (char c in s)
+            {
+                if (c >= 128)
+                {
+                    return false;
+                }
+            }
 
+            return true;
+#endif
+        }
         public static char[] GetRandomASCIIString(uint n)
         {
             var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ01234567é89";
@@ -72,7 +94,7 @@ namespace SimdUnicodeBenchmarks
             int count = 0;
             foreach (char[] name in names)
             {
-                results[count] = (Encoding.ASCII.GetByteCount(name) == name.Length);
+                results[count] = RuntimeIsAsciiApproach(name);
                 count += 1;
             }
         }
@@ -98,9 +120,6 @@ namespace SimdUnicodeBenchmarks
 
             }
             var summary = BenchmarkRunner.Run<Checker>();
-            Console.WriteLine("The RuntimeIsAscii is too fast. The execution time does not depend on the string length.");
-            Console.WriteLine("It is assuredly cheating..");
-
         }
     }
 }
