@@ -12,7 +12,7 @@ The most important immediate goal would be to speed up the
 https://github.com/dotnet/runtime/blob/4d709cd12269fcbb3d0fccfb2515541944475954/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Validation.cs
 
 
-(We may need to speed up `Ascii.GetIndexOfFirstNonAsciiByte` first.)
+(We may need to speed up `Ascii.GetIndexOfFirstNonAsciiByte` first, see issue https://github.com/simdutf/SimdUnicode/issues/1.)
 
 The question is whether we could do it using this routine:
 
