@@ -118,7 +118,7 @@ namespace SimdUnicode
                         Vector128<ushort> b = Sse41.Max(b127, total);
                         Vector128<ushort> b16 = Sse41.CompareEqual(b, b127);
                         int movemask = Sse2.MoveMask(b16.AsByte());
-                        if (movemask != 0xfffff)
+                        if (movemask != 0xffff)
                         {
                             return false;
                         }
