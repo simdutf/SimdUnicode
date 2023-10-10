@@ -6,6 +6,20 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 
+/* PAR:
+|                 Method |   N |       Mean |    Error |   StdDev |
+|----------------------- |---- |-----------:|---------:|---------:|
+|     FastUnicodeIsAscii | 100 |   652.6 ns |  2.20 ns |  1.95 ns |
+| StandardUnicodeIsAscii | 100 | 2,466.5 ns | 21.77 ns | 20.36 ns |
+|         RuntimeIsAscii | 100 | 2,502.7 ns | 29.81 ns | 27.89 ns |
+|     FastUnicodeIsAscii | 200 | 1,300.8 ns | 17.95 ns | 14.99 ns |
+| StandardUnicodeIsAscii | 200 | 5,216.6 ns | 62.48 ns | 55.38 ns |
+|         RuntimeIsAscii | 200 | 5,293.2 ns | 41.50 ns | 38.82 ns |
+|     FastUnicodeIsAscii | 500 | 2,978.6 ns | 34.99 ns | 32.73 ns |
+| StandardUnicodeIsAscii | 500 | 6,172.9 ns | 74.53 ns | 69.71 ns |
+|         RuntimeIsAscii | 500 | 6,210.8 ns | 80.82 ns | 63.10 ns | */
+
+
 // Ideally, we would want to implement something that looks like
 // https://learn.microsoft.com/en-us/dotnet/api/system.text.asciiencoding?view=net-7.0
 //
@@ -63,7 +77,7 @@ namespace SimdUnicode
                     {
                         // instead of a load, we could have set it to zero, like so...
                         // total = Vector128<ushort>.Zero;
-                        // or to a custome value like this:
+                        // or to a custom value like this:
                         // total = DuplicateToVector128((char)0);
                         Vector128<ushort> total = AdvSimd.LoadVector128((ushort*)pStart);
                         i += 8;
