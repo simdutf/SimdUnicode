@@ -6,18 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 
-/* PAR:
-|                 Method |   N |       Mean |    Error |   StdDev |
-|----------------------- |---- |-----------:|---------:|---------:|
-|     FastUnicodeIsAscii | 100 |   652.6 ns |  2.20 ns |  1.95 ns |
-| StandardUnicodeIsAscii | 100 | 2,466.5 ns | 21.77 ns | 20.36 ns |
-|         RuntimeIsAscii | 100 | 2,502.7 ns | 29.81 ns | 27.89 ns |
-|     FastUnicodeIsAscii | 200 | 1,300.8 ns | 17.95 ns | 14.99 ns |
-| StandardUnicodeIsAscii | 200 | 5,216.6 ns | 62.48 ns | 55.38 ns |
-|         RuntimeIsAscii | 200 | 5,293.2 ns | 41.50 ns | 38.82 ns |
-|     FastUnicodeIsAscii | 500 | 2,978.6 ns | 34.99 ns | 32.73 ns |
-| StandardUnicodeIsAscii | 500 | 6,172.9 ns | 74.53 ns | 69.71 ns |
-|         RuntimeIsAscii | 500 | 6,210.8 ns | 80.82 ns | 63.10 ns | */
 
 
 // Ideally, we would want to implement something that looks like
@@ -104,7 +92,22 @@ namespace SimdUnicode
                 fixed (char* pStart = &MemoryMarshal.GetReference(s))
                 {
                     int i = 0;
-                    if (s.Length > 8)
+
+ /* PAR:  not unrolled
+|                 Method |   N |       Mean |    Error |   StdDev |
+|----------------------- |---- |-----------:|---------:|---------:|
+|     FastUnicodeIsAscii | 100 |   652.6 ns |  2.20 ns |  1.95 ns |
+| StandardUnicodeIsAscii | 100 | 2,466.5 ns | 21.77 ns | 20.36 ns |
+|         RuntimeIsAscii | 100 | 2,502.7 ns | 29.81 ns | 27.89 ns |
+|     FastUnicodeIsAscii | 200 | 1,300.8 ns | 17.95 ns | 14.99 ns |
+| StandardUnicodeIsAscii | 200 | 5,216.6 ns | 62.48 ns | 55.38 ns |
+|         RuntimeIsAscii | 200 | 5,293.2 ns | 41.50 ns | 38.82 ns |
+|     FastUnicodeIsAscii | 500 | 2,978.6 ns | 34.99 ns | 32.73 ns |
+| StandardUnicodeIsAscii | 500 | 6,172.9 ns | 74.53 ns | 69.71 ns |
+|         RuntimeIsAscii | 500 | 6,210.8 ns | 80.82 ns | 63.10 ns | */
+
+
+/*                     if (s.Length > 8)
                     {
                         Vector128<ushort> total = Sse41.LoadDquVector128((ushort*)pStart);
                         i += 8;
@@ -113,7 +116,37 @@ namespace SimdUnicode
                         {
                             Vector128<ushort> raw = Sse41.LoadDquVector128((ushort*)pStart + i);
                             total = Sse2.Or(total, raw);
+                        } */
+
+
+/* 
+|                 Method |   N |       Mean |    Error |   StdDev |
+|----------------------- |---- |-----------:|---------:|---------:|
+|     FastUnicodeIsAscii | 100 |   905.7 ns | 17.95 ns | 20.67 ns |
+| StandardUnicodeIsAscii | 100 | 2,502.4 ns | 49.67 ns | 66.31 ns |
+|         RuntimeIsAscii | 100 | 2,522.8 ns | 32.70 ns | 30.59 ns |
+|     FastUnicodeIsAscii | 200 |   649.3 ns | 10.24 ns |  9.57 ns |
+| StandardUnicodeIsAscii | 200 | 5,299.7 ns | 64.91 ns | 57.54 ns |
+|         RuntimeIsAscii | 200 | 5,307.2 ns | 49.18 ns | 46.00 ns |
+|     FastUnicodeIsAscii | 500 | 1,382.2 ns |  9.40 ns |  8.79 ns |
+| StandardUnicodeIsAscii | 500 | 6,127.7 ns | 57.69 ns | 48.18 ns |
+|         RuntimeIsAscii | 500 | 6,258.2 ns | 62.05 ns | 58.05 ns | */
+
+                    if (s.Length > 16)  // Adjusted for the unrolled loop
+                    {
+                        Vector128<ushort> total = Sse41.LoadDquVector128((ushort*)pStart);
+                        i += 8;
+
+                        // Unrolling the loop by 2x
+                        for (; i + 15 < s.Length; i += 16)
+                        {
+                            Vector128<ushort> raw1 = Sse41.LoadDquVector128((ushort*)pStart + i);
+                            Vector128<ushort> raw2 = Sse41.LoadDquVector128((ushort*)pStart + i + 8);
+                            
+                            total = Sse2.Or(total, raw1);
+                            total = Sse2.Or(total, raw2);
                         }
+
                         Vector128<ushort> b127 = Vector128.Create((ushort)127);
                         Vector128<ushort> b = Sse41.Max(b127, total);
                         Vector128<ushort> b16 = Sse41.CompareEqual(b, b127);
