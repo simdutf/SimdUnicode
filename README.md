@@ -1,4 +1,5 @@
 # SimdUnicode
+[![.NET](https://github.com/simdutf/SimdUnicode/actions/workflows/dotnet.yml/badge.svg)](https://github.com/simdutf/SimdUnicode/actions/workflows/dotnet.yml)
 
 This is a fast C# library to process unicode strings.
 
