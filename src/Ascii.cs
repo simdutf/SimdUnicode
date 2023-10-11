@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 
+
+
 // Ideally, we would want to implement something that looks like
 // https://learn.microsoft.com/en-us/dotnet/api/system.text.asciiencoding?view=net-7.0
 //
@@ -63,7 +65,7 @@ namespace SimdUnicode
                     {
                         // instead of a load, we could have set it to zero, like so...
                         // total = Vector128<ushort>.Zero;
-                        // or to a custome value like this:
+                        // or to a custom value like this:
                         // total = DuplicateToVector128((char)0);
                         Vector128<ushort> total = AdvSimd.LoadVector128((ushort*)pStart);
                         i += 8;
@@ -90,21 +92,26 @@ namespace SimdUnicode
                 fixed (char* pStart = &MemoryMarshal.GetReference(s))
                 {
                     int i = 0;
-                    if (s.Length > 8)
+                    if (s.Length > 16)  // Adjusted for the unrolled loop
                     {
                         Vector128<ushort> total = Sse41.LoadDquVector128((ushort*)pStart);
                         i += 8;
-                        // unrolling could be useful here:
-                        for (; i + 7 < s.Length; i += 8)
+
+                        // Unrolling the loop by 2x
+                        for (; i + 15 < s.Length; i += 16)
                         {
-                            Vector128<ushort> raw = Sse41.LoadDquVector128((ushort*)pStart + i);
-                            total = Sse2.Or(total, raw);
+                            Vector128<ushort> raw1 = Sse41.LoadDquVector128((ushort*)pStart + i);
+                            Vector128<ushort> raw2 = Sse41.LoadDquVector128((ushort*)pStart + i + 8);
+                            
+                            total = Sse2.Or(total, raw1);
+                            total = Sse2.Or(total, raw2); 
                         }
+
                         Vector128<ushort> b127 = Vector128.Create((ushort)127);
                         Vector128<ushort> b = Sse41.Max(b127, total);
                         Vector128<ushort> b16 = Sse41.CompareEqual(b, b127);
                         int movemask = Sse2.MoveMask(b16.AsByte());
-                        if (movemask != 0xfffff)
+                        if (movemask != 0xffff)
                         {
                             return false;
                         }
