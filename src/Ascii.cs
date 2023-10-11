@@ -119,7 +119,7 @@ namespace SimdUnicode
                         } */
 
 
-/* 
+/* Unrolled twice:
 |                 Method |   N |       Mean |    Error |   StdDev |
 |----------------------- |---- |-----------:|---------:|---------:|
 |     FastUnicodeIsAscii | 100 |   905.7 ns | 17.95 ns | 20.67 ns |
@@ -144,8 +144,42 @@ namespace SimdUnicode
                             Vector128<ushort> raw2 = Sse41.LoadDquVector128((ushort*)pStart + i + 8);
                             
                             total = Sse2.Or(total, raw1);
-                            total = Sse2.Or(total, raw2);
+                            total = Sse2.Or(total, raw2); 
                         }
+
+// |                 Method |   N |       Mean |     Error |    StdDev |
+// |----------------------- |---- |-----------:|----------:|----------:|
+// |     FastUnicodeIsAscii | 100 | 1,601.3 ns |  31.62 ns |  31.05 ns |
+// | StandardUnicodeIsAscii | 100 | 2,502.5 ns |  49.20 ns |  65.68 ns |
+// |         RuntimeIsAscii | 100 | 2,478.5 ns |  30.08 ns |  26.66 ns |
+// |     FastUnicodeIsAscii | 200 |   653.0 ns |   6.26 ns |   5.86 ns |
+// | StandardUnicodeIsAscii | 200 | 5,282.7 ns | 102.28 ns | 105.03 ns |
+// |         RuntimeIsAscii | 200 | 5,366.1 ns |  65.50 ns |  61.27 ns |
+// |     FastUnicodeIsAscii | 500 | 1,305.4 ns |  11.85 ns |  11.09 ns |
+// | StandardUnicodeIsAscii | 500 | 6,235.6 ns | 103.06 ns |  96.40 ns |
+// |         RuntimeIsAscii | 500 | 6,389.6 ns | 103.20 ns |  96.53 ns |
+
+
+                    // if (s.Length > 32)  // Adjusted for the 4x unrolled loop
+                    // {
+                    //     Vector128<ushort> total = Sse41.LoadDquVector128((ushort*)pStart);
+                    //     i += 8;
+
+                    //     // 4x loop unrolling
+                    //     for (; i + 31 < s.Length; i += 32)
+                    //     {
+                    //         Vector128<ushort> raw1 = Sse41.LoadDquVector128((ushort*)pStart + i);
+                    //         Vector128<ushort> raw2 = Sse41.LoadDquVector128((ushort*)pStart + i + 8);
+                    //         Vector128<ushort> raw3 = Sse41.LoadDquVector128((ushort*)pStart + i + 16);
+                    //         Vector128<ushort> raw4 = Sse41.LoadDquVector128((ushort*)pStart + i + 24);
+                            
+                    //         total = Sse2.Or(total, raw1);
+                    //         total = Sse2.Or(total, raw2);
+                    //         total = Sse2.Or(total, raw3);
+                    //         total = Sse2.Or(total, raw4);
+                    //     }
+                    
+
 
                         Vector128<ushort> b127 = Vector128.Create((ushort)127);
                         Vector128<ushort> b = Sse41.Max(b127, total);
