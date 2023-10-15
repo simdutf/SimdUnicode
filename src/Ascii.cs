@@ -131,7 +131,49 @@ namespace SimdUnicode
             }
             return true;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+        {
+            byte* pBufferEnd = pBuffer + bufferLength;
+            byte* pCurrent = pBuffer;
+
+            // Process in blocks of 16 bytes when possible
+            while (pCurrent + 16 <= pBufferEnd)
+            {
+                ulong v1 = *(ulong*)pCurrent;
+                ulong v2 = *(ulong*)(pCurrent + 8);
+                ulong v = v1 | v2;
+
+                if ((v & 0x8080808080808080) != 0)
+                {
+                    for (; pCurrent < pBufferEnd; pCurrent++)
+                    {
+                        if (*pCurrent >= 0b10000000)
+                        {
+                            return (nuint)(pCurrent - pBuffer);
+                        }
+                    }
+                }
+
+                pCurrent += 16;
+            }
+
+            // Process the tail byte-by-byte
+            for (; pCurrent < pBufferEnd; pCurrent++)
+            {
+                if (*pCurrent >= 0b10000000)
+                {
+                    return (nuint)(pCurrent - pBuffer);
+                }
+            }
+
+            return bufferLength;
+        }
+
     }
+
+
 }
 // Further reading:
 // https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Encodings.Web/src/System/Text/Unicode/UnicodeHelpers.cs
