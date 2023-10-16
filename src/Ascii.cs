@@ -133,7 +133,7 @@ namespace SimdUnicode
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+        public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
         {
             byte* pBufferEnd = pBuffer + bufferLength;
             byte* pCurrent = pBuffer;
