@@ -16,6 +16,7 @@ namespace SimdUnicodeBenchmarks
     {
         List<char[]> names;
         List<bool> results;
+
         public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
         {
             // The runtime as of NET 8.0 has a dedicated method for this, but
@@ -98,6 +99,36 @@ namespace SimdUnicodeBenchmarks
                 count += 1;
             }
         }
+
+
+        [Benchmark]
+        public void TestErrorGetIndexOfFirstNonAsciiByteBenchmark()
+        {
+            foreach (char[] chars in names)
+            {
+                byte[] ascii = Encoding.UTF8.GetBytes(chars);
+
+                for (int i = 0; i < ascii.Length; i++)
+                {
+                    ascii[i] += 0b10000000;
+
+                    unsafe
+                    {
+                        fixed (byte* pAscii = ascii)
+                        {
+                            nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
+                            if (result != (nuint)i)
+                            {
+                                throw new Exception($"Expected non-ASCII character at index {i}, but found at index {result}");
+                            }
+                        }
+                    }
+
+                    ascii[i] -= 0b10000000;
+                }
+            }
+        }
+
 
     }
 
