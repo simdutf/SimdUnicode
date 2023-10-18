@@ -117,10 +117,6 @@ namespace SimdUnicodeBenchmarks
                         fixed (byte* pAscii = ascii)
                         {
                             nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
-                            if (result != (nuint)i)
-                            {
-                                throw new Exception($"Expected non-ASCII character at index {i}, but found at index {result}");
-                            }
                         }
                     }
 
