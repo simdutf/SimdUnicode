@@ -15,6 +15,9 @@ namespace SimdUnicodeBenchmarks
     public class Checker
     {
         List<char[]> names;
+        List<char[]> nonAsciichars;
+public List<byte[]> nonAsciiByteArrays; // Declare at the class level
+
         List<bool> results;
 
         public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
@@ -50,22 +53,44 @@ namespace SimdUnicodeBenchmarks
             return chars;
         }
 
+        public static char[] GetRandomNonASCIIString(uint n)
+        {
+            // Chose a few Latin Extended-A and Latin Extended-B characters alongside ASCII chars
+            var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ01234567é89šžŸũŭůűųŷŹźŻżŽ";
+            
+            var chars = new char[n];
+            var rd = new Random(12345); // fixed seed
 
-        [Params(100, 200, 500)]
+            for (var i = 0; i < n; i++)
+            {
+                chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
+            }
+
+            return chars;
+        }
+
+
+
+        [Params(100, 200, 500,1000,2000)]
         public uint N;
+
 
         [GlobalSetup]
         public void Setup()
         {
             names = new List<char[]>();
+            nonAsciiByteArrays = new List<byte[]>(); // Initialize the list of byte arrays
             results = new List<bool>();
 
             for (int i = 0; i < 100; i++)
             {
                 names.Add(GetRandomASCIIString(N));
+                char[] nonAsciiChars = GetRandomNonASCIIString(N);
+                nonAsciiByteArrays.Add(Encoding.UTF8.GetBytes(nonAsciiChars));  // Convert to byte array and store
                 results.Add(false);
             }
         }
+
 
         [Benchmark]
         public void FastUnicodeIsAscii()
@@ -99,31 +124,21 @@ namespace SimdUnicodeBenchmarks
                 count += 1;
             }
         }
-
-
         [Benchmark]
         public void TestErrorGetIndexOfFirstNonAsciiByteBenchmark()
         {
-            foreach (char[] chars in names)
+            foreach (byte[] nonAsciiBytes in nonAsciiByteArrays)  // Use nonAsciiByteArrays directly
             {
-                byte[] ascii = Encoding.UTF8.GetBytes(chars);
-
-                for (int i = 0; i < ascii.Length; i++)
+                unsafe
                 {
-                    ascii[i] += 0b10000000;
-
-                    unsafe
+                    fixed (byte* pNonAscii = nonAsciiBytes)
                     {
-                        fixed (byte* pAscii = ascii)
-                        {
-                            nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
-                        }
+                        nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiBytes.Length);
                     }
-
-                    ascii[i] -= 0b10000000;
                 }
             }
         }
+
 
 
     }
