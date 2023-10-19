@@ -80,7 +80,7 @@ public class AsciiTest
         {
             Assert.True(SimdUnicode.Ascii.IsAscii(sequence), "Expected valid ASCII sequence");
             Assert.True(SimdUnicode.Ascii.SIMDIsAscii(sequence), "Expected SIMDIsAscii to validate ASCII sequence");
-            
+
         }
 
         foreach (var sequence in badsequences)
@@ -91,7 +91,7 @@ public class AsciiTest
     }
 
     [Fact]
-    public void Test_random_ASCII_sequences_of_varying_lengths()
+    public void Test_ASCII_generator()
     {
         const int NUM_TRIALS = 1000;
         const int MAX_LENGTH = 255;
@@ -126,8 +126,7 @@ public class AsciiTest
 
 
     [Fact]
-    // This mimics the no_error_ASCII test
-    public void TestNoErrorASCII()
+    public void TestNoErrorGetIndexOfFirstNonAsciiByte()
     {
         const int NUM_TRIALS = 1000;
         const int LENGTH = 512;
@@ -136,7 +135,7 @@ public class AsciiTest
         for (int trial = 0; trial < NUM_TRIALS; trial++)
         {
             byte[] ascii = utf8Generator.Generate(LENGTH);
-            
+
             unsafe
             {
                 fixed (byte* pAscii = ascii)
@@ -152,8 +151,7 @@ public class AsciiTest
     }
 
     [Fact]
-    // This mimics the error_ASCII test
-    public void TestErrorASCII()
+    public void TestErrorGetIndexOfFirstNonAsciiByte()
     {
         const int NUM_TRIALS = 1000;
         const int LENGTH = 512;
@@ -184,5 +182,5 @@ public class AsciiTest
         }
     }
 
-    
+
 }

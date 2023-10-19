@@ -16,7 +16,7 @@ namespace SimdUnicodeBenchmarks
     {
         List<char[]> names;
         List<char[]> nonAsciichars;
-public List<byte[]> nonAsciiByteArrays; // Declare at the class level
+        public List<byte[]> nonAsciiByteArrays; // Declare at the class level
 
         List<bool> results;
 
@@ -57,7 +57,7 @@ public List<byte[]> nonAsciiByteArrays; // Declare at the class level
         {
             // Chose a few Latin Extended-A and Latin Extended-B characters alongside ASCII chars
             var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ01234567é89šžŸũŭůűųŷŹźŻżŽ";
-            
+
             var chars = new char[n];
             var rd = new Random(12345); // fixed seed
 
@@ -71,7 +71,7 @@ public List<byte[]> nonAsciiByteArrays; // Declare at the class level
 
 
 
-        [Params(100, 200, 500,1000,2000)]
+        [Params(100, 200, 500, 1000, 2000)]
         public uint N;
 
 

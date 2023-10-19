@@ -6,10 +6,10 @@ public class RandomUtf8
 {
     // Internal random number generator
     private Random gen;
-    
+
     // Array of probabilities for each UTF-8 byte count (1-byte, 2-bytes, etc.)
     private double[] probabilities;
-    
+
     // Maximum number of bytes a UTF-8 character can be (based on the standard)
     private const int maxByteLength = 4;
 
@@ -28,11 +28,11 @@ public class RandomUtf8
         {
             uint codePoint = GenerateCodePoint();
             byte[] utf8Bytes = EncodeToUTF8(codePoint);
-            
+
             // Ensure we don't exceed the desired length
             if (result.Count + utf8Bytes.Length > outputBytes)
                 break;
-                
+
             result.AddRange(utf8Bytes);
         }
         return result.ToArray();
@@ -56,13 +56,13 @@ public class RandomUtf8
     private uint GenerateCodePoint()
     {
         int byteCount = PickRandomByteCount();
-        
+
         // Depending on the byte count, generate an appropriate UTF-8 sequence
         switch (byteCount)
         {
             // Each case follows UTF-8 encoding rules for 1-byte, 2-byte, 3-byte, and 4-byte sequences
             case 1: return (uint)gen.Next(0x00, 0x80); // 1-byte sequence
-            case 2: return (uint)((gen.Next(0xC2, 0xDF) << 8) | (0x80 | gen.Next(0x00, 0x40))); 
+            case 2: return (uint)((gen.Next(0xC2, 0xDF) << 8) | (0x80 | gen.Next(0x00, 0x40)));
             case 3: return (uint)((gen.Next(0xE0, 0xEF) << 16) | ((0x80 | gen.Next(0x00, 0x40)) << 8) | (0x80 | gen.Next(0x00, 0x40)));
             case 4: return (uint)((gen.Next(0xF0, 0xF4) << 24) | ((0x80 | gen.Next(0x00, 0x40)) << 16) | ((0x80 | gen.Next(0x00, 0x40)) << 8) | (0x80 | gen.Next(0x00, 0x40)));
             default: throw new InvalidOperationException($"Invalid byte count: {byteCount}"); // Guard clause for invalid byte count
@@ -74,7 +74,7 @@ public class RandomUtf8
     {
         double randomValue = gen.NextDouble() * probabilities.Sum();
         double cumulative = 0.0;
-        
+
         // Check each cumulative probability until the random value is less than the cumulative sum
         for (int i = 0; i < maxByteLength; i++)
         {
@@ -82,7 +82,7 @@ public class RandomUtf8
             if (randomValue <= cumulative)
                 return i + 1; // Return the byte count
         }
-        
+
         return maxByteLength; // Default to max byte length
     }
 
@@ -90,14 +90,14 @@ public class RandomUtf8
     private byte[] EncodeToUTF8(uint codePoint)
     {
         var result = new List<byte>();
-        
+
         // Break the code point into its constituent bytes
         while (codePoint != 0)
         {
             result.Add((byte)(codePoint & 0xFF));
             codePoint >>= 8;
         }
-        
+
         result.Reverse(); // Reverse to get the bytes in the correct order
         return result.ToArray();
     }
