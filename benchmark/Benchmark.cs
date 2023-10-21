@@ -22,10 +22,12 @@ namespace SimdUnicodeBenchmarks
 
         public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
         {
+
             // The runtime as of NET 8.0 has a dedicated method for this, but
             // it is not available prior to that, so let us branch.
 #if NET8_0_OR_GREATER
-            return Ascii.IsValid(s);
+            return System.Text.Ascii.IsValid(s);
+
 #else
             foreach (char c in s)
             {
@@ -38,6 +40,8 @@ namespace SimdUnicodeBenchmarks
             return true;
 #endif
         }
+
+
         public static char[] GetRandomASCIIString(uint n)
         {
             var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ01234567é89";
@@ -133,14 +137,26 @@ namespace SimdUnicodeBenchmarks
                 {
                     fixed (byte* pNonAscii = nonAsciiBytes)
                     {
-                        nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiBytes.Length);
+                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiBytes.Length);
                     }
                 }
             }
         }
 
-
-
+        [Benchmark]
+        public void RuntimeGetIndexOfFirstNonAsciiByteBenchmark()
+        {
+            foreach (byte[] nonAsciiBytes in nonAsciiByteArrays)  // Use nonAsciiByteArrays directly
+            {
+                unsafe
+                {
+                    fixed (byte* pNonAscii = nonAsciiBytes)
+                    {
+                        nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiBytes.Length);
+                    }
+                }
+            }
+        }
     }
 
     public class Program

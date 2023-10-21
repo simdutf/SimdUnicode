@@ -150,6 +150,7 @@ public class AsciiTest
         }
     }
 
+
     [Fact]
     public void TestErrorGetIndexOfFirstNonAsciiByte()
     {
