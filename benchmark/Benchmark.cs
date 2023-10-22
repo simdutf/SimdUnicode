@@ -15,8 +15,9 @@ namespace SimdUnicodeBenchmarks
     public class Checker
     {
         List<char[]> names;
+        List<byte[]> AsciiBytes;
         List<char[]> nonAsciichars;
-        public List<byte[]> nonAsciiByteArrays; // Declare at the class level
+        public List<byte[]> nonAsciiBytes; // Declare at the class level
 
         List<bool> results;
 
@@ -83,16 +84,20 @@ namespace SimdUnicodeBenchmarks
         public void Setup()
         {
             names = new List<char[]>();
-            nonAsciiByteArrays = new List<byte[]>(); // Initialize the list of byte arrays
+            nonAsciiBytes = new List<byte[]>(); // Initialize the list of byte arrays
             results = new List<bool>();
 
             for (int i = 0; i < 100; i++)
             {
                 names.Add(GetRandomASCIIString(N));
                 char[] nonAsciiChars = GetRandomNonASCIIString(N);
-                nonAsciiByteArrays.Add(Encoding.UTF8.GetBytes(nonAsciiChars));  // Convert to byte array and store
+                nonAsciiBytes.Add(Encoding.UTF8.GetBytes(nonAsciiChars));  // Convert to byte array and store
                 results.Add(false);
             }
+
+            AsciiBytes = names
+                .Select(name => System.Text.Encoding.ASCII.GetBytes(name))
+                .ToList();
         }
 
 
@@ -129,30 +134,60 @@ namespace SimdUnicodeBenchmarks
             }
         }
         [Benchmark]
-        public void TestErrorGetIndexOfFirstNonAsciiByteBenchmark()
+        public void Error_GetIndexOfFirstNonAsciiByte()
         {
-            foreach (byte[] nonAsciiBytes in nonAsciiByteArrays)  // Use nonAsciiByteArrays directly
+            foreach (byte[] nonAsciiByte in nonAsciiBytes)  // Use nonAsciiBytes directly
             {
                 unsafe
                 {
-                    fixed (byte* pNonAscii = nonAsciiBytes)
+                    fixed (byte* pNonAscii = nonAsciiByte)
                     {
-                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiBytes.Length);
+                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiByte.Length);
                     }
                 }
             }
         }
 
         [Benchmark]
-        public void RuntimeGetIndexOfFirstNonAsciiByteBenchmark()
+        public void Error_Runtime_GetIndexOfFirstNonAsciiByte()
         {
-            foreach (byte[] nonAsciiBytes in nonAsciiByteArrays)  // Use nonAsciiByteArrays directly
+            foreach (byte[] nonAsciiByte in nonAsciiBytes)  // Use nonAsciiBytes directly
             {
                 unsafe
                 {
-                    fixed (byte* pNonAscii = nonAsciiBytes)
+                    fixed (byte* pNonAscii = nonAsciiByte)
                     {
-                        nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiBytes.Length);
+                        nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiByte.Length);
+                    }
+                }
+            }
+        }
+
+        [Benchmark]
+        public void allAscii_GetIndexOfFirstNonAsciiByte()
+        {
+            foreach (byte[] Abyte in AsciiBytes)  // Use nonAsciiBytes directly
+            {
+                unsafe
+                {
+                    fixed (byte* pNonAscii = Abyte)
+                    {
+                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)Abyte.Length);
+                    }
+                }
+            }
+        }
+
+        [Benchmark]
+        public void allAscii_Runtime_GetIndexOfFirstNonAsciiByte()
+        {
+            foreach (byte[] Abyte in AsciiBytes)  // Use nonAsciiBytes directly
+            {
+                unsafe
+                {
+                    fixed (byte* pNonAscii = Abyte)
+                    {
+                        nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)Abyte.Length);
                     }
                 }
             }
