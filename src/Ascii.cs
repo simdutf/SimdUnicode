@@ -154,9 +154,6 @@ public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint buff
         }
     }
 
-    // Call the scalar function for the remaining bytes
-    // return Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
-
         // Call the scalar function for the remaining bytes
     nuint scalarResult = Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
 
