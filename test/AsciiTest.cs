@@ -1,5 +1,8 @@
 namespace tests;
 using System.Text;
+using SimdUnicode;
+
+//TODO (Nick Nuon): Test UTF8 Generator works correctly
 
 public class AsciiTest
 {
@@ -77,6 +80,7 @@ public class AsciiTest
         {
             Assert.True(SimdUnicode.Ascii.IsAscii(sequence), "Expected valid ASCII sequence");
             Assert.True(SimdUnicode.Ascii.SIMDIsAscii(sequence), "Expected SIMDIsAscii to validate ASCII sequence");
+
         }
 
         foreach (var sequence in badsequences)
@@ -85,4 +89,99 @@ public class AsciiTest
             Assert.False(SimdUnicode.Ascii.SIMDIsAscii(sequence), "Expected SIMDIsAscii to invalidate non-ASCII sequence");
         }
     }
+
+    [Fact]
+    public void Test_ASCII_generator()
+    {
+        const int NUM_TRIALS = 1000;
+        const int MAX_LENGTH = 255;
+        RandomUtf8 utf8Generator = new RandomUtf8(0, 100, 0, 0, 0); // Only ASCII/one-bytes
+
+        for (int length = 1; length <= MAX_LENGTH; length++)
+        {
+            int validSequencesCount = 0;
+
+            for (int i = 0; i < NUM_TRIALS; i++)
+            {
+                byte[] sequence = utf8Generator.Generate(length);
+
+                if (sequence.All(b => b >= 0x00 && b <= 0x7F))
+                {
+                    validSequencesCount++;
+                }
+
+                // Console.WriteLine($"{length}-byte sequence: {BitConverter.ToString(sequence)}"); // Print the sequence as hex bytes
+            }
+
+            // Print the validation results
+            // Console.WriteLine($"For {length}-byte sequences, {validSequencesCount * 100.0 / NUM_TRIALS}% were valid ASCII.");
+
+            // Assertion or check to ensure all sequences were valid ASCII
+            if (validSequencesCount != NUM_TRIALS)
+            {
+                throw new Exception($"Invalid ASCII sequences were generated for {length}-byte sequences!");
+            }
+        }
+    }
+
+
+    [Fact]
+    public void TestNoErrorGetIndexOfFirstNonAsciiByte()
+    {
+        const int NUM_TRIALS = 1000;
+        const int LENGTH = 512;
+        RandomUtf8 utf8Generator = new RandomUtf8(0, 100, 0, 0, 0);  // Only ASCII/one-bytes
+
+        for (int trial = 0; trial < NUM_TRIALS; trial++)
+        {
+            byte[] ascii = utf8Generator.Generate(LENGTH);
+
+            unsafe
+            {
+                fixed (byte* pAscii = ascii)
+                {
+                    nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
+                    if (result != (nuint)ascii.Length)
+                    {
+                        throw new Exception($"Unexpected non-ASCII character found at index {result}");
+                    }
+                }
+            }
+        }
+    }
+
+
+    [Fact]
+    public void TestErrorGetIndexOfFirstNonAsciiByte()
+    {
+        const int NUM_TRIALS = 1000;
+        const int LENGTH = 512;
+        RandomUtf8 utf8Generator = new RandomUtf8(0, 100, 0, 0, 0);  // Only ASCII/one-bytes
+
+        for (int trial = 0; trial < NUM_TRIALS; trial++)
+        {
+            byte[] ascii = utf8Generator.Generate(LENGTH);
+
+            for (int i = 0; i < ascii.Length; i++)
+            {
+                ascii[i] += 0b10000000;
+
+                unsafe
+                {
+                    fixed (byte* pAscii = ascii)
+                    {
+                        nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
+                        if (result != (nuint)i)
+                        {
+                            throw new Exception($"Expected non-ASCII character at index {i}, but found at index {result}");
+                        }
+                    }
+                }
+
+                ascii[i] -= 0b10000000;
+            }
+        }
+    }
+
+
 }
