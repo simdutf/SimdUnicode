@@ -4,6 +4,8 @@ using System.Runtime.Intrinsics.X86;
 using System.Runtime.Intrinsics.Arm;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Numerics;
+
 
 
 
@@ -132,11 +134,166 @@ namespace SimdUnicode
             return true;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+
+// public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+// {
+//     byte* buf_orig = pBuffer;
+//     byte* end = pBuffer + bufferLength;
+//     Vector256<sbyte> ascii = Vector256<sbyte>.Zero;
+
+//     for (; pBuffer + 32 <= end; pBuffer += 32)
+//     {
+//         Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
+//         int notascii = Avx2.MoveMask(Avx2.CompareGreaterThan(input, ascii).AsByte());
+//         if (notascii != 0)
+//         {
+//             return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+//         }
+//     }
+
+//     // nuint remaining_bytes = (nuint)(end - pBuffer);
+//     // Vector256<sbyte> mask = Vector256<sbyte>.Zero.WithElement(0, (sbyte)((1UL << (int)remaining_bytes) - 1));
+//     // Vector256<sbyte> input2 = Avx2.MaskLoad((sbyte*)pBuffer, mask.As<int>());
+//     // int notascii2 = Avx2.MoveMask(Avx2.CompareGreaterThan(input2, ascii).AsByte());
+//     // if (notascii2 != 0)
+//     // {
+//     //     return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii2);
+//     // }
+
+//     // return bufferLength;
+
+//         // Call the scalar function for the remaining bytes
+//     return Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
+// }
+
+public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+{
+    byte* buf_orig = pBuffer;
+    byte* end = pBuffer + bufferLength;
+    Vector256<sbyte> ascii = Vector256<sbyte>.Zero;
+
+    for (; pBuffer + 32 <= end; pBuffer += 32)
+    {
+        Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
+        int notascii = Avx2.MoveMask(Avx2.CompareGreaterThan(input, ascii).AsByte());
+        if (notascii != 0)
         {
-            byte* pBufferEnd = pBuffer + bufferLength;
+            return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+        }
+    }
+
+    // Call the scalar function for the remaining bytes
+    return Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
+}
+
+
+
+
+        //     byte* pBufferEnd = pBuffer + bufferLength;
+        //     byte* pCurrent = pBuffer;
+
+        //     /*
+        //     if (ArmBase.Arm64.IsSupported)
+        //     {
+        //         //  Sadly I do not have an ARM based computer, so this branch is a placeholder for now
+        //     }
+        //     else*/ if (Sse41.IsSupported)
+        //     {
+        //         // Create a vector with 0x80 in the first element and 0 in the rest
+        //         var ascii = Vector128<byte>.Zero.WithElement(0, 0x80);
+
+        //         // Process in blocks of 64 bytes when possible
+        //         while (pCurrent + 64 <= pBufferEnd)
+        //         {
+        //             // Load a vector from the current position
+        //             var input = Sse2.LoadVector128(pCurrent);
+
+        //             // Compare each byte in the vector to 0x80
+        //             var notAscii = Sse2.CompareGreaterThan(input, ascii).AsByte();
+
+        //             // If any byte is greater than 0x80
+        //             if (Sse41.TestZ(notAscii, notAscii))
+        //             {
+        //                 // Return the index of the first non-ASCII byte
+        //                 return (nuint)(pCurrent - pBuffer + BitOperations.TrailingZeroCount(notAscii.ToScalar()));
+        //             }
+
+        //             // Move to the next block
+        //             pCurrent += 64;
+        //         }
+
+        //         // Process the remaining bytes
+        //         {
+        //             // Create a mask for the remaining bytes
+        //             var mask = Vector128<byte>.Zero.WithElement(0, (byte)((1UL << (pBufferEnd - pCurrent)) - 1));
+
+        //             // Load a vector from the current position using the mask
+        //             var input = Sse41.MaskLoad(pCurrent, mask);
+
+        //             // Compare each byte in the vector to 0x80
+        //             var notAscii = Sse2.CompareGreaterThan(input, ascii).AsByte();
+
+        //             // If any byte is greater than 0x80
+        //             if (Sse41.TestZ(notAscii, notAscii))
+        //             {
+        //                 // Return the index of the first non-ASCII byte
+        //                 return (nuint)(pCurrent - pBuffer + BitOperations.TrailingZeroCount(notAscii.ToScalar()));
+        //             }
+        //         }
+        //     }
+        // else {
+        //         return SSE_GetIndexOfFirstNonAsciiByte((byte*) pCurrent, (nuint) bufferLength, (byte*) pBufferEnd);
+        //     }
+
+        // }
+
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public static unsafe nuint SSE_GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength, byte* pBufferEnd)
+        // {
+        //     return 0;
+        // }
+
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public static unsafe nuint Scalar_GetIndexOfFirstNonAsciiByte(byte* pCurrent, nuint bufferLength, byte* pBufferEnd)
+        // {
+        //         // Process in blocks of 16 bytes when possible
+        //         while (pCurrent + 16 <= pBufferEnd)
+        //         {
+        //             ulong v1 = *(ulong*)pCurrent;
+        //             ulong v2 = *(ulong*)(pCurrent + 8);
+        //             ulong v = v1 | v2;
+
+        //             if ((v & 0x8080808080808080) != 0)
+        //             {
+        //                 for (; pCurrent < pBufferEnd; pCurrent++)
+        //                 {
+        //                     if (*pCurrent >= 0b10000000)
+        //                     {
+        //                         return (nuint)(pCurrent - pBuffer);
+        //                     }
+        //                 }
+        //             }
+
+        //             pCurrent += 16;
+        //         }
+
+        //         // Process the tail byte-by-byte
+        //         for (; pCurrent < pBufferEnd; pCurrent++)
+        //         {
+        //             if (*pCurrent >= 0b10000000)
+        //             {
+        //                 return (nuint)(pCurrent - pBuffer);
+        //             }
+        //         }
+
+        //     return bufferLength;
+        // }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe nuint Scalar_GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+        {
             byte* pCurrent = pBuffer;
+            byte* pBufferEnd = pBuffer + bufferLength;
 
             // Process in blocks of 16 bytes when possible
             while (pCurrent + 16 <= pBufferEnd)
@@ -171,9 +328,10 @@ namespace SimdUnicode
             return bufferLength;
         }
 
-    }
 
 
+
+}
 }
 // Further reading:
 // https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Encodings.Web/src/System/Text/Unicode/UnicodeHelpers.cs
