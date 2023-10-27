@@ -175,15 +175,26 @@ public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint buff
     for (; pBuffer + 32 <= end; pBuffer += 32)
     {
         Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
-        int notascii = Avx2.MoveMask(Avx2.CompareGreaterThan(input, ascii).AsByte());
+        // int notascii = Avx2.MoveMask(Avx2.CompareGreaterThan(input, ascii).AsByte());
+        int notascii = Avx2.MoveMask(input.AsByte());
         if (notascii != 0)
         {
+            // Print a message for debugging
+            // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
+            
             return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
         }
     }
 
     // Call the scalar function for the remaining bytes
-    return Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
+    // return Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
+
+        // Call the scalar function for the remaining bytes
+    nuint scalarResult = Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
+
+    // Add the number of bytes processed by SIMD
+    return (nuint)(pBuffer - buf_orig) + scalarResult;
+
 }
 
 
