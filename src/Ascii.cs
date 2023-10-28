@@ -140,19 +140,38 @@ public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint buff
     byte* end = pBuffer + bufferLength;
     Vector256<sbyte> ascii = Vector256<sbyte>.Zero;
 
-    for (; pBuffer + 32 <= end; pBuffer += 32)
-    {
-        Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
-        // int notascii = Avx2.MoveMask(Avx2.CompareGreaterThan(input, ascii).AsByte());
-        int notascii = Avx2.MoveMask(input.AsByte());
-        if (notascii != 0)
+    // if (Vector256.IsHardwareAccelerated && bufferLength >= 2 * (uint)Vector256<byte>.Count){
+    if (Vector256.IsHardwareAccelerated){
+        for (; pBuffer + 32 <= end; pBuffer += 32)
         {
-            // Print a message for debugging
-            // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
-            
-            return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+            Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
+            // int notascii = Avx2.MoveMask(Avx2.CompareGreaterThan(input, ascii).AsByte());
+            int notascii = Avx2.MoveMask(input.AsByte());
+            if (notascii != 0)
+            {
+                // Print a message for debugging
+                // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
+                
+                return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+            }
         }
     }
+
+    if (Vector128.IsHardwareAccelerated){
+        for (; pBuffer + 16 <= end; pBuffer += 16)
+        {
+            Vector128<sbyte> input = Sse2.LoadVector128((sbyte*)pBuffer);
+            int notascii = Sse2.MoveMask(input.AsByte());
+            if (notascii != 0)
+            {
+                // Print a message for debugging
+                // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
+                
+                return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+            }
+        }
+    }
+
 
         // Call the scalar function for the remaining bytes
     nuint scalarResult = Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
