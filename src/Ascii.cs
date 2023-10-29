@@ -146,7 +146,7 @@ public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint buff
             if (Vector256.IsHardwareAccelerated){
 
 
-            //this just balloons upwards
+            //unrolling 4x just balloons upwards. Deff not working:
 
             // |                                       Method |    N |       Mean |     Error |    StdDev |     Median |
             // |--------------------------------------------- |----- |-----------:|----------:|----------:|-----------:|
@@ -292,8 +292,6 @@ public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint buff
                 // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
                 
                 return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
-            } else {
-                pBuffer += 32;
             }
         }
     }
@@ -309,8 +307,6 @@ public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint buff
                 // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
                 
                 return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
-            } else {
-                pBuffer += 16;
             }
         }
     }
