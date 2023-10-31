@@ -21,6 +21,9 @@ namespace SimdUnicodeBenchmarks
 
         List<bool> results;
 
+        private string[] _lines;
+        private byte[][] _linesUtf8;
+
         public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
         {
 
@@ -79,6 +82,9 @@ namespace SimdUnicodeBenchmarks
         [Params(100, 200, 500, 1000, 2000)]
         public uint N;
 
+        [Params(@"data/french.utf8.txt")]
+        public string FileName;
+
 
         [GlobalSetup]
         public void Setup()
@@ -98,7 +104,13 @@ namespace SimdUnicodeBenchmarks
             AsciiBytes = names
                 .Select(name => System.Text.Encoding.ASCII.GetBytes(name))
                 .ToList();
+
+            Console.WriteLine("reading data");
+            _lines = System.IO.File.ReadAllLines(FileName);
+            _linesUtf8 = Array.ConvertAll(_lines, System.Text.Encoding.UTF8.GetBytes);
         }
+
+        
 
 
         [Benchmark]
@@ -192,6 +204,37 @@ namespace SimdUnicodeBenchmarks
                 }
             }
         }
+
+        [Benchmark(Description = "SimDUnicodeGetIndexOfFirstNonAsciiByteRealData")]
+        public void SimDUnicodeGetIndexOfFirstNonAsciiByteRealData()
+        {
+            foreach (var line in _linesUtf8)
+            {
+                unsafe
+                {
+                    fixed (byte* pNonAscii = line)
+                    {
+                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)line.Length);
+                    }
+                }
+            }
+        }
+
+        [Benchmark(Description = "Runtime_GetIndexOfFirstNonAsciiByte_real_data")]
+        public void Runtime_GetIndexOfFirstNonAsciiByte_real_data()
+        {
+            foreach (var line in _linesUtf8)
+            {
+                unsafe
+                {
+                    fixed (byte* pNonAscii = line)
+                    {
+                        nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)line.Length);
+                    }
+                }
+            }
+        }
+
     }
 
     public class Program
