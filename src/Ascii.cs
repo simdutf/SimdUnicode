@@ -6,10 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Numerics;
 
-
-
-
-
 // Ideally, we would want to implement something that looks like
 // https://learn.microsoft.com/en-us/dotnet/api/system.text.asciiencoding?view=net-7.0
 //
@@ -22,7 +18,7 @@ namespace SimdUnicode
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAscii(this char c) => c < 128;
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAscii(this string s)
         {
             foreach (var c in s)
@@ -87,20 +83,53 @@ namespace SimdUnicode
                     }
                     return max_so_far < 128;
                 }
-            }
-            else if (Sse41.IsSupported)
-            {
+            } else if (Avx2.IsSupported) {
                 // Go through https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.x86.sse2.comparelessthan?view=net-8.0
                 fixed (char* pStart = &MemoryMarshal.GetReference(s))
                 {
                     int i = 0;
-                    if (s.Length > 16)  // Adjusted for the unrolled loop
+                    
+                    if (s.Length >= 48)  // Adjusted for the unrolled loop
+                    {
+                        Vector256<ushort> total = Avx.LoadVector256((ushort*)pStart);
+                        i += 16;
+                        // Unrolling the loop by 2x
+                        for (; i <= s.Length - 32; i += 32)
+                        {
+                            Vector256<ushort> raw1 = Avx.LoadVector256((ushort*)pStart + i);
+                            Vector256<ushort> raw2 = Avx.LoadVector256((ushort*)pStart + i + 16);
+
+                            total = Avx2.Or(total, raw1);
+                            total = Avx2.Or(total, raw2);
+                        }
+
+                        Vector256<ushort> b127 = Vector256.Create((ushort)127);
+                        Vector256<ushort> b = Avx2.Max(b127, total);
+                        Vector256<ushort> b16 = Avx2.CompareEqual(b, b127);
+                        ulong movemask = (ulong)Avx2.MoveMask(b16.AsByte());
+                        if (movemask != 0xffffffff)
+                        {
+                            return false;
+                        }
+                    }
+                    for (; i < s.Length; i++)
+                    {
+                        if (pStart[i] >= 128) return false;
+                    }
+                    return true;
+                }
+            } else if (Sse41.IsSupported) {
+                // Go through https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.x86.sse2.comparelessthan?view=net-8.0
+                fixed (char* pStart = &MemoryMarshal.GetReference(s))
+                {
+                    int i = 0;
+                    
+                    if (s.Length >= 16)  // Adjusted for the unrolled loop
                     {
                         Vector128<ushort> total = Sse41.LoadDquVector128((ushort*)pStart);
                         i += 8;
-
                         // Unrolling the loop by 2x
-                        for (; i + 15 < s.Length; i += 16)
+                        for (; i <= s.Length - 16; i += 16)
                         {
                             Vector128<ushort> raw1 = Sse41.LoadDquVector128((ushort*)pStart + i);
                             Vector128<ushort> raw2 = Sse41.LoadDquVector128((ushort*)pStart + i + 8);
@@ -134,97 +163,114 @@ namespace SimdUnicode
             return true;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
         {
             byte* buf_orig = pBuffer;
             byte* end = pBuffer + bufferLength;
-            Vector256<sbyte> ascii = Vector256<sbyte>.Zero;
-
-            if (Vector256.IsHardwareAccelerated)
-            {
-                for (; pBuffer + 32 <= end; pBuffer += 32)
-                {
-                    Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
-                    int notascii = Avx2.MoveMask(input.AsByte());
-                    if (notascii != 0)
-                    {
-                        // Print a message for debugging
-                        // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
-
-                        return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
-                    }
-                }
-            }
-
             if (Vector128.IsHardwareAccelerated)
             {
-                for (; pBuffer + 16 <= end; pBuffer += 16)
+                // If we have a long buffer, then (and only then), consider
+                // using wider registers and loop unrolling.
+                if (bufferLength >= 256)
                 {
-                    Vector128<sbyte> input = Sse2.LoadVector128((sbyte*)pBuffer);
-                    int notascii = Sse2.MoveMask(input.AsByte());
-                    if (notascii != 0)
+                    byte* endm64 = end - 64;
+                    // AVX-512 is unlikely to help much in this simple case:
+                    /*if (Vector512.IsHardwareAccelerated)
                     {
-                        // Print a message for debugging
-                        // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
-
-                        return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
-                    }
-                }
-            }
-
-
-            // Call the scalar function for the remaining bytes
-            nuint scalarResult = Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
-
-            // Add the number of bytes processed by SIMD
-            return (nuint)(pBuffer - buf_orig) + scalarResult;
-
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe nuint Scalar_GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
-        {
-            byte* pCurrent = pBuffer;
-            byte* pBufferEnd = pBuffer + bufferLength;
-
-            // Process in blocks of 16 bytes when possible
-/*             while (pCurrent + 16 <= pBufferEnd)
-            {
-                ulong v1 = *(ulong*)pCurrent;
-                ulong v2 = *(ulong*)(pCurrent + 8);
-                ulong v = v1 | v2;
-
-                if ((v & 0x8080808080808080) != 0)
-                {
-                    for (; pCurrent < pBufferEnd; pCurrent++)
-                    {
-                        if (*pCurrent >= 0b10000000)
+                        
+                        for (; pBuffer <= endm64; pBuffer += 64)
                         {
-                            return (nuint)(pCurrent - pBuffer);
+                            Vector512<sbyte> input = Vector512.Load((sbyte*)pBuffer);
+                            ulong notascii = input.AsByte().ExtractMostSignificantBits();
+                            if (notascii != 0)
+                            {
+                                return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                            }
+                        }
+                    } else*/
+                        if (Vector256.IsHardwareAccelerated)
+                        {
+                            for (; pBuffer <= endm64; pBuffer += 64)
+                            {
+                                Vector256<sbyte> input1 = Avx.LoadVector256((sbyte*)pBuffer);
+                                Vector256<sbyte> input2 = Avx.LoadVector256((sbyte*)pBuffer + 32);
+
+                                uint notascii1 = (uint)Avx2.MoveMask(input1.AsByte());
+                                uint notascii2 = (uint)Avx2.MoveMask(input2.AsByte());
+                                ulong notascii = (ulong)notascii1 | ((ulong)notascii2 << 32);
+                                if (notascii != 0)
+                                {
+                                    return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                            for (; pBuffer <= endm64; pBuffer += 64)
+                            {
+                                Vector128<sbyte> input1 = Sse2.LoadVector128((sbyte*)pBuffer);
+                                Vector128<sbyte> input2 = Sse2.LoadVector128((sbyte*)pBuffer + 16);
+                                Vector128<sbyte> input3 = Sse2.LoadVector128((sbyte*)pBuffer + 32);
+                                Vector128<sbyte> input4 = Sse2.LoadVector128((sbyte*)pBuffer + 48);
+
+                                uint notascii1 = (uint)Sse2.MoveMask(input1.AsByte());
+                                uint notascii2 = (uint)Sse2.MoveMask(input2.AsByte());
+                                uint notascii3 = (uint)Sse2.MoveMask(input3.AsByte());
+                                uint notascii4 = (uint)Sse2.MoveMask(input4.AsByte());
+                                ulong notascii = (ulong)notascii1 | ((ulong)notascii2 << 16) | ((ulong)notascii3 << 32) | ((ulong)notascii4 << 48);
+
+                                if (notascii != 0)
+                                {
+                                    return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                                }
+                            }
+                        }
+
+                    }
+                    // The next loop will run either when the input is short, or when
+                    // we are part of the tail of a long input.
+
+                    for (; pBuffer + 16 <= end; pBuffer += 16)
+                    {
+                        Vector128<sbyte> input = Sse2.LoadVector128((sbyte*)pBuffer);
+                        int notascii = Sse2.MoveMask(input.AsByte());
+                        if (notascii != 0)
+                        {
+                            return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
                         }
                     }
                 }
 
-                pCurrent += 16;
+
+                // Call the scalar function for the remaining bytes
+                nuint scalarResult = Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
+
+                // Add the number of bytes processed by SIMD
+                return (nuint)(pBuffer - buf_orig) + scalarResult;
+
             }
- */
-            // Process the tail byte-by-byte
-            for (; pCurrent < pBufferEnd; pCurrent++)
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static unsafe nuint Scalar_GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
             {
-                if (*pCurrent >= 0b10000000)
+                byte* pCurrent = pBuffer;
+                byte* pBufferEnd = pBuffer + bufferLength;
+
+                for (; pCurrent < pBufferEnd; pCurrent++)
                 {
-                    return (nuint)(pCurrent - pBuffer);
+                    if (*pCurrent >= 0b10000000)
+                    {
+                        return (nuint)(pCurrent - pBuffer);
+                    }
                 }
+
+                return bufferLength;
             }
 
-            return bufferLength;
         }
-
-
-
-
     }
-}
 // Further reading:
 // https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Encodings.Web/src/System/Text/Unicode/UnicodeHelpers.cs
 

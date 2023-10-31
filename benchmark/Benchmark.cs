@@ -20,6 +20,9 @@ namespace SimdUnicodeBenchmarks
         public List<byte[]> nonAsciiBytes; // Declare at the class level
 
         List<bool> results;
+        // We don't want to create a new Random object per function call, at least
+        // not one with the same seed.
+        static Random rd = new Random(12345); // fixed seed
 
         public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
         {
@@ -42,13 +45,13 @@ namespace SimdUnicodeBenchmarks
 #endif
         }
 
-
+        
         public static char[] GetRandomASCIIString(uint n)
         {
-            var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ01234567é89";
+            var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
 
             var chars = new char[n];
-            var rd = new Random(12345); // fixed seed
+            
 
             for (var i = 0; i < n; i++)
             {
@@ -64,7 +67,6 @@ namespace SimdUnicodeBenchmarks
             var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ01234567é89šžŸũŭůűųŷŹźŻżŽ";
 
             var chars = new char[n];
-            var rd = new Random(12345); // fixed seed
 
             for (var i = 0; i < n; i++)
             {
@@ -76,7 +78,7 @@ namespace SimdUnicodeBenchmarks
 
 
 
-        [Params(100, 200, 500, 1000, 2000)]
+        [Params(100, 8000)]
         public uint N;
 
 
@@ -86,8 +88,11 @@ namespace SimdUnicodeBenchmarks
             names = new List<char[]>();
             nonAsciiBytes = new List<byte[]>(); // Initialize the list of byte arrays
             results = new List<bool>();
+            // We reset rd so that all data is generated with the same.
+            rd = new Random(12345); // fixed seed
 
-            for (int i = 0; i < 100; i++)
+            // for the benchmark to be meaningful, we need a lot of data.
+            for (int i = 0; i < 5000; i++)
             {
                 names.Add(GetRandomASCIIString(N));
                 char[] nonAsciiChars = GetRandomNonASCIIString(N);
@@ -112,7 +117,8 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
-        [Benchmark]
+        // This seems useless:
+        /*[Benchmark]
         public void StandardUnicodeIsAscii()
         {
             int count = 0;
@@ -121,7 +127,7 @@ namespace SimdUnicodeBenchmarks
                 results[count] = SimdUnicode.Ascii.IsAscii(name);
                 count += 1;
             }
-        }
+        }*/
 
         [Benchmark]
         public void RuntimeIsAscii()
@@ -164,33 +170,39 @@ namespace SimdUnicodeBenchmarks
         }
 
         [Benchmark]
-        public void allAscii_GetIndexOfFirstNonAsciiByte()
+        public nuint allAscii_GetIndexOfFirstNonAsciiByte()
         {
-            foreach (byte[] Abyte in AsciiBytes)  // Use nonAsciiBytes directly
+            nuint result = 0;
+            foreach (byte[] Abyte in AsciiBytes)  // Use AsciiBytes directly
             {
+               // Console.WriteLine(System.Text.Encoding.ASCII.GetString(Abyte));
                 unsafe
                 {
-                    fixed (byte* pNonAscii = Abyte)
+                    fixed (byte* pAllAscii = Abyte)
                     {
-                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)Abyte.Length);
+                        result += SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pAllAscii, (nuint)Abyte.Length);
                     }
                 }
             }
+            return result;
         }
+        
 
         [Benchmark]
-        public void allAscii_Runtime_GetIndexOfFirstNonAsciiByte()
+        public nuint allAscii_Runtime_GetIndexOfFirstNonAsciiByte()
         {
-            foreach (byte[] Abyte in AsciiBytes)  // Use nonAsciiBytes directly
+            nuint result = 0;
+            foreach (byte[] Abyte in AsciiBytes)  // Use AsciiBytes directly
             {
                 unsafe
                 {
-                    fixed (byte* pNonAscii = Abyte)
+                    fixed (byte* pAllAscii = Abyte)
                     {
-                        nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)Abyte.Length);
+                        result += Competition.Ascii.GetIndexOfFirstNonAsciiByte(pAllAscii, (nuint)Abyte.Length);
                     }
                 }
             }
+            return result;
         }
     }
 

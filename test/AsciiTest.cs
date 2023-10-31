@@ -148,7 +148,7 @@ public class AsciiTest
             {
                 fixed (byte* pAscii = ascii)
                 {
-                    nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
+                    nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
                     if (result != (nuint)ascii.Length)
                     {
                         throw new Exception($"Unexpected non-ASCII character found at index {result}");
@@ -181,7 +181,7 @@ public class AsciiTest
                 {
                     fixed (byte* pAscii = ascii)
                     {
-                        nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
+                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
                         if (result != (nuint)i)
                         {
                             // Print the generated ASCII sequence for debugging
