@@ -129,6 +129,7 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+
         [Benchmark]
         public void RuntimeIsAscii()
         {
