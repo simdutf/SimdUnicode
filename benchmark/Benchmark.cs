@@ -129,17 +129,6 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
-        // This seems useless:
-        /*[Benchmark]
-        public void StandardUnicodeIsAscii()
-        {
-            int count = 0;
-            foreach (char[] name in names)
-            {
-                results[count] = SimdUnicode.Ascii.IsAscii(name);
-                count += 1;
-            }
-        }*/
 
         [Benchmark]
         public void RuntimeIsAscii()
