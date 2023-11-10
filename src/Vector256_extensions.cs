@@ -23,11 +23,6 @@ public static class Vector256Extensions
 
         public static Vector256<byte> Lookup16(this Vector256<byte> source,Vector256<byte> lookupTable)
     {
-        // if (!Avx2.IsSupported)
-        // {
-        //     throw new PlatformNotSupportedException("AVX2 is not supported on this processor.");
-        // }
-
         return Avx2.Shuffle(lookupTable, source);
     }
 
@@ -74,25 +69,69 @@ public static class Utf8Checker
         const byte TOO_LARGE_1000 = 1 << 6;
         const byte OVERLONG_4 = 1 << 6;
 
-        // Define your lookup tables
-        Vector256<byte> lookupTableHigh = Vector256.Create(
-            TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
-            TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
-            TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
-            TOO_SHORT | OVERLONG_2,
-            TOO_SHORT,
-            TOO_SHORT | OVERLONG_3 | SURROGATE,
-            TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4,
-            // Repeat the pattern for the remaining elements
-        );
+// Lookup table for byte_1_high
+Vector256<byte> lookupTableForByte1High = Vector256.Create(
+    TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+    TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+    TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
+    TOO_SHORT | OVERLONG_2,
+    TOO_SHORT,
+    TOO_SHORT | OVERLONG_3 | SURROGATE,
+    TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4,
+    // Repeat the pattern for the remaining elements
+    TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+    TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+    TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
+    TOO_SHORT | OVERLONG_2,
+    TOO_SHORT,
+    TOO_SHORT | OVERLONG_3 | SURROGATE,
+    TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4
+);
 
-        Vector256<byte> lookupTableLow = Vector256.Create(
-            // Define the lookup pattern for byte_1_low here, similar to above
-        );
+    const byte CARRY = TOO_SHORT | TOO_LONG | TWO_CONTS;
 
-        Vector256<byte> lookupTableHigh2 = Vector256.Create(
-            // Define the lookup pattern for byte_2_high here, similar to above
-        );
+    // Lookup table for byte_1_low
+    Vector256<byte> lookupTableForByte1Low = Vector256.Create(
+        CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
+        CARRY | OVERLONG_2,
+        CARRY, CARRY,
+        CARRY | TOO_LARGE,
+        CARRY | TOO_LARGE | TOO_LARGE_1000,
+        CARRY | TOO_LARGE | TOO_LARGE_1000,
+        CARRY | TOO_LARGE | TOO_LARGE_1000,
+        // Repeat the pattern for the remaining elements
+        CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
+        CARRY | OVERLONG_2,
+        CARRY, CARRY,
+        CARRY | TOO_LARGE,
+        CARRY | TOO_LARGE | TOO_LARGE_1000,
+        CARRY | TOO_LARGE | TOO_LARGE_1000,
+        CARRY | TOO_LARGE | TOO_LARGE_1000,
+        CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
+        CARRY | OVERLONG_2,
+        CARRY, CARRY,
+        CARRY | TOO_LARGE,
+        CARRY | TOO_LARGE | TOO_LARGE_1000,
+        CARRY | TOO_LARGE | TOO_LARGE_1000,
+        CARRY | TOO_LARGE | TOO_LARGE_1000
+    );
+
+// Lookup table for byte_2_high
+Vector256<byte> lookupTableForByte2High = Vector256.Create(
+    TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+    TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+    TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE_1000 | OVERLONG_4,
+    TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE,
+    TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE  | TOO_LARGE,
+    TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE  | TOO_LARGE,
+    // Repeat the pattern for the remaining elements
+    TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+    TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+    TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE_1000 | OVERLONG_4,
+    TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE,
+    TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE  | TOO_LARGE,
+    TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE  | TOO_LARGE
+);
 
         // Perform the lookups
         Vector256<byte> byte_1_high = Vector256Extensions.Lookup16(lookupTableHigh, prev1);
