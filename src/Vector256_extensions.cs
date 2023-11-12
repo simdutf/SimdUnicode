@@ -58,6 +58,82 @@ public static class Vector256Extensions
 
 
 namespace SimdUnicode {
+
+    // internal static unsafe partial class Utf8Utility
+    public static class Utf8Utility
+    {
+        // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
+        public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
+        {
+            // Initialize out parameters
+            utf16CodeUnitCountAdjustment = 0;
+            scalarCountAdjustment = 0;
+
+            // If the input is null or length is zero, return immediately.
+            if (pInputBuffer == null || inputLength <= 0)
+            {
+                return pInputBuffer;
+            }
+
+            var checker = new SimdUnicode.utf8_validation.utf8_checker();
+            int processedLength = 0;
+
+            // Process each 256-bit block
+            while (processedLength + 32 <= inputLength)
+            {
+                // Load the next 256-bit block
+                Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+
+                // Check the block
+                checker.check_next_input(currentBlock);
+
+                if (checker.errors())
+                {
+                    // If an error is found, return the pointer to the start of the erroneous block
+                    return pInputBuffer + processedLength;
+                }
+
+                // Update processed length
+                processedLength += 32;
+            }
+
+            // Process remaining bytes
+            if (processedLength < inputLength)
+            {
+                // Create a buffer to hold the remaining bytes and load them
+                Span<byte> remainingBytes = stackalloc byte[32];
+                for (int i = 0; i < inputLength - processedLength; i++)
+                {
+                    remainingBytes[i] = pInputBuffer[processedLength + i];
+                }
+
+                // Load the remaining bytes as a Vector256
+                Vector256<byte> remainingBlock = Vector256.Create(remainingBytes.ToArray());
+
+                // Check the block
+                checker.check_next_input(remainingBlock);
+
+                if (checker.errors())
+                {
+                    // If an error is found, return the pointer to the start of the erroneous block
+                    return pInputBuffer + processedLength;
+                }
+            }
+
+            // Check for EOF
+            checker.check_eof();
+            if (checker.errors())
+            {
+                // If an error is found, return the pointer to the start of the erroneous block
+                return pInputBuffer + processedLength;
+            }
+
+            // If no errors were found, return a pointer to the end of the buffer
+            return pInputBuffer + inputLength;
+        }
+    }
+
+
         public static class utf8_validation {
             public class utf8_checker {
                 Vector256<byte> error;
@@ -69,7 +145,7 @@ namespace SimdUnicode {
                     prev_input_block = Vector256<byte>.Zero;
                     prev_incomplete = Vector256<byte>.Zero;
                 }
-
+                
                 public void check_utf8_bytes(Vector256<byte> input, Vector256<byte> prev_input) {
                     Vector256<byte> prev1 = input; // Adjust this as necessary for your logic
                     Vector256<byte> sc = check_special_cases(input, prev1); 
@@ -80,57 +156,26 @@ namespace SimdUnicode {
                     error = Avx2.Or(error, prev_incomplete);
                 }
 
-                // public void check_next_input(Vector256<byte>[] input) {
-                //     // Assuming input is an array of Vector256<byte> representing your input data
-                //     for (int i = 0; i < input.Length; i++) {
-                //         check_utf8_bytes(input[i], prev_input_block);  
-                //         prev_input_block = input[i];
-                //     }
-                //     prev_incomplete = is_incomplete(input[input.Length - 1]);
-                // }
-
+                // This is the first point of entry for this function
                 // The original C++ implementation is much more extensive and assumes a 512 bit stream as well as several implementations
                 // In this case I focus solely on AVX2 instructions for prototyping and benchmarking purposes. 
                 // This is the simplest least time-consuming implementation. 0
                 public void check_next_input(Vector256<byte> input) {
+
+                // Skip this for now, we'll come back later
                 // Check if the entire 256-bit vector is ASCII
-                if (Ascii.SIMDIsAscii(input)) { //Bug: IsAscii wants something of char type...
-                    error = Avx2.Or(error, prev_incomplete);
-                } else {
+                // if (Ascii.SIMDIsAscii(input)) { //Bug: IsAscii wants something of char type... But this is probably wasteful to use as is as <char> is represented as a 16-bit unit. 
+                // I'll implement something later. 
+                //     error = Avx2.Or(error, prev_incomplete);
+                // } else {
                     // Process the 256-bit vector
                     check_utf8_bytes(input, prev_input_block);
-                }
+                // }
 
                 // Update prev_incomplete and prev_input_block for the next call
                 prev_incomplete = is_incomplete(input);
                 prev_input_block = input;
             }
-
-
-                // This wrong implmentation assumes an AVX512 machine which I do not have:
-                // public void check_next_input(Vector512<byte>[] input) {
-                //     // if (input.Length < 1) {
-                //     //     throw new ArgumentException("Input must contain at least one chunk.", nameof(input));
-                //     // }
-
-                //     // Check if the entire first 256-bit vector is ASCII
-                //     if (Ascii.IsAscii(input[0])) {
-                //         error = Avx2.Or(error, prev_incomplete);
-                //     } else {
-                //         // Directly extract the lower and upper 128-bit lanes from the first 256-bit vector
-                //         Vector128<byte> lowerLane = input[0].GetLower();
-                //         Vector128<byte> upperLane = input[0].GetUpper();
-
-                //         // Process each 128-bit lane
-                //         check_utf8_bytes(lowerLane, prev_input_block); // Check the first 128-bit lane
-                //         check_utf8_bytes(upperLane, lowerLane);        // Check the second 128-bit lane
-
-                //         // Update prev_incomplete and prev_input_block for the next call
-                //         prev_incomplete = is_incomplete(upperLane);
-                //         prev_input_block = upperLane;
-                //     }
-                // }
-
 
                 public bool errors() {
                     return !Avx2.TestZ(error, error);
