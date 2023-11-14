@@ -14,12 +14,12 @@ namespace SimdUnicodeBenchmarks
     // for a standard benchmark
     public class Checker
     {
-        List<char[]> names;
-        List<byte[]> AsciiBytes;
-        List<char[]> nonAsciichars;
-        public List<byte[]> nonAsciiBytes; // Declare at the class level
+        List<char[]> names = new List<char[]>();
+        List<byte[]> AsciiBytes = new List<byte[]>();
+        List<char[]> nonAsciichars = new List<char[]>();
+        public List<byte[]> nonAsciiBytes = new List<byte[]>(); // Declare at the class level
 
-        List<bool> results;
+        List<bool> results = new List<bool>();
 
         public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
         {

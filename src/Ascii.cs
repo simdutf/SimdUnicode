@@ -102,9 +102,9 @@ namespace SimdUnicode
                         {
                             Vector128<ushort> raw1 = Sse41.LoadDquVector128((ushort*)pStart + i);
                             Vector128<ushort> raw2 = Sse41.LoadDquVector128((ushort*)pStart + i + 8);
-                            
+
                             total = Sse2.Or(total, raw1);
-                            total = Sse2.Or(total, raw2); 
+                            total = Sse2.Or(total, raw2);
                         }
 
                         Vector128<ushort> b127 = Vector128.Create((ushort)127);
