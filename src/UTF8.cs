@@ -41,22 +41,23 @@ namespace SimdUnicode
                 if ((first_byte & 0b11100000) == 0b11000000)
                 {
                     next_pos = pos + 2;
-                    if (next_pos > inputLength) { return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; }
+                    if (next_pos > inputLength) { return pInputBuffer + pos; } // Too short
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; } // Too short
                     // range check
-                    code_point = (uint)(first_byte & 0b00011111) << 6 | (uint)(pInputBuffer[pos + 1] & 0b00111111);
-                    if ((code_point < 0x80) || (0x7ff < code_point)) { return pInputBuffer + pos; }
+                    code_point = (uint)(first_byte & 0b00011111) << 6 | (uint)(pInputBuffer[pos + 1] & 0b00111111); 
+                    if ((code_point < 0x80) || (0x7ff < code_point)) { return pInputBuffer + pos; } // Overlong
                 }
                 else if ((first_byte & 0b11110000) == 0b11100000)
                 {
                     next_pos = pos + 3;
-                    if (next_pos > inputLength) { return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; }
+                    if (next_pos > inputLength) { return pInputBuffer + pos; } // Too short
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; } // Too short
+                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; } // Too short
                     // range check
                     code_point = (uint)(first_byte & 0b00001111) << 12 |
                                  (uint)(pInputBuffer[pos + 1] & 0b00111111) << 6 |
                                  (uint)(pInputBuffer[pos + 2] & 0b00111111);
+                    // Either overlong or too large:
                     if ((code_point < 0x800) || (0xffff < code_point) ||
                         (0xd7ff < code_point && code_point < 0xe000))
                     {
