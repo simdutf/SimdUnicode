@@ -81,6 +81,10 @@ namespace SimdUnicode {
     // internal static unsafe partial class Utf8Utility
     public static unsafe class Utf8Utility
     {
+
+
+
+
         // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
@@ -106,11 +110,11 @@ namespace SimdUnicode {
                 // Check the block
                 checker.check_next_input(currentBlock);
 
-                if (checker.errors())
-                {
-                    // If an error is found, return the pointer to the start of the erroneous block
-                    return pInputBuffer + processedLength;
-                }
+                // if (checker.errors())
+                // {
+                //     // If an error is found, return the pointer to the start of the erroneous block
+                //     return pInputBuffer + processedLength;
+                // }
 
                 // Update processed length
                 processedLength += 32;
@@ -132,11 +136,11 @@ namespace SimdUnicode {
                 // Check the block
                 checker.check_next_input(remainingBlock);
 
-                if (checker.errors())
-                {
-                    // If an error is found, return the pointer to the start of the erroneous block
-                    return pInputBuffer + processedLength;
-                }
+                // if (checker.errors())
+                // {
+                //     // If an error is found, return the pointer to the start of the erroneous block
+                //     return pInputBuffer + processedLength;
+                // }
             }
 
             // Check for EOF

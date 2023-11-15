@@ -1,6 +1,6 @@
 public class Utf8ValidationTests
 {
-    [Fact]
+[Fact]
 public void TestGoodSequences()
 {
     string[] goodSequences = {
