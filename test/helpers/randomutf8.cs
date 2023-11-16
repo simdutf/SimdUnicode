@@ -26,7 +26,6 @@ public class RandomUtf8
 
             if (result.Count + utf8Bytes.Length > outputBytes)
                 break;
-
             result.AddRange(utf8Bytes);
         }
         return result.ToArray();
