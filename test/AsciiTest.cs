@@ -128,9 +128,6 @@ public class AsciiTest
     [Fact]
     public void TestNoErrorGetIndexOfFirstNonAsciiByte()
     {
-        // Console.WriteLine("---------Testing SimdUnicode's GetIndexofFIrstNonAsciiByte: all ASCII-------------");
-        // Console.WriteLine("");
-
         const int NUM_TRIALS = 1000;
         const int LENGTH = 512;
         RandomUtf8 utf8Generator = new RandomUtf8(0, 100, 0, 0, 0);  // Only ASCII/one-bytes
@@ -138,11 +135,6 @@ public class AsciiTest
         for (int trial = 0; trial < NUM_TRIALS; trial++)
         {
             byte[] ascii = utf8Generator.Generate(LENGTH);
-
-            // Print the generated ASCII sequence for debugging
-            // Console.WriteLine("Generated ASCII sequence: " + BitConverter.ToString(ascii));
-            // Console.WriteLine("");
-
 
             unsafe
             {
@@ -169,9 +161,6 @@ public class AsciiTest
         for (int trial = 0; trial < NUM_TRIALS; trial++)
         {
             byte[] ascii = utf8Generator.Generate(LENGTH);
-            // Console.WriteLine("---------Testing SimdUnicode's GetIndexofFIrstNonAsciiByte: Error-------------");
-            // Console.WriteLine("");
-
 
             for (int i = 0; i < ascii.Length; i++)
             {
@@ -184,10 +173,6 @@ public class AsciiTest
                         nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
                         if (result != (nuint)i)
                         {
-                            // Print the generated ASCII sequence for debugging
-                            // Console.WriteLine("Generated non_ASCII sequence: " + BitConverter.ToString(ascii));
-                            // Console.WriteLine("");
-
                             throw new Exception($"Expected non-ASCII character at index {i}, but found at index {result}");
                         }
                     }

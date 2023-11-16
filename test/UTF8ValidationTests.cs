@@ -81,5 +81,44 @@ public void TestBadSequences()
     }
 }
 
+    [Fact]
+    public void BruteForceTest()
+    {
+        uint seed = 1234;
+        RandomUtf8 gen_1_2_3_4 = new RandomUtf8(seed, 1, 1, 1, 1); // Assuming this class is implemented
+        Random rand = new Random();
+        int total = 1000;
+
+        for (int i = 0; i < total; i++)
+        {
+            byte[] utf8 = gen_1_2_3_4.Generate(rand.Next(256));
+            Assert.True(ValidateUtf8(utf8));
+
+            for (int flip = 0; flip < 1000; flip++)
+            {
+                // Flip exactly one bit in a random byte
+                int byteIndex = rand.Next(utf8.Length);
+                int bitPosition = rand.Next(8);
+                utf8[byteIndex] ^= (byte)(1 << bitPosition);
+
+                // Re-validate the UTF-8 bytes after the bit flip
+                Assert.True(ValidateUtf8(utf8));
+            }
+        }
+    }
+
+    private bool ValidateUtf8(byte[] utf8)
+    {
+        unsafe
+        {
+            fixed (byte* pInput = utf8)
+            {
+                byte* invalidBytePointer = UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+                // If the pointer to the first invalid byte is at the end of the array, the UTF-8 is valid.
+                return invalidBytePointer == pInput + utf8.Length;
+            }
+        }
+    }
+
 
 }
