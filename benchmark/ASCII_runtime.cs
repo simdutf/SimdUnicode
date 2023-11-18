@@ -8,6 +8,8 @@ using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.Arm;
 using System.Runtime.Intrinsics.X86;
 
+// This is from the Runtime. Copy/pasted as I found no other way to benchmark it.
+
 //Changes from original:
 //copy pasted CompExactlyDependsOnAttribute : Attribute into System.Text namespace
 //copy/pasted StoreLowerUnsafe into ascii class
@@ -15,6 +17,7 @@ using System.Runtime.Intrinsics.X86;
 //Replaced all instances of Vector512.Size by 64 (see:https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/Vector512.cs,77df495766d5de9c)
 //Vector256's by 32 (see:https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/Vector256.cs,877aa6254c4e4d00)
 //Vector128's by 16 (see:https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/Vector128.cs,eb1e72a6f843c5a5)
+// GetIndexofFirstNonAsciiByte is no longer internal
 
 namespace Competition
 {
@@ -213,6 +216,7 @@ namespace Competition
         /// <returns>An ASCII byte is defined as 0x00 - 0x7F, inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+        // internal static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
         {
             // If 256/512-bit aren't supported but SSE2 is supported, use those specific intrinsics instead of
             // the generic vectorized code. This has two benefits: (a) we can take advantage of specific instructions

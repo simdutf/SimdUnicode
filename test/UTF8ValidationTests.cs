@@ -5,6 +5,7 @@ using SimdUnicode;
 public class Utf8ValidationTests
 {
 
+
 private const int NumTrials = 1000;
 private readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
 private readonly Random rand = new Random(1234);
