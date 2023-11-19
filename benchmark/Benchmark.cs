@@ -18,6 +18,7 @@ namespace SimdUnicodeBenchmarks
         List<byte[]> AsciiBytes = new List<byte[]>();
         List<char[]> nonAsciichars = new List<char[]>();
         public List<byte[]> nonAsciiBytes = new List<byte[]>(); // Declare at the class level
+        private List<byte[]> utf8Strings; // For testing UTF-8 validation
 
         List<bool> results = new List<bool>();
         // We don't want to create a new Random object per function call, at least
@@ -113,9 +114,21 @@ namespace SimdUnicodeBenchmarks
             Console.WriteLine("reading data");
             _lines = System.IO.File.ReadAllLines(FileName);
             _linesUtf8 = Array.ConvertAll(_lines, System.Text.Encoding.UTF8.GetBytes);
+            utf8Strings = GenerateUtf8Strings(1000, N); // Generate 1000 UTF-8 strings of length N
         }
 
-        
+        private List<byte[]> GenerateUtf8Strings(int count, uint length)
+        {
+            var strings = new List<byte[]>();
+            var randomUtf8Generator = new RandomUtf8(12345, 1, 1, 1, 1);
+
+            for (int i = 0; i < count; i++)
+            {
+                strings.Add(randomUtf8Generator.Generate((int)length));
+            }
+
+            return strings;
+        }
 
 
         [Benchmark]
@@ -128,18 +141,6 @@ namespace SimdUnicodeBenchmarks
                 count += 1;
             }
         }
-
-        // This seems useless:
-        /*[Benchmark]
-        public void StandardUnicodeIsAscii()
-        {
-            int count = 0;
-            foreach (char[] name in names)
-            {
-                results[count] = SimdUnicode.Ascii.IsAscii(name);
-                count += 1;
-            }
-        }*/
 
         [Benchmark]
         public void RuntimeIsAscii()
@@ -242,6 +243,37 @@ namespace SimdUnicodeBenchmarks
                     fixed (byte* pNonAscii = line)
                     {
                         nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)line.Length);
+                    }
+                }
+            }
+        }
+
+        [Benchmark]
+        public void ScalarUtf8Validation()
+        {
+            foreach (var utf8String in utf8Strings)
+            {
+                unsafe
+                {
+                    fixed (byte* pInput = utf8String)
+                    {
+                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8String.Length);
+                    }
+                }
+            }
+        }
+
+        [Benchmark]
+        public void CompetitionUtf8Validation()
+        {
+            foreach (var utf8String in utf8Strings)
+            {
+                unsafe
+                {
+                    fixed (byte* pInput = utf8String)
+                    {
+                        int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
+                        byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
                     }
                 }
             }

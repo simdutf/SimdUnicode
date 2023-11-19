@@ -52,7 +52,7 @@ sudo dotnet run -c Release
 To run specific tests, it is helpful to use the filter parameter:
 
 ```
-sudo dotnet run -c Release --filter *search_keyword_here*
+sudo dotnet run -c Release --filter Ascii
 ```
 
 
