@@ -261,8 +261,21 @@ public void TestBadSequences()
             }
         }
     }
-
-    // We save this for when testing SIMD version, I promise to clean up later:
+    
+        private bool ValidateUtf8(byte[] utf8)
+    {
+        unsafe
+        {
+            fixed (byte* pInput = utf8)
+            {
+                byte* invalidBytePointer = UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+                // If the pointer to the first invalid byte is at the end of the array, the UTF-8 is valid.
+                return invalidBytePointer == pInput + utf8.Length;
+            }
+        }
+    }
+    
+    // I save this for when testing the SIMD version
     // [Fact]
     // public void BruteForceTest()
     // {
@@ -308,20 +321,5 @@ public void TestBadSequences()
     //          - Fail the test.
 
     // 5. If all tests pass, output "OK".
-
-
-    private bool ValidateUtf8(byte[] utf8)
-    {
-        unsafe
-        {
-            fixed (byte* pInput = utf8)
-            {
-                byte* invalidBytePointer = UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
-                // If the pointer to the first invalid byte is at the end of the array, the UTF-8 is valid.
-                return invalidBytePointer == pInput + utf8.Length;
-            }
-        }
-    }
-
 
 }
