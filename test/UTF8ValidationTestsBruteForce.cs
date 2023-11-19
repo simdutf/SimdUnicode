@@ -1,9 +1,3 @@
-namespace tests;
-using System.Text;
-using SimdUnicode;
-
-public class Utf8ValidationTests
-{
     
     // I save this for when testing the SIMD version
     // [Fact]
@@ -52,4 +46,3 @@ public class Utf8ValidationTests
 
     // 5. If all tests pass, output "OK".
 
-}
