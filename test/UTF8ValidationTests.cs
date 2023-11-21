@@ -194,7 +194,7 @@ public void TestBadSequences()
                         utf8[i] = 0b11100000;
                         utf8[i + 1] = (byte)(utf8[i + 1] & 0b11011111); 
                     }
-                    else // if ((old & 0b11111000) == 0b11110000) // four-bytes case, change to a value less or equal than 0xffff
+                    else if ((old & 0b11111000) == 0b11110000) // four-bytes case, change to a value less or equal than 0xffff
                     {
                         utf8[i] = 0b11110000;
                         utf8[i + 1] = (byte)(utf8[i + 1] & 0b11001111); 
