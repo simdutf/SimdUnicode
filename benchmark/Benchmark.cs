@@ -140,54 +140,126 @@ namespace SimdUnicodeBenchmarks
             return strings;
         }
 
-            private void IntroduceError(byte[] utf8)
+        //     private void IntroduceError(byte[] utf8)
+        // {
+        //     Random random = new Random();
+        //     int errorType = random.Next(5); // Randomly select an error type (0-4)
+        //     int position = random.Next(utf8.Length); // Random position in the byte array
+
+        //     switch (errorType)
+        //     {
+        //         case 0: // Header Bits Error
+        //             if ((utf8[position] & 0b11000000) != 0b10000000)
+        //             {
+        //                 utf8[position] = 0b11111000;
+        //             }
+        //             break;
+
+        //         case 1: // Too Short Error
+        //             if ((utf8[position] & 0b11000000) == 0b10000000)
+        //             {
+        //                 utf8[position] = 0b11100000;
+        //             }
+        //             break;
+
+        //         case 2: // Too Long Error
+        //             if ((utf8[position] & 0b11000000) != 0b10000000)
+        //             {
+        //                 utf8[position] = 0b10000000;
+        //             }
+        //             break;
+
+        //         case 3: // Overlong Error
+        //             if (utf8[position] >= 0b11000000)
+        //             {
+        //                 if ((utf8[position] & 0b11100000) == 0b11000000)
+        //                 {
+        //                     utf8[position] = 0b11000000;
+        //                 }
+        //                 else if ((utf8[position] & 0b11110000) == 0b11100000)
+        //                 {
+        //                     utf8[position] = 0b11100000;
+        //                     utf8[position + 1] = (byte)(utf8[position + 1] & 0b11011111);
+        //                 }
+        //                 else if ((utf8[position] & 0b11111000) == 0b11110000)
+        //                 {
+        //                     utf8[position] = 0b11110000;
+        //                     utf8[position + 1] = (byte)(utf8[position + 1] & 0b11001111);
+        //                 }
+        //             }
+        //             break;
+
+        //             case 4: // Surrogate Error
+        //                 if ((utf8[position] & 0b11110000) == 0b11100000)
+        //                 {
+        //                     utf8[position] = 0b11101101; // Leading byte for surrogate
+        //                     for (int s = 0x8; s < 0xf; s++)
+        //                     {
+        //                         utf8[position + 1] = (byte)((utf8[position + 1] & 0b11000011) | (s << 2));
+        //                         break; // Just introduce one surrogate error
+        //                     }
+        //                 }
+        //                 break;
+
+        //     }
+        // }
+
+        private void IntroduceError(byte[] utf8)
         {
             Random random = new Random();
-            int errorType = random.Next(5); // Randomly select an error type (0-4)
-            int position = random.Next(utf8.Length); // Random position in the byte array
+            bool errorIntroduced = false;
 
-            switch (errorType)
+            while (!errorIntroduced)
             {
-                case 0: // Header Bits Error
-                    if ((utf8[position] & 0b11000000) != 0b10000000)
-                    {
-                        utf8[position] = 0b11111000;
-                    }
-                    break;
+                int errorType = random.Next(5); // Randomly select an error type (0-4)
+                int position = random.Next(utf8.Length); // Random position in the byte array
 
-                case 1: // Too Short Error
-                    if ((utf8[position] & 0b11000000) == 0b10000000)
-                    {
-                        utf8[position] = 0b11100000;
-                    }
-                    break;
-
-                case 2: // Too Long Error
-                    if ((utf8[position] & 0b11000000) != 0b10000000)
-                    {
-                        utf8[position] = 0b10000000;
-                    }
-                    break;
-
-                case 3: // Overlong Error
-                    if (utf8[position] >= 0b11000000)
-                    {
-                        if ((utf8[position] & 0b11100000) == 0b11000000)
+                switch (errorType)
+                {
+                    case 0: // Header Bits Error
+                        if ((utf8[position] & 0b11000000) != 0b10000000)
                         {
-                            utf8[position] = 0b11000000;
+                            utf8[position] = 0b11111000;
+                            errorIntroduced = true;
                         }
-                        else if ((utf8[position] & 0b11110000) == 0b11100000)
+                        break;
+
+                    case 1: // Too Short Error
+                        if ((utf8[position] & 0b11000000) == 0b10000000)
                         {
                             utf8[position] = 0b11100000;
-                            utf8[position + 1] = (byte)(utf8[position + 1] & 0b11011111);
+                            errorIntroduced = true;
                         }
-                        else if ((utf8[position] & 0b11111000) == 0b11110000)
+                        break;
+
+                    case 2: // Too Long Error
+                        if ((utf8[position] & 0b11000000) != 0b10000000)
                         {
-                            utf8[position] = 0b11110000;
-                            utf8[position + 1] = (byte)(utf8[position + 1] & 0b11001111);
+                            utf8[position] = 0b10000000;
+                            errorIntroduced = true;
                         }
-                    }
-                    break;
+                        break;
+
+                    case 3: // Overlong Error
+                        if (utf8[position] >= 0b11000000)
+                        {
+                            if ((utf8[position] & 0b11100000) == 0b11000000)
+                            {
+                                utf8[position] = 0b11000000;
+                            }
+                            else if ((utf8[position] & 0b11110000) == 0b11100000)
+                            {
+                                utf8[position] = 0b11100000;
+                                utf8[position + 1] = (byte)(utf8[position + 1] & 0b11011111);
+                            }
+                            else if ((utf8[position] & 0b11111000) == 0b11110000)
+                            {
+                                utf8[position] = 0b11110000;
+                                utf8[position + 1] = (byte)(utf8[position + 1] & 0b11001111);
+                            }
+                            errorIntroduced = true;
+                        }
+                        break;
 
                     case 4: // Surrogate Error
                         if ((utf8[position] & 0b11110000) == 0b11100000)
@@ -196,16 +268,18 @@ namespace SimdUnicodeBenchmarks
                             for (int s = 0x8; s < 0xf; s++)
                             {
                                 utf8[position + 1] = (byte)((utf8[position + 1] & 0b11000011) | (s << 2));
+                                errorIntroduced = true;
                                 break; // Just introduce one surrogate error
                             }
                         }
                         break;
-
+                }
             }
         }
 
 
         [Benchmark]
+        [BenchmarkCategory("Ascii", "SIMD")]
         public void FastUnicodeIsAscii()
         {
             int count = 0;
@@ -217,6 +291,7 @@ namespace SimdUnicodeBenchmarks
         }
 
         [Benchmark]
+        [BenchmarkCategory("Ascii", "Runtime")]
         public void RuntimeIsAscii()
         {
             int count = 0;
@@ -353,7 +428,7 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
-        [Benchmark(Description = "ScalarUtf8ValidationRealValidData")]
+        [Benchmark(Description = "ScalarUtf8ValidationValidData")]
         public void SimDUnicodeUtf8ValidationRealData()
         {
             foreach (var line in _linesUtf8) // Assuming _linesUtf8 contains UTF-8 encoded data
@@ -368,7 +443,7 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
-        [Benchmark(Description = "CompetitionUtf8ValidationRealValidData")]
+        [Benchmark(Description = "CompetitionUtf8ValidationValidData")]
         public void CompetitionUtf8ValidationRealData()
         {
             foreach (var line in _linesUtf8) // Assuming _linesUtf8 contains UTF-8 encoded data
@@ -384,11 +459,66 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+        [Benchmark(Description = "ScalarUtf8ValidationErrorData")]
+        public void ScalarUtf8ValidationErrorData()
+        {
+            foreach (var utf8StringWithError in utf8ErrorStrings)
+            {
+                unsafe
+                {
+                    fixed (byte* pUtf8 = utf8StringWithError)
+                    {
+                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pUtf8, utf8StringWithError.Length);
+                    }
+                }
+            }
+        }
+
+        [Benchmark(Description = "CompetitionUtf8ValidationErrorData")]
+        public void CompetitionUtf8ValidationErrorData()
+        {
+            foreach (var utf8StringWithError in utf8ErrorStrings)
+            {
+                unsafe
+                {
+                    fixed (byte* pUtf8 = utf8StringWithError)
+                    {
+                        int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
+                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, utf8StringWithError.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+                    }
+                }
+            }
+        }
+
+
+
 
 
     }
 
-    public class Program
+    // public class Program
+    // {
+    //     public static void Main(string[] args)
+    //     {
+    //         if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+    //         {
+    //             Console.WriteLine("ARM64 system detected.");
+    //         }
+    //         else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
+    //         {
+    //             Console.WriteLine("X64 system detected (Intel, AMD,...).");
+
+    //         }
+    //         else
+    //         {
+    //             Console.WriteLine("Unrecognized system.");
+
+    //         }
+    //         var summary = BenchmarkRunner.Run<Checker>();
+    //     }
+    // }
+
+        public class Program
     {
         public static void Main(string[] args)
         {
@@ -399,14 +529,15 @@ namespace SimdUnicodeBenchmarks
             else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
             {
                 Console.WriteLine("X64 system detected (Intel, AMD,...).");
-
             }
             else
             {
                 Console.WriteLine("Unrecognized system.");
-
             }
-            var summary = BenchmarkRunner.Run<Checker>();
+
+            var switcher = new BenchmarkSwitcher(new[] { typeof(Checker) });
+            switcher.Run(args);
         }
     }
+
 }

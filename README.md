@@ -35,6 +35,12 @@ cd test
 dotnet test
 ```
 
+To run specific tests, it is helpful to use the filter parameter:
+
+```
+dotnet test -c Release --filter Ascii
+```
+
 ## Running Benchmarks
 
 ```
@@ -52,9 +58,8 @@ sudo dotnet run -c Release
 To run specific tests, it is helpful to use the filter parameter:
 
 ```
-sudo dotnet run -c Release --filter Ascii
+sudo dotnet test -c Release --filter *Ascii*
 ```
-
 
 ## Building the library
 
