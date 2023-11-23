@@ -1,0 +1,2234 @@
+לדלג לתוכן
+
+שינוי מצב סרגל צד  [ ![](/static/images/mobile/copyright/wikipedia.png)
+![ויקיפדיה](/static/images/mobile/copyright/wikipedia-wordmark-he.svg)
+![האנציקלופדיה החופשית](/static/images/mobile/copyright/wikipedia-tagline-
+he.svg) ](/wiki/%D7%A2%D7%9E%D7%95%D7%93_%D7%A8%D7%90%D7%A9%D7%99)
+
+###  חיפוש
+
+###  כלים אישיים
+
+  * לא בחשבון
+  * [שיחה](/wiki/%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%94%D7%A9%D7%99%D7%97%D7%94_%D7%A9%D7%9C%D7%99 "דיון על העריכות שנעשו מכתובת IP זו \[n\]")
+  * [תרומות](/wiki/%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%94%D7%AA%D7%A8%D7%95%D7%9E%D7%95%D7%AA_%D7%A9%D7%9C%D7%99 "רשימת העריכות שנעשו מכתובת IP זו \[y\]")
+  * [יצירת חשבון](/w/index.php?title=%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%94%D7%A8%D7%A9%D7%9E%D7%94_%D7%9C%D7%97%D7%A9%D7%91%D7%95%D7%9F&returnto=%D7%9E%D7%90%D7%93%D7%99%D7%9D "מומלץ ליצור חשבון ולהיכנס אליו, אך אין חובה לעשות זאת")
+  * [כניסה לחשבון](/w/index.php?title=%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%9B%D7%A0%D7%99%D7%A1%D7%94_%D7%9C%D7%97%D7%A9%D7%91%D7%95%D7%9F&returnto=%D7%9E%D7%90%D7%93%D7%99%D7%9D "מומלץ להיכנס לחשבון, אך אין חובה לעשות זאת \[o\]")
+
+## תפריט ניווט
+
+###  ניווט
+
+  * [עמוד ראשי](/wiki/%D7%A2%D7%9E%D7%95%D7%93_%D7%A8%D7%90%D7%A9%D7%99 "ביקור בעמוד הראשי \[z\]")
+  * [ברוכים הבאים](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%91%D7%A8%D7%95%D7%9B%D7%99%D7%9D_%D7%94%D7%91%D7%90%D7%99%D7%9D)
+  * [שינויים אחרונים](/wiki/%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%A9%D7%99%D7%A0%D7%95%D7%99%D7%99%D7%9D_%D7%90%D7%97%D7%A8%D7%95%D7%A0%D7%99%D7%9D "רשימת השינויים האחרונים באתר \[r\]")
+  * [ערכים מומלצים](/wiki/%D7%A4%D7%95%D7%A8%D7%98%D7%9C:%D7%A2%D7%A8%D7%9B%D7%99%D7%9D_%D7%9E%D7%95%D7%9E%D7%9C%D7%A6%D7%99%D7%9D)
+  * [פורטלים](/wiki/%D7%A4%D7%95%D7%A8%D7%98%D7%9C:%D7%A4%D7%95%D7%A8%D7%98%D7%9C%D7%99%D7%9D)
+  * [ערך אקראי](/wiki/%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%90%D7%A7%D7%A8%D7%90%D7%99 "טעינת דף אקראי \[x\]")
+  * [תרומה לוויקיפדיה](//donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&utm_medium=sidebar&utm_campaign=C13_he.wikipedia.org&uselang=he "תרומה")
+
+###  קהילה
+
+  * [שער הקהילה](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%A9%D7%A2%D7%A8_%D7%94%D7%A7%D7%94%D7%99%D7%9C%D7%94 "אודות המיזם, איך אפשר לעזור, איפה למצוא דברים")
+  * [עזרה](/wiki/%D7%A2%D7%96%D7%A8%D7%94:%D7%AA%D7%A4%D7%A8%D7%99%D7%98_%D7%A8%D7%90%D7%A9%D7%99 "המקום למצוא מידע")
+  * [ייעוץ](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%99%D7%99%D7%A2%D7%95%D7%A5 "דפים להתייעצות טכנית, לשונית וכו'")
+  * [מזנון](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%9E%D7%96%D7%A0%D7%95%D7%9F "דיוני מדיניות ודיונים כלליים על ויקיפדיה")
+  * [כיכר העיר](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%9B%D7%99%D7%9B%D7%A8_%D7%94%D7%A2%D7%99%D7%A8 "המקום בוויקיפדיה לשתף את הקהילה בדעותיכם בנושאים שאינם קשורים ישירות לוויקיפדיה")
+  * [חדשות](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%97%D7%93%D7%A9%D7%95%D7%AA "חדשות בנושאי ויקיפדיה שונים")
+  * [לוח מודעות](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%9C%D7%95%D7%97_%D7%9E%D7%95%D7%93%D7%A2%D7%95%D7%AA "לוח מודעות להפניית הוויקיפדים לדיונים בדפי שיחה שלא זכו לתשומת לב מספקת")
+  * [יצירת קשר](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%99%D7%A6%D7%99%D7%A8%D7%AA_%D7%A7%D7%A9%D7%A8 "איך ליצור קשר עם ויקיפדיה לצורך תיקונים, בירורים או שאלות אחרות")
+  * [ספר אורחים](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%A1%D7%A4%D7%A8_%D7%90%D7%95%D7%A8%D7%97%D7%99%D7%9D "שתפו אותנו במשוב כללי על התרשמותכם מוויקיפדיה ומידת שביעות רצונכם ממנה")
+
+###  כלים
+
+  * [דפים המקושרים לכאן](/wiki/%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%93%D7%A4%D7%99%D7%9D_%D7%94%D7%9E%D7%A7%D7%95%D7%A9%D7%A8%D7%99%D7%9D_%D7%9C%D7%9B%D7%90%D7%9F/%D7%9E%D7%90%D7%93%D7%99%D7%9D "רשימה של כל דפי הוויקי שמקשרים לדף הזה \[j\]")
+  * [שינויים בדפים המקושרים](/wiki/%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%A9%D7%99%D7%A0%D7%95%D7%99%D7%99%D7%9D_%D7%91%D7%93%D7%A4%D7%99%D7%9D_%D7%94%D7%9E%D7%A7%D7%95%D7%A9%D7%A8%D7%99%D7%9D/%D7%9E%D7%90%D7%93%D7%99%D7%9D "השינויים האחרונים שבוצעו בדפים המקושרים מדף זה \[k\]")
+  * [דפים מיוחדים](/wiki/%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%93%D7%A4%D7%99%D7%9D_%D7%9E%D7%99%D7%95%D7%97%D7%93%D7%99%D7%9D "רשימה של כל הדפים המיוחדים \[q\]")
+  * [קישור קבוע](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&oldid=31212880 "קישור קבוע לגרסה זו של הדף")
+  * [מידע על הדף](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=info "מידע נוסף על דף זה")
+  * [ציטוט דף זה](/w/index.php?title=%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%A6%D7%99%D7%98%D7%95%D7%98_%D7%93%D7%A3_%D7%96%D7%94&page=%D7%9E%D7%90%D7%93%D7%99%D7%9D&id=31212880&wpFormIdentifier=titleform "מידע כיצד לצטט דף זה")
+  * [פריט ויקינתונים](https://www.wikidata.org/wiki/Special:EntityPage/Q111 "קישור לפריט המשויך במאגר הנתונים \[g\]")
+
+###  הדפסה/ייצוא
+
+  * [יצירת ספר](/w/index.php?title=%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7%A1%D7%A4%D7%A8&bookcmd=book_creator&referer=%D7%9E%D7%90%D7%93%D7%99%D7%9D)
+  * [הורדה כ־PDF](/w/index.php?title=%D7%9E%D7%99%D7%95%D7%97%D7%93:DownloadAsPdf&page=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=show-download-screen)
+  * [גרסה להדפסה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&printable=yes "גרסה להדפסה של דף זה \[p\]")
+
+###  במיזמים אחרים
+
+  * [ויקישיתוף](https://commons.wikimedia.org/wiki/Category:Mars_\(planet\))
+  * [ויקימסע](https://he.wikivoyage.org/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D)
+
+###  דף זה בשפות אחרות
+
+  * [English](https://en.wikipedia.org/wiki/Mars "Mars – אנגלית")
+  * [Afrikaans](https://af.wikipedia.org/wiki/Mars "Mars – אפריקאנס")
+  * [Alemannisch](https://als.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – Alemannisch")
+  * [አማርኛ](https://am.wikipedia.org/wiki/%E1%88%9B%E1%88%AD%E1%88%B5 "ማርስ – אמהרית")
+  * [Aragonés](https://an.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – אראגונית")
+  * [Ænglisc](https://ang.wikipedia.org/wiki/Tiw_\(tungol\) "Tiw \(tungol\) – אנגלית עתיקה")
+  * [العربية](https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D9%85%D8%B1%D9%8A%D8%AE "المريخ – ערבית")
+  * [الدارجة](https://ary.wikipedia.org/wiki/%D9%84%D9%85%D8%B1%D9%8A%D8%AE "لمريخ – Moroccan Arabic")
+  * [مصرى](https://arz.wikipedia.org/wiki/%D9%85%D8%B1%D9%8A%D8%AE "مريخ – Egyptian Arabic")
+  * [অসমীয়া](https://as.wikipedia.org/wiki/%E0%A6%AE%E0%A6%99%E0%A7%8D%E0%A6%97%E0%A6%B2_%E0%A6%97%E0%A7%8D%E0%A7%B0%E0%A6%B9 "মঙ্গল গ্ৰহ – אסאמית")
+  * [Asturianu](https://ast.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – אסטורית")
+  * [अवधी](https://awa.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगल ग्रह – אוואדית")
+  * [Azərbaycanca](https://az.wikipedia.org/wiki/Mars "Mars – אזרית")
+  * [تۆرکجه](https://azb.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – South Azerbaijani")
+  * [Башҡортса](https://ba.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – בשקירית")
+  * [Basa Bali](https://ban.wikipedia.org/wiki/Mars "Mars – באלינזית")
+  * [Boarisch](https://bar.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – בווארית")
+  * [Žemaitėška](https://bat-smg.wikipedia.org/wiki/Marsos "Marsos – Samogitian")
+  * [Bikol Central](https://bcl.wikipedia.org/wiki/Marte "Marte – Central Bikol")
+  * [Беларуская](https://be.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – בלארוסית")
+  * [Беларуская (тарашкевіца)‎](https://be-tarask.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – Belarusian \(Taraškievica orthography\)")
+  * [Български](https://bg.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – בולגרית")
+  * [भोजपुरी](https://bh.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगल ग्रह – Bhojpuri")
+  * [বাংলা](https://bn.wikipedia.org/wiki/%E0%A6%AE%E0%A6%99%E0%A7%8D%E0%A6%97%E0%A6%B2_\(%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%B9\) "মঙ্গল \(গ্রহ\) – בנגלית")
+  * [བོད་ཡིག](https://bo.wikipedia.org/wiki/%E0%BD%98%E0%BD%B2%E0%BD%82%E0%BC%8B%E0%BD%91%E0%BD%98%E0%BD%A2%E0%BC%8D "མིག་དམར། – טיבטית")
+  * [Brezhoneg](https://br.wikipedia.org/wiki/Meurzh_\(planedenn\) "Meurzh \(planedenn\) – ברטונית")
+  * [Bosanski](https://bs.wikipedia.org/wiki/Mars "Mars – בוסנית")
+  * [Буряад](https://bxr.wikipedia.org/wiki/%D0%9C%D0%B8%D0%B3%D0%BC%D0%B0%D1%80_\(%D0%B3%D0%B0%D1%80%D0%B0%D0%B3\) "Мигмар \(гараг\) – Russia Buriat")
+  * [Català](https://ca.wikipedia.org/wiki/Mart_\(planeta\) "Mart \(planeta\) – קטלאנית")
+  * [Mìng-dĕ̤ng-ngṳ̄](https://cdo.wikipedia.org/wiki/Hu%C5%8Di-s%C4%ADng "Huōi-sĭng – Min Dong Chinese")
+  * [Нохчийн](https://ce.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – צ׳צ׳נית")
+  * [Cebuano](https://ceb.wikipedia.org/wiki/Mars "Mars – סבואנו")
+  * [ᏣᎳᎩ](https://chr.wikipedia.org/wiki/%E1%8E%B9%E1%8F%8F "ᎹᏏ – צ׳רוקי")
+  * [کوردی](https://ckb.wikipedia.org/wiki/%D9%85%DB%95%D8%B1%DB%8C%D8%AE "مەریخ – כורדית סוראנית")
+  * [Corsu](https://co.wikipedia.org/wiki/Marte "Marte – קורסיקנית")
+  * [Nēhiyawēwin / ᓀᐦᐃᔭᐍᐏᐣ](https://cr.wikipedia.org/wiki/%E1%92%A5%E1%90%A6%E1%91%B2%E1%90%A7%E1%91%96%E1%95%81 "ᒥᐦᑲᐧᑖᕁ – קרי")
+  * [Čeština](https://cs.wikipedia.org/wiki/Mars_\(planeta\) "Mars \(planeta\) – צ׳כית")
+  * [Kaszëbsczi](https://csb.wikipedia.org/wiki/Mars "Mars – קשובית")
+  * [Словѣньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ](https://cu.wikipedia.org/wiki/%D0%90%D1%80%D0%B8%D1%81%D1%8A "Арисъ – סלאבית כנסייתית עתיקה")
+  * [Чӑвашла](https://cv.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – צ׳ובאש")
+  * [Cymraeg](https://cy.wikipedia.org/wiki/Mawrth_\(planed\) "Mawrth \(planed\) – וולשית")
+  * [Dansk](https://da.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – דנית")
+  * [Deutsch](https://de.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – גרמנית")
+  * [Zazaki](https://diq.wikipedia.org/wiki/Mars "Mars – Zazaki")
+  * [Dolnoserbski](https://dsb.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – סורבית תחתית")
+  * [डोटेली](https://dty.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगलग्रह – Doteli")
+  * [Ελληνικά](https://el.wikipedia.org/wiki/%CE%86%CF%81%CE%B7%CF%82_\(%CF%80%CE%BB%CE%B1%CE%BD%CE%AE%CF%84%CE%B7%CF%82\) "Άρης \(πλανήτης\) – יוונית")
+  * [Emiliàn e rumagnòl](https://eml.wikipedia.org/wiki/M%C3%A8rt "Mèrt – Emiliano-Romagnolo")
+  * [Esperanto](https://eo.wikipedia.org/wiki/Marso_\(planedo\) "Marso \(planedo\) – אספרנטו")
+  * [Español](https://es.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – ספרדית")
+  * [Eesti](https://et.wikipedia.org/wiki/Marss "Marss – אסטונית")
+  * [Euskara](https://eu.wikipedia.org/wiki/Marte "Marte – בסקית")
+  * [Estremeñu](https://ext.wikipedia.org/wiki/Marti_\(praneta\) "Marti \(praneta\) – Extremaduran")
+  * [فارسی](https://fa.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – פרסית")
+  * [Suomi](https://fi.wikipedia.org/wiki/Mars "Mars – פינית")
+  * [Võro](https://fiu-vro.wikipedia.org/wiki/Marss "Marss – võro")
+  * [Na Vosa Vakaviti](https://fj.wikipedia.org/wiki/Aceni "Aceni – פיג׳ית")
+  * [Føroyskt](https://fo.wikipedia.org/wiki/Mars_\(gongustj%C3%B8rna\) "Mars \(gongustjørna\) – פארואזית")
+  * [Français](https://fr.wikipedia.org/wiki/Mars_\(plan%C3%A8te\) "Mars \(planète\) – צרפתית")
+  * [Arpetan](https://frp.wikipedia.org/wiki/M%C3%A2rs_\(plan%C3%A8ta\) "Mârs \(planèta\) – Arpitan")
+  * [Nordfriisk](https://frr.wikipedia.org/wiki/Mars "Mars – פריזית צפונית")
+  * [Furlan](https://fur.wikipedia.org/wiki/Mart_\(planet\) "Mart \(planet\) – פריולית")
+  * [Frysk](https://fy.wikipedia.org/wiki/Mars_\(planeet\) "Mars \(planeet\) – פריזית מערבית")
+  * [Gaeilge](https://ga.wikipedia.org/wiki/Mars_\(pl%C3%A1in%C3%A9ad\) "Mars \(pláinéad\) – אירית")
+  * [贛語](https://gan.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – סינית גאן")
+  * [Kriyòl gwiyannen](https://gcr.wikipedia.org/wiki/Mars_\(plan%C3%A8t\) "Mars \(planèt\) – Guianan Creole")
+  * [Gàidhlig](https://gd.wikipedia.org/wiki/Corg "Corg – גאלית סקוטית")
+  * [Galego](https://gl.wikipedia.org/wiki/Marte "Marte – גליציאנית")
+  * [Avañe'ẽ](https://gn.wikipedia.org/wiki/Jasytata_Guasu "Jasytata Guasu – גוארני")
+  * [ગુજરાતી](https://gu.wikipedia.org/wiki/%E0%AA%AE%E0%AA%82%E0%AA%97%E0%AA%B3_\(%E0%AA%97%E0%AB%8D%E0%AA%B0%E0%AA%B9\) "મંગળ \(ગ્રહ\) – גוג׳ארטי")
+  * [Gaelg](https://gv.wikipedia.org/wiki/Mart_\(planaid\) "Mart \(planaid\) – מאנית")
+  * [客家語/Hak-kâ-ngî](https://hak.wikipedia.org/wiki/F%C3%B3-s%C3%AAn "Fó-sên – סינית האקה")
+  * [Hawaiʻi](https://haw.wikipedia.org/wiki/H%C5%8Dk%C5%AB%CA%BBula "Hōkūʻula – הוואית")
+  * [हिन्दी](https://hi.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगल ग्रह – הינדי")
+  * [Fiji Hindi](https://hif.wikipedia.org/wiki/Mangalgrah "Mangalgrah – Fiji Hindi")
+  * [Hrvatski](https://hr.wikipedia.org/wiki/Mars "Mars – קרואטית")
+  * [Hornjoserbsce](https://hsb.wikipedia.org/wiki/Mars "Mars – סורבית עילית")
+  * [Kreyòl ayisyen](https://ht.wikipedia.org/wiki/Mas_\(plan%C3%A8t\) "Mas \(planèt\) – קריאולית \(האיטי\)")
+  * [Magyar](https://hu.wikipedia.org/wiki/Mars_\(bolyg%C3%B3\) "Mars \(bolygó\) – הונגרית")
+  * [Հայերեն](https://hy.wikipedia.org/wiki/%D5%84%D5%A1%D6%80%D5%BD_\(%D5%B4%D5%B8%D5%AC%D5%B8%D6%80%D5%A1%D5%AF\) "Մարս \(մոլորակ\) – ארמנית")
+  * [Արեւմտահայերէն](https://hyw.wikipedia.org/wiki/%D5%80%D6%80%D5%A1%D5%BF_%D5%B4%D5%B8%D5%AC%D5%B8%D6%80%D5%A1%D5%AF_\(%D5%84%D5%A1%D6%80%D5%BD\) "Հրատ մոլորակ \(Մարս\) – Western Armenian")
+  * [Interlingua](https://ia.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – ‏אינטרלינגואה")
+  * [Bahasa Indonesia](https://id.wikipedia.org/wiki/Mars "Mars – אינדונזית")
+  * [Interlingue](https://ie.wikipedia.org/wiki/Mars "Mars – אינטרלינגה")
+  * [Ilokano](https://ilo.wikipedia.org/wiki/Marte "Marte – אילוקו")
+  * [ГӀалгӀай](https://inh.wikipedia.org/wiki/%D0%9C%D0%B8%D0%BD%D0%B3%D0%B0%D0%BB "Мингал – אינגושית")
+  * [Ido](https://io.wikipedia.org/wiki/Marso "Marso – אידו")
+  * [Íslenska](https://is.wikipedia.org/wiki/Mars_\(reikistjarna\) "Mars \(reikistjarna\) – איסלנדית")
+  * [Italiano](https://it.wikipedia.org/wiki/Marte_\(astronomia\) "Marte \(astronomia\) – איטלקית")
+  * [日本語](https://ja.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – יפנית")
+  * [Patois](https://jam.wikipedia.org/wiki/Maarz "Maarz – Jamaican Creole English")
+  * [La .lojban.](https://jbo.wikipedia.org/wiki/mars "mars – לוז׳באן")
+  * [Jawa](https://jv.wikipedia.org/wiki/Mars "Mars – יאוואית")
+  * [ქართული](https://ka.wikipedia.org/wiki/%E1%83%9B%E1%83%90%E1%83%A0%E1%83%A1%E1%83%98 "მარსი – גאורגית")
+  * [Qaraqalpaqsha](https://kaa.wikipedia.org/wiki/Mars_\(planeta\) "Mars \(planeta\) – קארא-קלפאק")
+  * [Taqbaylit](https://kab.wikipedia.org/wiki/Mezwe%C9%A3 "Mezweɣ – קבילה")
+  * [Kabɩyɛ](https://kbp.wikipedia.org/wiki/Maar%C9%A9s%C9%A9 "Maarɩsɩ – Kabiye")
+  * [Kongo](https://kg.wikipedia.org/wiki/Mars "Mars – קונגו")
+  * [Gĩkũyũ](https://ki.wikipedia.org/wiki/Maasi "Maasi – קיקויו")
+  * [Қазақша](https://kk.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – קזחית")
+  * [ភាសាខ្មែរ](https://km.wikipedia.org/wiki/%E1%9E%97%E1%9E%96%E1%9E%A2%E1%9E%84%E1%9F%92%E1%9E%82%E1%9E%B6%E1%9E%9A "ភពអង្គារ – חמרית")
+  * [ಕನ್ನಡ](https://kn.wikipedia.org/wiki/%E0%B2%AE%E0%B2%82%E0%B2%97%E0%B2%B3_\(%E0%B2%97%E0%B3%8D%E0%B2%B0%E0%B2%B9\) "ಮಂಗಳ \(ಗ್ರಹ\) – קנאדה")
+  * [한국어](https://ko.wikipedia.org/wiki/%ED%99%94%EC%84%B1 "화성 – קוריאנית")
+  * [Къарачай-малкъар](https://krc.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – קראצ׳י-בלקר")
+  * [Ripoarisch](https://ksh.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – קולוניאן")
+  * [Kurdî](https://ku.wikipedia.org/wiki/Behram_\(gerst%C3%AArk\) "Behram \(gerstêrk\) – כורדית")
+  * [Коми](https://kv.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – קומי")
+  * [Kernowek](https://kw.wikipedia.org/wiki/Meurth_\(planet\) "Meurth \(planet\) – קורנית")
+  * [Кыргызча](https://ky.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – קירגיזית")
+  * [Latina](https://la.wikipedia.org/wiki/Mars_\(planeta\) "Mars \(planeta\) – לטינית")
+  * [Lëtzebuergesch](https://lb.wikipedia.org/wiki/Mars_\(Plan%C3%A9it\) "Mars \(Planéit\) – לוקסמבורגית")
+  * [Лезги](https://lez.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – לזגית")
+  * [Lingua Franca Nova](https://lfn.wikipedia.org/wiki/Marte "Marte – Lingua Franca Nova")
+  * [Limburgs](https://li.wikipedia.org/wiki/Mars_\(planeet\) "Mars \(planeet\) – לימבורגית")
+  * [Ligure](https://lij.wikipedia.org/wiki/Marte_\(astronomia\) "Marte \(astronomia\) – Ligurian")
+  * [Ladin](https://lld.wikipedia.org/wiki/Mars "Mars – Ladin")
+  * [Lumbaart](https://lmo.wikipedia.org/wiki/Marte_\(pianeta\) "Marte \(pianeta\) – Lombard")
+  * [Lingála](https://ln.wikipedia.org/wiki/M%C3%A1rsi_\(monz%C9%94%CC%81t%C9%94\) "Mársi \(monzɔ́tɔ\) – לינגלה")
+  * [ລາວ](https://lo.wikipedia.org/wiki/%E0%BA%94%E0%BA%B2%E0%BA%A7%E0%BA%AD%E0%BA%B1%E0%BA%87%E0%BA%84%E0%BA%B2%E0%BA%99 "ດາວອັງຄານ – לאו")
+  * [Lietuvių](https://lt.wikipedia.org/wiki/Marsas_\(planeta\) "Marsas \(planeta\) – ליטאית")
+  * [Latviešu](https://lv.wikipedia.org/wiki/Marss_\(plan%C4%93ta\) "Marss \(planēta\) – לטבית")
+  * [Мокшень](https://mdf.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D1%88%D0%B0%D1%80%D1%8B_%D1%82%D1%8F%D1%88%D1%82%D0%B5\) "Марс \(шары тяште\) – מוקשה")
+  * [Malagasy](https://mg.wikipedia.org/wiki/Marsa_\(fajiry\) "Marsa \(fajiry\) – מלגשית")
+  * [Македонски](https://mk.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – מקדונית")
+  * [മലയാളം](https://ml.wikipedia.org/wiki/%E0%B4%9A%E0%B5%8A%E0%B4%B5%E0%B5%8D%E0%B4%B5 "ചൊവ്വ – מליאלאם")
+  * [Монгол](https://mn.wikipedia.org/wiki/%D0%90%D0%BD%D0%B3%D0%B0%D1%80%D0%B0%D0%B3 "Ангараг – מונגולית")
+  * [ꯃꯤꯇꯩ ꯂꯣꯟ](https://mni.wikipedia.org/wiki/%EA%AF%82%EA%AF%A9%EA%AF%84%EA%AF%A5%EA%AF%9B%EA%AF%84%EA%AF%A3%EA%AF%9B%EA%AF%84_%EA%AF%8A%EA%AF%84%EA%AF%A4 "ꯂꯩꯄꯥꯛꯄꯣꯛꯄ ꯊꯄꯤ – מניפורית")
+  * [ဘာသာ မန်](https://mnw.wikipedia.org/wiki/%E1%80%99%E1%80%AC%E1%80%9B%E1%80%BA%E1%80%9E%E1%80%BA "မာရ်သ် – Mon")
+  * [मराठी](https://mr.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B3_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगळ ग्रह – מראטהי")
+  * [Bahasa Melayu](https://ms.wikipedia.org/wiki/Marikh "Marikh – מלאית")
+  * [Malti](https://mt.wikipedia.org/wiki/Marte_\(pjaneta\) "Marte \(pjaneta\) – מלטית")
+  * [Mirandés](https://mwl.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – מירנדזית")
+  * [မြန်မာဘာသာ](https://my.wikipedia.org/wiki/%E1%80%A1%E1%80%84%E1%80%BA%E1%80%B9%E1%80%82%E1%80%AB%E1%80%82%E1%80%BC%E1%80%AD%E1%80%AF%E1%80%9F%E1%80%BA "အင်္ဂါဂြိုဟ် – בורמזית")
+  * [مازِرونی](https://mzn.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – מאזאנדראני")
+  * [Dorerin Naoero](https://na.wikipedia.org/wiki/Mars "Mars – נאורית")
+  * [Nāhuatl](https://nah.wikipedia.org/wiki/Ch%C4%ABch%C4%ABlc%C4%ABtlalli "Chīchīlcītlalli – Nāhuatl")
+  * [Napulitano](https://nap.wikipedia.org/wiki/Marte "Marte – נפוליטנית")
+  * [Plattdüütsch](https://nds.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – גרמנית תחתית")
+  * [Nedersaksies](https://nds-nl.wikipedia.org/wiki/Mars_\(planeet\) "Mars \(planeet\) – סקסונית תחתית")
+  * [नेपाली](https://ne.wikipedia.org/wiki/%E0%A4%AE%E0%A4%99%E0%A5%8D%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मङ्गल ग्रह – נפאלית")
+  * [नेपाल भाषा](https://new.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगल ग्रह – נווארי")
+  * [Nederlands](https://nl.wikipedia.org/wiki/Mars_\(planeet\) "Mars \(planeet\) – הולנדית")
+  * [Norsk nynorsk](https://nn.wikipedia.org/wiki/Planeten_Mars "Planeten Mars – נורווגית חדשה")
+  * [Norsk bokmål](https://no.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – נורווגית ספרותית")
+  * [Novial](https://nov.wikipedia.org/wiki/Mars_\(planete\) "Mars \(planete\) – Novial")
+  * [ߒߞߏ](https://nqo.wikipedia.org/wiki/%DF%A4%DF%90%DF%9E%DF%8E "ߤߐߞߎ – נ׳קו")
+  * [Nouormand](https://nrm.wikipedia.org/wiki/Mars "Mars – Norman")
+  * [Diné bizaad](https://nv.wikipedia.org/wiki/M%C3%A1az "Máaz – נאוואחו")
+  * [Occitan](https://oc.wikipedia.org/wiki/Mart_\(planeta\) "Mart \(planeta\) – אוקסיטנית")
+  * [Livvinkarjala](https://olo.wikipedia.org/wiki/Mars_\(planiettu\) "Mars \(planiettu\) – Livvi-Karelian")
+  * [Oromoo](https://om.wikipedia.org/wiki/Mars "Mars – אורומו")
+  * [ଓଡ଼ିଆ](https://or.wikipedia.org/wiki/%E0%AC%AE%E0%AC%99%E0%AD%8D%E0%AC%97%E0%AC%B3 "ମଙ୍ଗଳ – אורייה")
+  * [Ирон](https://os.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%C3%A6\) "Марс \(планетæ\) – אוסטית")
+  * [ਪੰਜਾਬੀ](https://pa.wikipedia.org/wiki/%E0%A8%AE%E0%A9%B0%E0%A8%97%E0%A8%B2_\(%E0%A8%97%E0%A9%8D%E0%A8%B0%E0%A8%B9%E0%A8%BF\) "ਮੰਗਲ \(ਗ੍ਰਹਿ\) – פנג׳אבי")
+  * [Kapampangan](https://pam.wikipedia.org/wiki/Marti "Marti – פמפאניה")
+  * [Polski](https://pl.wikipedia.org/wiki/Mars "Mars – פולנית")
+  * [Piemontèis](https://pms.wikipedia.org/wiki/Mart_\(pianeta\) "Mart \(pianeta\) – Piedmontese")
+  * [پنجابی](https://pnb.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – Western Punjabi")
+  * [پښتو](https://ps.wikipedia.org/wiki/%D9%85%D8%B1%D9%8A%D8%AE "مريخ – פאשטו")
+  * [Português](https://pt.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – פורטוגזית")
+  * [Runa Simi](https://qu.wikipedia.org/wiki/Awqakuq "Awqakuq – קצ׳ואה")
+  * [Rumantsch](https://rm.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – רומאנש")
+  * [Romani čhib](https://rmy.wikipedia.org/wiki/Manjor "Manjor – Vlax Romani")
+  * [Română](https://ro.wikipedia.org/wiki/Marte_\(planet%C4%83\) "Marte \(planetă\) – רומנית")
+  * [Armãneashti](https://roa-rup.wikipedia.org/wiki/Marti "Marti – Aromanian")
+  * [Русский](https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – רוסית")
+  * [Русиньскый](https://rue.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – Rusyn")
+  * [संस्कृतम्](https://sa.wikipedia.org/wiki/%E0%A4%AE%E0%A4%99%E0%A5%8D%E0%A4%97%E0%A4%B2%E0%A4%83 "मङ्गलः – סנסקריט")
+  * [Саха тыла](https://sah.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – סאחה")
+  * [ᱥᱟᱱᱛᱟᱲᱤ](https://sat.wikipedia.org/wiki/%E1%B1%B5%E1%B1%9A%E1%B1%B8%E1%B1%9C%E1%B1%9F_%E1%B1%AE%E1%B1%B8%E1%B1%9C%E1%B1%AE%E1%B1%9E "ᱵᱚᱸᱜᱟ ᱮᱸᱜᱮᱞ – סאנטאלי")
+  * [Sardu](https://sc.wikipedia.org/wiki/Marte_\(praneta\) "Marte \(praneta\) – סרדינית")
+  * [Sicilianu](https://scn.wikipedia.org/wiki/Marti_\(pianeta\) "Marti \(pianeta\) – סיציליאנית")
+  * [Scots](https://sco.wikipedia.org/wiki/Maurs "Maurs – סקוטית")
+  * [سنڌي](https://sd.wikipedia.org/wiki/%D9%85%D8%B1%D9%8A%D8%AE "مريخ – סינדהית")
+  * [Davvisámegiella](https://se.wikipedia.org/wiki/Mars "Mars – סמי צפונית")
+  * [Srpskohrvatski / српскохрватски](https://sh.wikipedia.org/wiki/Mars "Mars – סרבו-קרואטית")
+  * [සිංහල](https://si.wikipedia.org/wiki/%E0%B6%85%E0%B6%9F%E0%B7%84%E0%B6%BB%E0%B7%94_%E0%B6%9C%E0%B7%8A%E2%80%8D%E0%B6%BB%E0%B7%84%E0%B6%BD%E0%B7%9C%E0%B7%80 "අඟහරු ග්‍රහලොව – סינהלה")
+  * [Simple English](https://simple.wikipedia.org/wiki/Mars "Mars – Simple English")
+  * [Slovenčina](https://sk.wikipedia.org/wiki/Mars "Mars – סלובקית")
+  * [Slovenščina](https://sl.wikipedia.org/wiki/Mars "Mars – סלובנית")
+  * [Anarâškielâ](https://smn.wikipedia.org/wiki/Mars "Mars – אינארי סאמי")
+  * [Soomaaliga](https://so.wikipedia.org/wiki/Farraare "Farraare – סומלית")
+  * [Shqip](https://sq.wikipedia.org/wiki/Marsi "Marsi – אלבנית")
+  * [Српски / srpski](https://sr.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – סרבית")
+  * [Seeltersk](https://stq.wikipedia.org/wiki/Mars "Mars – Saterland Frisian")
+  * [Sunda](https://su.wikipedia.org/wiki/Mars "Mars – סונדנזית")
+  * [Svenska](https://sv.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – שוודית")
+  * [Kiswahili](https://sw.wikipedia.org/wiki/Mirihi "Mirihi – סווהילי")
+  * [Ślůnski](https://szl.wikipedia.org/wiki/Mars "Mars – Silesian")
+  * [தமிழ்](https://ta.wikipedia.org/wiki/%E0%AE%9A%E0%AF%86%E0%AE%B5%E0%AF%8D%E0%AE%B5%E0%AE%BE%E0%AE%AF%E0%AF%8D_\(%E0%AE%95%E0%AF%8B%E0%AE%B3%E0%AF%8D\) "செவ்வாய் \(கோள்\) – טמילית")
+  * [ತುಳು](https://tcy.wikipedia.org/wiki/%E0%B2%85%E0%B2%82%E0%B2%97%E0%B2%BE%E0%B2%B0%E0%B2%95 "ಅಂಗಾರಕ – Tulu")
+  * [తెలుగు](https://te.wikipedia.org/wiki/%E0%B0%85%E0%B0%82%E0%B0%97%E0%B0%BE%E0%B0%B0%E0%B0%95%E0%B1%81%E0%B0%A1%E0%B1%81 "అంగారకుడు – טלוגו")
+  * [Тоҷикӣ](https://tg.wikipedia.org/wiki/%D0%9C%D0%B8%D1%80%D1%80%D0%B8%D1%85 "Миррих – טג׳יקית")
+  * [ไทย](https://th.wikipedia.org/wiki/%E0%B8%94%E0%B8%B2%E0%B8%A7%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B2%E0%B8%A3 "ดาวอังคาร – תאית")
+  * [Türkmençe](https://tk.wikipedia.org/wiki/Mars "Mars – טורקמנית")
+  * [Tagalog](https://tl.wikipedia.org/wiki/Marte "Marte – טאגאלוג")
+  * [Türkçe](https://tr.wikipedia.org/wiki/Mars "Mars – טורקית")
+  * [Татарча/tatarça](https://tt.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – טטרית")
+  * [Тыва дыл](https://tyv.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – טובינית")
+  * [ئۇيغۇرچە / Uyghurche](https://ug.wikipedia.org/wiki/%D9%85%D8%A7%D8%B1%D8%B3 "مارس – אויגור")
+  * [Українська](https://uk.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – אוקראינית")
+  * [اردو](https://ur.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – אורדו")
+  * [Oʻzbekcha/ўзбекча](https://uz.wikipedia.org/wiki/Mars "Mars – אוזבקית")
+  * [Vepsän kel’](https://vep.wikipedia.org/wiki/Mars "Mars – Veps")
+  * [Tiếng Việt](https://vi.wikipedia.org/wiki/Sao_H%E1%BB%8Fa "Sao Hỏa – וייטנאמית")
+  * [West-Vlams](https://vls.wikipedia.org/wiki/Mars_\(planete\) "Mars \(planete\) – West Flemish")
+  * [Volapük](https://vo.wikipedia.org/wiki/Mard "Mard – ‏וולאפיק")
+  * [Walon](https://wa.wikipedia.org/wiki/M%C3%A5ss_\(planete\) "Måss \(planete\) – ולונית")
+  * [Winaray](https://war.wikipedia.org/wiki/Marte "Marte – ווראי")
+  * [Wolof](https://wo.wikipedia.org/wiki/Maas "Maas – וולוף")
+  * [吴语](https://wuu.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – סינית וו")
+  * [Хальмг](https://xal.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_%D2%BB%D0%B0%D1%80%D0%B8%D0%B3 "Марс һариг – קלמיקית")
+  * [მარგალური](https://xmf.wikipedia.org/wiki/%E1%83%9B%E1%83%9D%E1%83%A0%E1%83%9D%E1%83%AE%E1%83%98_\(%E1%83%9E%E1%83%9A%E1%83%90%E1%83%9C%E1%83%94%E1%83%A2%E1%83%90\) "მოროხი \(პლანეტა\) – Mingrelian")
+  * [ייִדיש](https://yi.wikipedia.org/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D "מאדים – יידיש")
+  * [Yorùbá](https://yo.wikipedia.org/wiki/M%C3%A1rs%C3%AC "Mársì – יורובה")
+  * [Vahcuengh](https://za.wikipedia.org/wiki/Ndaundeiqfeiz "Ndaundeiqfeiz – זואנג")
+  * [Zeêuws](https://zea.wikipedia.org/wiki/Mars_\(planete\) "Mars \(planete\) – Zeelandic")
+  * [中文](https://zh.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – סינית")
+  * [文言](https://zh-classical.wikipedia.org/wiki/%E7%86%92%E6%83%91 "熒惑 – Classical Chinese")
+  * [Bân-lâm-gú](https://zh-min-nan.wikipedia.org/wiki/H%C3%B3e-chhe%E2%81%BF "Hóe-chheⁿ – Chinese \(Min Nan\)")
+  * [粵語](https://zh-yue.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – Cantonese")
+  * [IsiZulu](https://zu.wikipedia.org/wiki/UMarzi "UMarzi – זולו")
+
+[עריכת
+הקישורים](https://www.wikidata.org/wiki/Special:EntityPage/Q111#sitelinks-
+wikipedia "עריכת קישורים בין־לשוניים")
+
+###  מרחבי שם
+
+  * [ערך](/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D "צפייה בדף התוכן \[c\]")
+  * [שיחה](/wiki/%D7%A9%D7%99%D7%97%D7%94:%D7%9E%D7%90%D7%93%D7%99%D7%9D "שיחה על דף התוכן \[t\]")
+
+###  גרסאות שפה
+
+###  צפיות
+
+  * [קריאה](/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D)
+  * [עריכת קוד מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit "עריכת דף זה \[e\]")
+  * [עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit "עריכת דף זה \[v\]")
+  * [גרסאות קודמות](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=history "גרסאות קודמות של דף זה \[h\]")
+
+###  עוד
+
+# מאדים
+
+מתוך ויקיפדיה, האנציקלופדיה החופשית
+
+![פירוש
+נוסף](//upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Disambig_RTL.svg/25px-
+Disambig_RTL.svg.png) ערך זה עוסק בכוכב לכת. אם התכוונתם למיני-סדרה, ראו
+[מאדים (מיני-
+סדרה)](/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D_\(%D7%9E%D7%99%D7%A0%D7%99-%D7%A1%D7%93%D7%A8%D7%94\)
+"מאדים \(מיני-סדרה\)"); אם התכוונתם לפרויקט של סוכנויות החלל הרוסית והאירופית,
+ראו [מאדים 500](/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D_500 "מאדים 500").
+
+מאדים [![סימול אסטרונומי של
+מאדים](//upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mars_symbol.svg/25px-
+Mars_symbol.svg.png)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Mars_symbol.svg "סימול
+אסטרונומי של מאדים")
+
+[![OSIRIS Mars true
+color.jpg](//upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/250px-
+OSIRIS_Mars_true_color.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:OSIRIS_Mars_true_color.jpg)  
+  
+---  
+מאדים כפי שצולם מ[ויקינג 1](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92_1
+"ויקינג 1") ב־[22 בפברואר](/wiki/22_%D7%91%D7%A4%D7%91%D7%A8%D7%95%D7%90%D7%A8
+"22 בפברואר") [1980](/wiki/1980 "1980")  
+מידע כללי  
+סוג עצם|  [כוכב לכת](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA "כוכב
+לכת")  
+קטגוריה|  [כוכב לכת
+ארצי](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%90%D7%A8%D7%A6%D7%99
+"כוכב לכת ארצי")  
+מיקום|  [מערכת השמש
+הפנימית](/wiki/%D7%9E%D7%A2%D7%A8%D7%9B%D7%AA_%D7%94%D7%A9%D7%9E%D7%A9#מערכת_השמש_הפנימית
+"מערכת השמש")  
+תאריך גילוי|  מימי קדם  
+מאפיינים מסלוליים  
+[מרחק](/wiki/%D7%9E%D7%A8%D7%97%D7%A7 "מרחק") ממוצע מהשמש|  227,936,637
+[ק"מ](/wiki/%D7%A7%22%D7%9E "ק"מ")  
+(1.523,662,31
+[AU](/wiki/%D7%99%D7%97%D7%99%D7%93%D7%94_%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%A0%D7%95%D7%9E%D7%99%D7%AA
+"יחידה אסטרונומית"))  
+[אפהליון](/wiki/%D7%90%D7%A4%D7%94%D7%9C%D7%99%D7%95%D7%9F_%D7%95%D7%A4%D7%A8%D7%99%D7%94%D7%9C%D7%99%D7%95%D7%9F
+"אפהליון ופריהליון")|  249,228,730 [ק"מ](/wiki/%D7%A7%22%D7%9E "ק"מ")  
+(1.665,991,16
+[AU](/wiki/%D7%99%D7%97%D7%99%D7%93%D7%94_%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%A0%D7%95%D7%9E%D7%99%D7%AA
+"יחידה אסטרונומית"))  
+[פריהליון](/wiki/%D7%90%D7%A4%D7%94%D7%9C%D7%99%D7%95%D7%9F_%D7%95%D7%A4%D7%A8%D7%99%D7%94%D7%9C%D7%99%D7%95%D7%9F
+"אפהליון ופריהליון")|  206,644,545 [ק"מ](/wiki/%D7%A7%22%D7%9E "ק"מ")  
+(1.381,333,46
+[AU](/wiki/%D7%99%D7%97%D7%99%D7%93%D7%94_%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%A0%D7%95%D7%9E%D7%99%D7%AA
+"יחידה אסטרונומית"))  
+[אקסצנטריות](/wiki/%D7%95%D7%A7%D7%98%D7%95%D7%A8_%D7%94%D7%90%D7%A7%D7%A1%D7%A6%D7%A0%D7%98%D7%A8%D7%99%D7%95%D7%AA
+"וקטור האקסצנטריות")|  0.09341233  
+[זמן הקפה](/wiki/%D7%96%D7%9E%D7%9F_%D7%94%D7%A7%D7%A4%D7%94 "זמן הקפה")|
+686.971 ימים (1.8808
+[שנים](/wiki/%D7%A9%D7%A0%D7%94_%D7%99%D7%95%D7%9C%D7%99%D7%90%D7%A0%D7%99%D7%AA_\(%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%A0%D7%95%D7%9E%D7%99%D7%94\)
+"שנה יוליאנית \(אסטרונומיה\)"))  
+[מחזור
+סינודי](/wiki/%D7%9E%D7%97%D7%96%D7%95%D7%A8_%D7%A1%D7%99%D7%A0%D7%95%D7%93%D7%99
+"מחזור סינודי")|  779.95 ימים  
+מהירות מסלולית  
+‑ ממוצעת|  24.077 [ק"מ](/wiki/%D7%A7%22%D7%9E
+"ק"מ")/[שנייה](/wiki/%D7%A9%D7%A0%D7%99%D7%99%D7%94 "שנייה")  
+‑ מקסימלית|  26.499 [ק"מ](/wiki/%D7%A7%22%D7%9E
+"ק"מ")/[שנייה](/wiki/%D7%A9%D7%A0%D7%99%D7%99%D7%94 "שנייה")  
+‑ מינימלית|  21.972 [ק"מ](/wiki/%D7%A7%22%D7%9E
+"ק"מ")/[שנייה](/wiki/%D7%A9%D7%A0%D7%99%D7%99%D7%94 "שנייה")  
+[נטיית
+מסלול](/wiki/%D7%A0%D7%98%D7%99%D7%99%D7%AA_%D7%9E%D7%A1%D7%9C%D7%95%D7%9C
+"נטיית מסלול")|  1.85061°  
+מספר [ירחים](/wiki/%D7%99%D7%A8%D7%97 "ירח")|  2  
+מאפיינים פיזיים  
+[רדיוס](/wiki/%D7%A8%D7%93%D7%99%D7%95%D7%A1 "רדיוס") בקו המשווה|  3,396.2
+[ק"מ](/wiki/%D7%A7%22%D7%9E "ק"מ")  
+שטח פנים|  1.448×108 [קמ"ר](/wiki/%D7%A7%D7%9E%22%D7%A8 "קמ"ר")  
+[מסה](/wiki/%D7%9E%D7%A1%D7%94 "מסה")|  6.4191×1023
+[ק"ג](/wiki/%D7%A7%22%D7%92 "ק"ג")  
+[צפיפות](/wiki/%D7%A6%D7%A4%D7%99%D7%A4%D7%95%D7%AA_%D7%94%D7%97%D7%95%D7%9E%D7%A8
+"צפיפות החומר") ממוצעת|  3.94 גרם/סמ"ק  
+[תאוצת
+הכובד](/wiki/%D7%AA%D7%90%D7%95%D7%A6%D7%AA_%D7%94%D7%9B%D7%95%D7%91%D7%93
+"תאוצת הכובד") בקו המשווה|  3.71 מטר/שנייה2, 0.38 ג'י  
+[זמן סיבוב
+עצמי](/wiki/%D7%96%D7%9E%D7%9F_%D7%A1%D7%99%D7%91%D7%95%D7%91_%D7%A2%D7%A6%D7%9E%D7%99
+"זמן סיבוב עצמי")|  24.6229 שעות  
+מהירות סיבוב עצמי|  0.241 [ק"מ](/wiki/%D7%A7%22%D7%9E
+"ק"מ")/[שנייה](/wiki/%D7%A9%D7%A0%D7%99%D7%99%D7%94 "שנייה") (בקו המשווה)  
+[נטיית ציר
+הסיבוב](/wiki/%D7%A0%D7%98%D7%99%D7%99%D7%AA_%D7%A6%D7%99%D7%A8_%D7%94%D7%A1%D7%99%D7%91%D7%95%D7%91
+"נטיית ציר הסיבוב")|  25.19°  
+[אלבדו](/wiki/%D7%90%D7%9C%D7%91%D7%93%D7%95 "אלבדו")|  0.15  
+[מהירות
+מילוט](/wiki/%D7%9E%D7%94%D7%99%D7%A8%D7%95%D7%AA_%D7%9E%D7%99%D7%9C%D7%95%D7%98
+"מהירות מילוט")|  5.02 [ק"מ](/wiki/%D7%A7%22%D7%9E
+"ק"מ")/[שנייה](/wiki/%D7%A9%D7%A0%D7%99%D7%99%D7%94 "שנייה")  
+[טמפרטורת](/wiki/%D7%98%D7%9E%D7%A4%D7%A8%D7%98%D7%95%D7%A8%D7%94 "טמפרטורה")
+פני השטח  
+‑ מינימום|  133 [קלווין](/wiki/%D7%A7%D7%9C%D7%95%D7%95%D7%99%D7%9F "קלווין")
+/ 140.15- [צלזיוס](/wiki/%D7%A6%D7%9C%D7%96%D7%99%D7%95%D7%A1 "צלזיוס")  
+‑ ממוצע|  210 [קלווין](/wiki/%D7%A7%D7%9C%D7%95%D7%95%D7%99%D7%9F "קלווין") /
+63.15- [צלזיוס](/wiki/%D7%A6%D7%9C%D7%96%D7%99%D7%95%D7%A1 "צלזיוס")  
+‑ מקסימום|  282.15 [קלווין](/wiki/%D7%A7%D7%9C%D7%95%D7%95%D7%99%D7%9F
+"קלווין") / 9 [צלזיוס](/wiki/%D7%A6%D7%9C%D7%96%D7%99%D7%95%D7%A1 "צלזיוס")  
+מאפייני אטמוספירה  
+לחץ אטמוספירי|  0.7–0.9 קילו
+[פסקל](/wiki/%D7%A4%D7%A1%D7%A7%D7%9C_\(%D7%9E%D7%99%D7%93%D7%94\) "פסקל
+\(מידה\)")  
+[פחמן
+דו־חמצני](/wiki/%D7%A4%D7%97%D7%9E%D7%9F_%D7%93%D7%95-%D7%97%D7%9E%D7%A6%D7%A0%D7%99
+"פחמן דו-חמצני")|  95.32%  
+[חנקן](/wiki/%D7%97%D7%A0%D7%A7%D7%9F "חנקן")|  2.7%  
+[ארגון](/wiki/%D7%90%D7%A8%D7%92%D7%95%D7%9F_\(%D7%99%D7%A1%D7%95%D7%93\)
+"ארגון \(יסוד\)")|  1.6%  
+[חמצן](/wiki/%D7%97%D7%9E%D7%A6%D7%9F "חמצן")|  0.13%  
+[פחמן
+חד־חמצני](/wiki/%D7%A4%D7%97%D7%9E%D7%9F_%D7%97%D7%93-%D7%97%D7%9E%D7%A6%D7%A0%D7%99
+"פחמן חד-חמצני")|  0.07%  
+אדי [מים](/wiki/%D7%9E%D7%99%D7%9D "מים")|  0.03%  
+[חנקן חמצני](/wiki/%D7%97%D7%A0%D7%A7%D7%9F_%D7%97%D7%9E%D7%A6%D7%A0%D7%99
+"חנקן חמצני")|  0.01%  
+[ניאון](/wiki/%D7%A0%D7%99%D7%90%D7%95%D7%9F "ניאון")|  2.5
+[ppm](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%95%D7%9F
+"חלקים למיליון")  
+[קריפטון](/wiki/%D7%A7%D7%A8%D7%99%D7%A4%D7%98%D7%95%D7%9F "קריפטון")|  300
+[ppb](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%90%D7%A8%D7%93
+"חלקים למיליארד")  
+[קסנון](/wiki/%D7%A7%D7%A1%D7%A0%D7%95%D7%9F "קסנון")|  80
+[ppb](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%90%D7%A8%D7%93
+"חלקים למיליארד")  
+[אוזון](/wiki/%D7%90%D7%95%D7%96%D7%95%D7%9F "אוזון")|  30 [
+ppb](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%90%D7%A8%D7%93
+"חלקים למיליארד")  
+[מתאן](/wiki/%D7%9E%D7%AA%D7%90%D7%9F "מתאן")|  10
+[ppb](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%90%D7%A8%D7%93
+"חלקים למיליארד")  
+[מים כבדים](/wiki/%D7%9E%D7%99%D7%9D_%D7%9B%D7%91%D7%93%D7%99%D7%9D "מים
+כבדים")|  850
+[ppb](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%90%D7%A8%D7%93
+"חלקים למיליארד")  
+[פורמלין](/wiki/%D7%A4%D7%95%D7%A8%D7%9E%D7%9C%D7%99%D7%9F "פורמלין")|  130
+[ppb](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%90%D7%A8%D7%93
+"חלקים למיליארד")  
+[חנקן חמצני](/wiki/%D7%97%D7%A0%D7%A7%D7%9F_%D7%97%D7%9E%D7%A6%D7%A0%D7%99
+"חנקן חמצני")|  100
+[ppm](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%95%D7%9F
+"חלקים למיליון")  
+  
+**מאדים** (ב[לטינית](/wiki/%D7%9C%D7%98%D7%99%D7%A0%D7%99%D7%AA "לטינית"):
+**Mars** , **מַארס** ) הוא [כוכב
+הלכת](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA "כוכב לכת") הרביעי
+ב[מערכת השמש](/wiki/%D7%9E%D7%A2%D7%A8%D7%9B%D7%AA_%D7%94%D7%A9%D7%9E%D7%A9
+"מערכת השמש"). מסלולו הוא השני הקרוב ביותר למסלול [כדור
+הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור הארץ")
+(אחרי [נוגה](/wiki/%D7%A0%D7%95%D7%92%D7%94 "נוגה")) והוא כוכב הלכת השני הכי
+קטן, גדול רק מ[כוכב-חמה](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%97%D7%9E%D7%94
+"כוכב חמה"). [צבע](/wiki/%D7%A6%D7%91%D7%A2 "צבע") פניו של מאדים
+[אדמדם](/wiki/%D7%90%D7%93%D7%95%D7%9D "אדום") בשל ריבוי בתחמוצות
+[ברזל](/wiki/%D7%91%D7%A8%D7%96%D7%9C "ברזל") בקרקעו, ומכאן שמו
+ה[עברי](/wiki/%D7%A2%D7%91%D7%A8%D7%99%D7%AA "עברית") והכינוי "כוכב הלכת
+האדום".
+[סמלו](/wiki/%D7%A1%D7%9E%D7%9C%D7%95_%D7%A9%D7%9C_%D7%9E%D7%90%D7%A8%D7%A1
+"סמלו של מארס") מייצג את המגן והחנית של האל [מרס
+אולטור](/wiki/%D7%9E%D7%A8%D7%A1_\(%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)
+"מרס \(מיתולוגיה\)"): עיגול עם חץ קטן.
+
+קוטרו של מאדים 6,721 [ק"מ](/wiki/%D7%A7%D7%99%D7%9C%D7%95%D7%9E%D7%98%D7%A8
+"קילומטר") (כחצי מקוטר [כדור
+הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור הארץ")).
+הוא משלים סיבוב אחד סביב צירו אחת ל־24 שעות ו־37 דקות, והקפה אחת סביב השמש כל
+686.98 יום במהירות ממוצעת של 24.13 ק"מ לשנייה. פני מאדים מלאים במכתשים ומרבית
+הקרח בקטבים הוא [קרח יבש](/wiki/%D7%A7%D7%A8%D7%97_%D7%99%D7%91%D7%A9 "קרח
+יבש") הנוצר מקפיאת [פחמן
+דו־חמצני](/wiki/%D7%A4%D7%97%D7%9E%D7%9F_%D7%93%D7%95-%D7%97%D7%9E%D7%A6%D7%A0%D7%99
+"פחמן דו-חמצני"). חוקרים מעריכים כי ייתכן גם שיורד
+[שלג](/wiki/%D7%A9%D7%9C%D7%92 "שלג").[1]
+
+למאדים שני [ירחים](/wiki/%D7%99%D7%A8%D7%97 "ירח"),
+[פובוס](/wiki/%D7%A4%D7%95%D7%91%D7%95%D7%A1_\(%D7%99%D7%A8%D7%97\) "פובוס
+\(ירח\)") ו[דימוס](/wiki/%D7%93%D7%99%D7%9E%D7%95%D7%A1_\(%D7%99%D7%A8%D7%97\)
+"דימוס \(ירח\)"), ושניהם קטנים ובעלי צורה לא־סדירה. משערים שאלו
+[אסטרואידים](/wiki/%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%90%D7%99%D7%93
+"אסטרואיד") שנלכדו על ידי [כוח
+המשיכה](/wiki/%D7%9B%D7%95%D7%97_%D7%94%D7%9E%D7%A9%D7%99%D7%9B%D7%94 "כוח
+המשיכה") של מאדים. במאדים נמצא ההר הגבוה ביותר במערכת השמש, הר הגעש [אולימפוס
+מונס](/wiki/%D7%90%D7%95%D7%9C%D7%99%D7%9E%D7%A4%D7%95%D7%A1_%D7%9E%D7%95%D7%A0%D7%A1
+"אולימפוס מונס") \- גובהו 27 ק"מ. בנוסף על מאדים נמצא קניון [ואליס
+מארינריס](/wiki/%D7%95%D7%90%D7%9C%D7%99%D7%A1_%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8%D7%99%D7%A1
+"ואליס מארינריס"), אשר אורכו 4,500 ק"מ ורוחבו 200 ק"מ.
+
+מאדים זוכה להתעניינות רבה בשל קירבתו היחסית לכדור הארץ והסיכוי להפוך אותו
+ל[כוכב לכת
+ארצי](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%90%D7%A8%D7%A6%D7%99
+"כוכב לכת ארצי") שישררו בו תנאים שיאפשרו
+ל[בני־אדם](/wiki/%D7%91%D7%9F-%D7%90%D7%93%D7%9D "בן-אדם") להגיע אליו בעתיד
+ו[אף להשתכן
+בו.](/wiki/%D7%94%D7%AA%D7%99%D7%99%D7%A9%D7%91%D7%95%D7%AA_%D7%A2%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"התיישבות על מאדים") כמו כן, שני [הקטבים של
+מאדים](/wiki/%D7%9B%D7%99%D7%A4%D7%95%D7%AA_%D7%94%D7%A7%D7%A8%D7%97_%D7%94%D7%A7%D7%95%D7%98%D7%91%D7%99%D7%95%D7%AA_%D7%A9%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"כיפות הקרח הקוטביות של מאדים") מכוסים [מים](/wiki/%D7%9E%D7%99%D7%9D "מים")
+[קפואים](/wiki/%D7%A7%D7%A8%D7%97 "קרח"). עובדה זו מגבירה את התקוות לאיתור
+עקבות של חיים מיקרוסקופיים בעבר. למאדים נשלחו עד כה מספר
+[גשושיות](/wiki/%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA "גשושית") בלתי מאוישות
+שסיפקו מידע רב. אף שטרם נשלחו
+[אסטרונאוטים](/wiki/%D7%98%D7%99%D7%99%D7%A1_%D7%97%D7%9C%D7%9C "טייס חלל") אל
+מאדים, [סוכנויות
+חלל](/wiki/%D7%A1%D7%95%D7%9B%D7%A0%D7%95%D7%AA_%D7%97%D7%9C%D7%9C "סוכנות
+חלל") שונות חוקרות במרץ את האפשרות לבצע [משימה מאוישת
+למאדים](/wiki/%D7%9E%D7%A9%D7%99%D7%9E%D7%95%D7%AA_%D7%9E%D7%90%D7%95%D7%99%D7%A9%D7%95%D7%AA_%D7%9C%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"משימות מאוישות למאדים") בעשורים הקרובים.
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/4/46/PIA21260_-_Earth_and_Its_Moon%2C_as_Seen_From_Mars.jpg/220px-
+PIA21260_-_Earth_and_Its_Moon%2C_as_Seen_From_Mars.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:PIA21260_-_Earth_and_Its_Moon,_as_Seen_From_Mars.jpg)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:PIA21260_-_Earth_and_Its_Moon,_as_Seen_From_Mars.jpg
+"הגדלה")
+
+[כדור הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור
+הארץ") ו[הירח של כדור הארץ](/wiki/%D7%94%D7%99%D7%A8%D7%97 "הירח") ממאדים
+(צולם ב-2016 על ידי המקפת [MRO](/wiki/MRO "MRO"))
+
+## תוכן עניינים
+
+  * 1 מידע כללי
+  * 2 מקור השם
+  * 3 שיטות לתיארוך גאולוגי
+  * 4 אטמוספירה
+  * 5 מים על מאדים
+    * 5.1 חיים על המאדים
+  * 6 גז מתאן על מאדים
+  * 7 זוהר הקוטב
+  * 8 שינוי אקלימי
+  * 9 צפייה במאדים מכדור הארץ
+  * 10 ירחי מאדים
+  * 11 מחקר רובוטי
+    * 11.1 תוכנית מארינר
+    * 11.2 תוכנית גשושי מארס
+      * 11.2.1 מארס 96
+    * 11.3 ויקינג
+    * 11.4 מרס אובזרבר
+    * 11.5 מרס גלובל סורבייר
+    * 11.6 פאת'פיינדר
+    * 11.7 מרס סרוויור 98
+      * 11.7.1 נחתת הקוטב של מאדים
+      * 11.7.2 מקפת האקלים של מאדים
+    * 11.8 מארס אקספרס
+    * 11.9 רכבי המחקר ספיריט ואופורטיוניטי
+    * 11.10 מקפת לסקר מאדים
+    * 11.11 פיניקס
+    * 11.12 קיוריוסיטי
+    * 11.13 אינסייט
+    * 11.14 מקפת שיירי גז
+    * 11.15 משימת תקווה מאדים
+    * 11.16 משימת טיאנוון-1
+    * 11.17 מאדים 2020
+    * 11.18 משימת אקסו מארס
+    * 11.19 משימת מקפת מאדים מס' 2
+  * 12 מחקר מאויש
+  * 13 בתרבות
+  * 14 ראו גם
+  * 15 לקריאה נוספת
+  * 16 קישורים חיצוניים
+  * 17 הערות שוליים
+
+## מידע כללי[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=1
+"עריכת פסקה: "מידע כללי"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=1
+"עריכת פסקה: "מידע כללי"")]
+
+צפיפותו הממוצעת של מאדים 3.95 [גרם](/wiki/%D7%92%D7%A8%D7%9D "גרם") לסמ"ק.
+למאדים רק רבע מפני השטח של כדור הארץ ומסתו היא רק עשירית ממסתו של כדור הארץ.
+כוח המשיכה על פני מאדים הוא כ־38% מכוח המשיכה על פני כדור הארץ.
+
+השינוי בגודלן של המדבריות על פני מאדים ובצורתן, נעוץ ברוחות העזות המזיזות ענני
+חול גדולים ממקום למקום. ציר הסיבוב של מאדים נטוי בזווית של 25 מעלות ביחס
+למישור ההקפה שלו סביב השמש.
+ה[אטמוספירה](/wiki/%D7%90%D7%98%D7%9E%D7%95%D7%A1%D7%A4%D7%99%D7%A8%D7%94
+"אטמוספירה") עליו דלילה מאוד וכמות ה[מים](/wiki/%D7%9E%D7%99%D7%9D "מים") בה
+נמוכה. בזמנים קדומים, כמות [אדי
+המים](/wiki/%D7%90%D7%93%D7%99_%D7%9E%D7%99%D7%9D "אדי מים")
+ב[אטמוספירה](/wiki/%D7%90%D7%98%D7%9E%D7%95%D7%A1%D7%A4%D7%99%D7%A8%D7%94
+"אטמוספירה") הייתה גדולה יותר, אלא שעקב מחסור באוקיינוסים וצורות חיים שיקלטו
+את אדי המים וה[חמצן](/wiki/%D7%97%D7%9E%D7%A6%D7%9F "חמצן"), נקלטו אדי המים
+והחמצן בקרקע של מאדים, העשירה בברזל, הברזל התחמצן ומכאן צבעו האדמדם[2] של כוכב
+הלכת.
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Mars%2C_Earth_size_comparison.jpg/220px-
+Mars%2C_Earth_size_comparison.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Mars,_Earth_size_comparison.jpg)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Mars,_Earth_size_comparison.jpg "הגדלה")
+
+השוואה בגודל בין כדור הארץ למאדים
+
+## מקור השם[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=2
+"עריכת פסקה: "מקור השם"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=2
+"עריכת פסקה: "מקור השם"")]
+
+השם העברי מתייחס לצבעו האדם של מאדים, בפרט בהיותו רחוק יחסית מכדור הארץ. אמנם
+למעשה צבעו [בז'](/wiki/%D7%91%D7%96%27
+"בז'")-[ורוד](/wiki/%D7%95%D7%A8%D7%95%D7%93 "ורוד"), אך עין האדם רואה צבע זה
+כשהוא קלוש כצבע אדום.  
+השם העברי מתועד בכתובים ב[תלמוד
+הבבלי](/wiki/%D7%AA%D7%9C%D7%9E%D7%95%D7%93_%D7%91%D7%91%D7%9C%D7%99 "תלמוד
+בבלי").[3] בתקופת [חז"ל](/wiki/%D7%97%D7%96%22%D7%9C "חז"ל"). ייתכן כי הדבר
+נובע ממגמה של חז"ל להעניק לכוכבי הלכת שמות הקשורים לתכונות הכוכב ונייטרליים
+מבחינה דתית, בניגוד לשמות האלים שניתנו לכוכבי הלכת על ידי תרבויות אחרות. מקור
+שמו בלועזית Mars הוא על שם
+[מרס](/wiki/%D7%9E%D7%A8%D7%A1_\(%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)
+"מרס \(מיתולוגיה\)") אל המלחמה במיתולוגיה הרומית, הואיל וצבעו כשל הדם.[4]
+
+## שיטות לתיארוך גאולוגי[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=3
+"עריכת פסקה: "שיטות לתיארוך גאולוגי"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=3
+"עריכת פסקה: "שיטות לתיארוך גאולוגי"")]
+
+ה[שיטה](/wiki/%D7%A9%D7%99%D7%98%D7%94 "שיטה") המקובלת
+ל[תיארוך](/wiki/%D7%AA%D7%99%D7%90%D7%A8%D7%95%D7%9A "תיארוך") גאולוגי של
+כוכבי לכת שונה משיטות התיארוך הגאולוגי של [כדור
+הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור הארץ").
+תקופות גאולוגיות פלנטריות נשענות על ספירת
+[מכתשים](/wiki/%D7%9E%D7%9B%D7%AA%D7%A9_%D7%A4%D7%92%D7%99%D7%A2%D7%94 "מכתש
+פגיעה"). הנחת היסוד היא שפני [שטח](/wiki/%D7%A9%D7%98%D7%97 "שטח") החשופים
+יותר מבחינת זמן לחלל ספגו יותר פגיעות של מטאוריטים ולכן יש בהם יותר מכתשים. על
+פי שיטה זו הובחנו על פני מאדים 3 תקופות והן:
+
+  1. ה[תקופה](/wiki/%D7%AA%D7%A7%D7%95%D7%A4%D7%94 "תקופה") הנואחית (Noachian Period) – מהיווצרותו של מאדים עד לפני ל־3.8-3.5 [מיליארד](/wiki/%D7%9E%D7%99%D7%9C%D7%99%D7%90%D7%A8%D7%93 "מיליארד") [שנה](/wiki/%D7%A9%D7%A0%D7%94 "שנה"). שמה של התקופה נגזר משמה של [רמה](/wiki/%D7%A8%D7%9E%D7%94_\(%D7%92%D7%90%D7%95%D7%92%D7%A8%D7%A4%D7%99%D7%94\) "רמה \(גאוגרפיה\)") גבוהה בחצי הכדור הדרומי Noach Terra. הפגיעות הרבות במאדים יצרו מכתשים רבים. אך עדויות רבות לארוזיה של [מים](/wiki/%D7%9E%D7%99%D7%9D "מים") נתנו בסיס להערכה כי פני השטח באותה תקופה היו חמים ולחים.
+  2. התקופה ההספריאנית (Hesperian Period) – תקופה זו החלה משעה שקצב הפגיעות במאדים נחלש ונמשכה כנראה 1.8 מיליארד שנה. שמה של תקופה זו נגזר משמה של רמה גבוהה גם כן בחצי הכדור הדרומי – Hesperian Planum. באזור זה הייתה [פעילות געשית](/wiki/%D7%94%D7%AA%D7%A4%D7%A8%D7%A6%D7%95%D7%AA_%D7%92%D7%A2%D7%A9%D7%99%D7%AA "התפרצות געשית") אינטנסיבית שכיסתה מכתשים רבים מהתקופה הנואחית.
+  3. התקופה האמאזונית (Amazonian Period) – מסוף התקופה ההספריאנית עד ימינו אנו. שם התקופה נגזר משמו של מישור נמוך בחצי הכדור הדרומי – Amazonian Planitia. תקופה זו קרה מדי לנוכחות מים נוזליים לפחות על פני השטח.
+
+החוקרים האירופיים מציעים מודל תיארוך שונה המתבסס על התכולה המינרלוגית של פני
+השטח. השמות ניתנים על בסיס מינרלים פילוסיליקטיים. החוקרים האירופיים חילקו את
+הגאולוגיה של מאדים גם כן לשלוש תקופות, חופפות חלקית לחלוקה הכרונולוגית
+המקובלת, אם כי אחד מחוקרי מאדים האמריקאים, מייקל קאר, חולק על שיטה זו. על פי
+השיטה האירופית התקופות הן:
+
+  1. התקופה הפילוסיאנית (Phyllosian) מאופיינת בנוכחות פילוסיליקטים־חרסיות שיש בהן הרבה ברזל.
+  2. התקופה הטייקיאנית (Thiikian) מאופיינת בנוכחות של סולפטים, עדות לפעילות געשית, שנוצרו בריאקציה עם מים.
+  3. התקופה הסידרקיאנית (Siderikian) מאופיינת בתחמוצות ברזל ללא נוכחות מים ואין בתקופה זו מים נוזלים.
+
+יכול להיות שעם תחילתה של פעילות מאוישת על מאדים, שיטת התיארוך תשתנה. ייעשה
+שימוש בתיארוך
+[סטרטיגרפי](/wiki/%D7%A1%D7%98%D7%A8%D7%98%D7%99%D7%92%D7%A8%D7%A4%D7%99%D7%94
+"סטרטיגרפיה") כמקובל על כדור הארץ. הערכה זו נשענת על תצלומים בעלי רזולוציה
+גבוהה שבהתבסס עליהם אפשר יהיה לבצע חתכים סטרטיגרפיים במקומות שונים בפרט
+במצוקים.
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/1/1f/USGS-MarsMap-
+sim3292-20140714-crop.png/220px-USGS-MarsMap-
+sim3292-20140714-crop.png)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:USGS-MarsMap-
+sim3292-20140714-crop.png)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:USGS-MarsMap-sim3292-20140714-crop.png
+"הגדלה")
+
+מפה גאולוגית של מאדים ( [USGS](/wiki/USGS "USGS") 2014 הסקר הגאולוגי של ארצות
+הברית)
+
+## אטמוספירה[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=4
+"עריכת פסקה: "אטמוספירה"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=4
+"עריכת פסקה: "אטמוספירה"")]
+
+האטמוספירה של מאדים קלושה. לחץ האוויר בפני השטח הוא רק 10
+[מיליבר](/wiki/%D7%91%D7%A8_\(%D7%9E%D7%99%D7%93%D7%94\) "בר \(מידה\)"), כ־1%
+בלבד מהלחץ הממוצע שעל־פני כדור הארץ. גובהה של האטמוספירה הוא כ־11 קילומטר.
+האטמוספירה של מאדים מורכבת מ־95% [פחמן
+דו־חמצני](/wiki/%D7%A4%D7%97%D7%9E%D7%9F_%D7%93%D7%95-%D7%97%D7%9E%D7%A6%D7%A0%D7%99
+"פחמן דו-חמצני"), 3% [חנקן](/wiki/%D7%97%D7%A0%D7%A7%D7%9F "חנקן"), 1.6%
+[ארגון](/wiki/%D7%90%D7%A8%D7%92%D7%95%D7%9F_\(%D7%99%D7%A1%D7%95%D7%93\)
+"ארגון \(יסוד\)") ומעט [חמצן](/wiki/%D7%97%D7%9E%D7%A6%D7%9F "חמצן")
+ו[מים](/wiki/%D7%9E%D7%99%D7%9D "מים"). ב־[2003](/wiki/2003 "2003") נמצאו גם
+עדויות לנוכחות של [מתאן](/wiki/%D7%9E%D7%AA%D7%90%D7%9F "מתאן") באטמוספירה.
+
+בשלבי קיומו הראשונים של כוכב הלכת, כמות ה[פחמן](/wiki/%D7%A4%D7%97%D7%9E%D7%9F
+"פחמן") באטמוספירה הייתה גדולה יותר, כמו שהיה
+ב[תקופה](/wiki/%D7%AA%D7%A7%D7%95%D7%A4%D7%94 "תקופה") המקבילה על [כדור
+הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור הארץ").
+מקורו של הפחמן הוא מפנים כוכב הלכת, מהמעטפת, וממקורות חיצוניים ([מטאוריטים
+קרבונטיים](/wiki/%D7%9E%D7%98%D7%90%D7%95%D7%A8%D7%99%D7%98 "מטאוריט"),
+מיקרומטאוריטים ו[שביטים](/wiki/%D7%A9%D7%91%D7%99%D7%98 "שביט")). נכון למאה
+ה־21, מולקולות הפחמן נדיפות יותר ונהרסות על ידי
+[חמצון](/wiki/%D7%97%D7%9E%D7%A6%D7%95%D7%9F-%D7%97%D7%99%D7%96%D7%95%D7%A8
+"חמצון-חיזור") ו[יינון](/wiki/%D7%99%D7%99%D7%A0%D7%95%D7%9F "יינון") על פני
+השטח. תהליכים אלה לא התרחשו בעבר כאשר האטמוספירה הייתה צפופה יותר, עם תכולה
+גדולה יותר של CO2 ו[שדה
+מגנטי](/wiki/%D7%A9%D7%93%D7%94_%D7%9E%D7%92%D7%A0%D7%98%D7%99 "שדה מגנטי")
+שהגן על כוכב הלכת. אף על פי שמאדים וכדור הארץ נוצרו מאותם חומרים, כל אחד מהם
+התפתח בצורה שונה. ה[מים](/wiki/%D7%9E%D7%99%D7%9D "מים") בתקופה זו התפרקו,
+וכנראה רק לאחר מיליארד ה[שנים](/wiki/%D7%A9%D7%A0%D7%94 "שנה") הראשונות הפך
+מאדים לכוכב לכת קר ויבש. רמז אפשרי לאיבוד המים מהאטמוספירה, בא מהדרך בה מתרחשת
+ה[אינטראקציה](/wiki/%D7%90%D7%99%D7%A0%D7%98%D7%A8%D7%90%D7%A7%D7%A6%D7%99%D7%94
+"אינטראקציה") בין האטמוספירה ל[רוח
+השמש](/wiki/%D7%A8%D7%95%D7%97_%D7%94%D7%A9%D7%9E%D7%A9 "רוח השמש").
+אינטראקציה זו מראה שמאדים מאבד כל יום 100 טון מהאטמוספירה שלו.
+
+אף על פי כן, מאדים עדיין מחזיק באטמוספירה. המקורות לחידוש האטמוספירה הם פגיעות
+שביטים, קרח ה־[CO2](/wiki/CO2 "CO2") בקטבים, ופריצת מים ממעבה האדמה ההופכים
+לגז. החוקרים זיהו סוג של גל כפול מרוח השמש (double whammy solar supper wave)
+הגורם לדלדולה של אטמוספירת מאדים. גלים אלה נוצרים כאשר זרם אחד של רוח השמש
+מתהפך ומורם על ידי גל אחר ומאיץ את
+[מהירותם](/wiki/%D7%9E%D7%94%D7%99%D7%A8%D7%95%D7%AA "מהירות") של חלקיקים
+מ[השמש](/wiki/%D7%94%D7%A9%D7%9E%D7%A9 "השמש"). זה יוצר שטף של חלקיקים הנע
+לעבר מאדים, פוגע בו בפעימה אחת ומתיז לחלל חלקיקים מהאטמוספירה.
+
+ה[יונוספירה](/wiki/%D7%99%D7%95%D7%A0%D7%95%D7%A1%D7%A4%D7%99%D7%A8%D7%94
+"יונוספירה") של מאדים מתנשאת לגובה של 110–130 קילומטר. בגובה זה קרינת השמש היא
+בעלת עוצמה רבה, חלקיקים מרוח השמש מפרקים אטומים ומולקולות באטמוספירה העליונה
+ומשחררים אלקטרונים. מיפוי גלובלי של היונוספירה אפשר לבחון את התנהגותה גם
+בלילה. מיפוי האטמוספירה העיד על שינויים במרחב
+ה[גאוגרפי](/wiki/%D7%92%D7%90%D7%95%D7%92%D7%A8%D7%A4%D7%99 "גאוגרפי") בשעות
+החשיכה. במהלך המיפוי הלילי התגלה מארג מורכב של אזורים שבהם צפיפות האלקטרונים
+גדולה. אחת התגליות הייתה ה[מתאם](/wiki/%D7%9E%D7%AA%D7%90%D7%9D "מתאם") הגדול
+שבין מספר
+ה[אלקטרונים](/wiki/%D7%90%D7%9C%D7%A7%D7%98%D7%A8%D7%95%D7%A0%D7%99%D7%9D
+"אלקטרונים") ביונוספירה ב[לילה](/wiki/%D7%9C%D7%99%D7%9C%D7%94 "לילה") לבין
+כיוון השדה המגנטי המקומי. האזורים בעלי צפיפות האלקטרונים הגדולה קשורים לאזורים
+בעלי מגנטיות גבוהה בפרט דרומית ל[קו
+המשווה](/wiki/%D7%A7%D7%95_%D7%94%D7%9E%D7%A9%D7%95%D7%95%D7%94 "קו המשווה"),
+סמוך למקומות בהם קווי השדה המגנטי ניצבים לקרקע. על כדור הארץ מצב כזה אפשרי רק
+בקטבים המגנטיים. רוח השמש העוטפת את מאדים מאפשרת כנראה היווצרות יונוספירה בצד
+הלילי. האינטראקציה עם רוח השמש מעוררת (energises) את האטמוספירה ויוצרת
+[אוכלוסייה](/wiki/%D7%90%D7%95%D7%9B%D7%9C%D7%95%D7%A1%D7%99%D7%99%D7%94
+"אוכלוסייה") של אלקטרונים חופשיים.
+
+באטמוספירה של מאדים מתחוללות [סופות
+אבק](/wiki/%D7%A1%D7%95%D7%A4%D7%AA_%D7%97%D7%95%D7%9C "סופת חול"),
+ב־[2018](/wiki/2018_%D7%91%D7%9E%D7%93%D7%A2 "2018 במדע") התרחשה סופה שכיסתה
+חלקים גדולים מהפלנטה. מדענים השתמשו ברכב החלל
+[אופורטוניטי](/wiki/%D7%90%D7%95%D7%A4%D7%95%D7%A8%D7%98%D7%95%D7%A0%D7%99%D7%98%D7%99
+"אופורטוניטי") כדי לנסות ולהתחקות אחר מקורותיהן של סופות אלו.[5] אף על פי
+שמדובר בסופות שמהירותן רבה, הן נושאות איתן כמות אנרגיה נמוכה בשל האטמוספירה
+הקלושה.
+
+## מים על מאדים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=5
+"עריכת פסקה: "מים על מאדים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=5
+"עריכת פסקה: "מים על מאדים"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[כיפות הקרח הקוטביות של מאדים](/wiki/%D7%9B%D7%99%D7%A4%D7%95%D7%AA_%D7%94%D7%A7%D7%A8%D7%97_%D7%94%D7%A7%D7%95%D7%98%D7%91%D7%99%D7%95%D7%AA_%D7%A9%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D "כיפות הקרח הקוטביות של מאדים")**
+
+שני ה[קטבים](/wiki/%D7%A7%D7%95%D7%98%D7%91 "קוטב") של מאדים מכוסים
+[מים](/wiki/%D7%9E%D7%99%D7%9D "מים") [קפואים](/wiki/%D7%A7%D7%A8%D7%97
+"קרח"). עובדה זו מגבירה את התקוות לאיתור עקבות של חיים מיקרוסקופיים בעבר.
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/4/44/Rocher_El_Capitan_gros_plan_avec_spherules_Opportunity_sur_Mars.jpg/140px-
+Rocher_El_Capitan_gros_plan_avec_spherules_Opportunity_sur_Mars.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Rocher_El_Capitan_gros_plan_avec_spherules_Opportunity_sur_Mars.jpg)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Rocher_El_Capitan_gros_plan_avec_spherules_Opportunity_sur_Mars.jpg
+"הגדלה")
+
+סלע שכבות שנחקר על ידי אופורטיוניטי, פברואר 2004. בכדור הארץ סלעים כאלה נוצרים
+בהדרגה משקיעה של חומרים לקרקעית גוף מים במשך מיליוני שנים.
+
+מדענים מעריכים שהקרח נמצא ממש מתחת לפני השטח של כוכב הלכת. זאת משום שחלליות
+מחקר זיהו כמויות גדולות של מימן, והדרך היחידה בה יכולה להיות כמות כה גדולה של
+מימן היא במולקולות מים. מעריכים שכמות המים מגיעה עד 80%-90% ממסת הסלע, ושהקרח
+מפוזר באופן אחיד בכל אזור הקוטב הצפוני. ככל הנראה, המים הקפואים נמצאים בעומק
+של לא יותר מ־30 סנטימטרים מתחת לפני הקרקע. כמות זו של מים מעלה את האפשרות
+שבעבר מאדים היה חם יותר, והתקיימו עליו חיים מיקרוסקופיים.
+
+הממצאים פורסמו בכתב העת _[Science](/wiki/Science "Science")_ , ולצורך המחקר
+נעשה שימוש בתצלומים שצילמו החלליות מארס גלובל סרוויר ומארס אודיסי – שתיהן
+מקיפות עדיין את מאדים. מארס אודיסי גילתה לראשונה עדויות על מים בקוטב הדרומי של
+מאדים ב־2002. נכון לעשור השלישי של המאה ה־21, המדענים מצאו כשליש יותר מים
+באזור הקוטב הצפוני לעומת הכמות שהתגלתה בקוטב הדרומי.
+
+ה[מקפת לסקר
+מאדים](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA_%D7%9C%D7%A1%D7%A7%D7%A8_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"מקפת לסקר מאדים") מצאה ב־2008 בשולי ההרים קרחונים המכילים כמויות גדולות של
+קרח, טמונים מתחת לשכבת הקרקע. שכבת קרח זו דומה במאפייניה לשכבת הקרחונים העבה
+שנמצאה מתחת לכיסוי סלעי באזור
+[אנטארקטיקה](/wiki/%D7%90%D7%A0%D7%98%D7%90%D7%A8%D7%A7%D7%98%D7%99%D7%A7%D7%94
+"אנטארקטיקה"). בשנת [2015](/wiki/2015 "2015") הודיעה
+[נאס"א](/wiki/%D7%A0%D7%90%D7%A1%22%D7%90 "נאס"א") כי נמצאו עדויות לקיום של
+מים זורמים על פני מאדים. הסימנים השחורים על הכוכב הם ההוכחה לכך.[6][7][8]
+
+### חיים על המאדים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=6
+"עריכת פסקה: "חיים על המאדים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=6
+"עריכת פסקה: "חיים על המאדים"")]
+
+בשלבי חייו הראשונים של מאדים לפני כ־4 מיליארד שנים, האטמוספירה שלו הייתה סמיכה
+הרבה יותר ממה שהיא היום והגנה עליו בדומה לאטמוספירה שמגנה על כדור הארץ. כמות
+הפחמן באטמוספירה הקדומה הייתה דומה למה שהיה בתקופה מקבילה בכדור הארץ. בגלל
+הקרבה לכדור הארץ והתנאים הדומים, ובגלל קיומם של מים על המאדים, היו יכולות
+להתפתח עליו צורות חיים.
+
+נכון לתחילת העשור השלישי של המאה ה־21, אין הוכחה לקיום חיים בהווה או בעבר על
+המאדים, אבל המחקרים עדיין מתנהלים. רכב המאדים
+[קיוריוסיטי](/wiki/Mars_Science_Laboratory "Mars Science Laboratory") נשלח
+ב־2012 לבצע בדיקות מדעיות ב[מכתש
+גייל](/wiki/%D7%9E%D7%9B%D7%AA%D7%A9_%D7%92%D7%99%D7%99%D7%9C "מכתש גייל")
+שהוא אגם יבש במאדים, בהנחה שאגם היה מקום נוח להתפתחות חיים. הרובר
+[פרסווירנס](/wiki/%D7%A4%D7%A8%D7%A1%D7%95%D7%95%D7%99%D7%A8%D7%A0%D7%A1
+"פרסווירנס") נחת על מאדים בפברואר 2021 ב[דלתה](/wiki/%D7%93%D7%9C%D7%AA%D7%94
+"דלתה") של האגם היבש [מכתש
+ג'זרו](/wiki/%D7%9E%D7%9B%D7%AA%D7%A9_%D7%92%27%D7%96%D7%A8%D7%95 "מכתש
+ג'זרו"), כדי לאסוף דגימות מהקרקע הבוצית שהייתה בו בעבר.
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/1/1d/PIA22487-Mars-
+BeforeAfterDust-20180719.gif/220px-PIA22487-Mars-
+BeforeAfterDust-20180719.gif)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:PIA22487-Mars-
+BeforeAfterDust-20180719.gif)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:PIA22487-Mars-BeforeAfterDust-20180719.gif
+"הגדלה")
+
+מאדים לפני ואחרי סופת האבק ביולי 2018
+
+## גז מתאן על מאדים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=7
+"עריכת פסקה: "גז מתאן על מאדים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=7
+"עריכת פסקה: "גז מתאן על מאדים"")]
+
+בשנים [2003](/wiki/2003 "2003")–[2004](/wiki/2004 "2004") מצאו שלוש קבוצות
+נפרדות של [מדענים](/wiki/%D7%9E%D7%93%D7%A2%D7%9F "מדען") הוכחות לקיומו של
+[גז](/wiki/%D7%92%D7%96 "גז") [מתאן](/wiki/%D7%9E%D7%AA%D7%90%D7%9F "מתאן")
+ב[אטמוספירה](/wiki/%D7%90%D7%98%D7%9E%D7%95%D7%A1%D7%A4%D7%99%D7%A8%D7%94
+"אטמוספירה") שעל פני מאדים. צוות מדענים בראשות מייקל מומה מ[מרכז טיסות החלל
+גודרד](/wiki/%D7%9E%D7%A8%D7%9B%D7%96_%D7%98%D7%99%D7%A1%D7%95%D7%AA_%D7%94%D7%97%D7%9C%D7%9C_%D7%92%D7%95%D7%93%D7%A8%D7%93
+"מרכז טיסות החלל גודרד") של [נאס"א](/wiki/%D7%A0%D7%90%D7%A1%22%D7%90
+"נאס"א"), בדקו באמצעות
+[ספקטרוגרפים](/wiki/%D7%A1%D7%A4%D7%A7%D7%98%D7%A8%D7%95%D7%A1%D7%A7%D7%95%D7%A4
+"ספקטרוסקופ") ברזולוציה גבוהה, המוצבים במתקן
+ה[טלסקופ](/wiki/%D7%98%D7%9C%D7%A1%D7%A7%D7%95%D7%A4 "טלסקופ")
+ה[תת־אדום](/wiki/%D7%AA%D7%AA-%D7%90%D7%93%D7%95%D7%9D "תת-אדום")
+שב[הוואי](/wiki/%D7%94%D7%95%D7%95%D7%90%D7%99 "הוואי") ובטלסקופ ג'מיני הדרומי
+שב[צ'ילה](/wiki/%D7%A6%27%D7%99%D7%9C%D7%94 "צ'ילה"), ומדדו ריכוזי מתאן של מעל
+250 [חלקים
+למיליארד](/wiki/%D7%97%D7%9C%D7%A7%D7%99%D7%9D_%D7%9C%D7%9E%D7%99%D7%9C%D7%99%D7%90%D7%A8%D7%93
+"חלקים למיליארד"), כמו כן נצפו שינויים בריכוז המתאן בין האזורים השונים שעל פני
+מאדים. קבוצה נוספת של מדענים ניתחה מדידות ספקטרליות שנאספו על ידי
+ה[חללית](/wiki/%D7%97%D7%9C%D7%9C%D7%99%D7%AA "חללית") [מארס
+אקספרס](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%90%D7%A7%D7%A1%D7%A4%D7%A8%D7%A1
+"מארס אקספרס") אולם הם מצאו שהריכוז נמוך בהרבה, כשהטווח הוא בין אפס ל־35 חלקים
+למיליארד. והקבוצה השלישית של החוקרים בראשות ולדימיר קרסנופולסקי מדדו באמצעות
+הטלסקופ ה[קנדי](/wiki/%D7%A7%D7%A0%D7%93%D7%94
+"קנדה")־[צרפתי](/wiki/%D7%A6%D7%A8%D7%A4%D7%AA "צרפת") בהוואי ממוצע פלנטרי של
+כ־10 חלקים למיליארד, כשבשל [רזולוצית אות
+ומרחב](/wiki/%D7%A8%D7%96%D7%95%D7%9C%D7%95%D7%A6%D7%99%D7%94_%D7%90%D7%95%D7%A4%D7%98%D7%99%D7%AA
+"רזולוציה אופטית") נמוכות לא התאפשר להם לקבוע האם יש שינויים בריכוז באזורים
+השונים שעל פני מאדים.
+
+נוכחתו של גז ה[מתאן](/wiki/%D7%9E%D7%AA%D7%90%D7%9F "מתאן") באטמוספירה של
+מאדים מסקרנת מאוד היות שגז זה אינו יציב - מולקולת מתאן לא מתקיימת יותר מכמה
+מאות שנים, מה עוד ש[קרינה
+על־סגולה](/wiki/%D7%A2%D7%9C_%D7%A1%D7%92%D7%95%D7%9C "על סגול") מפרקת את הגז
+בהיעדר שכבת [אוזון](/wiki/%D7%90%D7%95%D7%96%D7%95%D7%9F "אוזון") על פני
+מאדים. אם הדבר נכון, הוא מצביע על כך שצריך להיות (או שהיה צריך להיות במאות
+השנים האחרונות) מקור לגז זה על כוכב הלכת. פעילות וולקנית, התנגשויות
+[שביטים](/wiki/%D7%A9%D7%91%D7%99%D7%98 "שביט"), וקיום חיים בצורת
+[מיקרואורגניזמים](/wiki/%D7%9E%D7%99%D7%A7%D7%A8%D7%95%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%D7%96%D7%9D
+"מיקרואורגניזם") כגון
+[מתאנוגנים](/wiki/%D7%9E%D7%AA%D7%90%D7%A0%D7%95%D7%92%D7%9F "מתאנוגן") עשויים
+להיות המקור לכך, אך אלו עדיין לא נמצאו. ב־21 בספטמבר [2013](/wiki/2013 "2013")
+דווח כי החללית קיוריוסיטי שבדקה נוכחות מתאן באמצעות ספקטרומטר לייזר הניתן
+לכוונון, באמצעותו ניתן לאתר אפילו ריכוזים נמוכים ביותר לא מצאה את החומר
+באטמוספירה של מאדים. לפי החוקרים של נאס"א, ניתן להסיק מהאנליזה הזו שנכון
+לתחילת העשור השלישי של המאה ה־21, אין במאדים חיידקים פולטי מתאן.[9]
+
+## זוהר הקוטב[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=8
+"עריכת פסקה: "זוהר הקוטב"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=8
+"עריכת פסקה: "זוהר הקוטב"")]
+
+על מאדים התגלו תופעות של [זוהר
+הקוטב](/wiki/%D7%96%D7%95%D7%94%D7%A8_%D7%94%D7%A7%D7%95%D7%98%D7%91 "זוהר
+הקוטב") בדומה לכדור הארץ. התופעה התגלתה ב־2004 תוך שימוש בספקטרומטר
+ב[תת־אדום](/wiki/%D7%AA%D7%AA-%D7%90%D7%93%D7%95%D7%9D "תת-אדום")
+וב[על־סגול](/wiki/%D7%A2%D7%9C-%D7%A1%D7%92%D7%95%D7%9C "על-סגול") של הגשושית
+[מארס
+אקספרס](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%90%D7%A7%D7%A1%D7%A4%D7%A8%D7%A1
+"מארס אקספרס"). ציוד זה מאפשר לחקור את המבנה וההרכב של אטמוספירת מאדים. התברר
+שהזוהר מתרחש סמוך למקומות בהם ישנם שרידים של שדה מגנטי ב[סלעי
+הקרום](/wiki/%D7%A1%D7%9C%D7%A2%D7%99_%D7%99%D7%A1%D7%95%D7%93 "סלעי יסוד").
+התגלו 9 פליטת חדשות של זהירה זו, מה שאיפשר מיפוי של זהירת מאדים. המיקום
+הגאוגרפי של התופעה בכוכבי הלכת האחרים בהם היא זוהתה מתוחם לאזור הקטבים, כמו על
+כדור הארץ. על מאדים התופעה מתרחשת בכיסים של מגנטיות, מקומות בהם סלעי הקרום הם
+מגנטיים והפיזור שלהם הוא על כוכב הלכת כולו. הם נגרמים בשל התנגשות חלקיקים
+טעונים עם מולקולות
+ב[אטמוספירה](/wiki/%D7%90%D7%98%D7%9E%D7%95%D7%A1%D7%A4%D7%99%D7%A8%D7%94
+"אטמוספירה"). מקורם של החלקיקים הוא מהשמש. עדיין לא ברור כיצד האלקטרונים
+מואצים למהירויות גבוהות עד כדי יצירת תופעת זהירה על מאדים. על כדור הארץ
+המולקולות הגורמות לזהירה באור הנראה הן של חמצן ושל חנקן שאינם נפוצים דיים על
+מאדים.
+
+## שינוי אקלימי[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=9
+"עריכת פסקה: "שינוי אקלימי"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=9
+"עריכת פסקה: "שינוי אקלימי"")]
+
+מבחינת השינוי האקלימי ארוך הטווח החוקרים נעזרים בצילומי
+ה[קרחונים](/wiki/%D7%A7%D7%A8%D7%97%D7%95%D7%9F "קרחון") ואלה מעלים את האפשרות
+ש[שינוי
+אקלימי](/wiki/%D7%A9%D7%99%D7%A0%D7%95%D7%99_%D7%94%D7%90%D7%A7%D7%9C%D7%99%D7%9D
+"שינוי האקלים") כזה התרחש לפני 4.6 מיליון שנה. על פי אותה גישה, מאדים נמצא
+נכון למאה ה־21, בתקופת מעבר בין תקופות קרח. בשל נטיית
+ה[ציר](/wiki/%D7%A6%D7%99%D7%A8_%D7%A1%D7%99%D7%91%D7%95%D7%91 "ציר סיבוב"),
+מאדים נמצא קרוב יותר לשמש, משקעי קרח (ice deposits) בקווי רוחב נמוכים, מתאדים
+ומשנים את פני הקרקע. שתי קבוצות חוקרים הגיעו למסקנה שהציר של מאדים מתנדנד
+במחזוריות על צירו. על פי חישוביה של קבוצה אחת הציר משתנה בין 15°–40° ועל פי
+חישוביה של הקבוצה השנייה הציר משתנה בזווית של °45\. בכל מקרה מדובר בתנודות
+חזקות מאוד והסיבה לכך היא שלמאדים אין ירח גדול כמו זה של כדור הארץ המייצב
+תנודתיות זו. התוצאה היא תנודות אקלימיות חזקות בטווחים של מיליוני שנים. ההערכה
+היא שלפני 5 מיליון שנים מאדים עבר שינוי זוויתי חזק. לחות שהייתה לכודה בקטבים
+הוסעה באמצעות רוחות לאזור קו המשווה והושקעה כשלג (deposits) שם. הודות לכך היא
+יצרה ים קפוא ודפוסים של פעילות קרחונית באזור זה, רצועות עתיקות של קרח. אלה
+כנראה שרידים של קרח לאורך קו המשווה. מקומות נוספים עשירים בקרח נמצאו בעמקים
+מזרחית לאזור הלאס (Hellas) ובאגפים המערביים של קו המשווה הרי הגעש האדירים בשם
+תארסיס מונטס (Tharsis Montes) .זהו תהליך דומה לכיסוי המחזורי בשלג של הרי
+הרוקיס בארצות הברית והקרחונים המצויים על הקילימנג'רו באפריקה ובהרי האנדים
+ב[דרום
+אמריקה](/wiki/%D7%93%D7%A8%D7%95%D7%9D_%D7%90%D7%9E%D7%A8%D7%99%D7%A7%D7%94
+"דרום אמריקה").
+
+## צפייה במאדים מכדור הארץ[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=10
+"עריכת פסקה: "צפייה במאדים מכדור הארץ"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=10
+"עריכת פסקה: "צפייה במאדים מכדור הארץ"")]
+
+משום ש[זמני ההקפה](/wiki/%D7%96%D7%9E%D7%9F_%D7%94%D7%A7%D7%A4%D7%94 "זמן
+הקפה") של מאדים וכדור הארץ סביב [השמש](/wiki/%D7%94%D7%A9%D7%9E%D7%A9 "השמש")
+מראים יחס הקרוב ל־2:1 ישנה מחזוריות בהופעותיו ומשך הזמן בו ניתן לצפות במאדים
+מכדור הארץ. זמן המחזור הסינודי של מאדים נמשך 780 יממות ארץ שהן 2.135 שנים
+(שנתיים וחודשיים). בזמן זה מרחקו המקסימלי של מאדים מכדור הארץ עשוי להגיע עד
+לפי 7 מן המינימלי (בעת
+[ניגוד](/wiki/%D7%A0%D7%99%D7%92%D7%95%D7%93_\(%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%A0%D7%95%D7%9E%D7%99%D7%94\)
+"ניגוד \(אסטרונומיה\)")), בשל כך [בהירותו
+הנראית](/wiki/%D7%91%D7%94%D7%99%D7%A8%D7%95%D7%AA_%D7%A0%D7%A8%D7%90%D7%99%D7%AA
+"בהירות נראית") משתנה מחיוורון של 1.8 עד לבהירות מרשימה של 2.9-, בסולם הבהירות
+של פוגסון, כאשר כדור הארץ ומאדים בקרבה מרבית.
+
+ב־[27 באוגוסט](/wiki/27_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "27
+באוגוסט") [2003](/wiki/2003 "2003") מאדים הגיע למרחק הקטן ביותר מן הארץ
+ב־60,000 השנים הקרובות - 55,758,006 ק"מ. רדיוסו של מאדים גדול פי שניים מזה של
+הירח ומרחקו המינימלי מכדור הארץ גדול ביותר מפי 100 מזה של הירח, משום כך מאדים
+תמיד יראה קטן בהרבה מהירח לצופה מכדור הארץ (ולא כפי שטוענת [מתיחת
+מאדים](/wiki/%D7%9E%D7%AA%D7%99%D7%97%D7%AA_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"מתיחת מאדים")). ב־[29 בינואר](/wiki/29_%D7%91%D7%99%D7%A0%D7%95%D7%90%D7%A8
+"29 בינואר") [2010](/wiki/2010 "2010") מאדים היה שוב בניגוד וגם טלסקופים קטנים
+איפשרו להבחין בתווי פנים על מאדים, במיוחד בכיפות הקרח שלו. טלסקופים גדולים
+יותר איפשרו להבחין גם באזורים כגון [ואליס
+מארינריס](/wiki/%D7%95%D7%90%D7%9C%D7%99%D7%A1_%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8%D7%99%D7%A1
+"ואליס מארינריס"), וה[אולימפוס
+מונס](/wiki/%D7%90%D7%95%D7%9C%D7%99%D7%9E%D7%A4%D7%95%D7%A1_%D7%9E%D7%95%D7%A0%D7%A1
+"אולימפוס מונס").
+
+## ירחי מאדים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=11
+"עריכת פסקה: "ירחי מאדים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=11
+"עריכת פסקה: "ירחי מאדים"")]
+
+למאדים יש שני ירחים,
+[פובוס](/wiki/%D7%A4%D7%95%D7%91%D7%95%D7%A1_\(%D7%99%D7%A8%D7%97\) "פובוס
+\(ירח\)") ו[דימוס](/wiki/%D7%93%D7%99%D7%9E%D7%95%D7%A1_\(%D7%99%D7%A8%D7%97\)
+"דימוס \(ירח\)"). שניהם קטנים ביחס ל[ירח](/wiki/%D7%94%D7%99%D7%A8%D7%97
+"הירח") של כדור הארץ: קוטרו של פובוס הוא כ־22 ק"מ ושל דימוס 12 ק"מ. מקורם לא
+ידוע, אך השערה אחת היא שהם
+[אסטרואידים](/wiki/%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%90%D7%99%D7%93%D7%99%D7%9D
+"אסטרואידים") שנלכדו. הם התגלו על ידי האסטרונום האמריקאי [אסף
+הול](/wiki/%D7%90%D7%A1%D7%A3_%D7%94%D7%95%D7%9C "אסף הול") בשנת 1877. הם
+נקראו על שם הדמויות מ[המיתולוגיה
+היוונית](/wiki/%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94_%D7%99%D7%95%D7%95%D7%A0%D7%99%D7%AA
+"מיתולוגיה יוונית")
+[פובוס](/wiki/%D7%A4%D7%95%D7%91%D7%95%D7%A1_\(%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)
+"פובוס \(מיתולוגיה\)") (אל הפחד)
+ו[דימוס](/wiki/%D7%93%D7%99%D7%9E%D7%95%D7%A1_\(%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)
+"דימוס \(מיתולוגיה\)") (אל הטרור והאימה) אשר ליוו את אביהם
+[ארס](/wiki/%D7%90%D7%A8%D7%A1_\(%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)
+"ארס \(מיתולוגיה\)") (הגרסה היוונית של
+[מרס](/wiki/%D7%9E%D7%A8%D7%A1_\(%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)
+"מרס \(מיתולוגיה\)"), השם הלטיני של מאדים) בצאתו לקרב.
+
+  * [![](//upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Phobos_colour_2008.jpg/120px-Phobos_colour_2008.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Phobos_colour_2008.jpg)
+
+הירח [פובוס](/wiki/%D7%A4%D7%95%D7%91%D7%95%D7%A1_\(%D7%99%D7%A8%D7%97\)
+"פובוס \(ירח\)")
+
+  * [![](//upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Deimos-MRO.jpg/120px-Deimos-MRO.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Deimos-MRO.jpg)
+
+הירח [דימוס](/wiki/%D7%93%D7%99%D7%9E%D7%95%D7%A1_\(%D7%99%D7%A8%D7%97\)
+"דימוס \(ירח\)"),
+
+לפי חישובי מסלול, דימוס מתרחק ממאדים, ואילו פובוס מתקרב אל מאדים, עד שכח
+הכבידה יפרקו.[10]
+
+## מחקר רובוטי[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=12
+"עריכת פסקה: "מחקר רובוטי"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=12
+"עריכת פסקה: "מחקר רובוטי"")]
+
+### תוכנית מארינר[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=13
+"עריכת פסקה: "תוכנית מארינר"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=13
+"עריכת פסקה: "תוכנית מארינר"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[תוכנית מארינר](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8 "תוכנית מארינר")**
+
+במסגרת [תוכנית
+מארינר](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8
+"תוכנית מארינר") האמריקאית שוגרו מספר זוגות של [גשושיות
+מחקר](/wiki/%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA "גשושית") אל עבר כוכבי הלכת
+הפנימיים במערכת השמש.
+
+[מארינר 3](/wiki/%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_3 "מארינר 3") שוגרה ב־[5
+בנובמבר](/wiki/5_%D7%91%D7%A0%D7%95%D7%91%D7%9E%D7%91%D7%A8 "5 בנובמבר")
+[1964](/wiki/1964 "1964"), אך שיגורה נכשל. [מארינר
+4](/wiki/%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_4 "מארינר 4") שוגרה ב־[28
+בנובמבר](/wiki/28_%D7%91%D7%A0%D7%95%D7%91%D7%9E%D7%91%D7%A8 "28 בנובמבר")
+1964, והגיעה למרחק מינימלי של 9,844 ק"מ ממאדים ב־[14
+ביולי](/wiki/14_%D7%91%D7%99%D7%95%D7%9C%D7%99 "14 ביולי") [1965](/wiki/1965
+"1965"). החל ממרחק 16,900 ק"מ ועד שעברה את כוכב הלכת והתרחקה ל־11,900 ק"מ,
+צילמה תמונות כל 48 שניות, אותן אחסנה על סרט הקלטה ושידרה מאוחר יותר אל כדור
+הארץ.
+
+[מארינר
+6](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_6&action=edit&redlink=1
+"מארינר 6 \(הדף אינו קיים\)") שוגרה ב־[24
+בפברואר](/wiki/24_%D7%91%D7%A4%D7%91%D7%A8%D7%95%D7%90%D7%A8 "24 בפברואר")
+[1969](/wiki/1969 "1969"), והגיעה אל מאדים ב־[31
+ביולי](/wiki/31_%D7%91%D7%99%D7%95%D7%9C%D7%99 "31 ביולי"). [מארינר
+7](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_7&action=edit&redlink=1
+"מארינר 7 \(הדף אינו קיים\)") שוגרה ב־[27
+במרץ](/wiki/27_%D7%91%D7%9E%D7%A8%D7%A5 "27 במרץ") אותה שנה, והגיעה אל מאדים
+ב־[5 באוגוסט](/wiki/5_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "5 באוגוסט").
+הן טסו לאורך קו המשווה והקוטב הדרומי של מאדים, וניתחו את האטמוספירה והקרקע של
+מאדים בעזרת ציוד חישה מרחוק. שתי הגשושיות צילמו 143 תמונות בעת התקרבן אל כוכב
+הלכת, ו־55 תמונות תקריב. המרחק המינימלי ממאדים היה 3,550 ק"מ. בנוסף, צולם
+במשימה זו גם הירח
+[פובוס](/wiki/%D7%A4%D7%95%D7%91%D7%95%D7%A1_\(%D7%99%D7%A8%D7%97\) "פובוס
+\(ירח\)").
+
+### תוכנית גשושי מארס[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=14
+"עריכת פסקה: "תוכנית גשושי מארס"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=14
+"עריכת פסקה: "תוכנית גשושי מארס"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[תוכנית מארס](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1 "תוכנית מארס")**
+
+[תוכנית גשושי
+מארס](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%92%D7%A9%D7%95%D7%A9%D7%99_%D7%9E%D7%90%D7%A8%D7%A1
+"תוכנית גשושי מארס") היא תוכנית
+[סובייטית](/wiki/%D7%91%D7%A8%D7%99%D7%AA_%D7%94%D7%9E%D7%95%D7%A2%D7%A6%D7%95%D7%AA
+"ברית המועצות") במסגרתה שוגרו מספר חלליות מחקר "מרס" לחקר מאדים בין השנים
+[1971](/wiki/1971 "1971") ל־[1973](/wiki/1973 "1973").
+
+[מארס 2](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%A1_2&action=edit&redlink=1
+"מארס 2 \(הדף אינו קיים\)") שוגרה ב־[19
+במאי](/wiki/19_%D7%91%D7%9E%D7%90%D7%99 "19 במאי") [1971](/wiki/1971 "1971"),
+הגיעה למאדים לאחר כשישה חודשים, ונכנסה למסלול. ב־[27
+בנובמבר](/wiki/27_%D7%91%D7%A0%D7%95%D7%91%D7%9E%D7%91%D7%A8 "27 בנובמבר")
+שחררה את רכב הנחיתה, אך הוא התרסק על הקרקע לאחר שרקטות הבלימה שלו לא פעלו.
+[מארס 3](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_3 "מארס 3") שוגרה ב־[28
+במאי](/wiki/28_%D7%91%D7%9E%D7%90%D7%99 "28 במאי") אותה שנה, והגיעה ב־[2
+בדצמבר](/wiki/2_%D7%91%D7%93%D7%A6%D7%9E%D7%91%D7%A8 "2 בדצמבר"). רכב הנחיתה
+שלה נחת בהצלחה, אך הפסיק לפעול לאחר ששלח 20 שניות של צילום וידאו.
+
+[מארס 4](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%A1_4&action=edit&redlink=1
+"מארס 4 \(הדף אינו קיים\)") שוגרה ב־[21
+ביולי](/wiki/21_%D7%91%D7%99%D7%95%D7%9C%D7%99 "21 ביולי") [1973](/wiki/1973
+"1973"), ומרס 5 שוגרה ארבעה ימים מאוחר יותר, ב־[25
+ביולי](/wiki/25_%D7%91%D7%99%D7%95%D7%9C%D7%99 "25 ביולי"). מארס 4 לא הצליחה
+להיכנס למסלול סביב מאדים עקב תקלה במנוע הבלימה שלה. [מארס
+5](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%A1_5&action=edit&redlink=1 "מארס 5
+\(הדף אינו קיים\)") נכנסה למסלול בפברואר [1974](/wiki/1974 "1974"), וצילמה 60
+תמונות של פני מאדים לפני שכשלה.
+
+[מארס 6](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%A1_6&action=edit&redlink=1
+"מארס 6 \(הדף אינו קיים\)") שוגרה ב־[5
+באוגוסט](/wiki/5_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "5 באוגוסט")
+[1973](/wiki/1973 "1973"), וחלפה על פני מאדים במרץ [1974](/wiki/1974 "1974").
+היא שחררה רכב נחיתה, ששידר מידע אטמוספירי במשך 224 שניות, אך כשל לפני הגיעו אל
+הקרקע. [מארס
+7](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%A1_7&action=edit&redlink=1 "מארס 7
+\(הדף אינו קיים\)") שוגרה ב־[9
+באוגוסט](/wiki/9_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "9 באוגוסט") אותה
+שנה. עקב תקלה, רכב הנחיתה שלה שוחרר ארבע שעות לפני הזמן, וכתוצאה מכך הוא החטיא
+את הכוכב ב־1,300 ק"מ.
+
+#### מארס 96[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=15
+"עריכת פסקה: "מארס 96"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=15
+"עריכת פסקה: "מארס 96"")]
+
+חללית מחקר רוסית [מרס
+96](/w/index.php?title=%D7%9E%D7%A8%D7%A1_96&action=edit&redlink=1 "מרס 96
+\(הדף אינו קיים\)") שוגרה ב־[16
+בנובמבר](/wiki/16_%D7%91%D7%A0%D7%95%D7%91%D7%9E%D7%91%D7%A8 "16 בנובמבר")
+[1996](/wiki/1996 "1996"), אך שיגורה נכשל והיא נפלה חזרה אל כדור הארץ. מרבית
+המשימות הרוסיות לחקר מאדים נכשלו בדרך זו או אחרת.
+
+### ויקינג[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=16
+"עריכת פסקה: "ויקינג"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=16
+"עריכת פסקה: "ויקינג"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[תוכנית ויקינג](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92 "תוכנית ויקינג")**
+
+תוכנית ויקינג האמריקאית כללה שתי משימות מחקר שהורכבו מלוויין צילום ורכב נחיתה
+כל אחת.
+
+[ויקינג 1](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92_1 "ויקינג 1") שוגרה
+ב־[20 באוגוסט](/wiki/20_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "20
+באוגוסט") [1975](/wiki/1975 "1975"), הגיעה אל מאדים ב־[19
+ביוני](/wiki/19_%D7%91%D7%99%D7%95%D7%A0%D7%99 "19 ביוני") [1976](/wiki/1976
+"1976"), ושיחררה את רכב הנחיתה ב־[20
+ביולי](/wiki/20_%D7%91%D7%99%D7%95%D7%9C%D7%99 "20 ביולי") 1976\. היא ביצעה גם
+סריקות של פני השטח וצילומים מגובה כמה מאות קילומטרים. באחת הסריקות צולמו באזור
+הנקרא
+[סידוניה](/w/index.php?title=%D7%A1%D7%99%D7%93%D7%95%D7%A0%D7%99%D7%94&action=edit&redlink=1
+"סידוניה \(הדף אינו קיים\)") מבנים שנראו כמו שלוש פירמידות ומה שנראה כפנים
+אנושיים במרכזן ([הפנים
+במאדים](/wiki/%D7%94%D7%A4%D7%A0%D7%99%D7%9D_%D7%91%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"הפנים במאדים")).
+
+[ויקינג 2](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92_2 "ויקינג 2") שוגרה ב־[9
+בספטמבר](/wiki/9_%D7%91%D7%A1%D7%A4%D7%98%D7%9E%D7%91%D7%A8 "9 בספטמבר")
+[1975](/wiki/1975 "1975"), הגיעה אל מאדים ב־[7
+באוגוסט](/wiki/7_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "7 באוגוסט")
+[1976](/wiki/1976 "1976"), ושיחררה את רכב הנחיתה ב־[3
+בספטמבר](/wiki/3_%D7%91%D7%A1%D7%A4%D7%98%D7%9E%D7%91%D7%A8 "3 בספטמבר")
+1976\.
+
+### מרס אובזרבר[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=17
+"עריכת פסקה: "מרס אובזרבר"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=17
+"עריכת פסקה: "מרס אובזרבר"")]
+
+[מרס
+אובזרבר](/wiki/%D7%9E%D7%A8%D7%A1_%D7%90%D7%95%D7%91%D7%96%D7%A8%D7%91%D7%A8
+"מרס אובזרבר") הייתה חללית מחקר אמריקאית ששוגרה ב־[25
+בספטמבר](/wiki/25_%D7%91%D7%A1%D7%A4%D7%98%D7%9E%D7%91%D7%A8 "25 בספטמבר")
+[1992](/wiki/1992 "1992"). החללית הייתה אמורה להיכנס למסלול סביב מאדים, אך
+הקשר עמה אבד זמן קצר לפני מועד ההגעה המתוכנן.
+
+### מרס גלובל סורבייר[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=18
+"עריכת פסקה: "מרס גלובל סורבייר"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=18
+"עריכת פסקה: "מרס גלובל סורבייר"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[מארס גלובל סרוויור](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%92%D7%9C%D7%95%D7%91%D7%9C_%D7%A1%D7%A8%D7%95%D7%95%D7%99%D7%95%D7%A8 "מארס גלובל סרוויור")**
+
+[לוויין
+צילום](/wiki/%D7%9C%D7%95%D7%95%D7%99%D7%99%D7%9F_%D7%A6%D7%99%D7%9C%D7%95%D7%9D
+"לוויין צילום") וחישה מרחוק בשם [מרס גלובל
+סורבייר](/wiki/%D7%9E%D7%A8%D7%A1_%D7%92%D7%9C%D7%95%D7%91%D7%9C_%D7%A1%D7%95%D7%A8%D7%91%D7%99%D7%99%D7%A8
+"מרס גלובל סורבייר") שוגר בנובמבר 1996 והגיע אל מאדים ב־[12
+בדצמבר](/wiki/12_%D7%91%D7%93%D7%A6%D7%9E%D7%91%D7%A8 "12 בדצמבר")
+[1997](/wiki/1997 "1997"), מאז סיפק מידע מדעי רב. הקשר עם הלוויין אבד ב־[2
+בנובמבר](/wiki/2_%D7%91%D7%A0%D7%95%D7%91%D7%9E%D7%91%D7%A8 "2 בנובמבר")
+[2006](/wiki/2006 "2006").
+
+### פאת'פיינדר[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=19
+"עריכת פסקה: "פאת'פיינדר"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=19
+"עריכת פסקה: "פאת'פיינדר"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[מרס פאת'פיינדר](/wiki/%D7%9E%D7%A8%D7%A1_%D7%A4%D7%90%D7%AA%27%D7%A4%D7%99%D7%99%D7%A0%D7%93%D7%A8 "מרס פאת'פיינדר")**
+
+פאת'פיינדר הייתה גשושית שנשאה רכב מחקר קטן (באורך של כ־50 ס"מ), ונחתה על מאדים
+ב־[4 ביולי](/wiki/4_%D7%91%D7%99%D7%95%D7%9C%D7%99 "4 ביולי")
+[1997](/wiki/1997 "1997"). בנחתת היו מכשירים למדידת האטמוספירה של מאדים, ורכב
+המחקר נשא מכשירים לבדיקת ההרכב הכימי של סלעים. הקשר עם החללית אבד לאחר מספר
+חודשי פעולה על קרקע מאדים, הרבה יותר מ־30 הימים שתוכננו מלכתחילה.
+
+### מרס סרוויור 98[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=20
+"עריכת פסקה: "מרס סרוויור 98"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=20
+"עריכת פסקה: "מרס סרוויור 98"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[מרס סרוויור 98](/wiki/%D7%9E%D7%A8%D7%A1_%D7%A1%D7%A8%D7%95%D7%95%D7%99%D7%95%D7%A8_98 "מרס סרוויור 98")**
+
+במסגרת תוכנית מרס סרוויור 98 שוגרו שתי גשושיות לחקר מאדים:
+
+##### נחתת הקוטב של מאדים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=21
+"עריכת פסקה: "נחתת הקוטב של מאדים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=21
+"עריכת פסקה: "נחתת הקוטב של מאדים"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[נחתת הקוטב של מאדים](/wiki/%D7%A0%D7%97%D7%AA%D7%AA_%D7%94%D7%A7%D7%95%D7%98%D7%91_%D7%A9%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D "נחתת הקוטב של מאדים")**
+
+[נחתת הקוטב של
+מאדים](/wiki/%D7%A0%D7%97%D7%AA%D7%AA_%D7%94%D7%A7%D7%95%D7%98%D7%91_%D7%A9%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"נחתת הקוטב של מאדים") (Mars Polar Lander) שוגרה ב־[3
+בינואר](/wiki/3_%D7%91%D7%99%D7%A0%D7%95%D7%90%D7%A8 "3 בינואר")
+[1999](/wiki/1999 "1999"), אך עקבותיה אבדו ב־[3
+בדצמבר](/wiki/3_%D7%91%D7%93%D7%A6%D7%9E%D7%91%D7%A8 "3 בדצמבר") 1999\. ככל
+הנראה הנחתת התרסקה בעת הנחיתה.
+
+##### [מקפת](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA "מקפת") האקלים של מאדים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=22
+"עריכת פסקה: "מקפת האקלים של מאדים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=22
+"עריכת פסקה: "מקפת האקלים של מאדים"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[מקפת האקלים של מאדים](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA_%D7%94%D7%90%D7%A7%D7%9C%D7%99%D7%9D_%D7%A9%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D "מקפת האקלים של מאדים")**
+
+שוגרה ב־11 בדצמבר 1998 כדי לחקור את האקלים על מאדים אך הקשר עמה אבד ב־23
+בספטמבר 1999.
+
+### מארס אקספרס[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=23
+"עריכת פסקה: "מארס אקספרס"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=23
+"עריכת פסקה: "מארס אקספרס"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[מארס אקספרס](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%90%D7%A7%D7%A1%D7%A4%D7%A8%D7%A1 "מארס אקספרס")**
+
+[מארס
+אקספרס](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%90%D7%A7%D7%A1%D7%A4%D7%A8%D7%A1
+"מארס אקספרס") היה לוויין המחקר האירופי אשר שוגר ב־[2
+ביוני](/wiki/2_%D7%91%D7%99%D7%95%D7%A0%D7%99 "2 ביוני") [2003](/wiki/2003
+"2003"), ונכנס למסלול סביב מאדים ב־[25
+בדצמבר](/wiki/25_%D7%91%D7%93%D7%A6%D7%9E%D7%91%D7%A8 "25 בדצמבר") 2003\.
+חללית זו נשאה איתה את הנחתת הבריטית [ביגל 2](/wiki/%D7%91%D7%99%D7%92%D7%9C_2
+"ביגל 2"), שנקראה על שם ספינתו של [צ'ארלס
+דרווין](/wiki/%D7%A6%27%D7%90%D7%A8%D7%9C%D7%A1_%D7%93%D7%A8%D7%95%D7%95%D7%99%D7%9F
+"צ'ארלס דרווין"), "[ביגל](/wiki/%D7%90%D7%94%22%D7%9E_%D7%91%D7%99%D7%92%D7%9C
+"אה"מ ביגל")". הנחתת אבדה כאשר חדרה לאטמוספירת מאדים.
+
+### רכבי המחקר ספיריט ואופורטיוניטי[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=24
+"עריכת פסקה: "רכבי המחקר ספיריט ואופורטיוניטי"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=24
+"עריכת פסקה: "רכבי המחקר ספיריט ואופורטיוניטי"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[מארס רובר](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%A8%D7%95%D7%91%D7%A8 "מארס רובר")**
+
+ב־[3 בינואר](/wiki/3_%D7%91%D7%99%D7%A0%D7%95%D7%90%D7%A8 "3 בינואר")
+[2004](/wiki/2004 "2004") נחת במכתש גוסב במאדים רכב השטח הרובוטי
+**[ספיריט](/wiki/%D7%A1%D7%A4%D7%99%D7%A8%D7%99%D7%98 "ספיריט")** , וב־[25
+בינואר](/wiki/25_%D7%91%D7%99%D7%A0%D7%95%D7%90%D7%A8 "25 בינואר") 2004 נחת
+התאום שלו,
+**[אופורטוניטי](/wiki/%D7%90%D7%95%D7%A4%D7%95%D7%A8%D7%98%D7%95%D7%A0%D7%99%D7%98%D7%99
+"אופורטוניטי")** , ב[מישור
+מרידיאני](/wiki/%D7%9E%D7%99%D7%A9%D7%95%D7%A8_%D7%9E%D7%A8%D7%99%D7%93%D7%99%D7%90%D7%A0%D7%99
+"מישור מרידיאני") בצידו השני של כוכב הלכת. שני הרכבים מצוידים בכלי לשיוף סלעים
+ובמגוון מכשירי מדידה, לרבות מצלמת זום חזקה ו[ספקטרומטר
+מוסבאואר](/w/index.php?title=%D7%A1%D7%A4%D7%A7%D7%98%D7%A8%D7%95%D7%9E%D7%98%D7%A8_%D7%9E%D7%95%D7%A1%D7%91%D7%90%D7%95%D7%90%D7%A8&action=edit&redlink=1
+"ספקטרומטר מוסבאואר \(הדף אינו קיים\)") לגילוי ההרכב הכימי של הסלעים והאדמה.
+
+ב־[2 במרץ](/wiki/2_%D7%91%D7%9E%D7%A8%D7%A5 "2 במרץ") [2004](/wiki/2004
+"2004") הודיעה [נאס"א](/wiki/%D7%A0%D7%90%D7%A1%22%D7%90 "נאס"א") ב[מסיבת
+עיתונאים](/wiki/%D7%9E%D7%A1%D7%99%D7%91%D7%AA_%D7%A2%D7%99%D7%AA%D7%95%D7%A0%D7%90%D7%99%D7%9D
+"מסיבת עיתונאים") כי אופורטיונטי גילה עדויות חד משמעיות לקיומם של מים בעבר על
+פני כוכב הלכת. פירוש הדבר, שהטמפרטורות ולחץ האוויר היו גבוהים בהרבה מאשר אלו
+השוררים במאדים במאה ה־21, ולפיכך היו יכולים להיווצר עליו חיים. אין עדויות
+לקיום חיים, ומכשירי החללית גם לא יכולים לגלות אם היו חיים בעבר. לפיכך יש מבין
+המדענים השותפים בפרויקט כאלו הדורשים שיגור חללית למאדים שתחפור ותביא דוגמאות
+סלעים לכדור הארץ.
+
+שלושה ימים אחר כך, ב־5 במרץ [2004](/wiki/2004 "2004"), הודיעה נאס"א במסיבת
+עיתונאים נוספת כי גם ספיריט, הרכב התאום של אופורטיוניטי, הפועל במכתש גוסב,
+מרחק חצי מאדים, בצידו השני של קו המשווה, מצא עדויות למים, אף כי גם אם היו שם
+מים בעבר, כמותם הייתה קטנה מזו שהיו באזור שבו פועל אופורטיוניטי.
+
+שני רכבי החלל, שהיו מיועדים לפעול חודשים ספורים, פעלו שנים מעבר למצופה. בימים
+אלו (פברואר 2012) 8 שנים לאחר הגעתו למאדים אופורטיוניטי ממשיך לנוע, לחקור
+ממצאים שונים (ראו מכתשים
+[ויקטוריה](/wiki/%D7%9E%D7%9B%D7%AA%D7%A9_%D7%95%D7%99%D7%A7%D7%98%D7%95%D7%A8%D7%99%D7%94
+"מכתש ויקטוריה"),
+[ווסטוק](/wiki/%D7%9E%D7%9B%D7%AA%D7%A9_%D7%95%D7%95%D7%A1%D7%98%D7%95%D7%A7
+"מכתש ווסטוק"),
+ו[איגל](/wiki/%D7%9E%D7%9B%D7%AA%D7%A9_%D7%90%D7%99%D7%92%D7%9C "מכתש איגל")),
+ולשדר נתונים לכדור הארץ. הרכב התאום שלו, ספיריט, הפסיק לשדר נתונים לכדור הארץ
+בתאריך 22 במרץ 2010, ככל הנראה עקב תנאי החורף הקשים במאדים. ב־[24
+במאי](/wiki/24_%D7%91%D7%9E%D7%90%D7%99 "24 במאי") [2011](/wiki/2011 "2011")
+הודיעה נאס"א על הפסקת הניסיונות ליצור קשר עם ספיריט.[11]
+
+[![מראה פנורמי 180° - של מכתש "סנטה מריה" \(אנ'\) על מאדים כפי שצילם רכב החקר
+אופורטיוניטי.](//upload.wikimedia.org/wikipedia/commons/thumb/4/4b/MarsEndurance.jpg/2000px-
+MarsEndurance.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:MarsEndurance.jpg "מראה
+פנורמי 180° - של מכתש "סנטה מריה" \(אנ'\) על מאדים כפי שצילם רכב החקר
+אופורטיוניטי.")
+
+[![Magnify-clip.png](//upload.wikimedia.org/wikipedia/commons/6/6b/Magnify-
+clip.png)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:MarsEndurance.jpg
+"קובץ:MarsEndurance.jpg")
+
+**מראה[פנורמי](/wiki/%D7%A6%D7%99%D7%9C%D7%95%D7%9D_%D7%A4%D7%A0%D7%95%D7%A8%D7%9E%D7%99
+"צילום פנורמי") 180° - של מכתש "[סנטה
+מריה](/w/index.php?title=%D7%A1%D7%A0%D7%98%D7%94_%D7%9E%D7%A8%D7%99%D7%94_\(%D7%9E%D7%9B%D7%AA%D7%A9\)&action=edit&redlink=1
+"סנטה מריה \(מכתש\) \(הדף אינו קיים\)")"
+([אנ'](https://en.wikipedia.org/wiki/Santa_Maria_\(crater\) "en:Santa Maria
+\(crater\)")) על מאדים כפי שצילם רכב החקר אופורטיוניטי.**
+
+### מקפת לסקר מאדים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=25
+"עריכת פסקה: "מקפת לסקר מאדים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=25
+"עריכת פסקה: "מקפת לסקר מאדים"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[מקפת לסקר מאדים](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA_%D7%9C%D7%A1%D7%A7%D7%A8_%D7%9E%D7%90%D7%93%D7%99%D7%9D "מקפת לסקר מאדים")**
+
+[מקפת לסקר
+מאדים](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA_%D7%9C%D7%A1%D7%A7%D7%A8_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"מקפת לסקר מאדים") (Mars Reconnaissance Orbiter) היא חללית מחקר של נאס"א
+ששוגרה ב[אוגוסט](/wiki/%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "אוגוסט")
+[2005](/wiki/2005 "2005") על מנת לחקור את פני מאדים. לחללית ארבע משימות
+עיקריות:
+
+  1. זיהוי סימנים ל[מים](/wiki/%D7%9E%D7%99%D7%9D "מים"). זאת הן באמצעות זיהוי מינרלים המעידים על הימצאות מים בעבר, והן באמצעות [רדאר](/wiki/%D7%A8%D7%93%D7%90%D7%A8 "רדאר") שיזהה קיום מים תת־קרקעיים בהווה. מטרה זו אמורה לסייע בפתרון השאלה אם מאדים קיים אי פעם חיים.
+  2. אפיון אקלים מאדים. זאת על ידי חקירת תנועת האבק ואדי המים באטמוספירת מאדים, והשפעתם על האקלים לאורך עונות השנה.
+  3. אפיון ה[גאולוגיה](/wiki/%D7%92%D7%90%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94 "גאולוגיה") של מאדים. זאת על ידי מצלמות בעלות יכולת הפרדה גבוהה, שיצלמו [מבנים גאולוגיים](/wiki/%D7%9E%D7%91%D7%A0%D7%94_\(%D7%92%D7%90%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\) "מבנה \(גאולוגיה\)") על פני מאדים, שיאפשרו לחוקרים לזהות את התהליכים שעיצבו את פני מאדים.
+  4. הכנה לקראת מחקר מאויש. מצלמות החללית מאפשרות לצלם סלעים בגודל עד מטר אחד. זה יאפשר למתכנני משימה מאוישת לדעת הן מהם המקומות החשובים ביותר מבחינה מדעית לנחות בהם, והן מה הם המקומות הבטוחים ביותר.
+
+MRO נכנסה למסלול סביב מאדים ב־[10 במרץ](/wiki/10_%D7%91%D7%9E%D7%A8%D7%A5 "10
+במרץ") [2006](/wiki/2006 "2006") ומאז משדרת צילומי מאדים אל כדור הארץ.
+
+בצילומים שהגיעו נמצאו עדויות להתפרצויות וולקניות, שיטפונות אדירים ופני שטח
+מצולקים מפגיעות מטאוריטים אולם התגלית החדשה החשובה היא גילוי [שכבות
+משקע](/w/index.php?title=%D7%A9%D7%9B%D7%91%D7%AA_%D7%9E%D7%A9%D7%A7%D7%A2&action=edit&redlink=1
+"שכבת משקע \(הדף אינו קיים\)") המעידות על מחזוריות אקלימית על הכוכב הנובעת
+מהטיית ציר הכוכב.
+
+### פיניקס[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=26
+"עריכת פסקה: "פיניקס"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=26
+"עריכת פסקה: "פיניקס"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[פיניקס (גשושית)](/wiki/%D7%A4%D7%99%D7%A0%D7%99%D7%A7%D7%A1_\(%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA\) "פיניקס \(גשושית\)")**
+
+ה[גשושית](/wiki/%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA "גשושית")
+[פיניקס](/wiki/%D7%A4%D7%99%D7%A0%D7%99%D7%A7%D7%A1_\(%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA\)
+"פיניקס \(גשושית\)") שוגרה ב־[4
+באוגוסט](/wiki/4_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "4 באוגוסט")
+[2007](/wiki/2007 "2007") ונחתה בשלום על פני הקרקע בסביבת הקוטב הצפוני של
+מאדים ב־[25 במאי](/wiki/25_%D7%91%D7%9E%D7%90%D7%99 "25 במאי")
+[2008](/wiki/2008 "2008"). מטרתה העיקרית של המשימה היא חקירת
+ה[קרח](/wiki/%D7%A7%D7%A8%D7%97 "קרח") במאדים והתנאים בהם הוא מפשיר.
+
+במהלך חודש אוגוסט 2008 בדיקות מעבדה שנערכו על סיפונה הוכיחו סופית כי קיימים
+מים בדגימת עפר ממאדים.[12] בחודש ספטמבר נתגלה [סידן
+פחמתי](/wiki/%D7%A1%D7%99%D7%93%D7%9F_%D7%A4%D7%97%D7%9E%D7%AA%D7%99 "סידן
+פחמתי"), תוצר של אינטראקציה בין [מינרלים](/wiki/%D7%9E%D7%99%D7%A0%D7%A8%D7%9C
+"מינרל") לנוזלים.[13] הפניקס תיעדה גם מערבולות על מאדים[14] וצילמה שלג יורד על
+פני כוכב הלכת האדמדם.[15][16]
+
+נאס"א הכריזה רשמית על סיום המשימה במאי [2010](/wiki/2010 "2010"), לאחר
+שצילומים של הגשושית שצולמו על ידי ה[מקפת לסקר
+מאדים](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA_%D7%9C%D7%A1%D7%A7%D7%A8_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"מקפת לסקר מאדים") הראו נזק משמעותי לאחד מקולטי השמש שלה, ולא ניתן היה ליצור
+איתה קשר.[17]
+
+### קיוריוסיטי[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=27
+"עריכת פסקה: "קיוריוסיטי"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=27
+"עריכת פסקה: "קיוריוסיטי"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[מארס סיינס לברטורי](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%A1%D7%99%D7%99%D7%A0%D7%A1_%D7%9C%D7%91%D7%A8%D7%98%D7%95%D7%A8%D7%99 "מארס סיינס לברטורי")**
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sojourner%2C_MER%2C_Phoenix_lander%2C_and_Curiosity_comparisons%2C_in_Metric_units.jpg/250px-
+Sojourner%2C_MER%2C_Phoenix_lander%2C_and_Curiosity_comparisons%2C_in_Metric_units.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Sojourner,_MER,_Phoenix_lander,_and_Curiosity_comparisons,_in_Metric_units.jpg)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Sojourner,_MER,_Phoenix_lander,_and_Curiosity_comparisons,_in_Metric_units.jpg
+"הגדלה")
+
+השוואת הגדלים של מספר גשושיות רובוטיות שנשלחו למאדים, משמאל למטה [מרס
+פאת'פיינדר](/wiki/%D7%9E%D7%A8%D7%A1_%D7%A4%D7%90%D7%AA%27%D7%A4%D7%99%D7%99%D7%A0%D7%93%D7%A8
+"מרס פאת'פיינדר"), משמאל למעלה [מרס
+רובר](/wiki/%D7%9E%D7%A8%D7%A1_%D7%A8%D7%95%D7%91%D7%A8 "מרס רובר"), מימין
+למטה
+[פיניקס](/wiki/%D7%A4%D7%99%D7%A0%D7%99%D7%A7%D7%A1_\(%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA\)
+"פיניקס \(גשושית\)") ומימין למעלה [קיוריוסיטי](/wiki/MSL "MSL")
+
+ה[גשושית](/wiki/%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA "גשושית")
+[קיוריוסיטי](/wiki/MSL "MSL") שוגרה ב־[26
+בנובמבר](/wiki/26_%D7%91%D7%A0%D7%95%D7%91%D7%9E%D7%91%D7%A8 "26 בנובמבר")
+[2011](/wiki/2011 "2011"), ונחתה ב־[6
+באוגוסט](/wiki/6_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "6 באוגוסט")
+[2012](/wiki/2012 "2012"). אתר נחיתת הגשושית הוא [מכתש
+גייל](/wiki/%D7%9E%D7%9B%D7%AA%D7%A9_%D7%92%D7%99%D7%99%D7%9C "מכתש גייל").
+מטרת המחקר העיקרית של משימת קיוריוסיטי היא לבדוק את מידת התאמתו של מאדים לקיום
+חיים בעבר או בהווה, אין כוונה לבצע חיפוש אקטיבי אחר עדויות לקיום חיים על פני
+מאדים. לגשושית יכולת לאסוף דגימות קרקע ולבצע קדיחות בסלעים. בניגוד לפיניקס,
+לקיוריוסיטי יש יכולת ניידות. קיוריוסיטי גדולה פי חמישה ובה פי 10 יותר ציוד
+מחקר מדעי לעומת ספיריט ואופורטיוניטי, בעוד שגשושיות אלו תוכננו לפעול כשלושה
+חודשים משך הפעילות המתוכנן של קיוריוסיטי הוא שנה מאדימית אחת (668 יממות מאדים
+או 686 יממות ארץ).
+
+ב־[5 באוגוסט](/wiki/5_%D7%91%D7%90%D7%95%D7%92%D7%95%D7%A1%D7%98 "5 באוגוסט")
+2012 דיווחה נאס"א לקראת הנחיתה המתוכננת, כי כל המערכות פועלות כשורה. במהלך
+הנחיתה האוטומטית, נכנסה הגשושית
+ל[אטמוספירה](/wiki/%D7%90%D7%98%D7%9E%D7%95%D7%A1%D7%A4%D7%99%D7%A8%D7%94
+"אטמוספירה") במהירות של 20,921 קמ"ש (פי 17 מ[מהירות
+הקול](/wiki/%D7%9E%D7%94%D7%99%D7%A8%D7%95%D7%AA_%D7%94%D7%A7%D7%95%D7%9C
+"מהירות הקול")). זהו השלב המסובך והקריטי ביותר שכונה בנאס"א "שבע דקות של
+טרור". בזמן זה בוצעו מספר פעילויות משולבות בו זמנית, שכוללות את פתיחת המצנח
+הענק ועגורן שירד לנקודה המדויקת של הנחיתה, ושם הוריד את רכב הנחיתה על גבי
+כבלים מ[ניילון](/wiki/%D7%A0%D7%99%D7%99%D7%9C%D7%95%D7%9F "ניילון"). בזמן
+הנחיתה היה כדור הארץ מתחת לאופק של מאדים, ולא ניתן היה לקיים קשר רדיו ישיר עם
+קיוריוסיטי. שני לוויינים קלטו והקליטו את התשדורות שנשלחו מקיוריוסטי, אך המידע
+מהם התקבל בכדור הארץ רק מספר שעות לאחר הנחיתה.[18]
+
+ב־[7 ביולי](/wiki/7_%D7%91%D7%99%D7%95%D7%9C%D7%99 "7 ביולי")
+[2018](/wiki/2018 "2018"), הודיעה נאס"א, כי קיוריוסטי מצאה
+[מולקולות](/wiki/%D7%9E%D7%95%D7%9C%D7%A7%D7%95%D7%9C%D7%94 "מולקולה")
+[אורגניות](/wiki/%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%D7%96%D7%9D "אורגניזם")
+במשטח סלע במאדים. עם זאת הבהירה נאס"א, כי לא נמצאו חיים על פני מאדים.[19]
+
+### אינסייט[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=28
+"עריכת פסקה: "אינסייט"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=28
+"עריכת פסקה: "אינסייט"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[InSight](/wiki/InSight "InSight")**
+
+אינסייט (Interior Exploration using Seismic Investigations, Geodesy and Heat
+Transport) היא נחתת של נאס"א לחקר כוכב הלכת מאדים. שיגור הנחתת תוכנן להתבצע
+במרץ 2016, אך עקב דליפה במיכל וואקום שבו נמצא
+ה[סייסמוגרף](/wiki/%D7%A1%D7%99%D7%99%D7%A1%D7%9E%D7%95%D7%92%D7%A8%D7%A3
+"סייסמוגרף") של הנחתת, אחד מהמכשירים המדעיים המרכזיים שלה (שנבנה על ידי סוכנות
+החלל הצרפתית), השיגור נדחה והתבצע בחלון השיגור הבא למאדים ב־[5
+במאי](/wiki/5_%D7%91%D7%9E%D7%90%D7%99 "5 במאי") [2018](/wiki/2018
+"2018").[20]
+
+מטרתה העיקרית של InSight‍‍ היא לחקור את השלבים המוקדמים של התהליכים אשר עיצבו
+את מאדים. InSight תחקור את הגודל, העובי, הצפיפות ואת [מצב
+הצבירה](/wiki/%D7%9E%D7%A6%D7%91_%D7%A6%D7%91%D7%99%D7%A8%D7%94 "מצב צבירה")
+של הליבה ([נוזלי](/wiki/%D7%A0%D7%95%D7%96%D7%9C "נוזל") או
+[מוצק](/wiki/%D7%9E%D7%95%D7%A6%D7%A7 "מוצק")),
+ה[מעטפת](/wiki/%D7%94%D7%9E%D7%A2%D7%98%D7%A4%D7%AA "המעטפת")
+וה[קרום](/w/index.php?title=%D7%A7%D7%A8%D7%95%D7%9D_\(%D7%92%D7%90%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)&action=edit&redlink=1
+"קרום \(גאולוגיה\) \(הדף אינו קיים\)") של מאדים, וכן את קצב עזיבת החום מפנים
+כוכב הלכת.
+
+חומרת הנחתת מבוססת על הנחתת
+[פיניקס](/wiki/%D7%A4%D7%99%D7%A0%D7%99%D7%A7%D7%A1_\(%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA\)
+"פיניקס \(גשושית\)"), שנחתה בהצלחה על מאדים בשנת 2008, ובכך התכוונה נאס"א
+להפחית את העלות ורמת הסיכון של המשימה. הנחתת נחתה במאדים ב־26 בנובמבר 2018.
+
+### מקפת שיירי גז[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=29
+"עריכת פסקה: "מקפת שיירי גז"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=29
+"עריכת פסקה: "מקפת שיירי גז"")]
+
+[מקפת שיירי הגז אקסו
+מארס](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA_%D7%A9%D7%99%D7%99%D7%A8%D7%99_%D7%94%D7%92%D7%96_%D7%90%D7%A7%D7%A1%D7%95_%D7%9E%D7%90%D7%A8%D7%A1
+"מקפת שיירי הגז אקסו מארס") היא
+[גשושית](/wiki/%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA "גשושית") ששוגרה כחלק
+מפרויקט [אקסו מארס](/wiki/%D7%90%D7%A7%D7%A1%D7%95_%D7%9E%D7%90%D7%A8%D7%A1
+"אקסו מארס") על ידי [סוכנות החלל
+האירופית](/wiki/%D7%A1%D7%95%D7%9B%D7%A0%D7%95%D7%AA_%D7%94%D7%97%D7%9C%D7%9C_%D7%94%D7%90%D7%99%D7%A8%D7%95%D7%A4%D7%99%D7%AA
+"סוכנות החלל האירופית")
+ו[רוסקוסמוס](/wiki/%D7%A8%D7%95%D7%A1%D7%A7%D7%95%D7%A1%D7%9E%D7%95%D7%A1
+"רוסקוסמוס") בשנת [2016](/wiki/2016 "2016") לחקר מאדים.
+
+המקפת שוגרה יחד עם
+ה[סקיאפארלי](/wiki/%D7%A1%D7%A7%D7%99%D7%90%D7%A4%D7%90%D7%A8%D7%9C%D7%99_\(%D7%A0%D7%97%D7%AA%D7%AA\)
+"סקיאפארלי \(נחתת\)"), [נחתת](/wiki/%D7%A0%D7%97%D7%AA%D7%AA "נחתת") ששימשה
+כמדגים טכנולוגי, ונכשלה בנחיתתה, ב־[14 במרץ](/wiki/14_%D7%91%D7%9E%D7%A8%D7%A5
+"14 במרץ") 2016\. המקפת נכנסה למסלול סביב מאדים ב־[19
+באוקטובר](/wiki/19_%D7%91%D7%90%D7%95%D7%A7%D7%98%D7%95%D7%91%D7%A8 "19
+באוקטובר") באותה שנה.[21]
+
+מטרתה העיקרית של המקפת היא חקר ה[מתאן](/wiki/%D7%9E%D7%AA%D7%90%D7%9F "מתאן")
+וגזים אחרים באטמוספירת מאדים, כסימנים לחיים אפשריים על פני מאדים.
+
+המקפת השלימה את משימתה הראשונה: שחרור הנחתת סקיאפרלי ב־16 באוקטובר 2016. הנחתת
+לא הצליחה לנחות בשלום על פני מאדים. המקפת החלה בשינוי מסלולה, תוך שימוש
+ב[בלימה
+אטמוספירית](/wiki/%D7%91%D7%9C%D7%99%D7%9E%D7%94_%D7%90%D7%98%D7%9E%D7%95%D7%A1%D7%A4%D7%99%D7%A8%D7%99%D7%AA
+"בלימה אטמוספירית"), ונתונים ממנה צפויים בסוף 2017.[22]
+
+### משימת תקווה מאדים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=30
+"עריכת פסקה: "משימת תקווה מאדים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=30
+"עריכת פסקה: "משימת תקווה מאדים"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[משימת תקווה מאדים](/wiki/%D7%9E%D7%A9%D7%99%D7%9E%D7%AA_%D7%AA%D7%A7%D7%95%D7%95%D7%94_%D7%9E%D7%90%D7%93%D7%99%D7%9D "משימת תקווה מאדים")**
+
+גשושית מחקר מסוג מקפת של [איחוד האמירויות
+הערביות](/wiki/%D7%90%D7%99%D7%97%D7%95%D7%93_%D7%94%D7%90%D7%9E%D7%99%D7%A8%D7%95%D7%99%D7%95%D7%AA_%D7%94%D7%A2%D7%A8%D7%91%D7%99%D7%95%D7%AA
+"איחוד האמירויות הערביות") ששוגרה ב־19 ביולי [2020](/wiki/2020 "2020"), ותגיע
+למסלול של מאדים בשנת [2021](/wiki/2021 "2021"). הגשושית תעשה מחקר על
+האטמוספירה של מאדים.
+
+### משימת טיאנוון-1[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=31
+"עריכת פסקה: "משימת טיאנוון-1"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=31
+"עריכת פסקה: "משימת טיאנוון-1"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[טיאנוון-1](/wiki/%D7%98%D7%99%D7%90%D7%A0%D7%95%D7%95%D7%9F-1 "טיאנוון-1")**
+
+סין שיגרה ב־23 ביולי 2020 גשושית המורכבת ממקפת, נחתת ורובר שמתוכנן לנחות על
+פני המאדים בפברואר 2021.
+
+### מאדים 2020[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=32
+"עריכת פסקה: "מאדים 2020"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=32
+"עריכת פסקה: "מאדים 2020"")]
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/4/45/MarsRoverHelicopter-20150122.png/180px-
+MarsRoverHelicopter-20150122.png)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:MarsRoverHelicopter-20150122.png)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:MarsRoverHelicopter-20150122.png "הגדלה")
+
+הדמיית המסוק של משימת מאדים 2020
+
+משימת [מאדים 2020](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_2020 "מארס 2020") נועדה לבצע
+מחקר
+[אסטרוביולוגי](/wiki/%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%91%D7%99%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94
+"אסטרוביולוגיה") במטרה לחפש סימנים
+[מיקרוביולוגים](/wiki/%D7%9E%D7%99%D7%A7%D7%A8%D7%95%D7%91%D7%99%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94
+"מיקרוביולוגיה") לחיים קדומים על המאדים, ולהעריך משאבי וסיכוני טבע לחוקרים
+אנושיים עתידיים. השיגור בוצע על משגר [אטלס 5](/wiki/%D7%90%D7%98%D7%9C%D7%A1_5
+"אטלס 5"), ב־30 ביולי [2020](/wiki/2020 "2020") והנחיתה על המאדים התקיימה
+בהצלחה ב־18 בפברואר [2021](/wiki/2021 "2021"). היא מתוכננת להימשך שנת מאדים
+אחת לפחות (687 ימי כדור הארץ).
+
+המשימה עוזרת לסלול את הדרך למסעות אנושיים עתידיים למאדים ומדגימה טכנולוגיות
+שניתן להשתמש בהן. אלה כוללים בדיקת שיטה להפקת
+[חמצן](/wiki/%D7%97%D7%9E%D7%A6%D7%9F "חמצן") מאטמוספירת המאדים, זיהוי משאבים
+אחרים (כגון מים תת קרקעיים), שיפור טכניקות נחיתה, ואפיון מזג האוויר, האבק
+ותנאים סביבתיים פוטנציאליים אחרים העלולים להשפיע על אסטרונאוטים עתידיים החיים
+ועובדים על מאדים.
+
+המשימה כוללת
+[רובר](/wiki/%D7%A8%D7%95%D7%91%D7%A8_\(%D7%97%D7%A7%D7%A8_%D7%94%D7%97%D7%9C%D7%9C\)
+"רובר \(חקר החלל\)") בשם
+[פרסווירנס](/wiki/%D7%A4%D7%A8%D7%A1%D7%95%D7%95%D7%99%D7%A8%D7%A0%D7%A1
+"פרסווירנס") (באנגלית: Perseverance) שמצוייד במקדח לאיסוף דגימות ליבה של סלע
+ואדמת מאדים, ולאחסונם עד לאיסוף על ידי משימה עתידית שתעביר אותם חזרה לכדור
+הארץ לצורך בדיקה מעמיקה. אל הרכב הרובוטי מתלווה מסוק-רחפן בשם
+[אינג'ניואיטי](/wiki/%D7%90%D7%99%D7%A0%D7%92%27%D7%A0%D7%99%D7%95%D7%90%D7%99%D7%98%D7%99
+"אינג'ניואיטי") (באנגלית: Ingenuity), פרי פיתוח של [המעבדה להנעה
+סילונית](/wiki/%D7%94%D7%9E%D7%A2%D7%91%D7%93%D7%94_%D7%9C%D7%94%D7%A0%D7%A2%D7%94_%D7%A1%D7%99%D7%9C%D7%95%D7%A0%D7%99%D7%AA
+"המעבדה להנעה סילונית"), שמשקלו 1.8 ק"ג. מסוק זה בא כדי להדגים את יכולת הטיסה
+באטמוספירה הדלילה, להבי [הרוטור
+הקואקסיאלי](/wiki/%D7%A8%D7%95%D7%98%D7%95%D7%A8_%D7%A7%D7%95%D7%90%D7%A7%D7%A1%D7%99%D7%90%D7%9C%D7%99
+"רוטור קואקסיאלי") שלו יסתובבו במהירות של 2,400 [סיבובים
+לדקה](/wiki/%D7%A1%D7%9C%22%D7%93 "סל"ד") – בערך פי 6 מרוטור במסוק על [כדור
+הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור
+הארץ").[23]
+
+### משימת אקסו מארס[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=33
+"עריכת פסקה: "משימת אקסו מארס"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=33
+"עריכת פסקה: "משימת אקסו מארס"")]
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[אקסו מארס](/wiki/%D7%90%D7%A7%D7%A1%D7%95_%D7%9E%D7%90%D7%A8%D7%A1 "אקסו מארס")**
+
+המשימה היא שיתוף פעולה בין שתי סוכנויות חלל והיא מתוכננת לשיגור בשנת
+[2022](/wiki/2022 "2022") ונחיתה על פני המאדים בקיץ [2023](/wiki/2023 "2023").
+המשימה כוללת פלטפורמה קרקעית מסוג נחתת בשם
+[קזאצ'וק](/w/index.php?title=%D7%A7%D7%96%D7%90%D7%A6%27%D7%95%D7%A7_\(%D7%A0%D7%97%D7%AA%D7%AA\)&action=edit&redlink=1
+"קזאצ'וק \(נחתת\) \(הדף אינו קיים\)") של סוכנות החלל הרוסית
+[רוסקוסמוס](/wiki/%D7%A8%D7%95%D7%A1%D7%A7%D7%95%D7%A1%D7%9E%D7%95%D7%A1
+"רוסקוסמוס") שנבנתה על ידי
+[לאבוצ'קין](/wiki/%D7%9C%D7%90%D7%91%D7%95%D7%A6%27%D7%A7%D7%99%D7%9F
+"לאבוצ'קין") ורובר בשם [רוזלינד
+פרנקלין](/w/index.php?title=%D7%A8%D7%95%D7%96%D7%9C%D7%99%D7%A0%D7%93_%D7%A4%D7%A8%D7%A0%D7%A7%D7%9C%D7%99%D7%9F_\(%D7%A8%D7%95%D7%91%D7%A8\)&action=edit&redlink=1
+"רוזלינד פרנקלין \(רובר\) \(הדף אינו קיים\)") של [סוכנות החלל
+האירופאית](/wiki/%D7%A1%D7%95%D7%9B%D7%A0%D7%95%D7%AA_%D7%94%D7%97%D7%9C%D7%9C_%D7%94%D7%90%D7%99%D7%A8%D7%95%D7%A4%D7%90%D7%99%D7%AA
+"סוכנות החלל האירופאית") שנבנה על ידי חטיבת החלל של [קבוצת
+איירבוס](/wiki/%D7%A7%D7%91%D7%95%D7%A6%D7%AA_%D7%90%D7%99%D7%99%D7%A8%D7%91%D7%95%D7%A1
+"קבוצת איירבוס").
+
+### משימת מקפת מאדים מס' 2[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=34
+"עריכת פסקה: "משימת מקפת מאדים מס' 2"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=34
+"עריכת פסקה: "משימת מקפת מאדים מס' 2"")]
+
+המשימה של [הארגון ההודי לחקר
+החלל](/wiki/%D7%94%D7%90%D7%A8%D7%92%D7%95%D7%9F_%D7%94%D7%94%D7%95%D7%93%D7%99_%D7%9C%D7%97%D7%A7%D7%A8_%D7%94%D7%97%D7%9C%D7%9C
+"הארגון ההודי לחקר החלל"), מתוכננת לשיגור בשנת [2024](/wiki/2024 "2024") והיא
+כוללת מקפת ונחתת או רובר.
+
+## מחקר מאויש[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=35
+"עריכת פסקה: "מחקר מאויש"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=35
+"עריכת פסקה: "מחקר מאויש"")]
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Manndmissiononmarsnasa.jpg/250px-
+Manndmissiononmarsnasa.jpg)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Manndmissiononmarsnasa.jpg)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Manndmissiononmarsnasa.jpg "הגדלה")
+
+הדמיית משימה מאוישת למאדים
+
+    ![Postscript-viewer-shaded.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Postscript-viewer-shaded.png/25px-Postscript-viewer-shaded.png) ערך מורחב – **[משימות מאוישות למאדים](/wiki/%D7%9E%D7%A9%D7%99%D7%9E%D7%95%D7%AA_%D7%9E%D7%90%D7%95%D7%99%D7%A9%D7%95%D7%AA_%D7%9C%D7%9E%D7%90%D7%93%D7%99%D7%9D "משימות מאוישות למאדים")**
+
+נכון לעשור השלישי של המאה ה־21, טרם נשלחו אסטרונאוטים אל מאדים, אך הן [סוכנות
+החלל האמריקאית](/wiki/%D7%A0%D7%90%D7%A1%22%D7%90 "נאס"א") והן גופים אחרים כבר
+חוקרים במרץ את האפשרות לבצע משימה מאוישת למאדים.
+
+מאדים הוא כוכב הלכת שגורם להתעניינות יותר מכל [כוכב
+לכת](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA "כוכב לכת") אחר במערכת
+השמש. אחת הסיבות לכך היא האפשרות [להאריץ](/wiki/%D7%94%D7%90%D7%A8%D7%A6%D7%94
+"הארצה") אותו, כלומר להפוך אותו לכוכב לכת שישררו בו תנאים שיאפשרו
+ל[בני־אדם](/wiki/%D7%91%D7%9F-%D7%90%D7%93%D7%9D "בן-אדם") להגיע אליו ברבות
+הימים ולהשתכן בו. עד שנת 2035 מתכוונת נאס"א לשלוח אליו חללית מאוישת, אם ימצא
+לכך התקציב. עלות מבצע מסוג זה מוערכת בעד 300 מיליארדי דולרים[[דרוש
+מקור](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%91%D7%99%D7%91%D7%9C%D7%99%D7%95%D7%92%D7%A8%D7%A4%D7%99%D7%94
+"ויקיפדיה:ביבליוגרפיה")], וההערכה היא כי יידרש לכך שיתוף פעולה בינלאומי.
+
+ב־[14 בינואר](/wiki/14_%D7%91%D7%99%D7%A0%D7%95%D7%90%D7%A8 "14 בינואר") 2004,
+לאחר [אסון מעבורת החלל
+קולומביה](/wiki/%D7%90%D7%A1%D7%95%D7%9F_%D7%9E%D7%A2%D7%91%D7%95%D7%A8%D7%AA_%D7%94%D7%97%D7%9C%D7%9C_%D7%A7%D7%95%D7%9C%D7%95%D7%9E%D7%91%D7%99%D7%94
+"אסון מעבורת החלל קולומביה"), הכריז [נשיא ארצות
+הברית](/wiki/%D7%A0%D7%A9%D7%99%D7%90_%D7%90%D7%A8%D7%A6%D7%95%D7%AA_%D7%94%D7%91%D7%A8%D7%99%D7%AA
+"נשיא ארצות הברית") [ג'ורג' ו'
+בוש](/wiki/%D7%92%27%D7%95%D7%A8%D7%92%27_%D7%95%D7%95%D7%A7%D7%A8_%D7%91%D7%95%D7%A9
+"ג'ורג' ווקר בוש") על [תוכנית החלל
+הבאה](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%A7%D7%95%D7%A0%D7%A1%D7%98%D7%9C%D7%99%D7%99%D7%A9%D7%9F
+"תוכנית קונסטליישן") של [ארצות
+הברית](/wiki/%D7%90%D7%A8%D7%A6%D7%95%D7%AA_%D7%94%D7%91%D7%A8%D7%99%D7%AA
+"ארצות הברית"), לשליחת אדם אל הירח, ולאחר מכן אל מאדים. כוונת התוכנית הייתה
+לפתח טכנולוגיה להקמת בסיס קבע על הירח, על מנת להשתמש בה במשימה אל מאדים. בשנת
+2011 בוטלה התוכנית על ידי ממשלו של [ברק
+אובמה](/wiki/%D7%91%D7%A8%D7%A7_%D7%90%D7%95%D7%91%D7%9E%D7%94 "ברק אובמה")
+בשל חוסר תקציב והסכנות במשימה זאת.
+
+משימה כזו מציבה מספר אתגרים, הנובעים ברובם מאורך המשימה, הצפוי להיות כשנתיים.
+זאת עקב אופי מסלולי כדור הארץ ומאדים סביב השמש, הגורם לכך ששני הכוכבים קרובים
+ביותר זה לזה פעם ב־26 חודשים, מה שיוצר הזדמנויות שיגור סביב מועד זה. האתגרים
+הם:
+
+  * אספקת מים ומזון. חושבים שניתן יהיה לגדל מזון בחללית או על פני מאדים[[דרוש מקור](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%91%D7%99%D7%91%D7%9C%D7%99%D7%95%D7%92%D7%A8%D7%A4%D7%99%D7%94 "ויקיפדיה:ביבליוגרפיה")]. מדידות שנעשו במאה ה־21 מראות כי ככל הנראה קיימת כמות נכבדה של מים קפואים בעומק קטן מתחת לפני השטח של מאדים[[דרוש מקור](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%91%D7%99%D7%91%D7%9C%D7%99%D7%95%D7%92%D7%A8%D7%A4%D7%99%D7%94 "ויקיפדיה:ביבליוגרפיה")].
+  * אספקת חמצן. משערים שניתן יהיה להפיק אותו על ידי פירוק מים למימן וחמצן.
+  * דלק לטיסה חזרה. לא ניתן יהיה לשאת את הדלק עם הרכב המשוגר עקב הכמות הגדולה הנדרשת, אך נראה שניתן יהיה, כאמור, לזקק מימן על פני מאדים שישמש דלק. לחלופין, מציעה נאס"א להשתמש בדלק חמצן/[מתאן](/wiki/%D7%9E%D7%AA%D7%90%D7%9F "מתאן"), כאשר המתאן יזוקק מתוך האטמוספירה המאדימית.
+  * [קרינה קוסמית](/wiki/%D7%A7%D7%A8%D7%99%D7%A0%D7%94_%D7%A7%D7%95%D7%A1%D7%9E%D7%99%D7%AA "קרינה קוסמית"). הן במהלך הטיסה, שצפויה לארוך חצי שנה, והן על פני מאדים, שחסר שדה מגנטי כמו זה של כדור הארץ, צפויים האסטרונאוטים להיות חשופים לקרינה קוסמית מסוכנת. נבחנים מספר פתרונות לנושא, כמו שדה מגנטי מלאכותי, או קירות מחומרים עשירים במימן, הידוע ביכולת שלו לספוג קרינה קוסמית.[24]
+
+## בתרבות[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=36
+"עריכת פסקה: "בתרבות"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=36
+"עריכת פסקה: "בתרבות"")]
+
+מִי יֵדַע פְּלִיאוֹתֶיךָ, בְּהַקִּיפךָ עַל גַּלְגַּל חַמָּה גַּלְגַּל
+חֲמִישִׁי וּבוֹ מַאֲדִים כְּמֶלֶךְ בְּהֵיכָלוֹ / וּבִשְׁמֹנָה עָשָׂר חֹדֶשׁ
+יִסֹּב גַּלְגַּלוֹ? / וּמִדָּתוֹ כְּגוּף הָאָרֶץ פַּעַם וָחֵצִי וּשְׁמִינִית
+פַּעַם וְזֶה תַּכְלִית גָּדְלוֹ. וְהוּא כְגִבּוֹר עָרִיץ, מָגֵן גִּבּוֹרֵיהוּ
+מְאָדָּם / וּמְעוֹרֵר מִלְחָמוֹת וְהֶרֶג וְאַבְדָן / וּמֻכֵּי חֶרֶב וּלְחֻמֵי
+רֶשֶׁף – נֶהְפַּךְ לְחֶרֶב לְשַׁדָּם / וּשְׁנוֹת בַּצֹּרֶת וּשְׂרֵפַת אֵשׁ
+וּרְעָמִים וְאַבְנֵי אֶלְגָּבִישׁ וּמְדֻקָּרִים וּשְׁלוּפֵי חֶרֶב כְּנֶגְדָּם,
+/ כִּי רַגְלֵיהֶם לָרַע יָרוּצוּ וִימַהֲרוּ לשְׁפֹךְ דָם.  
+  
+---  
+[רבי שלמה אבן
+גבירול](/wiki/%D7%A9%D7%9C%D7%9E%D7%94_%D7%90%D7%91%D7%9F_%D7%92%D7%91%D7%99%D7%A8%D7%95%D7%9C
+"שלמה אבן גבירול"), כתר מלכות  
+  
+[צבע](/wiki/%D7%A6%D7%91%D7%A2 "צבע") פניו של מאדים
+[אדמדם](/wiki/%D7%90%D7%93%D7%95%D7%9D "אדום")[2] בשל ריבוי בתחמוצות
+[ברזל](/wiki/%D7%91%D7%A8%D7%96%D7%9C "ברזל") בקרקעו, ומכאן שמו
+ה[עברי](/wiki/%D7%A2%D7%91%D7%A8%D7%99%D7%AA "עברית") והכינוי "כוכב הלכת
+האדום". כמו כן מבין שבע המתכות הקדומות הברזל יוחס לו. שמו בלעז הוא **מארס** (
+**Mars** ), משום שהוא זוהה ב[מיתולוגיה
+הרומית](/wiki/%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94_%D7%A8%D7%95%D7%9E%D7%99%D7%AA
+"מיתולוגיה רומית") עם [אל
+המלחמה](/wiki/%D7%9E%D7%A8%D7%A1_\(%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)
+"מרס \(מיתולוגיה\)") בשם זה (המקביל
+ל[ארס](/wiki/%D7%90%D7%A8%D7%A1_\(%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94\)
+"ארס \(מיתולוגיה\)") מה[מיתולוגיה
+היוונית](/wiki/%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94_%D7%99%D7%95%D7%95%D7%A0%D7%99%D7%AA
+"מיתולוגיה יוונית")). שם זה ניתן לו בשל מראהו האדמדם בשמי
+ה[לילה](/wiki/%D7%9C%D7%99%D7%9C%D7%94 "לילה"), שהרי הצבע האדום מתקשר
+ל[מלחמה](/wiki/%D7%9E%D7%9C%D7%97%D7%9E%D7%94 "מלחמה").
+ב[אסטרונומיה](/wiki/%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%A0%D7%95%D7%9E%D7%99%D7%94
+"אסטרונומיה") הבבלית זוהה מאדים עם אל המלחמה, האש וההרס
+[נרגל](/wiki/%D7%A0%D7%A8%D7%92%D7%9C "נרגל"). מארס נשאר מזוהה בתרבות עם מלחמה
+ואלימות. ב[מסכת שבת](/wiki/%D7%9E%D7%A1%D7%9B%D7%AA_%D7%A9%D7%91%D7%AA "מסכת
+שבת") נאמר כי אדם הנולד ב"מזל מאדים" יעסוק בהוצאת דם:
+
+> האי מאן דבמאדים יהי גבר אשיד דמא. אמר [רב
+> אשי](/wiki/%D7%A8%D7%91_%D7%90%D7%A9%D7%99 "רב אשי"): אי אומנא אי גנבא אי
+> טבחא אי מוהלא.
+>
+> — [מסכת שבת דף קנ"ו
+> ע"א](https://he.wikisource.org/wiki/%D7%91%D7%99%D7%90%D7%95%D7%A8:%D7%91%D7%91%D7%9C%D7%99_%D7%A9%D7%91%D7%AA_%D7%93%D7%A3_%D7%A7%D7%A0%D7%95
+> "s:ביאור:בבלי שבת דף קנו")
+
+כיוון שמאדים נקשר ל[יום
+שלישי](/wiki/%D7%99%D7%95%D7%9D_%D7%A9%D7%9C%D7%99%D7%A9%D7%99 "יום
+שלישי")[25] אסר
+[שמואל](/wiki/%D7%A9%D7%9E%D7%95%D7%90%D7%9C_\(%D7%90%D7%9E%D7%95%D7%A8%D7%90\)
+"שמואל \(אמורא\)") על [הקזת דם](/wiki/%D7%94%D7%A7%D7%96%D7%AA_%D7%93%D7%9D
+"הקזת דם") בימי שלישי[26] [רש"י](/wiki/%D7%A8%D7%A9%22%D7%99 "רש"י") מסביר את
+האיסור בכך ש"מזל מאדים ממונה על החרב ועל הדבר ועל הפורעניות". הקשר בין מאדים
+לשפיכות דמים ואלימות מופיע גם ב"כתר מלכות" של [רבי שלמה אבן
+גבירול](/wiki/%D7%A9%D7%9C%D7%9E%D7%94_%D7%90%D7%91%D7%9F_%D7%92%D7%91%D7%99%D7%A8%D7%95%D7%9C
+"שלמה אבן גבירול") לעיל.
+
+[סמלו של
+מאדים](/wiki/%D7%A1%D7%9E%D7%9C%D7%95_%D7%A9%D7%9C_%D7%9E%D7%90%D7%A8%D7%A1
+"סמלו של מארס") מקורו במיתולוגיה הרומית - מגינו וחניתו של מארס. משמש
+ב[ביולוגיה](/wiki/%D7%91%D7%99%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94 "ביולוגיה")
+לציון ה[מגדר](/wiki/%D7%9E%D7%92%D7%93%D7%A8 "מגדר")
+[זכר](/wiki/%D7%96%D7%9B%D7%A8 "זכר")
+וב[אלכימיה](/wiki/%D7%90%D7%9C%D7%9B%D7%99%D7%9E%D7%99%D7%94 "אלכימיה") לציון
+היסוד [ברזל](/wiki/%D7%91%D7%A8%D7%96%D7%9C "ברזל").
+
+מאדים לוקח חלק חשוב ב[אסטרולוגיה
+מערבית](/wiki/%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94#אסטרולוגיה_מערבית
+"אסטרולוגיה")
+ו[הודית](/wiki/%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94_%D7%94%D7%95%D7%93%D7%99%D7%AA
+"אסטרולוגיה הודית"), בה הוא מסמל את ה[אל
+ההודי](/wiki/%D7%9E%D7%99%D7%AA%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%94_%D7%94%D7%99%D7%A0%D7%93%D7%95%D7%90%D7%99%D7%AA
+"מיתולוגיה הינדואית") מאנגלה, ומסמל דחף ואנרגיה. המתאם הסטטיסטי [אפקט
+מאדים](/wiki/%D7%90%D7%A4%D7%A7%D7%98_%D7%9E%D7%90%D7%93%D7%99%D7%9D "אפקט
+מאדים") מקשר בין הצלחה במקצועות למיקומו בשמיים של מאדים.
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mars_symbol.svg/100px-
+Mars_symbol.svg.png)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Mars_symbol.svg)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Mars_symbol.svg "הגדלה")
+
+סמלו של מאדים מבוסס על סמלו של אל המלחמה הרומי מארס
+
+במאה ה־19 הרזולוציה של טלסקופים השתפרה מספיק כדי לאפיין את פני השטח של מאדים.
+בספטמבר 1877 התקרב מאדים לשמש והיה על הקו שבין השמש לכדור הארץ (Perihelic
+Opposition) כלומר בתנאי צפייה אופטימליים – מצב המתרחש פעם ב־15-17 שנים.
+האסטרונום ג'ובאני סקיאפָּרֶלִי (Giovanni Schiaparelli) השתמש אז בטלסקופ של 22
+סנטימטרים כדי למפות לראשונה את פני הכוכב. במפות הופיעו "תעלות" שלימים התברר
+שהן [טעויות
+אופטיות](/wiki/%D7%90%D7%A9%D7%9C%D7%99%D7%94_%D7%90%D7%95%D7%A4%D7%98%D7%99%D7%AA
+"אשליה אופטית") בלבד. סקיאפרלי תיאר את הקווים הללו במילה האיטלקית _canali_
+כלומר ערוצים וכינה אותם על שמות נהרות מיתולוגיים. לאנגלית תורגם המושג כ־canals
+- תעלות כלומר כתוצר של פעילות כריה של יצורים תבוניים. ה"תעלות" דווחו גם על ידי
+האסטרונום [פרסיוול
+לוול](/wiki/%D7%A4%D7%A8%D7%A1%D7%99%D7%95%D7%95%D7%9C_%D7%9C%D7%95%D7%95%D7%9C
+"פרסיוול לוול") בהזדמנות הצפייה הבאה ב־1894 באמצעות טלסקופים משוכללים יותר
+(300 ו־450 מ"מ). התעלות וכן השינויים העונתיים בצבעים ביססו את הרעיון שמאדים
+מיושב. אלא שככל שהשתכללו הטלסקופים נצפו פחות תעלות וב־1909 באמצעות טלסקופ של
+840 מ"מ נצפו קווים לא ישרים אך לא תעלות.
+
+מאמרים על הביולוגיה של מאדים הופיעו עד לשנות ה־60 של המאה ה־20 כשחלליות
+[מארינר](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8
+"תוכנית מארינר") בקרו בכוכב. הרעיון שכוכב מאדים מיושב היווה בסיס ליצירות מדע
+בדיוני רבות שהראשונה שבהן [מלחמת
+העולמות](/wiki/%D7%9E%D7%9C%D7%97%D7%9E%D7%AA_%D7%94%D7%A2%D7%95%D7%9C%D7%9E%D7%95%D7%AA
+"מלחמת העולמות") של [ה. ג'.
+וולס](/wiki/%D7%94._%D7%92%27._%D7%95%D7%95%D7%9C%D7%A1 "ה. ג'. וולס"). בין
+יצירות אלו נכללים גם "כוכב אדום" של הסופר
+וה[פילוסוף](/wiki/%D7%A4%D7%99%D7%9C%D7%95%D7%A1%D7%95%D7%A3 "פילוסוף") הרוסי
+[אלכסנדר
+בוגדנוב](/wiki/%D7%90%D7%9C%D7%9B%D7%A1%D7%A0%D7%93%D7%A8_%D7%91%D7%95%D7%92%D7%93%D7%A0%D7%95%D7%91
+"אלכסנדר בוגדנוב"), סדרת ספרי
+[בארסום](/wiki/%D7%91%D7%90%D7%A8%D7%A1%D7%95%D7%9D "בארסום") של [אדגר רייס
+בורוז](/wiki/%D7%90%D7%93%D7%92%D7%A8_%D7%A8%D7%99%D7%99%D7%A1_%D7%91%D7%95%D7%A8%D7%95%D7%96
+"אדגר רייס בורוז"), "אאליטה" של סופר המדע בדיוני [אלכסיי ניקולייביץ'
+טולסטוי](/w/index.php?title=%D7%90%D7%9C%D7%9B%D7%A1%D7%99%D7%99_%D7%A0%D7%99%D7%A7%D7%95%D7%9C%D7%99%D7%99%D7%91%D7%99%D7%A5%27_%D7%98%D7%95%D7%9C%D7%A1%D7%98%D7%95%D7%99&action=edit&redlink=1
+"אלכסיי ניקולייביץ' טולסטוי \(הדף אינו קיים\)"), "מכוכב הדממה" של [ק. ס.
+לואיס](/wiki/%D7%A7._%D7%A1._%D7%9C%D7%95%D7%90%D7%99%D7%A1 "ק. ס. לואיס"),
+"הרפתקה בחלל" של [פרדריק
+בראון](/wiki/%D7%A4%D7%A8%D7%93%D7%A8%D7%99%D7%A7_%D7%91%D7%A8%D7%90%D7%95%D7%9F
+"פרדריק בראון"), "רשימות מן המאדים" של [ריי
+ברדבורי](/wiki/%D7%A8%D7%99%D7%99_%D7%91%D7%A8%D7%93%D7%91%D7%95%D7%A8%D7%99
+"ריי ברדבורי"), "The Outward Urge" של [ג'ון
+וינדהם](/wiki/%D7%92%27%D7%95%D7%9F_%D7%95%D7%99%D7%A0%D7%93%D7%94%D7%9D "ג'ון
+וינדהם"), "חולות מאדים" של [ארתור סי.
+קלארק](/wiki/%D7%90%D7%A8%D7%AA%D7%95%D7%A8_%D7%A1%D7%99._%D7%A7%D7%9C%D7%90%D7%A8%D7%A7
+"ארתור סי. קלארק") ו"[כדרך בני
+מאדים](/wiki/%D7%9B%D7%93%D7%A8%D7%9A_%D7%91%D7%A0%D7%99_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"כדרך בני מאדים")" של [אייזק
+אסימוב](/wiki/%D7%90%D7%99%D7%99%D7%96%D7%A7_%D7%90%D7%A1%D7%99%D7%9E%D7%95%D7%91
+"אייזק אסימוב"). דמויות ממאדים הופיעו למשל ב"[לוני
+טונס](/wiki/%D7%9C%D7%95%D7%A0%D7%99_%D7%98%D7%95%D7%A0%D7%A1 "לוני טונס")"
+([מרווין
+ממאדים](/w/index.php?title=%D7%9E%D7%A8%D7%95%D7%95%D7%99%D7%9F_%D7%9E%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&redlink=1
+"מרווין ממאדים \(הדף אינו קיים\)")
+([אנ'](https://en.wikipedia.org/wiki/Marvin_the_Martian "en:Marvin the
+Martian"))) ובסרטי [מדע
+בדיוני](/wiki/%D7%9E%D7%93%D7%A2_%D7%91%D7%93%D7%99%D7%95%D7%A0%D7%99 "מדע
+בדיוני") רבים.
+
+  * מאדים מופיע ביצירה המוזיקלית [כוכבי הלכת](/wiki/%D7%9B%D7%95%D7%9B%D7%91%D7%99_%D7%94%D7%9C%D7%9B%D7%AA_\(%D7%99%D7%A6%D7%99%D7%A8%D7%94_%D7%9E%D7%95%D7%96%D7%99%D7%A7%D7%9C%D7%99%D7%AA\) "כוכבי הלכת \(יצירה מוזיקלית\)") של [גוסטב הולסט](/wiki/%D7%92%D7%95%D7%A1%D7%98%D7%91_%D7%94%D7%95%D7%9C%D7%A1%D7%98 "גוסטב הולסט") כמביא המלחמה והכעס. זאת לצד יופיטר מביא השמחה, ונוס ונפטון.
+  * בשנת 2015 יצא לאקרנים סרט המדע הבדיוני "[להציל את מארק וואטני](/wiki/%D7%9C%D7%94%D7%A6%D7%99%D7%9C_%D7%90%D7%AA_%D7%9E%D7%90%D7%A8%D7%A7_%D7%95%D7%95%D7%90%D7%98%D7%A0%D7%99 "להציל את מארק וואטני")", המתאר אסטרונאוט שננטש לבדו במאדים.
+
+## ראו גם[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=37
+"עריכת פסקה: "ראו גם"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=37
+"עריכת פסקה: "ראו גם"")]
+
+  * [הארצת מאדים](/wiki/%D7%94%D7%90%D7%A8%D7%A6%D7%AA_%D7%9E%D7%90%D7%93%D7%99%D7%9D "הארצת מאדים")
+  * [הפנים במאדים](/wiki/%D7%94%D7%A4%D7%A0%D7%99%D7%9D_%D7%91%D7%9E%D7%90%D7%93%D7%99%D7%9D "הפנים במאדים")
+  * [אולימפוס מונס](/wiki/%D7%90%D7%95%D7%9C%D7%99%D7%9E%D7%A4%D7%95%D7%A1_%D7%9E%D7%95%D7%A0%D7%A1 "אולימפוס מונס")
+  * [ואליס מארינריס](/wiki/%D7%95%D7%90%D7%9C%D7%99%D7%A1_%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8%D7%99%D7%A1 "ואליס מארינריס")
+  * [Google Mars](/wiki/Google_Mars "Google Mars")
+  * [מתיחת מאדים](/wiki/%D7%9E%D7%AA%D7%99%D7%97%D7%AA_%D7%9E%D7%90%D7%93%D7%99%D7%9D "מתיחת מאדים")
+  * [ALH 84001](/wiki/ALH_84001 "ALH 84001") \- מטאוריט שמקורו במאדים, ומכיל מאובן שאין עליו הסכמה
+
+## לקריאה נוספת[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=38
+"עריכת פסקה: "לקריאה נוספת"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=38
+"עריכת פסקה: "לקריאה נוספת"")]
+
+  * [ג'ון אפדייק](/wiki/%D7%92%27%D7%95%D7%9F_%D7%90%D7%A4%D7%93%D7%99%D7%99%D7%A7 "ג'ון אפדייק"), **מראות מן המאדים** , [נשיונל ג'יאוגרפיק](/wiki/%D7%A0%D7%A9%D7%99%D7%95%D7%A0%D7%9C_%D7%92%27%D7%99%D7%90%D7%95%D7%92%D7%A8%D7%A4%D7%99%D7%A7 "נשיונל ג'יאוגרפיק"), גיליון 127, דצמבר 2008
+
+## קישורים חיצוניים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=39
+"עריכת פסקה: "קישורים חיצוניים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=39
+"עריכת פסקה: "קישורים חיצוניים"")]
+
+מיזמי [קרן
+ויקימדיה](/wiki/%D7%A7%D7%A8%D7%9F_%D7%95%D7%99%D7%A7%D7%99%D7%9E%D7%93%D7%99%D7%94
+"קרן ויקימדיה")  
+---  
+  
+![ויקימילון](//upload.wikimedia.org/wikipedia/commons/thumb/2/24/Wiktionary-
+logo-he.png/20px-Wiktionary-logo-he.png) ערך מילוני בוויקימילון:
+**[מאדים](https://he.wiktionary.org/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"wikt:מאדים")**  
+  
+![ויקימילון](//upload.wikimedia.org/wikipedia/commons/thumb/2/24/Wiktionary-
+logo-he.png/20px-Wiktionary-logo-he.png) ערך מילוני בוויקימילון:
+**[מרס](https://he.wiktionary.org/wiki/%D7%9E%D7%A8%D7%A1 "wikt:מרס")**  
+  
+![ויקימסע](//upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Wikivoyage-
+Logo-v3-icon_-_mirrored.svg/20px-Wikivoyage-Logo-v3-icon_-_mirrored.svg.png)
+מדריך למטייל בוויקימסע:
+**[מאדים](https://he.wikivoyage.org/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"voy:מאדים")**  
+  
+![ויקישיתוף](//upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-
+logo.svg/20px-Commons-logo.svg.png) תמונות ומדיה בוויקישיתוף:
+**[מאדים](https://commons.wikimedia.org/wiki/Mars "commons:Mars")**  
+  
+  * [ספיריט ואופורטיוניטי על מאדים](https://web.archive.org/web/20070217090346/http://marsrovers.nasa.gov/home/index.html), באתר [נאס"א](/wiki/%D7%A0%D7%90%D7%A1%22%D7%90 "נאס"א")
+  * [פיניקס על מאדים](http://www.nasa.gov/mission_pages/phoenix/main/index.html), באתר נאס"א
+  * [אשכול כתבות על מאדים](http://www.hayadan.org.il/category/space_and_astronomy/solar_system/mars/), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")"
+  * [פיניקס על מאדים](http://www.reshitmada.org/N20080615PHOENIX-TEGA.htm), באתר "ראשית מדע"
+  * [מפה אינטראקטיבית של פני מאדים](http://www.google.com/mars/) בחסות [גוגל](/wiki/%D7%92%D7%95%D7%92%D7%9C_\(%D7%97%D7%91%D7%A8%D7%94\) "גוגל \(חברה\)")
+  * ארז גרטי, ‏[מערכת השמש – מאדים](https://davidson.weizmann.ac.il/online/maagarmada/astrophysics/מערכת-השמש-–-מאדים), במדור "[מאגר המדע](https://davidson.weizmann.ac.il/column/maagarmada)" באתר של [מכון דוידסון לחינוך מדעי](/wiki/%D7%9E%D7%9B%D7%95%D7%9F_%D7%93%D7%95%D7%99%D7%93%D7%A1%D7%95%D7%9F_%D7%9C%D7%97%D7%99%D7%A0%D7%95%D7%9A_%D7%9E%D7%93%D7%A2%D7%99 "מכון דוידסון לחינוך מדעי"), 7 ביולי 2011
+  * חיים מזר, ‏[מארס אקספרס - סיכום ממצאים](http://www.hayadan.org.il/mars-express-summery-2407111), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 24 ביולי 2011
+  * כתבות ומאמרים בנושא [מאדים](http://www.space.gov.il/תגיות/מאדים), באתר [סוכנות החלל הישראלית](/wiki/%D7%A1%D7%95%D7%9B%D7%A0%D7%95%D7%AA_%D7%94%D7%97%D7%9C%D7%9C_%D7%94%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA "סוכנות החלל הישראלית")
+  * בועז פיילר ואביגיל לושי, [צופים אל הלא־נודע: המסע המסקרן לכוכב האדום](https://www.ynet.co.il/articles/0,7340,L-4153399,00.html), באתר [ynet](/wiki/Ynet "Ynet"), 27 בנובמבר 2011
+  * [אבי בליזובסקי](/wiki/%D7%90%D7%91%D7%99_%D7%91%D7%9C%D7%99%D7%96%D7%95%D7%91%D7%A1%D7%A7%D7%99 "אבי בליזובסקי"), "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", [האם למאדים הייתה אטמוספרה עשירה בחמצן?](https://www.ynet.co.il/articles/0,7340,L-4397650,00.html), באתר [ynet](/wiki/Ynet "Ynet"), 27 ביוני 2013
+  * קנת צ’אנג, ניו יורק טיימס, [נאס"א: ממצאי קיוריוסיטי שוללים קיום חיים על מאדים](https://www.haaretz.co.il/1.2123186), באתר [הארץ](/wiki/%D7%94%D7%90%D7%A8%D7%A5 "הארץ"), 20 בספטמבר 2013
+  * יוניברס טודיי, ‏[מאדים היה מכוסה באוקיאנוס עמוק, במשך למעלה מ־1.5 מיליארד שנה](http://www.hayadan.org.il/mars-loses-an-ocean-but-gains-the-potential-for-life-0803158), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 7 במרץ 2015
+  * [עידו אפרתי](/wiki/%D7%A2%D7%99%D7%93%D7%95_%D7%90%D7%A4%D7%A8%D7%AA%D7%99 "עידו אפרתי"), [נאס"א: גילינו מים זורמים על כוכב מאדים](https://www.haaretz.co.il/1.2739734), באתר [הארץ](/wiki/%D7%94%D7%90%D7%A8%D7%A5 "הארץ"), 28 בספטמבר 2015
+  * אסף קוזין, [כל מה שרציתם לדעת על מאדים](https://www.ynet.co.il/articles/0,7340,L-4897212,00.html), באתר [ynet](/wiki/Ynet "Ynet"), 24 בדצמבר 2016
+  * אליסף קוסמן, ‏[מדוע חלק מהקוטב הדרומי של מאדים נראה כמו גבינה שווייצרית?](http://www.hayadan.org.il/why-does-mars-south-pole-look-like-swiss-cheese-140617), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 14 ביוני 2017
+  * עודד כרמלי, [התגלה שדה מגנטי ייחודי למאדים](https://www.space.gov.il/node/131028), באתר [סוכנות החלל הישראלית](/wiki/%D7%A1%D7%95%D7%9B%D7%A0%D7%95%D7%AA_%D7%94%D7%97%D7%9C%D7%9C_%D7%94%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA "סוכנות החלל הישראלית"), 22 באוקטובר 2017
+  * עודד כרמלי, [הנחלים על מאדים – חול, לא מים](https://www.space.gov.il/node/131050), באתר [סוכנות החלל הישראלית](/wiki/%D7%A1%D7%95%D7%9B%D7%A0%D7%95%D7%AA_%D7%94%D7%97%D7%9C%D7%9C_%D7%94%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA "סוכנות החלל הישראלית"), 22 בנובמבר 2017
+  * [נאס"א: המתאן במאדים – משתחרר במחזור עונתי](https://www.space.gov.il/node/131261), באתר [סוכנות החלל הישראלית](/wiki/%D7%A1%D7%95%D7%9B%D7%A0%D7%95%D7%AA_%D7%94%D7%97%D7%9C%D7%9C_%D7%94%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA "סוכנות החלל הישראלית"), 7 ביוני 2018
+  * [מאדים](https://www.britannica.com/place/Mars-planet), באתר [אנציקלופדיה בריטניקה](/wiki/%D7%90%D7%A0%D7%A6%D7%99%D7%A7%D7%9C%D7%95%D7%A4%D7%93%D7%99%D7%94_%D7%91%D7%A8%D7%99%D7%98%D7%A0%D7%99%D7%A7%D7%94 "אנציקלופדיה בריטניקה") (באנגלית)
+
+## הערות שוליים[[עריכת קוד
+מקור](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&action=edit&section=40
+"עריכת פסקה: "הערות שוליים"") |
+[עריכה](/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&veaction=edit&section=40
+"עריכת פסקה: "הערות שוליים"")]
+
+  1. ^ [חוקרים: בלילות הקיץ במאדים יורד שלג](http://www.hayadan.org.il/snow-falls-on-summer-nights-in-mars), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 27 באוגוסט 2017
+  2. ^ 1 2 למעשה צבע פניו של מאדים הוא [בז'](/wiki/%D7%91%D7%96%27 "בז'") כהה. בשל תגובת ראיית העין האנושית, כשמאדים עמום הוא נראה אדום, אך ככל שהוא מתקרב לכדור הארץ ולשיא בהירותו, צבעו נחווה ככתום, ולבסוף צבעו המקורי. בטלסקופים של 5 [אינץ'](/wiki/%D7%90%D7%99%D7%A0%D7%A5%27 "אינץ'") ומעלה צבעו תמיד בז'.
+  3. ^ [תלמוד בבלי](/wiki/%D7%AA%D7%9C%D7%9E%D7%95%D7%93_%D7%91%D7%91%D7%9C%D7%99 "תלמוד בבלי"), [מסכת שבת](/wiki/%D7%9E%D7%A1%D7%9B%D7%AA_%D7%A9%D7%91%D7%AA "מסכת שבת"), [דף קנ"ו, עמוד א'](https://he.wikisource.org/wiki/%D7%A9%D7%91%D7%AA_%D7%A7%D7%A0%D7%95_%D7%90 "s:שבת קנו א")
+  4. ^ [[1]](https://planetarynames.wr.usgs.gov/Page/Planets)
+  5. ^ אבי בליזובסקי, ‏[סופת האבק במאדים הופכת לכלל עולמית](http://www.hayadan.org.il/martian-dust-storm-grows-global-2306187), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 23 ביוני 2018
+  6. ^ אי־פי וגרדיאן, [נאס"א: גילינו מים זורמים על כוכב מאדים](https://www.haaretz.co.il/1.2739734), באתר [הארץ](/wiki/%D7%94%D7%90%D7%A8%D7%A5 "הארץ"), 28 בספטמבר 2015
+  7. ^ אבי בליזובסקי, ‏[נאס"א מאשרת במסיבת עיתונאים: מים מליחים זורמים במאדים היום](http://www.hayadan.org.il/nasa-confirms-evidence-that-liquid-water-flows-on-today-s-mars-2809152), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 28 בספטמבר 2015
+  8. ^ אבי בליזובסקי, ‏[מדענים מתחבטים בשאלה מה משמעות גילוי המים במאדים על החיים בו ועל האפשרות להנחית עליו בני אדם](http://www.hayadan.org.il/debate-what-the-modern-presence-of-water-on-mars-means-2909156), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 29 בספטמבר 2015
+  9. ^ יוניברס טודיי, ‏[קיוריוסיטי לא גילה מתאן על מאדים, מה זה אומר מבחינת הסיכוי לחיים?](http://www.hayadan.org.il/curiosity-rover-finds-no-methane-on-mars-whats-happening-2009130), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 20 בספטמבר 2013
+  10. ^ [![קובץ וידאו](//upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Gnome-video-x-generic.svg/18px-Gnome-video-x-generic.svg.png)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Gnome-video-x-generic.svg "קובץ וידאו") [The Moons of Mars Explained -- Phobos & Deimos](https://youtube.com/watch?v=Pw0IZg7_4mo), סרטון באתר [יוטיוב](/wiki/%D7%99%D7%95%D7%98%D7%99%D7%95%D7%91 "יוטיוב") (אורך: 1:54) (באנגלית)
+  11. ^ [NASA Concludes Attempts to Contact Mars Rover Spirit](http://www.nasa.gov/mission_pages/mer/news/mer20110524.html), באתר [נאס"א](/wiki/%D7%A0%D7%90%D7%A1%22%D7%90 "נאס"א")
+  12. ^ [רועי צזנה](/wiki/%D7%A8%D7%95%D7%A2%D7%99_%D7%A6%D7%96%D7%A0%D7%94 "רועי צזנה"), ‏[עכשיו זה סופי – יש מים על המאדים](http://www.hayadan.org.il/martian-water-confirmes-040808), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 4 באוגוסט 2008
+  13. ^ סוכנויות הידיעות, [הנחתת "פניקס" זיהתה שלג על המאדים](https://www.ynet.co.il/articles/0,7340,L-3604340,00.html), באתר [ynet](/wiki/Ynet "Ynet"), 2 באוקטובר 2008
+  14. ^ [אבי בליזובסקי](/wiki/%D7%90%D7%91%D7%99_%D7%91%D7%9C%D7%99%D7%96%D7%95%D7%91%D7%A1%D7%A7%D7%99 "אבי בליזובסקי"), ‏[פיניקס צילמה והרגישה מערבולות על מאדים](http://www.hayadan.org.il/phoenix-dust-devils-1809089), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 18 בספטמבר 2008
+  15. ^ [Let it snow -- on Mars: NASA](http://afp.google.com/article/ALeqM5h4_ykr5Hktgm2qEV5163JOAjQ28A), AFP
+  16. ^ אבי בליזובסקי, ‏[פיניקס צילמה שלג יורד במאדים וגילתה רמזים למים שהיו בקרקע בעבר](http://www.hayadan.org.il/phoenix-sees-falling-snow-0209084), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 2 באוקטובר 2008
+  17. ^ [NASA Declares Mars Lander Broken and Dead](http://www.space.com/8477-nasa-declares-mars-lander-broken-dead.html), באתר SPACE.com, 24 במאי 2010
+  18. ^ אילן גטניו, [המטרה: למצוא חיים במאדים](https://web.archive.org/web/20180830185042/http://www.israelhayom.co.il/site/newsletter_article.php?id=19956&hp=1&newsletter=06.08.2012), [ישראל היום](/wiki/%D7%99%D7%A9%D7%A8%D7%90%D7%9C_%D7%94%D7%99%D7%95%D7%9D "ישראל היום"), 6 באוגוסט 2012
+  19. ^ Potter, Sean (7 ביוני 2018). ["NASA Finds Ancient Organic Material, Mysterious Methane on Mars"](https://www.nasa.gov/press-release/nasa-finds-ancient-organic-material-mysterious-methane-on-mars). _NASA_ (באנגלית). בדיקה אחרונה ב-8 ביוני 2018.
+  20. ^ [NASA launches mission to Mars](https://edition.cnn.com/2018/05/05/us/nasa-mars-insight-launch/index.html) באתר CNN
+  21. ^ [Lost on Mars: Schiaparelli lander falls silent shortly before touchdown](http://www.spaceflightinsider.com/missions/solar-system/lost-mars-schiaparelli-lander-falls-silent-shortly-touchdown/), אתר SpaceFlight Insider, 20 באוקטובר 2016.
+  22. ^ [ExoMars probe set to sniff out signs of life on the Red Planet](https://www.newscientist.com/article/2079697-exomars-probe-set-to-sniff-out-signs-of-life-on-the-red-planet/), [new Scientist](/w/index.php?title=New_Scientist&action=edit&redlink=1 "New Scientist \(הדף אינו קיים\)"), 7 במרץ 2016.
+  23. ^ אבי בליזובסקי, ‏[נאס"א שולחת מסוק למאדים להדגמת יכולת לטוס באטמוספירה דלילה](http://www.hayadan.org.il/mars-helicopter-1805181), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 18 במאי 2018
+  24. ^ אבי בליזובסקי, ‏[קרינה קוסמית חזקה עלולה לגרום לסכנה לאסטרונאוטים הטסים למאדים](http://www.hayadan.org.il/increasing-cosmic-radiation-may-boost-danger-for-manned-missions-to-mars-2910146), באתר "[הידען](/wiki/%D7%94%D7%99%D7%93%D7%A2%D7%9F "הידען")", 29 באוקטובר 2014
+  25. ^ [דיו קסיוס](/wiki/%D7%93%D7%99%D7%95_%D7%A7%D7%A1%D7%99%D7%95%D7%A1 "דיו קסיוס") [ספר 37 פרק 19](http://penelope.uchicago.edu/Thayer/E/Roman/Texts/Cassius_Dio/37*.html#19)
+  26. ^ [מסכת שבת דף קכ"ט ע"א](https://he.wikisource.org/wiki/%D7%91%D7%99%D7%90%D7%95%D7%A8:%D7%91%D7%91%D7%9C%D7%99_%D7%A9%D7%91%D7%AA_%D7%93%D7%A3_%D7%A7%D7%9B%D7%98 "s:ביאור:בבלי שבת דף קכט")
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Comparison_of_planets_and_stars_%28sheet_by_sheet%29_%28Apr_2015_update%29.png/350px-
+Comparison_of_planets_and_stars_%28sheet_by_sheet%29_%28Apr_2015_update%29.png)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Comparison_of_planets_and_stars_\(sheet_by_sheet\)_\(Apr_2015_update\).png)
+
+[](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Comparison_of_planets_and_stars_\(sheet_by_sheet\)_\(Apr_2015_update\).png
+"הגדלה")
+
+השוואת גדלים בין גרמי שמים (בכל תמונה משמאל לימין):  
+1\. [כוכב חמה](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%97%D7%9E%D7%94 "כוכב חמה") <
+מאדים < [נוגה](/wiki/%D7%A0%D7%95%D7%92%D7%94 "נוגה") < [כדור
+הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור הארץ")  
+2\. [כדור הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור
+הארץ") < [נפטון](/wiki/%D7%A0%D7%A4%D7%98%D7%95%D7%9F "נפטון") <
+[אורנוס](/wiki/%D7%90%D7%95%D7%A8%D7%A0%D7%95%D7%A1 "אורנוס") <
+[שבתאי](/wiki/%D7%A9%D7%91%D7%AA%D7%90%D7%99 "שבתאי") <
+[צדק](/wiki/%D7%A6%D7%93%D7%A7_\(%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA\)
+"צדק \(כוכב לכת\)")  
+3\.
+[צדק](/wiki/%D7%A6%D7%93%D7%A7_\(%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA\)
+"צדק \(כוכב לכת\)") < [פרוקסימה
+קנטאורי](/wiki/%D7%A4%D7%A8%D7%95%D7%A7%D7%A1%D7%99%D7%9E%D7%94_%D7%A7%D7%A0%D7%98%D7%90%D7%95%D7%A8%D7%99
+"פרוקסימה קנטאורי") < [השמש](/wiki/%D7%94%D7%A9%D7%9E%D7%A9 "השמש") <
+[סיריוס](/wiki/%D7%A1%D7%99%D7%A8%D7%99%D7%95%D7%A1 "סיריוס")  
+4\. [סיריוס](/wiki/%D7%A1%D7%99%D7%A8%D7%99%D7%95%D7%A1 "סיריוס") <
+[פולוקס](/wiki/%D7%A4%D7%95%D7%9C%D7%95%D7%A7%D7%A1 "פולוקס") <
+[ארקטורוס](/wiki/%D7%90%D7%A8%D7%A7%D7%98%D7%95%D7%A8%D7%95%D7%A1 "ארקטורוס")
+< [אלדברן](/wiki/%D7%90%D7%9C%D7%93%D7%91%D7%A8%D7%9F "אלדברן")  
+5\. [אלדברן](/wiki/%D7%90%D7%9C%D7%93%D7%91%D7%A8%D7%9F "אלדברן") <
+[ריג'ל](/wiki/%D7%A8%D7%99%D7%92%27%D7%9C "ריג'ל") <
+[אנטארס](/wiki/%D7%90%D7%A0%D7%98%D7%90%D7%A8%D7%A1 "אנטארס") <
+[ביטלג'וז](/wiki/%D7%91%D7%99%D7%98%D7%9C%D7%92%27%D7%95%D7%96 "ביטלג'וז")  
+6\. [ביטלג'וז](/wiki/%D7%91%D7%99%D7%98%D7%9C%D7%92%27%D7%95%D7%96 "ביטלג'וז")
+< [VY בכלב גדול](/wiki/VY_%D7%91%D7%9B%D7%9C%D7%91_%D7%92%D7%93%D7%95%D7%9C
+"VY בכלב גדול") < [NML בברבור](/wiki/NML_%D7%91%D7%91%D7%A8%D7%91%D7%95%D7%A8
+"NML בברבור") < [UY במגן](/wiki/UY_%D7%91%D7%9E%D7%92%D7%9F "UY במגן")
+
+  
+
+**[מערכת השמש](/wiki/%D7%9E%D7%A2%D7%A8%D7%9B%D7%AA_%D7%94%D7%A9%D7%9E%D7%A9
+"מערכת השמש")**  
+---  
+|
+
+![Solar System XXX
+RTL.png](//upload.wikimedia.org/wikipedia/commons/d/dc/Solar_System_XXX_RTL.png)
+
+(לא בקנה המידה המקורי; מיקום הסמן על כל אחד מהגופים, יציג את שמו)
+
+**[השמש](/wiki/%D7%94%D7%A9%D7%9E%D7%A9 "השמש")** • [כוכב
+חמה](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%97%D7%9E%D7%94 "כוכב חמה") •
+[נוגה](/wiki/%D7%A0%D7%95%D7%92%D7%94 "נוגה") • [כדור
+הארץ](/wiki/%D7%9B%D7%93%D7%95%D7%A8_%D7%94%D7%90%D7%A8%D7%A5 "כדור הארץ") •
+מאדים •
+[קרס](/wiki/%D7%A7%D7%A8%D7%A1_\(%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%A0%D7%A0%D7%A1%D7%99\)
+"קרס \(כוכב לכת ננסי\)") •
+[צדק](/wiki/%D7%A6%D7%93%D7%A7_\(%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA\)
+"צדק \(כוכב לכת\)") • [שבתאי](/wiki/%D7%A9%D7%91%D7%AA%D7%90%D7%99 "שבתאי") •
+[אורנוס](/wiki/%D7%90%D7%95%D7%A8%D7%A0%D7%95%D7%A1 "אורנוס") •
+[נפטון](/wiki/%D7%A0%D7%A4%D7%98%D7%95%D7%9F "נפטון") •
+[פלוטו](/wiki/%D7%A4%D7%9C%D7%95%D7%98%D7%95 "פלוטו") •
+[האומיה](/wiki/%D7%94%D7%90%D7%95%D7%9E%D7%99%D7%94_\(%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%A0%D7%A0%D7%A1%D7%99\)
+"האומיה \(כוכב לכת ננסי\)") • [מאקה-
+מאקה](/wiki/%D7%9E%D7%90%D7%A7%D7%94-%D7%9E%D7%90%D7%A7%D7%94_\(%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%A0%D7%A0%D7%A1%D7%99\)
+"מאקה-מאקה \(כוכב לכת ננסי\)") •
+[אריס](/wiki/%D7%90%D7%A8%D7%99%D7%A1_\(%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%A0%D7%A0%D7%A1%D7%99\)
+"אריס \(כוכב לכת ננסי\)")
+
+**[ירחים](/wiki/%D7%99%D7%A8%D7%97 "ירח")**
+([הירח](/wiki/%D7%94%D7%99%D7%A8%D7%97 "הירח"), [ירחי
+מאדים](/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%99%D7%A8%D7%97%D7%99_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"קטגוריה:ירחי מאדים"), [ירחי
+צדק](/wiki/%D7%99%D7%A8%D7%97%D7%99_%D7%A6%D7%93%D7%A7 "ירחי צדק"), [ירחי
+שבתאי](/wiki/%D7%99%D7%A8%D7%97%D7%99_%D7%A9%D7%91%D7%AA%D7%90%D7%99 "ירחי
+שבתאי"), [ירחי
+אורנוס](/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%99%D7%A8%D7%97%D7%99_%D7%90%D7%95%D7%A8%D7%A0%D7%95%D7%A1
+"קטגוריה:ירחי אורנוס"), [ירחי
+נפטון](/wiki/%D7%99%D7%A8%D7%97%D7%99_%D7%A0%D7%A4%D7%98%D7%95%D7%9F "ירחי
+נפטון"), [ירחי
+פלוטו](/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%99%D7%A8%D7%97%D7%99_%D7%A4%D7%9C%D7%95%D7%98%D7%95
+"קטגוריה:ירחי פלוטו"), [ירחי
+האומיה](/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%99%D7%A8%D7%97%D7%99_%D7%94%D7%90%D7%95%D7%9E%D7%99%D7%94
+"קטגוריה:ירחי האומיה"), [MK 2](/wiki/MK_2 "MK 2"),
+[דיסנומיה](/wiki/%D7%93%D7%99%D7%A1%D7%A0%D7%95%D7%9E%D7%99%D7%94_\(%D7%99%D7%A8%D7%97\)
+"דיסנומיה \(ירח\)"))
+
+**[טבעות
+פלנטריות](/wiki/%D7%98%D7%91%D7%A2%D7%AA_%D7%A4%D7%9C%D7%A0%D7%98%D7%A8%D7%99%D7%AA
+"טבעת פלנטרית")** ([טבעות
+צדק](/wiki/%D7%98%D7%91%D7%A2%D7%95%D7%AA_%D7%A6%D7%93%D7%A7 "טבעות צדק"),
+[טבעות
+שבתאי](/wiki/%D7%98%D7%91%D7%A2%D7%95%D7%AA_%D7%A9%D7%91%D7%AA%D7%90%D7%99
+"טבעות שבתאי"), [טבעות
+אורנוס](/wiki/%D7%98%D7%91%D7%A2%D7%95%D7%AA_%D7%90%D7%95%D7%A8%D7%A0%D7%95%D7%A1
+"טבעות אורנוס"), [טבעות
+נפטון](/wiki/%D7%98%D7%91%D7%A2%D7%95%D7%AA_%D7%A0%D7%A4%D7%98%D7%95%D7%9F
+"טבעות נפטון"), [טבעות
+ריאה](/wiki/%D7%98%D7%91%D7%A2%D7%95%D7%AA_%D7%A8%D7%99%D7%90%D7%94 "טבעות
+ריאה"))
+
+[כוכב לכת](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA "כוכב לכת") •
+[כוכב לכת
+ננסי](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%A0%D7%A0%D7%A1%D7%99
+"כוכב לכת ננסי") • [גופים קטנים במערכת
+השמש](/wiki/%D7%92%D7%95%D7%A4%D7%99%D7%9D_%D7%A7%D7%98%D7%A0%D7%99%D7%9D_%D7%91%D7%9E%D7%A2%D7%A8%D7%9B%D7%AA_%D7%94%D7%A9%D7%9E%D7%A9
+"גופים קטנים במערכת השמש"):
+[מטאורואיד](/wiki/%D7%9E%D7%98%D7%90%D7%95%D7%A8%D7%95%D7%90%D7%99%D7%93
+"מטאורואיד") • [כוכבי לכת
+מינוריים](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%9E%D7%99%D7%A0%D7%95%D7%A8%D7%99
+"כוכב לכת מינורי")
+([אסטרואיד](/wiki/%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%90%D7%99%D7%93 "אסטרואיד")
+•
+[קנטאור](/wiki/%D7%A7%D7%A0%D7%98%D7%90%D7%95%D7%A8_\(%D7%92%D7%95%D7%A3_%D7%A9%D7%9E%D7%99%D7%9E%D7%99\)
+"קנטאור \(גוף שמימי\)") • [גופים טרנס-
+נפטוניים](/wiki/%D7%92%D7%95%D7%A3_%D7%98%D7%A8%D7%A0%D7%A1-%D7%A0%D7%A4%D7%98%D7%95%D7%A0%D7%99
+"גוף טרנס-נפטוני"): [חגורת
+קויפר](/wiki/%D7%97%D7%92%D7%95%D7%A8%D7%AA_%D7%A7%D7%95%D7%99%D7%A4%D7%A8
+"חגורת קויפר"), [הדיסק
+המפוזר](/wiki/%D7%94%D7%93%D7%99%D7%A1%D7%A7_%D7%94%D7%9E%D7%A4%D7%95%D7%96%D7%A8
+"הדיסק המפוזר")) • [שביט](/wiki/%D7%A9%D7%91%D7%99%D7%98 "שביט") ([עננת
+אורט](/wiki/%D7%A2%D7%A0%D7%A0%D7%AA_%D7%90%D7%95%D7%A8%D7%98 "עננת אורט"))
+
+[כוכבי לכת
+ארציים](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%90%D7%A8%D7%A6%D7%99
+"כוכב לכת ארצי") • [ענקי
+הגזים](/wiki/%D7%A2%D7%A0%D7%A7_%D7%92%D7%96%D7%99%D7%9D "ענק גזים") ([ענקי
+הקרח](/wiki/%D7%A2%D7%A0%D7%A7_%D7%A7%D7%A8%D7%97 "ענק קרח")) • [גופים טרנס-
+נפטוניים](/wiki/%D7%92%D7%95%D7%A3_%D7%98%D7%A8%D7%A0%D7%A1-%D7%A0%D7%A4%D7%98%D7%95%D7%A0%D7%99
+"גוף טרנס-נפטוני") ([פלוטינו](/wiki/%D7%A4%D7%9C%D7%95%D7%98%D7%99%D7%A0%D7%95
+"פלוטינו"), [פלוטואיד](/wiki/%D7%A4%D7%9C%D7%95%D7%98%D7%95%D7%90%D7%99%D7%93
+"פלוטואיד"), [גופים בחגורת
+קויפר](/wiki/%D7%97%D7%92%D7%95%D7%A8%D7%AA_%D7%A7%D7%95%D7%99%D7%A4%D7%A8#גופים_ידועים_בחגורת_קויפר
+"חגורת קויפר"), [גופים בדיסק
+המפוזר](/wiki/%D7%94%D7%93%D7%99%D7%A1%D7%A7_%D7%94%D7%9E%D7%A4%D7%95%D7%96%D7%A8#גופים_ידועים_בדיסק_המפוזר
+"הדיסק המפוזר"), [גופים בעננת
+אורט](/wiki/%D7%A2%D7%A0%D7%A0%D7%AA_%D7%90%D7%95%D7%A8%D7%98#גופים_ידועים_בעננת_אורט
+"עננת אורט"))
+
+**מערכת השמש הפנימית** ([כוכבי הלכת
+הארציים](/wiki/%D7%9B%D7%95%D7%9B%D7%91_%D7%9C%D7%9B%D7%AA_%D7%90%D7%A8%D7%A6%D7%99
+"כוכב לכת ארצי"), [חגורת
+האסטרואידים](/wiki/%D7%97%D7%92%D7%95%D7%A8%D7%AA_%D7%94%D7%90%D7%A1%D7%98%D7%A8%D7%95%D7%90%D7%99%D7%93%D7%99%D7%9D
+"חגורת האסטרואידים")) • **מערכת השמש התיכונה** ([ענקי
+הגזים](/wiki/%D7%A2%D7%A0%D7%A7_%D7%92%D7%96%D7%99%D7%9D "ענק גזים")) •
+**מערכת השמש החיצונית** ([חגורת
+קויפר](/wiki/%D7%97%D7%92%D7%95%D7%A8%D7%AA_%D7%A7%D7%95%D7%99%D7%A4%D7%A8
+"חגורת קויפר"), [הדיסק
+המפוזר](/wiki/%D7%94%D7%93%D7%99%D7%A1%D7%A7_%D7%94%D7%9E%D7%A4%D7%95%D7%96%D7%A8
+"הדיסק המפוזר"), [עננת
+אורט](/wiki/%D7%A2%D7%A0%D7%A0%D7%AA_%D7%90%D7%95%D7%A8%D7%98 "עננת אורט"))  
+  
+---  
+**ראו גם:[פורטל מדעי
+החלל](/wiki/%D7%A4%D7%95%D7%A8%D7%98%D7%9C:%D7%9E%D7%93%D7%A2%D7%99_%D7%94%D7%97%D7%9C%D7%9C
+"פורטל:מדעי החלל")**  
+**משימות לחקר מאדים**  
+---  
+**יעפים** |
+
+| הושלמו  | [מארינר 4](/wiki/%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_4 "מארינר
+4") • [מארינר
+6](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_6&action=edit&redlink=1
+"מארינר 6 \(הדף אינו קיים\)") • [מארינר
+7](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_7&action=edit&redlink=1
+"מארינר 7 \(הדף אינו קיים\)") • [מארס
+6](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%A1_6&action=edit&redlink=1 "מארס 6
+\(הדף אינו קיים\)") • [מארס
+7](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%A1_7&action=edit&redlink=1 "מארס 7
+\(הדף אינו קיים\)") • [זונד 2](/wiki/%D7%96%D7%95%D7%A0%D7%93_2 "זונד 2") •
+[שחר](/wiki/%D7%A9%D7%97%D7%A8_\(%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA\) "שחר
+\(גשושית\)") •
+[רוזטה](/wiki/%D7%A8%D7%95%D7%96%D7%98%D7%94_\(%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA\)
+"רוזטה \(גשושית\)")  
+---|---  
+נכשלו  | [מארס
+1](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1#מארס_3MV
+"תוכנית מארס") • [מארינר 8](/wiki/%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_8
+"מארינר 8")  
+[![Mars
+tamp.png](//upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Mars_tamp.png/160px-
+Mars_tamp.png)](/wiki/%D7%A7%D7%95%D7%91%D7%A5:Mars_tamp.png)  
+**[מקפות](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA "מקפת")** |
+
+| הושלמו  | [מארינר
+9](/w/index.php?title=%D7%9E%D7%90%D7%A8%D7%99%D7%A0%D7%A8_9&action=edit&redlink=1
+"מארינר 9 \(הדף אינו קיים\)") • [מארס
+2](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1#מארס_2
+"תוכנית מארס") • [מארס 3](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_3 "מארס 3") • [מארס
+5](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1#מארס_5
+"תוכנית מארס") • [תוכנית
+ויקינג](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92
+"תוכנית ויקינג") ([ויקינג 1](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92_1
+"ויקינג 1") • [2](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92_2 "ויקינג 2")) •
+[פובוס
+2](/w/index.php?title=%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%A4%D7%95%D7%91%D7%95%D7%A1&action=edit&redlink=1
+"תוכנית פובוס \(הדף אינו קיים\)") • [מארס גלובל
+סרוויור](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%92%D7%9C%D7%95%D7%91%D7%9C_%D7%A1%D7%A8%D7%95%D7%95%D7%99%D7%95%D7%A8
+"מארס גלובל סרוויור")  
+---|---  
+פעילות  | [2001 מארס
+אודיסיי](/wiki/2001_%D7%9E%D7%90%D7%A8%D7%A1_%D7%90%D7%95%D7%93%D7%99%D7%A1%D7%99%D7%99
+"2001 מארס אודיסיי") [מארס
+אקספרס](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%90%D7%A7%D7%A1%D7%A4%D7%A8%D7%A1
+"מארס אקספרס") • [מקפת לסקר מאדים](/wiki/MRO "MRO") • [מייבן](/wiki/MAVEN
+"MAVEN") • [Mars Orbiter Mission](/wiki/Mars_Orbiter_Mission "Mars Orbiter
+Mission") • [מקפת שיירי הגז אקסו
+מארס](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA_%D7%A9%D7%99%D7%99%D7%A8%D7%99_%D7%94%D7%92%D7%96_%D7%90%D7%A7%D7%A1%D7%95_%D7%9E%D7%90%D7%A8%D7%A1
+"מקפת שיירי הגז אקסו מארס") ([אקסו
+מארס](/wiki/%D7%90%D7%A7%D7%A1%D7%95_%D7%9E%D7%90%D7%A8%D7%A1 "אקסו מארס")) •
+[משימת תקווה
+מאדים](/wiki/%D7%9E%D7%A9%D7%99%D7%9E%D7%AA_%D7%AA%D7%A7%D7%95%D7%95%D7%94_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"משימת תקווה מאדים") •
+[טיאנוון-1](/wiki/%D7%98%D7%99%D7%90%D7%A0%D7%95%D7%95%D7%9F-1 "טיאנוון-1")  
+בתכנון  |  
+נכשלו  | [מארס
+4](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1#מארס_4
+"תוכנית מארס") • [פובוס
+1](/w/index.php?title=%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%A4%D7%95%D7%91%D7%95%D7%A1&action=edit&redlink=1
+"תוכנית פובוס \(הדף אינו קיים\)") • [מארס
+אובזרבר](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%90%D7%95%D7%91%D7%96%D7%A8%D7%91%D7%A8
+"מארס אובזרבר") • [מקפת האקלים של
+מאדים](/wiki/%D7%9E%D7%A7%D7%A4%D7%AA_%D7%94%D7%90%D7%A7%D7%9C%D7%99%D7%9D_%D7%A9%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"מקפת האקלים של מאדים") •
+[נוזומי](/w/index.php?title=%D7%A0%D7%95%D7%96%D7%95%D7%9E%D7%99&action=edit&redlink=1
+"נוזומי \(הדף אינו קיים\)") •
+[יינגהו-1](/wiki/%D7%99%D7%99%D7%A0%D7%92%D7%94%D7%95-1 "יינגהו-1")  
+**[נחתות](/wiki/%D7%A0%D7%97%D7%AA%D7%AA_\(%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA\)
+"נחתת \(גשושית\)")** |
+
+| הושלמו  | [מארס 3](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_3 "מארס 3") • [תוכנית
+ויקינג](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92
+"תוכנית ויקינג") ([ויקינג 1](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92_1
+"ויקינג 1") • [2](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A0%D7%92_2 "ויקינג 2")) •
+[מארס
+פאת'פיינדר](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%A4%D7%90%D7%AA%27%D7%A4%D7%99%D7%99%D7%A0%D7%93%D7%A8
+"מארס פאת'פיינדר") •
+[פיניקס](/wiki/%D7%A4%D7%99%D7%A0%D7%99%D7%A7%D7%A1_\(%D7%92%D7%A9%D7%95%D7%A9%D7%99%D7%AA\)
+"פיניקס \(גשושית\)")  
+---|---  
+פעילות  | [InSight](/wiki/InSight "InSight") ([2018](/wiki/2018 "2018"))  
+בתכנון  | [טיאנוון-1](/wiki/%D7%98%D7%99%D7%90%D7%A0%D7%95%D7%95%D7%9F-1
+"טיאנוון-1") • [הפלטפורמה הקרקעית של משימת אקסו
+מארס](/wiki/%D7%90%D7%A7%D7%A1%D7%95_%D7%9E%D7%90%D7%A8%D7%A1#משימת_2020:_רובר_ופלטפורמה_קרקעית
+"אקסו מארס") (2022)  
+נכשלו  | [תוכנית
+מארס](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1
+"תוכנית מארס")
+([2](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1#מארס_2
+"תוכנית מארס") •
+[3](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1#מארס_3
+"תוכנית מארס") •
+[6](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1#מארס_6
+"תוכנית מארס") •
+[7](/wiki/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA_%D7%9E%D7%90%D7%A8%D7%A1#מארס_7
+"תוכנית מארס")) • [נחתת הקוטב של
+מאדים](/wiki/%D7%A0%D7%97%D7%AA%D7%AA_%D7%94%D7%A7%D7%95%D7%98%D7%91_%D7%A9%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"נחתת הקוטב של מאדים") • [חלל עמוק
+2](/wiki/%D7%A0%D7%97%D7%AA%D7%AA_%D7%94%D7%A7%D7%95%D7%98%D7%91_%D7%A9%D7%9C_%D7%9E%D7%90%D7%93%D7%99%D7%9D#חלל_עמוק_2
+"נחתת הקוטב של מאדים") • [ביגל 2](/wiki/%D7%91%D7%99%D7%92%D7%9C_2 "ביגל 2") •
+[סקיאפארלי](/wiki/%D7%A1%D7%A7%D7%99%D7%90%D7%A4%D7%90%D7%A8%D7%9C%D7%99_\(%D7%A0%D7%97%D7%AA%D7%AA\)
+"סקיאפארלי \(נחתת\)")  
+**[רוברים](/wiki/%D7%A8%D7%95%D7%91%D7%A8_\(%D7%97%D7%A7%D7%A8_%D7%94%D7%97%D7%9C%D7%9C\)
+"רובר \(חקר החלל\)")** |
+
+| הושלמו  |
+[סוג'ורנר](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%A4%D7%90%D7%AA%27%D7%A4%D7%99%D7%99%D7%A0%D7%93%D7%A8
+"מארס פאת'פיינדר") • [מארס
+רובר](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%A8%D7%95%D7%91%D7%A8 "מארס רובר")
+([ספיריט](/wiki/%D7%A1%D7%A4%D7%99%D7%A8%D7%99%D7%98 "ספיריט") •
+[אופורטוניטי](/wiki/%D7%90%D7%95%D7%A4%D7%95%D7%A8%D7%98%D7%95%D7%A0%D7%99%D7%98%D7%99
+"אופורטוניטי"))  
+---|---  
+פעילים  |
+[קיוריוסיטי](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_%D7%A1%D7%99%D7%99%D7%A0%D7%A1_%D7%9C%D7%91%D7%A8%D7%98%D7%95%D7%A8%D7%99
+"מארס סיינס לברטורי") • [מארס 2020](/wiki/%D7%9E%D7%90%D7%A8%D7%A1_2020 "מארס
+2020")
+([פרסווירנס](/wiki/%D7%A4%D7%A8%D7%A1%D7%95%D7%95%D7%99%D7%A8%D7%A0%D7%A1
+"פרסווירנס"))  
+בתכנון  | [טיאנוון-1](/wiki/%D7%98%D7%99%D7%90%D7%A0%D7%95%D7%95%D7%9F-1
+"טיאנוון-1") • [רובר אקסו-
+מארס](/wiki/%D7%90%D7%A7%D7%A1%D7%95_%D7%9E%D7%90%D7%A8%D7%A1#רובר_אקסו_מארס
+"אקסו מארס") (2022)  
+ראו גם  | [משימות מאוישות
+למאדים](/wiki/%D7%9E%D7%A9%D7%99%D7%9E%D7%95%D7%AA_%D7%9E%D7%90%D7%95%D7%99%D7%A9%D7%95%D7%AA_%D7%9C%D7%9E%D7%90%D7%93%D7%99%D7%9D
+"משימות מאוישות למאדים") • [חקר
+מאדים](/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D#מחקר_רובוטי "מאדים")  
+  
+![](//he.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1)
+
+אוחזר מתוך
+"[https://he.wikipedia.org/w/index.php?title=מאדים&oldid=31212880](https://he.wikipedia.org/w/index.php?title=מאדים&oldid=31212880)"
+
+[קטגוריות](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94
+"ויקיפדיה:קטגוריה"):
+
+  * [מאדים](/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%9E%D7%90%D7%93%D7%99%D7%9D "קטגוריה:מאדים")
+  * [כוכבי לכת במערכת השמש](/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%9B%D7%95%D7%9B%D7%91%D7%99_%D7%9C%D7%9B%D7%AA_%D7%91%D7%9E%D7%A2%D7%A8%D7%9B%D7%AA_%D7%94%D7%A9%D7%9E%D7%A9 "קטגוריה:כוכבי לכת במערכת השמש")
+
+קטגוריות מוסתרות:
+
+  * [ציטוט מקור בשפה זרה (אנגלית)](/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%A6%D7%99%D7%98%D7%95%D7%98_%D7%9E%D7%A7%D7%95%D7%A8_%D7%91%D7%A9%D7%A4%D7%94_%D7%96%D7%A8%D7%94_\(%D7%90%D7%A0%D7%92%D7%9C%D7%99%D7%AA\) "קטגוריה:ציטוט מקור בשפה זרה \(אנגלית\)")
+  * [ויקיפדיה: ערכים הדורשים מקורות](/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:_%D7%A2%D7%A8%D7%9B%D7%99%D7%9D_%D7%94%D7%93%D7%95%D7%A8%D7%A9%D7%99%D7%9D_%D7%9E%D7%A7%D7%95%D7%A8%D7%95%D7%AA "קטגוריה:ויקיפדיה: ערכים הדורשים מקורות")
+
+  * דף זה נערך לאחרונה ב־19 באפריל 2021, בשעה 19:33.
+  * הטקסט מוגש בכפוף לרישיון [Creative Commons ייחוס-שיתוף זהה 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.he); ייתכן שישנם תנאים נוספים. ר' את [תנאי השימוש](https://foundation.wikimedia.org/wiki/Terms_of_Use) לפרטים.
+
+  * [מדיניות הפרטיות](https://meta.wikimedia.org/wiki/Privacy_policy/he "meta:Privacy policy/he")
+  * [אודות ויקיפדיה](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%90%D7%95%D7%93%D7%95%D7%AA "ויקיפדיה:אודות")
+  * [הבהרות משפטיות](/wiki/%D7%95%D7%99%D7%A7%D7%99%D7%A4%D7%93%D7%99%D7%94:%D7%94%D7%91%D7%94%D7%A8%D7%95%D7%AA_%D7%9E%D7%A9%D7%A4%D7%98%D7%99%D7%95%D7%AA "ויקיפדיה:הבהרות משפטיות")
+  * [תצוגת מכשירים ניידים](//he.m.wikipedia.org/w/index.php?title=%D7%9E%D7%90%D7%93%D7%99%D7%9D&mobileaction=toggle_view_mobile)
+  * [מפתחים](https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute)
+  * [סטטיסטיקות](https://stats.wikimedia.org/#/he.wikipedia.org)
+  * [הצהרה על עוגיות](https://foundation.wikimedia.org/wiki/Cookie_statement)
+
+  * [![Wikimedia Foundation](/static/images/footer/wikimedia-button.png)](https://wikimediafoundation.org/)
+  * [![Powered by MediaWiki](/static/images/footer/poweredby_mediawiki_88x31.png)](https://www.mediawiki.org/)
+
+  *[מָגֵן גִּבּוֹרֵיהוּ מְאָדָּם]: נחום פרק ב' פסוק ד'
+  *[לְחֻמֵי רֶשֶׁף]: דברים פרק ל"ב (שירת האזינו) פסוק כ"ד
+  *[רַגְלֵיהֶם לָרַע יָרוּצוּ וִימַהֲרוּ לשְׁפֹךְ דָם]: משלי פרק א' פסוק ט"ז
+  *[האי מאן דבמאדים יהי גבר אשיד דמא]: מי ש[נולד] ב[מזל] מאדים - יהיה איש שופך דם
+  *[אי אומנא אי גנבא אי טבחא אי מוהלא]: או שיהיה מקיז דם או שודד או שוחט או מוהל
+

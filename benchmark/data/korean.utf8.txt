@@ -1,0 +1,1144 @@
+내용으로 건너뛰기
+
+사이드바 토글  [ ![](/static/images/mobile/copyright/wikipedia.png)
+![위키백과](/static/images/mobile/copyright/wikipedia-wordmark-ko.svg)
+![](/static/images/mobile/copyright/wikipedia-tagline-ko.svg)
+](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%8C%80%EB%AC%B8)
+
+###  검색
+
+###  개인 도구
+
+  * 로그인하지 않음
+  * [토론](/wiki/%ED%8A%B9%EC%88%98:%EB%82%B4%EC%82%AC%EC%9A%A9%EC%9E%90%ED%86%A0%EB%A1%A0 "현재 사용하는 IP 주소에 대한 토론 문서 \[n\]")
+  * [기여](/wiki/%ED%8A%B9%EC%88%98:%EB%82%B4%EA%B8%B0%EC%97%AC "이 IP 주소의 편집 목록 \[y\]")
+  * [계정 만들기](/w/index.php?title=%ED%8A%B9%EC%88%98:%EA%B3%84%EC%A0%95%EB%A7%8C%EB%93%A4%EA%B8%B0&returnto=%ED%99%94%EC%84%B1 "계정을 만들고 로그인하는 것이 좋습니다; 하지만, 필수는 아닙니다")
+  * [로그인](/w/index.php?title=%ED%8A%B9%EC%88%98:%EB%A1%9C%EA%B7%B8%EC%9D%B8&returnto=%ED%99%94%EC%84%B1 "위키백과에 로그인하면 여러가지 편리한 기능을 사용할 수 있습니다. \[o\]")
+
+## 둘러보기 메뉴
+
+###  둘러보기
+
+  * [대문](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%8C%80%EB%AC%B8 "대문으로 가기 \[z\]")
+  * [최근 바뀜](/wiki/%ED%8A%B9%EC%88%98:%EC%B5%9C%EA%B7%BC%EB%B0%94%EB%80%9C "위키의 최근 바뀐 목록 \[r\]")
+  * [요즘 화제](/wiki/%ED%8F%AC%ED%84%B8:%EC%9A%94%EC%A6%98_%ED%99%94%EC%A0%9C "최근의 소식 알아 보기")
+  * [임의의 문서로](/wiki/%ED%8A%B9%EC%88%98:%EC%9E%84%EC%9D%98%EB%AC%B8%EC%84%9C "무작위로 선택된 문서 불러오기 \[x\]")
+  * [기부](//donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&utm_medium=sidebar&utm_campaign=C13_ko.wikipedia.org&uselang=ko "지원을 기다립니다")
+
+###  사용자 모임
+
+  * [사랑방](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%82%AC%EB%9E%91%EB%B0%A9)
+  * [사용자 모임](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%82%AC%EC%9A%A9%EC%9E%90_%EB%AA%A8%EC%9E%84 "위키백과 참여자를 위한 토론/대화 공간입니다.")
+  * [관리 요청](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%9A%94%EC%B2%AD)
+
+###  편집 안내
+
+  * [도움말](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%8F%84%EC%9B%80%EB%A7%90 "도움말")
+  * [정책과 지침](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%A0%95%EC%B1%85%EA%B3%BC_%EC%A7%80%EC%B9%A8)
+  * [질문방](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%A7%88%EB%AC%B8%EB%B0%A9)
+
+###  도구
+
+  * [여기를 가리키는 문서](/wiki/%ED%8A%B9%EC%88%98:%EA%B0%80%EB%A6%AC%ED%82%A4%EB%8A%94%EB%AC%B8%EC%84%9C/%ED%99%94%EC%84%B1 "여기를 가리키는 모든 위키 문서의 목록 \[j\]")
+  * [가리키는 글의 최근 바뀜](/wiki/%ED%8A%B9%EC%88%98:%EB%A7%81%ED%81%AC%EC%B5%9C%EA%B7%BC%EB%B0%94%EB%80%9C/%ED%99%94%EC%84%B1 "이 문서에서 링크한 문서의 최근 바뀜 \[k\]")
+  * [파일 올리기](/wiki/위키백과:파일_올리기 "파일 올리기 \[u\]")
+  * [특수 문서 목록](/wiki/%ED%8A%B9%EC%88%98:%ED%8A%B9%EC%88%98%EB%AC%B8%EC%84%9C "모든 특수 문서의 목록 \[q\]")
+  * [고유 링크](/w/index.php?title=%ED%99%94%EC%84%B1&oldid=29188636 "문서의 이 판에 대한 고유링크")
+  * [문서 정보](/w/index.php?title=%ED%99%94%EC%84%B1&action=info "이 문서에 대한 자세한 정보")
+  * [이 문서 인용하기](/w/index.php?title=%ED%8A%B9%EC%88%98:%EC%9D%B4%EB%AC%B8%EC%84%9C%EC%9D%B8%EC%9A%A9&page=%ED%99%94%EC%84%B1&id=29188636&wpFormIdentifier=titleform "이 문서를 인용하는 방법에 대한 정보")
+  * [위키데이터 항목](https://www.wikidata.org/wiki/Special:EntityPage/Q111 "데이터 저장소에 연결된 항목을 가리키는 링크 \[g\]")
+
+###  인쇄/내보내기
+
+  * [책 만들기](/w/index.php?title=%ED%8A%B9%EC%88%98:%EC%B1%85&bookcmd=book_creator&referer=%ED%99%94%EC%84%B1)
+  * [PDF로 다운로드](/w/index.php?title=%ED%8A%B9%EC%88%98:DownloadAsPdf&page=%ED%99%94%EC%84%B1&action=show-download-screen)
+  * [인쇄용 판](/w/index.php?title=%ED%99%94%EC%84%B1&printable=yes "이 문서의 인쇄용 판 \[p\]")
+
+###  다른 프로젝트
+
+  * [위키미디어 공용](https://commons.wikimedia.org/wiki/Category:Mars_\(planet\))
+  * [위키책](https://ko.wikibooks.org/wiki/%ED%99%94%EC%84%B1)
+  * [위키인용집](https://ko.wikiquote.org/wiki/%ED%99%94%EC%84%B1)
+
+###  다른 언어
+
+  * [Afrikaans](https://af.wikipedia.org/wiki/Mars "Mars – 아프리칸스어")
+  * [Alemannisch](https://als.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – Alemannisch")
+  * [አማርኛ](https://am.wikipedia.org/wiki/%E1%88%9B%E1%88%AD%E1%88%B5 "ማርስ – 암하라어")
+  * [Aragonés](https://an.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – 아라곤어")
+  * [Ænglisc](https://ang.wikipedia.org/wiki/Tiw_\(tungol\) "Tiw \(tungol\) – 고대 영어")
+  * [العربية](https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D9%85%D8%B1%D9%8A%D8%AE "المريخ – 아랍어")
+  * [الدارجة](https://ary.wikipedia.org/wiki/%D9%84%D9%85%D8%B1%D9%8A%D8%AE "لمريخ – 모로코 아랍어")
+  * [مصرى](https://arz.wikipedia.org/wiki/%D9%85%D8%B1%D9%8A%D8%AE "مريخ – 이집트 아랍어")
+  * [অসমীয়া](https://as.wikipedia.org/wiki/%E0%A6%AE%E0%A6%99%E0%A7%8D%E0%A6%97%E0%A6%B2_%E0%A6%97%E0%A7%8D%E0%A7%B0%E0%A6%B9 "মঙ্গল গ্ৰহ – 아삼어")
+  * [Asturianu](https://ast.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – 아스투리아어")
+  * [अवधी](https://awa.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगल ग्रह – 아와히어")
+  * [Azərbaycanca](https://az.wikipedia.org/wiki/Mars "Mars – 아제르바이잔어")
+  * [تۆرکجه](https://azb.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – South Azerbaijani")
+  * [Башҡортса](https://ba.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 바슈키르어")
+  * [Basa Bali](https://ban.wikipedia.org/wiki/Mars "Mars – 발리어")
+  * [Boarisch](https://bar.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – Bavarian")
+  * [Žemaitėška](https://bat-smg.wikipedia.org/wiki/Marsos "Marsos – Samogitian")
+  * [Bikol Central](https://bcl.wikipedia.org/wiki/Marte "Marte – Central Bikol")
+  * [Беларуская](https://be.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 벨라루스어")
+  * [Беларуская (тарашкевіца)‎](https://be-tarask.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – Belarusian \(Taraškievica orthography\)")
+  * [Български](https://bg.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 불가리아어")
+  * [भोजपुरी](https://bh.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगल ग्रह – Bhojpuri")
+  * [বাংলা](https://bn.wikipedia.org/wiki/%E0%A6%AE%E0%A6%99%E0%A7%8D%E0%A6%97%E0%A6%B2_\(%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%B9\) "মঙ্গল \(গ্রহ\) – 벵골어")
+  * [བོད་ཡིག](https://bo.wikipedia.org/wiki/%E0%BD%98%E0%BD%B2%E0%BD%82%E0%BC%8B%E0%BD%91%E0%BD%98%E0%BD%A2%E0%BC%8D "མིག་དམར། – 티베트어")
+  * [Brezhoneg](https://br.wikipedia.org/wiki/Meurzh_\(planedenn\) "Meurzh \(planedenn\) – 브르타뉴어")
+  * [Bosanski](https://bs.wikipedia.org/wiki/Mars "Mars – 보스니아어")
+  * [Буряад](https://bxr.wikipedia.org/wiki/%D0%9C%D0%B8%D0%B3%D0%BC%D0%B0%D1%80_\(%D0%B3%D0%B0%D1%80%D0%B0%D0%B3\) "Мигмар \(гараг\) – Russia Buriat")
+  * [Català](https://ca.wikipedia.org/wiki/Mart_\(planeta\) "Mart \(planeta\) – 카탈로니아어")
+  * [Mìng-dĕ̤ng-ngṳ̄](https://cdo.wikipedia.org/wiki/Hu%C5%8Di-s%C4%ADng "Huōi-sĭng – Min Dong Chinese")
+  * [Нохчийн](https://ce.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 체첸어")
+  * [Cebuano](https://ceb.wikipedia.org/wiki/Mars "Mars – 세부아노어")
+  * [ᏣᎳᎩ](https://chr.wikipedia.org/wiki/%E1%8E%B9%E1%8F%8F "ᎹᏏ – 체로키어")
+  * [کوردی](https://ckb.wikipedia.org/wiki/%D9%85%DB%95%D8%B1%DB%8C%D8%AE "مەریخ – 소라니 쿠르드어")
+  * [Corsu](https://co.wikipedia.org/wiki/Marte "Marte – 코르시카어")
+  * [Nēhiyawēwin / ᓀᐦᐃᔭᐍᐏᐣ](https://cr.wikipedia.org/wiki/%E1%92%A5%E1%90%A6%E1%91%B2%E1%90%A7%E1%91%96%E1%95%81 "ᒥᐦᑲᐧᑖᕁ – 크리어")
+  * [Čeština](https://cs.wikipedia.org/wiki/Mars_\(planeta\) "Mars \(planeta\) – 체코어")
+  * [Kaszëbsczi](https://csb.wikipedia.org/wiki/Mars "Mars – 카슈비아어")
+  * [Словѣньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ](https://cu.wikipedia.org/wiki/%D0%90%D1%80%D0%B8%D1%81%D1%8A "Арисъ – 교회 슬라브어")
+  * [Чӑвашла](https://cv.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 추바시어")
+  * [Cymraeg](https://cy.wikipedia.org/wiki/Mawrth_\(planed\) "Mawrth \(planed\) – 웨일스어")
+  * [Dansk](https://da.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – 덴마크어")
+  * [Deutsch](https://de.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – 독일어")
+  * [Zazaki](https://diq.wikipedia.org/wiki/Mars "Mars – Zazaki")
+  * [Dolnoserbski](https://dsb.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – 저지 소르비아어")
+  * [डोटेली](https://dty.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगलग्रह – Doteli")
+  * [Ελληνικά](https://el.wikipedia.org/wiki/%CE%86%CF%81%CE%B7%CF%82_\(%CF%80%CE%BB%CE%B1%CE%BD%CE%AE%CF%84%CE%B7%CF%82\) "Άρης \(πλανήτης\) – 그리스어")
+  * [Emiliàn e rumagnòl](https://eml.wikipedia.org/wiki/M%C3%A8rt "Mèrt – Emiliano-Romagnolo")
+  * [English](https://en.wikipedia.org/wiki/Mars "Mars – 영어")
+  * [Esperanto](https://eo.wikipedia.org/wiki/Marso_\(planedo\) "Marso \(planedo\) – 에스페란토어")
+  * [Español](https://es.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – 스페인어")
+  * [Eesti](https://et.wikipedia.org/wiki/Marss "Marss – 에스토니아어")
+  * [Euskara](https://eu.wikipedia.org/wiki/Marte "Marte – 바스크어")
+  * [Estremeñu](https://ext.wikipedia.org/wiki/Marti_\(praneta\) "Marti \(praneta\) – Extremaduran")
+  * [فارسی](https://fa.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – 페르시아어")
+  * [Suomi](https://fi.wikipedia.org/wiki/Mars "Mars – 핀란드어")
+  * [Võro](https://fiu-vro.wikipedia.org/wiki/Marss "Marss – võro")
+  * [Na Vosa Vakaviti](https://fj.wikipedia.org/wiki/Aceni "Aceni – 피지어")
+  * [Føroyskt](https://fo.wikipedia.org/wiki/Mars_\(gongustj%C3%B8rna\) "Mars \(gongustjørna\) – 페로어")
+  * [Français](https://fr.wikipedia.org/wiki/Mars_\(plan%C3%A8te\) "Mars \(planète\) – 프랑스어")
+  * [Arpetan](https://frp.wikipedia.org/wiki/M%C3%A2rs_\(plan%C3%A8ta\) "Mârs \(planèta\) – Arpitan")
+  * [Nordfriisk](https://frr.wikipedia.org/wiki/Mars "Mars – 북부 프리지아어")
+  * [Furlan](https://fur.wikipedia.org/wiki/Mart_\(planet\) "Mart \(planet\) – 프리울리어")
+  * [Frysk](https://fy.wikipedia.org/wiki/Mars_\(planeet\) "Mars \(planeet\) – 서부 프리지아어")
+  * [Gaeilge](https://ga.wikipedia.org/wiki/Mars_\(pl%C3%A1in%C3%A9ad\) "Mars \(pláinéad\) – 아일랜드어")
+  * [贛語](https://gan.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – 간어")
+  * [Kriyòl gwiyannen](https://gcr.wikipedia.org/wiki/Mars_\(plan%C3%A8t\) "Mars \(planèt\) – Guianan Creole")
+  * [Gàidhlig](https://gd.wikipedia.org/wiki/Corg "Corg – 스코틀랜드 게일어")
+  * [Galego](https://gl.wikipedia.org/wiki/Marte "Marte – 갈리시아어")
+  * [Avañe'ẽ](https://gn.wikipedia.org/wiki/Jasytata_Guasu "Jasytata Guasu – 과라니어")
+  * [ગુજરાતી](https://gu.wikipedia.org/wiki/%E0%AA%AE%E0%AA%82%E0%AA%97%E0%AA%B3_\(%E0%AA%97%E0%AB%8D%E0%AA%B0%E0%AA%B9\) "મંગળ \(ગ્રહ\) – 구자라트어")
+  * [Gaelg](https://gv.wikipedia.org/wiki/Mart_\(planaid\) "Mart \(planaid\) – 맹크스어")
+  * [客家語/Hak-kâ-ngî](https://hak.wikipedia.org/wiki/F%C3%B3-s%C3%AAn "Fó-sên – 하카어")
+  * [Hawaiʻi](https://haw.wikipedia.org/wiki/H%C5%8Dk%C5%AB%CA%BBula "Hōkūʻula – 하와이어")
+  * [עברית](https://he.wikipedia.org/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D "מאדים – 히브리어")
+  * [हिन्दी](https://hi.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगल ग्रह – 힌디어")
+  * [Fiji Hindi](https://hif.wikipedia.org/wiki/Mangalgrah "Mangalgrah – 피지 힌디어")
+  * [Hrvatski](https://hr.wikipedia.org/wiki/Mars "Mars – 크로아티아어")
+  * [Hornjoserbsce](https://hsb.wikipedia.org/wiki/Mars "Mars – 고지 소르비아어")
+  * [Kreyòl ayisyen](https://ht.wikipedia.org/wiki/Mas_\(plan%C3%A8t\) "Mas \(planèt\) – 아이티어")
+  * [Magyar](https://hu.wikipedia.org/wiki/Mars_\(bolyg%C3%B3\) "Mars \(bolygó\) – 헝가리어")
+  * [Հայերեն](https://hy.wikipedia.org/wiki/%D5%84%D5%A1%D6%80%D5%BD_\(%D5%B4%D5%B8%D5%AC%D5%B8%D6%80%D5%A1%D5%AF\) "Մարս \(մոլորակ\) – 아르메니아어")
+  * [Արեւմտահայերէն](https://hyw.wikipedia.org/wiki/%D5%80%D6%80%D5%A1%D5%BF_%D5%B4%D5%B8%D5%AC%D5%B8%D6%80%D5%A1%D5%AF_\(%D5%84%D5%A1%D6%80%D5%BD\) "Հրատ մոլորակ \(Մարս\) – Western Armenian")
+  * [Interlingua](https://ia.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – 인터링구아")
+  * [Bahasa Indonesia](https://id.wikipedia.org/wiki/Mars "Mars – 인도네시아어")
+  * [Interlingue](https://ie.wikipedia.org/wiki/Mars "Mars – 인테르링구에")
+  * [Ilokano](https://ilo.wikipedia.org/wiki/Marte "Marte – 이로코어")
+  * [ГӀалгӀай](https://inh.wikipedia.org/wiki/%D0%9C%D0%B8%D0%BD%D0%B3%D0%B0%D0%BB "Мингал – 인귀시어")
+  * [Ido](https://io.wikipedia.org/wiki/Marso "Marso – 이도어")
+  * [Íslenska](https://is.wikipedia.org/wiki/Mars_\(reikistjarna\) "Mars \(reikistjarna\) – 아이슬란드어")
+  * [Italiano](https://it.wikipedia.org/wiki/Marte_\(astronomia\) "Marte \(astronomia\) – 이탈리아어")
+  * [日本語](https://ja.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – 일본어")
+  * [Patois](https://jam.wikipedia.org/wiki/Maarz "Maarz – Jamaican Creole English")
+  * [La .lojban.](https://jbo.wikipedia.org/wiki/mars "mars – 로반어")
+  * [Jawa](https://jv.wikipedia.org/wiki/Mars "Mars – 자바어")
+  * [ქართული](https://ka.wikipedia.org/wiki/%E1%83%9B%E1%83%90%E1%83%A0%E1%83%A1%E1%83%98 "მარსი – 조지아어")
+  * [Qaraqalpaqsha](https://kaa.wikipedia.org/wiki/Mars_\(planeta\) "Mars \(planeta\) – 카라칼파크어")
+  * [Taqbaylit](https://kab.wikipedia.org/wiki/Mezwe%C9%A3 "Mezweɣ – 커바일어")
+  * [Kabɩyɛ](https://kbp.wikipedia.org/wiki/Maar%C9%A9s%C9%A9 "Maarɩsɩ – Kabiye")
+  * [Kongo](https://kg.wikipedia.org/wiki/Mars "Mars – 콩고어")
+  * [Gĩkũyũ](https://ki.wikipedia.org/wiki/Maasi "Maasi – 키쿠유어")
+  * [Қазақша](https://kk.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 카자흐어")
+  * [ភាសាខ្មែរ](https://km.wikipedia.org/wiki/%E1%9E%97%E1%9E%96%E1%9E%A2%E1%9E%84%E1%9F%92%E1%9E%82%E1%9E%B6%E1%9E%9A "ភពអង្គារ – 크메르어")
+  * [ಕನ್ನಡ](https://kn.wikipedia.org/wiki/%E0%B2%AE%E0%B2%82%E0%B2%97%E0%B2%B3_\(%E0%B2%97%E0%B3%8D%E0%B2%B0%E0%B2%B9\) "ಮಂಗಳ \(ಗ್ರಹ\) – 칸나다어")
+  * [Къарачай-малкъар](https://krc.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – 카라챠이-발카르어")
+  * [Ripoarisch](https://ksh.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – 콜로그니안어")
+  * [Kurdî](https://ku.wikipedia.org/wiki/Behram_\(gerst%C3%AArk\) "Behram \(gerstêrk\) – 쿠르드어")
+  * [Коми](https://kv.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 코미어")
+  * [Kernowek](https://kw.wikipedia.org/wiki/Meurth_\(planet\) "Meurth \(planet\) – 콘월어")
+  * [Кыргызча](https://ky.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 키르기스어")
+  * [Latina](https://la.wikipedia.org/wiki/Mars_\(planeta\) "Mars \(planeta\) – 라틴어")
+  * [Lëtzebuergesch](https://lb.wikipedia.org/wiki/Mars_\(Plan%C3%A9it\) "Mars \(Planéit\) – 룩셈부르크어")
+  * [Лезги](https://lez.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 레즈기안어")
+  * [Lingua Franca Nova](https://lfn.wikipedia.org/wiki/Marte "Marte – 링구아 프랑카 노바")
+  * [Limburgs](https://li.wikipedia.org/wiki/Mars_\(planeet\) "Mars \(planeet\) – 림버거어")
+  * [Ligure](https://lij.wikipedia.org/wiki/Marte_\(astronomia\) "Marte \(astronomia\) – Ligurian")
+  * [Ladin](https://lld.wikipedia.org/wiki/Mars "Mars – Ladin")
+  * [Lumbaart](https://lmo.wikipedia.org/wiki/Marte_\(pianeta\) "Marte \(pianeta\) – Lombard")
+  * [Lingála](https://ln.wikipedia.org/wiki/M%C3%A1rsi_\(monz%C9%94%CC%81t%C9%94\) "Mársi \(monzɔ́tɔ\) – 링갈라어")
+  * [ລາວ](https://lo.wikipedia.org/wiki/%E0%BA%94%E0%BA%B2%E0%BA%A7%E0%BA%AD%E0%BA%B1%E0%BA%87%E0%BA%84%E0%BA%B2%E0%BA%99 "ດາວອັງຄານ – 라오어")
+  * [Lietuvių](https://lt.wikipedia.org/wiki/Marsas_\(planeta\) "Marsas \(planeta\) – 리투아니아어")
+  * [Latviešu](https://lv.wikipedia.org/wiki/Marss_\(plan%C4%93ta\) "Marss \(planēta\) – 라트비아어")
+  * [Мокшень](https://mdf.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D1%88%D0%B0%D1%80%D1%8B_%D1%82%D1%8F%D1%88%D1%82%D0%B5\) "Марс \(шары тяште\) – 모크샤어")
+  * [Malagasy](https://mg.wikipedia.org/wiki/Marsa_\(fajiry\) "Marsa \(fajiry\) – 말라가시어")
+  * [Македонски](https://mk.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – 마케도니아어")
+  * [മലയാളം](https://ml.wikipedia.org/wiki/%E0%B4%9A%E0%B5%8A%E0%B4%B5%E0%B5%8D%E0%B4%B5 "ചൊവ്വ – 말라얄람어")
+  * [Монгол](https://mn.wikipedia.org/wiki/%D0%90%D0%BD%D0%B3%D0%B0%D1%80%D0%B0%D0%B3 "Ангараг – 몽골어")
+  * [ꯃꯤꯇꯩ ꯂꯣꯟ](https://mni.wikipedia.org/wiki/%EA%AF%82%EA%AF%A9%EA%AF%84%EA%AF%A5%EA%AF%9B%EA%AF%84%EA%AF%A3%EA%AF%9B%EA%AF%84_%EA%AF%8A%EA%AF%84%EA%AF%A4 "ꯂꯩꯄꯥꯛꯄꯣꯛꯄ ꯊꯄꯤ – 마니푸리어")
+  * [ဘာသာ မန်](https://mnw.wikipedia.org/wiki/%E1%80%99%E1%80%AC%E1%80%9B%E1%80%BA%E1%80%9E%E1%80%BA "မာရ်သ် – Mon")
+  * [मराठी](https://mr.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B3_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगळ ग्रह – 마라티어")
+  * [Bahasa Melayu](https://ms.wikipedia.org/wiki/Marikh "Marikh – 말레이어")
+  * [Malti](https://mt.wikipedia.org/wiki/Marte_\(pjaneta\) "Marte \(pjaneta\) – 몰타어")
+  * [Mirandés](https://mwl.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – 미란데어")
+  * [မြန်မာဘာသာ](https://my.wikipedia.org/wiki/%E1%80%A1%E1%80%84%E1%80%BA%E1%80%B9%E1%80%82%E1%80%AB%E1%80%82%E1%80%BC%E1%80%AD%E1%80%AF%E1%80%9F%E1%80%BA "အင်္ဂါဂြိုဟ် – 버마어")
+  * [مازِرونی](https://mzn.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – 마잔데라니어")
+  * [Dorerin Naoero](https://na.wikipedia.org/wiki/Mars "Mars – 나우루어")
+  * [Nāhuatl](https://nah.wikipedia.org/wiki/Ch%C4%ABch%C4%ABlc%C4%ABtlalli "Chīchīlcītlalli – Nāhuatl")
+  * [Napulitano](https://nap.wikipedia.org/wiki/Marte "Marte – 나폴리어")
+  * [Plattdüütsch](https://nds.wikipedia.org/wiki/Mars_\(Planet\) "Mars \(Planet\) – 저지 독일어")
+  * [Nedersaksies](https://nds-nl.wikipedia.org/wiki/Mars_\(planeet\) "Mars \(planeet\) – 저지 색슨어")
+  * [नेपाली](https://ne.wikipedia.org/wiki/%E0%A4%AE%E0%A4%99%E0%A5%8D%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मङ्गल ग्रह – 네팔어")
+  * [नेपाल भाषा](https://new.wikipedia.org/wiki/%E0%A4%AE%E0%A4%82%E0%A4%97%E0%A4%B2_%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%B9 "मंगल ग्रह – 네와르어")
+  * [Nederlands](https://nl.wikipedia.org/wiki/Mars_\(planeet\) "Mars \(planeet\) – 네덜란드어")
+  * [Norsk nynorsk](https://nn.wikipedia.org/wiki/Planeten_Mars "Planeten Mars – 노르웨이어\(니노르스크\)")
+  * [Norsk bokmål](https://no.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – 노르웨이어\(보크말\)")
+  * [Novial](https://nov.wikipedia.org/wiki/Mars_\(planete\) "Mars \(planete\) – Novial")
+  * [ߒߞߏ](https://nqo.wikipedia.org/wiki/%DF%A4%DF%90%DF%9E%DF%8E "ߤߐߞߎ – 응코어")
+  * [Nouormand](https://nrm.wikipedia.org/wiki/Mars "Mars – Norman")
+  * [Diné bizaad](https://nv.wikipedia.org/wiki/M%C3%A1az "Máaz – 나바호어")
+  * [Occitan](https://oc.wikipedia.org/wiki/Mart_\(planeta\) "Mart \(planeta\) – 오크어")
+  * [Livvinkarjala](https://olo.wikipedia.org/wiki/Mars_\(planiettu\) "Mars \(planiettu\) – Livvi-Karelian")
+  * [Oromoo](https://om.wikipedia.org/wiki/Mars "Mars – 오로모어")
+  * [ଓଡ଼ିଆ](https://or.wikipedia.org/wiki/%E0%AC%AE%E0%AC%99%E0%AD%8D%E0%AC%97%E0%AC%B3 "ମଙ୍ଗଳ – 오리야어")
+  * [Ирон](https://os.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%C3%A6\) "Марс \(планетæ\) – 오세트어")
+  * [ਪੰਜਾਬੀ](https://pa.wikipedia.org/wiki/%E0%A8%AE%E0%A9%B0%E0%A8%97%E0%A8%B2_\(%E0%A8%97%E0%A9%8D%E0%A8%B0%E0%A8%B9%E0%A8%BF\) "ਮੰਗਲ \(ਗ੍ਰਹਿ\) – 펀잡어")
+  * [Kapampangan](https://pam.wikipedia.org/wiki/Marti "Marti – 팜팡가어")
+  * [Polski](https://pl.wikipedia.org/wiki/Mars "Mars – 폴란드어")
+  * [Piemontèis](https://pms.wikipedia.org/wiki/Mart_\(pianeta\) "Mart \(pianeta\) – Piedmontese")
+  * [پنجابی](https://pnb.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – Western Punjabi")
+  * [پښتو](https://ps.wikipedia.org/wiki/%D9%85%D8%B1%D9%8A%D8%AE "مريخ – 파슈토어")
+  * [Português](https://pt.wikipedia.org/wiki/Marte_\(planeta\) "Marte \(planeta\) – 포르투갈어")
+  * [Runa Simi](https://qu.wikipedia.org/wiki/Awqakuq "Awqakuq – 케추아어")
+  * [Rumantsch](https://rm.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – 로만시어")
+  * [Romani čhib](https://rmy.wikipedia.org/wiki/Manjor "Manjor – Vlax Romani")
+  * [Română](https://ro.wikipedia.org/wiki/Marte_\(planet%C4%83\) "Marte \(planetă\) – 루마니아어")
+  * [Armãneashti](https://roa-rup.wikipedia.org/wiki/Marti "Marti – Aromanian")
+  * [Русский](https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 러시아어")
+  * [Русиньскый](https://rue.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – 루신어")
+  * [संस्कृतम्](https://sa.wikipedia.org/wiki/%E0%A4%AE%E0%A4%99%E0%A5%8D%E0%A4%97%E0%A4%B2%E0%A4%83 "मङ्गलः – 산스크리트어")
+  * [Саха тыла](https://sah.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 야쿠트어")
+  * [ᱥᱟᱱᱛᱟᱲᱤ](https://sat.wikipedia.org/wiki/%E1%B1%B5%E1%B1%9A%E1%B1%B8%E1%B1%9C%E1%B1%9F_%E1%B1%AE%E1%B1%B8%E1%B1%9C%E1%B1%AE%E1%B1%9E "ᱵᱚᱸᱜᱟ ᱮᱸᱜᱮᱞ – 산탈리어")
+  * [Sardu](https://sc.wikipedia.org/wiki/Marte_\(praneta\) "Marte \(praneta\) – 사르디니아어")
+  * [Sicilianu](https://scn.wikipedia.org/wiki/Marti_\(pianeta\) "Marti \(pianeta\) – 시칠리아어")
+  * [Scots](https://sco.wikipedia.org/wiki/Maurs "Maurs – 스코틀랜드어")
+  * [سنڌي](https://sd.wikipedia.org/wiki/%D9%85%D8%B1%D9%8A%D8%AE "مريخ – 신디어")
+  * [Davvisámegiella](https://se.wikipedia.org/wiki/Mars "Mars – 북부 사미어")
+  * [Srpskohrvatski / српскохрватски](https://sh.wikipedia.org/wiki/Mars "Mars – 세르비아-크로아티아어")
+  * [සිංහල](https://si.wikipedia.org/wiki/%E0%B6%85%E0%B6%9F%E0%B7%84%E0%B6%BB%E0%B7%94_%E0%B6%9C%E0%B7%8A%E2%80%8D%E0%B6%BB%E0%B7%84%E0%B6%BD%E0%B7%9C%E0%B7%80 "අඟහරු ග්‍රහලොව – 싱할라어")
+  * [Simple English](https://simple.wikipedia.org/wiki/Mars "Mars – Simple English")
+  * [Slovenčina](https://sk.wikipedia.org/wiki/Mars "Mars – 슬로바키아어")
+  * [Slovenščina](https://sl.wikipedia.org/wiki/Mars "Mars – 슬로베니아어")
+  * [Anarâškielâ](https://smn.wikipedia.org/wiki/Mars "Mars – 이나리 사미어")
+  * [Soomaaliga](https://so.wikipedia.org/wiki/Farraare "Farraare – 소말리아어")
+  * [Shqip](https://sq.wikipedia.org/wiki/Marsi "Marsi – 알바니아어")
+  * [Српски / srpski](https://sr.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 세르비아어")
+  * [Seeltersk](https://stq.wikipedia.org/wiki/Mars "Mars – Saterland Frisian")
+  * [Sunda](https://su.wikipedia.org/wiki/Mars "Mars – 순다어")
+  * [Svenska](https://sv.wikipedia.org/wiki/Mars_\(planet\) "Mars \(planet\) – 스웨덴어")
+  * [Kiswahili](https://sw.wikipedia.org/wiki/Mirihi "Mirihi – 스와힐리어")
+  * [Ślůnski](https://szl.wikipedia.org/wiki/Mars "Mars – Silesian")
+  * [தமிழ்](https://ta.wikipedia.org/wiki/%E0%AE%9A%E0%AF%86%E0%AE%B5%E0%AF%8D%E0%AE%B5%E0%AE%BE%E0%AE%AF%E0%AF%8D_\(%E0%AE%95%E0%AF%8B%E0%AE%B3%E0%AF%8D\) "செவ்வாய் \(கோள்\) – 타밀어")
+  * [ತುಳು](https://tcy.wikipedia.org/wiki/%E0%B2%85%E0%B2%82%E0%B2%97%E0%B2%BE%E0%B2%B0%E0%B2%95 "ಅಂಗಾರಕ – Tulu")
+  * [తెలుగు](https://te.wikipedia.org/wiki/%E0%B0%85%E0%B0%82%E0%B0%97%E0%B0%BE%E0%B0%B0%E0%B0%95%E0%B1%81%E0%B0%A1%E0%B1%81 "అంగారకుడు – 텔루구어")
+  * [Тоҷикӣ](https://tg.wikipedia.org/wiki/%D0%9C%D0%B8%D1%80%D1%80%D0%B8%D1%85 "Миррих – 타지크어")
+  * [ไทย](https://th.wikipedia.org/wiki/%E0%B8%94%E0%B8%B2%E0%B8%A7%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B2%E0%B8%A3 "ดาวอังคาร – 태국어")
+  * [Türkmençe](https://tk.wikipedia.org/wiki/Mars "Mars – 투르크멘어")
+  * [Tagalog](https://tl.wikipedia.org/wiki/Marte "Marte – 타갈로그어")
+  * [Türkçe](https://tr.wikipedia.org/wiki/Mars "Mars – 터키어")
+  * [Татарча/tatarça](https://tt.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – 타타르어")
+  * [Тыва дыл](https://tyv.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81 "Марс – 투비니안어")
+  * [ئۇيغۇرچە / Uyghurche](https://ug.wikipedia.org/wiki/%D9%85%D8%A7%D8%B1%D8%B3 "مارس – 위구르어")
+  * [Українська](https://uk.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_\(%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0\) "Марс \(планета\) – 우크라이나어")
+  * [اردو](https://ur.wikipedia.org/wiki/%D9%85%D8%B1%DB%8C%D8%AE "مریخ – 우르두어")
+  * [Oʻzbekcha/ўзбекча](https://uz.wikipedia.org/wiki/Mars "Mars – 우즈베크어")
+  * [Vepsän kel’](https://vep.wikipedia.org/wiki/Mars "Mars – Veps")
+  * [Tiếng Việt](https://vi.wikipedia.org/wiki/Sao_H%E1%BB%8Fa "Sao Hỏa – 베트남어")
+  * [West-Vlams](https://vls.wikipedia.org/wiki/Mars_\(planete\) "Mars \(planete\) – West Flemish")
+  * [Volapük](https://vo.wikipedia.org/wiki/Mard "Mard – 볼라퓌크어")
+  * [Walon](https://wa.wikipedia.org/wiki/M%C3%A5ss_\(planete\) "Måss \(planete\) – 왈론어")
+  * [Winaray](https://war.wikipedia.org/wiki/Marte "Marte – 와라이어")
+  * [Wolof](https://wo.wikipedia.org/wiki/Maas "Maas – 월로프어")
+  * [吴语](https://wuu.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – 우어")
+  * [Хальмг](https://xal.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81_%D2%BB%D0%B0%D1%80%D0%B8%D0%B3 "Марс һариг – 칼미크어")
+  * [მარგალური](https://xmf.wikipedia.org/wiki/%E1%83%9B%E1%83%9D%E1%83%A0%E1%83%9D%E1%83%AE%E1%83%98_\(%E1%83%9E%E1%83%9A%E1%83%90%E1%83%9C%E1%83%94%E1%83%A2%E1%83%90\) "მოროხი \(პლანეტა\) – Mingrelian")
+  * [ייִדיש](https://yi.wikipedia.org/wiki/%D7%9E%D7%90%D7%93%D7%99%D7%9D "מאדים – 이디시어")
+  * [Yorùbá](https://yo.wikipedia.org/wiki/M%C3%A1rs%C3%AC "Mársì – 요루바어")
+  * [Vahcuengh](https://za.wikipedia.org/wiki/Ndaundeiqfeiz "Ndaundeiqfeiz – 주앙어")
+  * [Zeêuws](https://zea.wikipedia.org/wiki/Mars_\(planete\) "Mars \(planete\) – Zeelandic")
+  * [中文](https://zh.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – 중국어")
+  * [文言](https://zh-classical.wikipedia.org/wiki/%E7%86%92%E6%83%91 "熒惑 – Classical Chinese")
+  * [Bân-lâm-gú](https://zh-min-nan.wikipedia.org/wiki/H%C3%B3e-chhe%E2%81%BF "Hóe-chheⁿ – Chinese \(Min Nan\)")
+  * [粵語](https://zh-yue.wikipedia.org/wiki/%E7%81%AB%E6%98%9F "火星 – Cantonese")
+  * [IsiZulu](https://zu.wikipedia.org/wiki/UMarzi "UMarzi – 줄루어")
+
+[링크 편집](https://www.wikidata.org/wiki/Special:EntityPage/Q111#sitelinks-
+wikipedia "언어 인터위키 링크 편집")
+
+###  이름공간
+
+  * [문서](/wiki/%ED%99%94%EC%84%B1 "본문 보기 \[c\]")
+  * [토론](/wiki/%ED%86%A0%EB%A1%A0:%ED%99%94%EC%84%B1 "문서의 내용에 대한 토론 문서 \[t\]")
+
+###  변수
+
+###  보기
+
+  * [읽기](/wiki/%ED%99%94%EC%84%B1)
+  * [편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit "이 문서 편집하기 \[e\]")
+  * [역사 보기](/w/index.php?title=%ED%99%94%EC%84%B1&action=history "이 문서의 과거 편집 내역입니다. \[h\]")
+
+###  더 보기
+
+# 화성
+
+위키백과, 우리 모두의 백과사전.
+
+![Question book-
+new.svg](//upload.wikimedia.org/wikipedia/commons/thumb/9/99/Question_book-
+new.svg/50px-Question_book-new.svg.png)
+
+| 이 문서의 내용은
+**[출처](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%B6%9C%EC%B2%98_%EB%B0%9D%ED%9E%88%EA%B8%B0
+"위키백과:출처 밝히기")가 분명하지 않습니다.**  
+이 [문서를
+편집](https://ko.wikipedia.org/w/index.php?title=%ED%99%94%EC%84%B1&action=edit)하여,
+[신뢰할 수 있는
+출처](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%8B%A0%EB%A2%B0%ED%95%A0_%EC%88%98_%EC%9E%88%EB%8A%94_%EC%B6%9C%EC%B2%98
+"위키백과:신뢰할 수 있는 출처")를 표기해 주세요.
+[검증](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%ED%99%95%EC%9D%B8_%EA%B0%80%EB%8A%A5
+"위키백과:확인 가능")되지 않은 내용은 삭제될 수도 있습니다. 내용에 대한 의견은 [토론
+문서](/wiki/%ED%86%A0%EB%A1%A0:%ED%99%94%EC%84%B1 "토론:화성")에서 나누어 주세요. (2014년 1월)  
+---|---  
+  
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Disambig_grey.svg/23px-
+Disambig_grey.svg.png)](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%8F%99%EC%9D%8C%EC%9D%B4%EC%9D%98%EC%96%B4_%EB%AC%B8%EC%84%9C
+"위키백과:동음이의어 문서") 다른 뜻에 대해서는 [화성
+(동음이의)](/wiki/%ED%99%94%EC%84%B1_\(%EB%8F%99%EC%9D%8C%EC%9D%B4%EC%9D%98\) "화성
+\(동음이의\)") 문서를 참조하십시오.
+
+**화성** [![천문
+기호](//upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mars_symbol.svg/25px-
+Mars_symbol.svg.png)](/wiki/%ED%8C%8C%EC%9D%BC:Mars_symbol.svg "천문 기호") [![허블
+우주 망원경으로 본
+화성](//upload.wikimedia.org/wikipedia/commons/thumb/7/76/Mars_Hubble.jpg/240px-
+Mars_Hubble.jpg)](/wiki/%ED%8C%8C%EC%9D%BC:Mars_Hubble.jpg "허블 우주 망원경으로 본 화성")  
+---  
+2001년 6월 26일에 [허블 우주
+망원경](/wiki/%ED%97%88%EB%B8%94_%EC%9A%B0%EC%A3%BC_%EB%A7%9D%EC%9B%90%EA%B2%BD
+"허블 우주 망원경")이 촬영한 화성  
+[궤도](/wiki/%EA%B6%A4%EB%8F%84 "궤도") 성질 (역기점 [J2000](/wiki/J2000 "J2000"))[1]  
+[근일점](/wiki/%EA%B7%BC%EC%9D%BC%EC%A0%90 "근일점") | 206.7
+[G](/wiki/%EA%B8%B0%EA%B0%80 "기가")[m](/wiki/%EB%AF%B8%ED%84%B0 "미터")  
+1.3814 [AU](/wiki/AU "AU")  
+[원일점](/wiki/%EC%9B%90%EC%9D%BC%EC%A0%90 "원일점") | 249.2
+[G](/wiki/%EA%B8%B0%EA%B0%80 "기가")[m](/wiki/%EB%AF%B8%ED%84%B0 "미터")  
+1.6660 [AU](/wiki/AU "AU")  
+[긴반지름](/wiki/%EA%B8%B4%EB%B0%98%EC%A7%80%EB%A6%84 "긴반지름") | 227.9392 Gm  
+1.523679 AU  
+[이심률](/wiki/%EC%9D%B4%EC%8B%AC%EB%A5%A0 "이심률") | 0.094  
+[공전 주기](/wiki/%EA%B3%B5%EC%A0%84_%EC%A3%BC%EA%B8%B0 "공전 주기") | 686.971
+[d](/wiki/%EB%82%A0 "날") (1.8808
+[a](/wiki/%EC%9C%A8%EB%A6%AC%EC%9A%B0%EC%8A%A4%EB%85%84 "율리우스년"))  
+[회합 주기](/wiki/%EA%B3%B5%EC%A0%84_%EC%A3%BC%EA%B8%B0 "공전 주기") | 779.96 d (2.135
+[a](/wiki/%EC%9C%A8%EB%A6%AC%EC%9A%B0%EC%8A%A4%EB%85%84 "율리우스년"))  
+평균 공전 속도  | 24.077 km/[s](/wiki/%EC%B4%88_\(%EC%8B%9C%EA%B0%84\) "초 \(시간\)")  
+[궤도 경사](/wiki/%EA%B6%A4%EB%8F%84_%EA%B2%BD%EC%82%AC "궤도 경사") | 1.85° (황도 기준)  
+5.65° (태양 적도 기준)  
+[승교점 경도](/wiki/%EC%8A%B9%EA%B5%90%EC%A0%90_%EA%B2%BD%EB%8F%84 "승교점 경도") |
+49.558°  
+[근일점 인수](/wiki/%EA%B7%BC%EC%9D%BC%EC%A0%90_%EC%9D%B8%EC%88%98 "근일점 인수") |
+286.502°  
+[위성](/wiki/%EC%9C%84%EC%84%B1 "위성") 수  | 2 개  
+물리적 성질[2]  
+평균 지름  | 6,779.0 ± 0.4 km  
+[적도](/wiki/%EC%A0%81%EB%8F%84 "적도") [지름](/wiki/%EC%A7%80%EB%A6%84 "지름") |
+6,792.4 ± 0.2 km  
+([지구](/wiki/%EC%A7%80%EA%B5%AC "지구")의 0.533배)  
+극 지름  | 6,752.4 ± 0.2 km  
+(지구의 0.531배)  
+둘레  | 21,344 km  
+[편평도](/wiki/%ED%8E%B8%ED%8F%89%EB%8F%84 "편평도") | 0.00589 ± 0.00015  
+[부피](/wiki/%EB%B6%80%ED%94%BC "부피") | 1.6310×10^11 km3  
+(지구의 0.151배)  
+[질량](/wiki/%EC%A7%88%EB%9F%89 "질량") | 6.4171×10^23 kg  
+(지구의 0.107배)  
+평균 [밀도](/wiki/%EB%B0%80%EB%8F%84 "밀도") | 3.9335 ± 0.0004 g/cm3  
+[표면 중력](/wiki/%EC%A4%91%EB%A0%A5 "중력") | 3.711
+[m/s2](/wiki/%EA%B0%80%EC%86%8D%EB%8F%84 "가속도")
+(0.376[g](/wiki/%EC%A4%91%EB%A0%A5%EA%B0%80%EC%86%8D%EB%8F%84 "중력가속도"))  
+[탈출 속도](/wiki/%ED%83%88%EC%B6%9C_%EC%86%8D%EB%8F%84 "탈출 속도") | 5.027 km/s  
+[자전 주기](/wiki/%EC%9E%90%EC%A0%84_%EC%A3%BC%EA%B8%B0 "자전 주기") | 1.025 957 d  
+(24h 37m 22s)  
+자전 속도  | 868.22 km/h  
+[자전축 기울기](/wiki/%EC%9E%90%EC%A0%84%EC%B6%95_%EA%B8%B0%EC%9A%B8%EA%B8%B0 "자전축
+기울기") | 25.19°  
+(궤도면 기준)  
+[적경](/wiki/%EC%A0%81%EA%B2%BD "적경") | 317.681 43°  
+(21h 10m 44s)  
+[적위](/wiki/%EC%A0%81%EC%9C%84 "적위") | 52.886 50°  
+[반사율](/wiki/%EB%B0%98%EC%82%AC%EC%9C%A8 "반사율") | 0.25  
+[겉보기 등급](/wiki/%EA%B2%89%EB%B3%B4%EA%B8%B0_%EB%93%B1%EA%B8%89 "겉보기 등급") | -3 ~
++1.6  
+[각지름](/wiki/%EA%B0%81%EC%A7%80%EB%A6%84 "각지름") | 3.5 ~ 25.1"  
+[표면 온도](/wiki/%EC%98%A8%EB%8F%84 "온도")  
+ **\- 최저**  
+ **\- 평균**  
+ **\- 최고** |  
+133 [K](/wiki/%EC%BC%88%EB%B9%88 "켈빈") (-140 °C)  
+210 K (-63 °C)  
+293 K (20 °C)  
+대기 성질[2][3]  
+[대기압](/wiki/%EB%8C%80%EA%B8%B0%EC%95%95 "대기압") | 0.636
+[kPa](/wiki/%ED%8C%8C%EC%8A%A4%EC%B9%BC_\(%EB%8B%A8%EC%9C%84\) "파스칼 \(단위\)")
+(0.4-0.87)  
+[이산화 탄소](/wiki/%EC%9D%B4%EC%82%B0%ED%99%94_%ED%83%84%EC%86%8C "이산화 탄소") |
+95.97 %  
+[아르곤](/wiki/%EC%95%84%EB%A5%B4%EA%B3%A4 "아르곤") | 1.93 %  
+[질소](/wiki/%EC%A7%88%EC%86%8C "질소") | 1.89 %  
+[산소](/wiki/%EC%82%B0%EC%86%8C "산소") | 0.146 %  
+[일산화 탄소](/wiki/%EC%9D%BC%EC%82%B0%ED%99%94_%ED%83%84%EC%86%8C "일산화 탄소") |
+0.0557 %  
+[일산화 질소](/wiki/%EC%9D%BC%EC%82%B0%ED%99%94_%EC%A7%88%EC%86%8C "일산화 질소") |
+0.01%  
+[네온](/wiki/%EB%84%A4%EC%98%A8 "네온") | 2.5 [ppm](/wiki/Ppm "Ppm")  
+[수증기](/wiki/%EC%88%98%EC%A6%9D%EA%B8%B0 "수증기") | 210 [ppm](/wiki/Ppm "Ppm")  
+[일산화 질소](/wiki/%EC%9D%BC%EC%82%B0%ED%99%94_%EC%A7%88%EC%86%8C "일산화 질소") | 100
+ppm  
+[수소 분자](/wiki/%EC%88%98%EC%86%8C "수소") | 15 ppm  
+[네온](/wiki/%EB%84%A4%EC%98%A8 "네온") | 2.5 ppm  
+[중수](/wiki/%EC%A4%91%EC%88%98 "중수") | 850 [ppb](/wiki/Ppb "Ppb")  
+[크립톤](/wiki/%ED%81%AC%EB%A6%BD%ED%86%A4 "크립톤") | 300 ppb  
+[폼알데하이드](/wiki/%ED%8F%BC%EC%95%8C%EB%8D%B0%ED%95%98%EC%9D%B4%EB%93%9C
+"폼알데하이드") | 130 ppb  
+[제논](/wiki/%EC%A0%9C%EB%85%BC_\(%EC%9B%90%EC%86%8C\) "제논 \(원소\)") | 80 ppb  
+[과산화 수소](/wiki/%EA%B3%BC%EC%82%B0%ED%99%94_%EC%88%98%EC%86%8C "과산화 수소") | 18
+ppb  
+[메탄](/wiki/%EB%A9%94%ED%83%84 "메탄") | 10 ppb  
+  
+**화성** (火星, [영어](/wiki/%EC%98%81%EC%96%B4 "영어"): Mars)은
+[태양계](/wiki/%ED%83%9C%EC%96%91%EA%B3%84 "태양계")의 4 번째
+[행성](/wiki/%ED%96%89%EC%84%B1 "행성")이며, 4개의 지구형 행성 중 하나다. 붉은색을 띠기 때문에 동양권에서는
+[불](/wiki/%EB%B6%88 "불")을 뜻하는 화(火)를 써서 화성 또는 **형혹성** (熒惑星)이라 부르고, 서양권에서는 [로마
+신화](/wiki/%EB%A1%9C%EB%A7%88_%EC%8B%A0%ED%99%94 "로마 신화")의 전쟁의 신
+[마르스](/wiki/%EB%A7%88%EB%A5%B4%EC%8A%A4 "마르스")의 이름을 따 Mars라 부른다. 오늘날 영어에서
+[3월](/wiki/3%EC%9B%94 "3월")을 뜻하는 March도 여기서 유래되었다. 지구와의 평균 거리는 7,800만 km이다.
+화성의 지름은 지구의 1/2 정도이고, 하루는 지구보다 37분 22초 더 길다.
+
+[매리너 4호](/wiki/%EB%A7%A4%EB%A6%AC%EB%84%88_4%ED%98%B8 "매리너 4호")가
+[1965년](/wiki/1965%EB%85%84 "1965년")에 화성을 처음으로 근접 비행을 하기 전까지 과학계 안팎의 사람들은 화성에
+대량의 [물](/wiki/%EB%AC%BC "물")이 존재하리라고 기대하였다. 이러한 기대의 근거는 화성의 극지방에서 밝고 어두운 무늬가
+주기적으로 변화한다는 사실이었다. [60년대](/wiki/1960%EB%85%84%EB%8C%80 "1960년대") 중반 이전까지 사람들은
+농업을 위한 관개수로가 화성에 있으리라 기대하기까지 했다. 이는 사실 [20세기](/wiki/20%EC%84%B8%EA%B8%B0
+"20세기") 초·중반의 공상과학 작가들의 상상에 영향받은 것으로, [1950년대](/wiki/1950%EB%85%84%EB%8C%80
+"1950년대") 이후의 탐사선에 의한 관측으로 화성 운하는 존재하지 않았음이 밝혀졌다.
+
+물과 생명체의 발견에 대한 기대로 많은 탐사선들에 미생물을 찾기 위한 센서들이 탑재되어 화성에 보내졌다. 화성에서는 다량의 얼음이
+발견되었고, 생명체가 존재할 가능성이 제기되고 있다. 하지만 화성 표면에서의 액체상태의 물은 낮은 대기압으로 인하여 존재 할 수 없다는 것이
+밝혀졌다. 한편 화성의 극관은 물로 구성되어 있어, 이 극관에 존재하는 물은 화성의 표면을 11m의 깊이로 뒤덮기에 충분히 많은 양이
+존재한다. 2016년 나사는 화성 표면 안에 얼음이 존재할 것이라고 새로운 발표를 하였다.
+
+화성의 자전 주기와 계절의 변화 주기는 지구와 비슷하다. 화성에는 태양계에서 가장 높은 산인 올림푸스 화산이 있으며, 역시 태양계에서 가장
+큰 계곡인 매리너스 협곡과 극관을 가지고 있다.
+
+화성은 밤하늘에 붉은 빛을 띄며 맨눈으로 쉽게 관측이 된다. 겉보기 등급은 +1.6~-3.0등급이며 태양, 달, 금성, 목성 다음으로
+밤하늘에 가장 밝은 천체이다.
+
+## 목차
+
+  * 1 물리적인 특성
+    * 1.1 지질
+    * 1.2 지형
+    * 1.3 대기
+    * 1.4 기후
+    * 1.5 자기권
+  * 2 공전과 자전
+  * 3 위성
+  * 4 생명체
+  * 5 화성 탐사
+    * 5.1 무인 탐사선
+  * 6 관측의 역사
+  * 7 화성을 소재로 한 작품
+    * 7.1 영화
+  * 8 참고자료
+  * 9 각주
+  * 10 외부 링크
+
+## 물리적인 특성[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=1
+"부분 편집: 물리적인 특성")]
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Mars%2C_Earth_size_comparison.jpg/250px-
+Mars%2C_Earth_size_comparison.jpg)](/wiki/%ED%8C%8C%EC%9D%BC:Mars,_Earth_size_comparison.jpg)
+
+[](/wiki/%ED%8C%8C%EC%9D%BC:Mars,_Earth_size_comparison.jpg "실제 크기로")
+
+[지구](/wiki/%EC%A7%80%EA%B5%AC "지구")와 화성의 크기 비교
+
+화성은 붉게 타는 듯한 외형을 가지고 있다. 화성의 표면적은 [지구](/wiki/%EC%A7%80%EA%B5%AC "지구")의 4분의 1밖에
+되지 않으며, 부피는 10분의 1밖에 되지 않는다. 화성은 두 개의 작은
+[위성](/wiki/%EC%9E%90%EC%97%B0_%EC%9C%84%EC%84%B1 "자연 위성")을 가지고 있다. 화성의 대기권은 매우
+얇으며, 표면의 기압은 7.5[밀리바](/wiki/%EB%B0%80%EB%A6%AC%EB%B0%94 "밀리바")밖에 되지 않는다. 화성
+표면의 95%는 [이산화탄소](/wiki/%EC%9D%B4%EC%82%B0%ED%99%94%ED%83%84%EC%86%8C "이산화탄소")로
+덮여 있으며, 이 밖에 3%의 [질소](/wiki/%EC%A7%88%EC%86%8C "질소"), 1.6%의
+[아르곤](/wiki/%EC%95%84%EB%A5%B4%EA%B3%A4 "아르곤")과 약간의
+[산소](/wiki/%EC%82%B0%EC%86%8C "산소")로 이루어져 있다. 2015년 NASA에서 발견한 액체 상태의 물이 포함되어
+있다.
+
+### 지질[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=2 "부분
+편집: 지질")]
+
+궤도선의 관측과 화성 기원의 [운석](/wiki/%EC%9A%B4%EC%84%9D "운석")에 대한 분석 결과에 의하면, 화성의 표면은
+기본적으로 [현무암](/wiki/%ED%98%84%EB%AC%B4%EC%95%94 "현무암")으로 되어 있다. 화성 표면의 일부는 지구의
+[안산암](/wiki/%EC%95%88%EC%82%B0%EC%95%94 "안산암")과 같이 좀 더
+[이산화규소](/wiki/%EC%9D%B4%EC%82%B0%ED%99%94%EA%B7%9C%EC%86%8C "이산화규소")가 풍부하다는
+증거가 있으나 이러한 관측은 규산염과 같은 유리의 존재를 통해서 설명될 수도 있기 때문에 결정적이지는 않다. 표면의 대부분은
+[산화철](/wiki/%EC%82%B0%ED%99%94%EC%B2%A0 "산화철")의 먼지로 덮여있다. 화성의 표면에 일시적이나마
+[물](/wiki/%EB%AC%BC "물")이 존재했다는 결정적인 증거가 있다. 화성 표면에서 발견된
+[암염](/wiki/%EC%95%94%EC%97%BC "암염")이나 [침철석](/wiki/%EC%B9%A8%EC%B2%A0%EC%84%9D
+"침철석")과 같이 대체로 물이 존재할 때 생성되는 [광물](/wiki/%EA%B4%91%EB%AC%BC "광물")이 발견되었기 때문이다.
+
+비록 화성 자체의 [자기장](/wiki/%EC%9E%90%EA%B8%B0%EC%9E%A5 "자기장")은 없지만, 과거 행성 표면의 일부는
+자화된 적이 있음이 관측을 통해 밝혀졌다. 화성에서 발견된 자화의
+흔적([고지자기](/wiki/%EA%B3%A0%EC%A7%80%EC%9E%90%EA%B8%B0 "고지자기"))은 지구의
+[해양지각](/wiki/%ED%95%B4%EC%96%91%EC%A7%80%EA%B0%81 "해양지각")에서 발견되는 교대하는 띠 모양의
+고지자기와 비교되어 왔다. [1999년](/wiki/1999%EB%85%84 "1999년")에 발표되고
+[2005년](/wiki/2005%EB%85%84 "2005년")에 마스 글로벌 서베이어로부터의 관측 결과의 도움으로 재검토된 이론에
+따르면, 이들 지자기의 띠들은 과거에 있었던 화성의 판구조 활동의 증거일 수 있다. 극 이동(polar wandering)으로도 화성에서
+발견된 고지자기를 설명할 수 있었다.
+
+화성의 내부는지구와 마찬가지로 화성은 밀도가 낮은 물질로 중첩된 고밀도 금속 중심부로 분화했다. 현재 내부 모델은 반경이 약 1,794 ±
+65km(1,115 ± 40 mi)인 코어를 의미하며, 주로 유황 16–17%의 철과 니켈로 구성된다. 이 황화 철(II) 황화핵 지구의
+핵보다 가벼운 원소가 두 배더 풍부하다고 추측된다. 중심부는 행성에서 많은 지각과 화산 형상을 형성한 규산염 맨틀에 둘러싸여 있지만, 휴면에
+있는 것으로 보인다. 실리콘과 산소 외에 화성 지각에서 가장 풍부한 원소는 철, 마그네슘, 알루미늄, 칼슘, 칼륨이다. 화성 지각의 평균
+두께는 50km(31mi)이며, 최대 두께는 125km(78mi)이다.지구의 지각은 평균 40 km(25 mi)이다.
+
+**노아키안 시대** 는 [노아키스
+테라](/w/index.php?title=%EB%85%B8%EC%95%84%ED%82%A4%EC%8A%A4_%ED%85%8C%EB%9D%BC&action=edit&redlink=1
+"노아키스 테라 \(없는 문서\)")의 이름을 따서 붙여진 이름이다, 화성의 형성으로부터 38억~35억 년 전까지의 시대이다. 노아키안
+시대의 표면은 많은 거대한 크레이터로 덮여 있다. [타르시스
+벌지](/w/index.php?title=%ED%83%80%EB%A5%B4%EC%8B%9C%EC%8A%A4_%EB%B2%8C%EC%A7%80&action=edit&redlink=1
+"타르시스 벌지 \(없는 문서\)")는 이 시대에 형성된 것으로 여겨진다. 이 시대의 후기에는 엄청난 양의 액체 물에 의한 홍수가 있었다고
+생각된다.
+
+**헤스퍼리안 시대** 는 [헤스퍼리안
+평원](/w/index.php?title=%ED%97%A4%EC%8A%A4%ED%8D%BC%EB%A6%AC%EC%95%88_%ED%8F%89%EC%9B%90&action=edit&redlink=1
+"헤스퍼리안 평원 \(없는 문서\)")으로부터 이름이 붙여졌다. 35억 년 전부터 18억 년 전까지의 시대이다. 헤스퍼리안 시대의 화성에서는
+넓은 [용암대지](/wiki/%EC%9A%A9%EC%95%94%EB%8C%80%EC%A7%80 "용암대지")가 형성되었다.
+
+**아마조니안 시대** 는 [아마조니스
+평원](/w/index.php?title=%EC%95%84%EB%A7%88%EC%A1%B0%EB%8B%88%EC%8A%A4_%ED%8F%89%EC%9B%90&action=edit&redlink=1
+"아마조니스 평원 \(없는 문서\)")의 이름을 따서 붙여졌다. 18억 년 전부터 현재에 이르는 시대이다. 아마조니안 지역은
+[크레이터](/wiki/%EC%B6%A9%EB%8F%8C%EA%B5%AC "충돌구")가 거의 없으나 상당한 변화가 있는 지형이다. [올림푸스
+화산](/wiki/%EC%98%AC%EB%A6%BC%ED%91%B8%EC%8A%A4_%EC%82%B0_\(%ED%99%94%EC%84%B1\)
+"올림푸스 산 \(화성\)")이 이 시대에 형성되었고, 다른 지역에서 용암류가 형성되었다.
+
+마스 익스프레스 오비터의 OMEGA 가시광-적외선 광물학 매핑 스팩트로메터 자료를 기초로 또 다른 시대 구분이 제시되고 있다.
+
+### 지형[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=3 "부분
+편집: 지형")]
+
+화성의 좌표를 설정하기 위하여서는 자오선과 0점 고도가 정해져야 한다. 화성에는 [바다](/wiki/%EB%B0%94%EB%8B%A4
+"바다")가 없기 때문에, '해수면'이 없어서, 0점 고도면이나 [평균 중력
+표면](/w/index.php?title=%ED%8F%89%EA%B7%A0_%EC%A4%91%EB%A0%A5_%ED%91%9C%EB%A9%B4&action=edit&redlink=1
+"평균 중력 표면 \(없는 문서\)")이 임의의 지점으로 선택될 수밖에 없다. 또한 적도와는 달리 경도의 기준점은 임의로 선택이 가능하기
+때문에 공통된 규약을 정할 필요가 있다. 그리하여 임의적으로 [사이너스
+메리디아니](/w/index.php?title=%EC%82%AC%EC%9D%B4%EB%84%88%EC%8A%A4_%EB%A9%94%EB%A6%AC%EB%94%94%EC%95%84%EB%8B%88&action=edit&redlink=1
+"사이너스 메리디아니 \(없는 문서\)")(Sinus Meridiani, 적도만('Equatorial Gulf')) 안의 분화구가 0점
+자오선을 나타내는 것으로 선택되었다.
+
+화성 지형의 몇 가지 기본적인 특징은 다음과 같다. 화성은 극 지방이 [언 물](/wiki/%EC%96%BC%EC%9D%8C "얼음")과
+이산화탄소를 포함하는 [얼음](/wiki/%EC%96%BC%EC%9D%8C "얼음") 지대로 덮여 있다. 또한 화성에는 [발레스
+매리너리스](/w/index.php?title=%EB%B0%9C%EB%A0%88%EC%8A%A4_%EB%A7%A4%EB%A6%AC%EB%84%88%EB%A6%AC%EC%8A%A4&action=edit&redlink=1
+"발레스 매리너리스 \(없는 문서\)")(Valles Marineris) 또는 _화성의 흉터_ 라고 불리는 태양계에서 가장 큰 [협곡
+지대]가 있다. 이 협곡 지대는 4000km의 길이에 깊이는 7km에 이른다.
+
+화성은 밀도가 낮은 물질로 중첩된 고밀도 금속 중심부로 분화했다. 현재 핵의 반지름이 약 1,794 ± 65km(1,115 ± 40
+mi)이며, 유황 16–17%의 철과 니켈로 구성된다. 이 황하 철 핵은 지구의 핵보다 가벼운 원소가 두 배더 많다고 추측된다. 중심부는
+규산염 맨틀로 둘러싸여 있어 많은 지각과 화산 형상을 형성 했지만, 휴면상태로 보인다. 실리콘과 산소 외에 화성 지각에서 가장 풍부한 원소는
+철, 마그네슘, 알루미늄, 칼슘, 칼륨이다. 화성 지각의 평균 두께는 약 50km(31mi)이며, 최대 두께는 125km(78mi)이다.
+참고로 지구의 지각은 평균 40km(25mi)이다.
+
+화성 북반구와 남반구 지형의 비대칭성은 매우 인상적이다. 북쪽 부분은 용암층이 흘러내림으로 인해 평평하고, 남쪽은 고지대에 오래전의 충격으로
+인해 구멍이 파이고 분화구가 생겨나 있다. 지구에서 본 화성의 표면은 확실히 두 부분의 구역으로 나뉘어 있다. 먼지와 산화철이 섞인
+[모래](/wiki/%EB%AA%A8%EB%9E%98 "모래")로 뒤덮인 좀 더 창백한 부분은 한때 '아라비아의 땅'이라 불리며 화성의
+대륙으로 여겨졌고, 어두운 부분은 바다로 여겨졌다. 지구에서 보이는 가장 어두운 부분은 [시르티스
+메이저](/w/index.php?title=%EC%8B%9C%EB%A5%B4%ED%8B%B0%EC%8A%A4_%EB%A9%94%EC%9D%B4%EC%A0%80&action=edit&redlink=1
+"시르티스 메이저 \(없는 문서\)")(Syrtis Major)이다. 화성에서 가장 큰 분화구는 [헬라스 충돌
+분지](/w/index.php?title=%ED%97%AC%EB%9D%BC%EC%8A%A4_%EC%B6%A9%EB%8F%8C_%EB%B6%84%EC%A7%80&action=edit&redlink=1
+"헬라스 충돌 분지 \(없는 문서\)")(Hellas impact basin)인데, 가벼운 붉은 모래로 덮여 있다.
+
+화성 표면 지역의 이름을 짓는 작업은 [국제 천문
+연맹](/wiki/%EA%B5%AD%EC%A0%9C_%EC%B2%9C%EB%AC%B8_%EC%97%B0%EB%A7%B9 "국제 천문
+연맹")의 '행성계 명명법 워킹 그룹'이 담당하고 있다.
+
+### 대기[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=4 "부분
+편집: 대기")]
+
+![<nowiki
+/>](//upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Crystal_Clear_app_xmag.svg/16px-
+Crystal_Clear_app_xmag.svg.png)이 부분의 본문은 [화성의
+대기](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EB%8C%80%EA%B8%B0 "화성의 대기")입니다.
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/6/69/MarsSunset.jpg/280px-
+MarsSunset.jpg)](/wiki/%ED%8C%8C%EC%9D%BC:MarsSunset.jpg)
+
+[](/wiki/%ED%8C%8C%EC%9D%BC:MarsSunset.jpg "실제 크기로")
+
+화성의 석양. '스피릿'호 촬영
+
+화성의 대기압은 0.6에서
+1.0[kPa](/wiki/%ED%8C%8C%EC%8A%A4%EC%B9%BC_\(%EB%8B%A8%EC%9C%84\) "파스칼
+\(단위\)")로, 지구의 대기 밀도와 비교하면 1/100 정도로 매우 낮다. 대기가 적으므로 기압이 매우 낮고 물이 있더라도 기압 때문에
+빨리 증발하게 된다. 과학자들은 과거의 화성은 물이 풍부하고 대기도 지금보다 컸으리라고 추측한다. 대기의 주성분인 이산화탄소가 얼어 거대한
+[극관](/w/index.php?title=%EA%B7%B9%EA%B4%80&action=edit&redlink=1 "극관 \(없는
+문서\)")을 형성하는 과정이 양극에서 교대로 일어나고 이산화탄소는 눈층을 형성하고 봄이 되면 증발한다.
+
+### 기후[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=5 "부분
+편집: 기후")]
+
+![<nowiki
+/>](//upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Crystal_Clear_app_xmag.svg/16px-
+Crystal_Clear_app_xmag.svg.png)이 부분의 본문은 [화성의
+기후](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EA%B8%B0%ED%9B%84 "화성의 기후")입니다.
+
+### 자기권[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=6 "부분
+편집: 자기권")]
+
+아주 오래전 화성은 [태양풍](/wiki/%ED%83%9C%EC%96%91%ED%92%8D "태양풍")을 막을 수 있을 만큼 충분히 강한
+자기권을 가지고 있었으리라 여겨진다. 그러나 40억 년 전 화성의
+[다이나모](/wiki/%EB%8B%A4%EC%9D%B4%EB%82%98%EB%AA%A8 "다이나모")가 멈추고 난 뒤에는
+[투자율](/wiki/%ED%88%AC%EC%9E%90%EC%9C%A8 "투자율")이 높은 광물에
+[잔류자기](/w/index.php?title=%EC%9E%94%EB%A5%98%EC%9E%90%EA%B8%B0&action=edit&redlink=1
+"잔류자기 \(없는 문서\)")가 남아있는 정도밖에는 [자기장](/wiki/%EC%9E%90%EA%B8%B0%EC%9E%A5 "자기장")을
+가지고 있지 않다. 시간이 지남에 따라 이런 [광물](/wiki/%EA%B4%91%EB%AC%BC "광물")은
+[풍화](/wiki/%ED%92%8D%ED%99%94 "풍화")되었기 때문에 현재는 남반구의 고지의 일부에서만
+[고지자기](/wiki/%EA%B3%A0%EC%A7%80%EC%9E%90%EA%B8%B0 "고지자기")를 관측할 수 있다. 태양풍은 화성의
+[전리층](/wiki/%EC%A0%84%EB%A6%AC%EC%B8%B5 "전리층")에 직접 닿기 때문에 화성의 대기는 조금씩 벗겨져 나가고
+있다고 여겨지나 그 양은 아직 확실하지 않다. 마스 글로벌 서베이어와 마스 익스프레스는 화성이 지나간 자리에 남아있는 이온화된 대기의 입자를
+탐지하였다.
+
+## 공전과 자전[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=7 "부분
+편집: 공전과 자전")]
+
+화성의 [궤도 이심률](/wiki/%EA%B6%A4%EB%8F%84_%EC%9D%B4%EC%8B%AC%EB%A5%A0 "궤도 이심률")은 약
+9%로 상대적으로 큰 편이다. 태양계에서 이보다 더 이심률이 큰 궤도를 가지는 행성은 [수성](/wiki/%EC%88%98%EC%84%B1
+"수성")밖에 없다. 태양까지의 평균거리는 약 2억 2천만 km(1.5
+[천문단위](/wiki/%EC%B2%9C%EB%AC%B8%EB%8B%A8%EC%9C%84 "천문단위"))이며, 공전 주기는
+686.971일이다. 화성의 [태양일](/wiki/%ED%83%9C%EC%96%91%EC%9D%BC "태양일")(솔; sol)은 지구보다
+약간 길어서 24시간 37분 22초 정도이다.
+
+화성의 자전축은 25.19도만큼 기울어져 있어서 지구의 기울기와 거의 비슷하다. 그 결과 화성에서는 지구와 마찬가지로 계절이 나타난다.
+하지만 공전 각속도가 느리기 때문에 계절의 길이는 지구에 비해 약 2배정도 된다.
+
+## 위성[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=8 "부분 편집:
+위성")]
+
+![<nowiki
+/>](//upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Crystal_Clear_app_xmag.svg/16px-
+Crystal_Clear_app_xmag.svg.png)이 부분의 본문은 [화성의
+위성](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EC%9C%84%EC%84%B1 "화성의 위성")입니다.
+
+[포보스](/wiki/%ED%8F%AC%EB%B3%B4%EC%8A%A4_\(%EC%9C%84%EC%84%B1\) "포보스
+\(위성\)")(Phobos)와
+[데이모스](/wiki/%EB%8D%B0%EC%9D%B4%EB%AA%A8%EC%8A%A4_\(%EC%9C%84%EC%84%B1\) "데이모스
+\(위성\)")(Deimos)가 화성의 위성이다. 이들은 늘 달 쪽으로 같은 면을 향하고 있다. 포보스의 화성 주위 궤도가 화성 자체가
+자전하는 속도보다 빠르며 아주 서서히 그러나 꾸준히 화성에 가까워지고 있다. 언젠가 미래에는 포보스가 화성 표면에 충돌하게 될 것이라고
+예측한다. 반면에 데이모스는 충분히 멀리 떨어져 있고 서서히 멀어지고 있다.
+
+두 위성은 모두 [1877년](/wiki/1877%EB%85%84 "1877년") [미국](/wiki/%EB%AF%B8%EA%B5%AD
+"미국")인 [천문학자](/wiki/%EC%B2%9C%EB%AC%B8%ED%95%99%EC%9E%90 "천문학자") [아사프
+홀](/wiki/%EC%95%84%EC%82%AC%ED%94%84_%ED%99%80 "아사프 홀")(Asaph Hall)이 발견했고, 그리스
+신화에 나오는 [마르스](/wiki/%EB%A7%88%EB%A5%B4%EC%8A%A4 "마르스")의 두 아들의 이름을 따 명명되었다.
+
+화성의 [위성](/wiki/%EC%9C%84%EC%84%B1 "위성") 이름 | 직경 (km) | 질량 (kg) | 평균 궤도 반지름
+(km) | 공전 주기  
+---|---|---|---|---  
+[포보스](/wiki/%ED%8F%AC%EB%B3%B4%EC%8A%A4_\(%EC%9C%84%EC%84%B1\) "포보스 \(위성\)") |
+22.2 (27 × 21.6 × 18.8) | 1.08×1016 | 9378  | 7.66 시간  
+[데이모스](/wiki/%EB%8D%B0%EC%9D%B4%EB%AA%A8%EC%8A%A4_\(%EC%9C%84%EC%84%B1\) "데이모스
+\(위성\)") | 12.6 (10 × 12 × 16)  | 2×1015 | 23,400  | 30.35 시간  
+  
+## 생명체[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=9 "부분
+편집: 생명체")]
+
+액체상태의 물의 존재를 가지고 생명가능성을 논의한다. 이러한 생명가능성을 논하는 곳은 생명가능지대의 안에 존재하는 곳이다. 태양의
+생명가능지대는 금성을 넘은 곳 부터 시작하여 화성 부근 까지 존재한다. 화성은 근일점에 도착하였을때, 이 지대 안으로 들어가게 된다. 하지만
+화성의 옅은 대기가 액체상태의 물이 화성의 표면에 존재하는 것을 막는다. 화성의 과거 물의 흐름은 생명거주의 가능성을 보여준다. 최근 연구는
+화성에 존재하는 물은 너무 염도가 높거나 산도가 높아 생명체가 존재할 수 없다는 것을 보여주었다.
+
+화성에는 [자기권](/wiki/%EC%9E%90%EA%B8%B0%EA%B6%8C "자기권")이 없기 때문에 강렬한 태양풍을 막을 수 없다.
+또한 화성의 옅은 대기로 인한 낮은 대기압으로 화성의 표면에 액체상태의 물의 형태가 유지 될 수 없다. 지질학적으로 화성의 화산 활동은
+종결되어 화성의 내부 화학물질이 화성의 표면으로 순환이 되지 않는다. 이러한 이유로 인하여 화성의 생명체의 존재 가능성은 희박하다고 할 수
+있다.
+
+여러 증거로부터 미루어 볼 때 화성이 과거에는 지금보다 더 생명이 살기에 적합한 환경이었던 것으로 추정되었으나, 지금까지는, 실제 화성에
+생명이 존재한 적이 있는가 하는 질문에 대해서는 아직 확실한 답을 얻지 못하고 있다. 바이킹 탐사선은
+[70년대](/wiki/1970%EB%85%84%EB%8C%80 "1970년대") 중반에 화성 표면에서 미생물을 탐지하기 위한 실험을
+수행하여, 과학자들 사이에서 많은 논쟁이 되고 있다. 존슨 우주센터 연구소는 화성에서 날아왔을 것으로 추정되는 운석 AL[4] 빨리 분해되기
+때문에 소량의 이들 분자는 화성에 생물이 사는 증거로 여겨질 수 있으나, 이들 원소는 화산이나
+[사문함화작용](/w/index.php?title=%EC%82%AC%EB%AC%B8%ED%95%A8%ED%99%94%EC%9E%91%EC%9A%A9&action=edit&redlink=1
+"사문함화작용 \(없는 문서\)") 같은 지질학적 작용에 의해서도 공급될 수 있다.
+
+  * 화성은 생물이 살기에 부적합한 특성 역시 가지고 있다. 화성의 위치는 [태양](/wiki/%ED%83%9C%EC%96%91 "태양")의 [거주 가능 지대](/wiki/%EC%83%9D%EB%AA%85%EC%B2%B4_%EA%B1%B0%EC%A3%BC%EA%B0%80%EB%8A%A5_%EC%98%81%EC%97%AD "생명체 거주가능 영역")보다 반 [천문단위](/wiki/%EC%B2%9C%EB%AC%B8%EB%8B%A8%EC%9C%84 "천문단위")정도 멀리 떨어져 있고[5] 물은 얼어 있다.
+
+물론 과거에 물이 흘렀던 적이 있기는 하다. 화성에는 또한 [자기권](/wiki/%EC%9E%90%EA%B8%B0%EA%B6%8C
+"자기권")이 없으며 대기가 희박하며, 지각 열류량은 매우 적으며, 외부의 [운석](/wiki/%EC%9A%B4%EC%84%9D "운석")
+또는 [소행성](/wiki/%EC%86%8C%ED%96%89%EC%84%B1 "소행성")들과의 충돌~ 또는
+[태양풍](/wiki/%ED%83%9C%EC%96%91%ED%92%8D "태양풍")으로부터 보호받지 못한다. 낮은 대기압 때문에 얼음은
+액체상태를 거치지 않고 곧바로 기화해버리며, 지질학적으로 사실상 완전히 죽은 행성으로 본다.
+{[화산](/wiki/%ED%99%94%EC%82%B0 "화산") 활동이 없기 때문에 표면과 행성 내부 사이의 화학 물질과
+[광물](/wiki/%EA%B4%91%EB%AC%BC "광물")의 순환이 일어나지 않는다.}
+
+  * 다른한편으론, 아직 생명체가 존재하고 있다는 주장의 근거로, 대기에서 메탄의 검출을 든다.
+
+그러나, 이는 지질활동이 멈춘 화성의 환경에서 자연적으로 발생할 수 없으며, 생명활동에 의해서만 공급되므로, 안면석이나 화성 피라미드와 같은
+음모론적인 가설도 있으나 과학적인 의미로 주목받지는 못하다.
+
+## 화성 탐사[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=10 "부분
+편집: 화성 탐사")]
+
+![<nowiki
+/>](//upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Crystal_Clear_app_xmag.svg/16px-
+Crystal_Clear_app_xmag.svg.png)이 부분의 본문은 [화성
+탐사](/wiki/%ED%99%94%EC%84%B1_%ED%83%90%EC%82%AC "화성 탐사")입니다.
+
+### 무인 탐사선[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=11
+"부분 편집: 무인 탐사선")]
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Mars_Viking_11h016.png/250px-
+Mars_Viking_11h016.png)](/wiki/%ED%8C%8C%EC%9D%BC:Mars_Viking_11h016.png)
+
+[](/wiki/%ED%8C%8C%EC%9D%BC:Mars_Viking_11h016.png "실제 크기로")
+
+바이킹 1호 착륙선이 전송한 사진  
+1978년 2월 11일 Sol 556에서 촬영
+
+지금까지 인류는 다수의 로봇 탐사선을 화성에 보냈고, 그중 몇몇은 대단한 성과를 거두었지만, 탐사의 실패율은 매우 높았다. 실패 사례 중
+몇은 명백한 기술적 결함에 따른 것이었지만, 많은 경우 연구자들은 확실한 실패 이유를 찾을 수 없었다. 그래서 이런 사례는 지구-화성
+"[버뮤다
+삼각지대](/wiki/%EB%B2%84%EB%AE%A4%EB%8B%A4_%EC%82%BC%EA%B0%81%EC%A7%80%EB%8C%80
+"버뮤다 삼각지대")" 혹은 화성탐사선을 먹고 사는 은하귀신(Ghoul)라는 농담을 낳았다. 화성 로봇 탐사의 역사를 이해하기 위해서는,
+발사 시간대가 약 2년 남짓(화성의 공전 주기)의 기간을 주기로 발생한다는 사실을 알아두어야 한다.
+
+[1960년](/wiki/1960%EB%85%84 "1960년") 소련은 두 기의 탐사선을 화성궤도를 지나쳐 돌아오는 계획으로 발사하였으나,
+지구궤도에 도달하는 데에 실패한다. [1962년](/wiki/1962%EB%85%84 "1962년") 소련은 세 기를 더 시도하지만,
+실패했다. 두 기는 지구 궤도에 머물렀고, 나머지 하나는 화성을 돌아오는 동안 지구와의 교신이 끊어졌다.
+[1964년](/wiki/1964%EB%85%84 "1964년")에 또 한번의 시도가 실패한다.
+
+[1962년](/wiki/1962%EB%85%84 "1962년")에서 [1973년](/wiki/1973%EB%85%84 "1973년")
+사이에, [NASA](/wiki/NASA "NASA")(나사)의 [제트 추진
+연구소](/wiki/%EC%A0%9C%ED%8A%B8_%EC%B6%94%EC%A7%84_%EC%97%B0%EA%B5%AC%EC%86%8C
+"제트 추진 연구소")(Jet Propulsion Laboratory)는 내태양계(inner solar system)를 탐험할 10개의
+[매리너 우주선](/wiki/%EB%A7%A4%EB%A6%AC%EB%84%88_%EA%B3%84%ED%9A%8D "매리너 계획")을
+설계·제작하였다. 이 우주선은 [금성](/wiki/%EA%B8%88%EC%84%B1 "금성"), 화성,
+[수성](/wiki/%EC%88%98%EC%84%B1 "수성")을 최초로 탐사하기 위해서 만들어졌다. 매리너 우주선은 비교적 작은 로봇
+탐사선으로 [아틀라스
+로켓](/w/index.php?title=%EC%95%84%ED%8B%80%EB%9D%BC%EC%8A%A4_%EB%A1%9C%EC%BC%93&action=edit&redlink=1
+"아틀라스 로켓 \(없는 문서\)")에 실려 발사되었다. 각 우주선의 무게는 0.5톤을 넘지 않았다.
+
+[매리너 3호](/wiki/%EB%A7%A4%EB%A6%AC%EB%84%88_3%ED%98%B8 "매리너 3호")와
+[4호](/wiki/%EB%A7%A4%EB%A6%AC%EB%84%88_4%ED%98%B8 "매리너 4호")는 동일한 기체로, 최초로 화성을
+지나치며 관찰하도록 설계되었다. 매리너 3호는 [1964년](/wiki/1964%EB%85%84 "1964년") [11월
+5일](/wiki/11%EC%9B%94_5%EC%9D%BC "11월 5일") 발사되었으나, 우주선의 윗부분을 덮은 뚜껑이 적당히 열리지
+않았고, 화성에 도달하지 못했다. 3주 후 [1964년](/wiki/1964%EB%85%84 "1964년") [11월
+28일](/wiki/11%EC%9B%94_28%EC%9D%BC "11월 28일") 매리너 4호는 성공적으로 발사되어 8개월의 항해를
+시작한다.
+
+매리너 4호는 [1965년](/wiki/1965%EB%85%84 "1965년") [6월
+14일](/wiki/6%EC%9B%94_14%EC%9D%BC "6월 14일") 화성을 지나며, 다른 행성의 근접 사진을 최초로 찍어냈다.
+오랜 기간 동안 작은 테이프 레코더에 기록된 그 사진들은 달 모양의 분화구들을 보여 주었다. 그 분화구 들 중 몇몇은 서리가 덮여 추운
+화성의 밤을 보여주었다.
+
+[NASA](/wiki/NASA "NASA")는 계속해서 매리너 계획을 수행했다. 그들은 다음 발사 시간대에 근접 비행 시험을 또다시
+수행하였다. 이 비행선들은 [1969년](/wiki/1969%EB%85%84 "1969년")에 화성에 도달하였다. 이에 관해서는 [매리너
+6호](/wiki/%EB%A7%A4%EB%A6%AC%EB%84%88_6%ED%98%B8 "매리너 6호") 와
+[7호](/wiki/%EB%A7%A4%EB%A6%AC%EB%84%88_7%ED%98%B8 "매리너 7호")를 참조하라. 다음 발사 때 매리너
+계획은 두 대의 비행선 중 한 대를 잃는 사고를 겪었다. 살아남은 [매리너
+9호](/wiki/%EB%A7%A4%EB%A6%AC%EB%84%88_9%ED%98%B8 "매리너 9호")는 성공적으로 화성 궤도에
+진입하였다. 매리너 9호가 화성에 도달했을 때, 그것과 두 대의 소련 인공위성은 행성 전영역에 걸쳐 먼지 폭풍이 일어나고 있는 것을
+발견하였다. 그 폭풍이 가라앉는 것을 기다리는 동안 화성 표면의 사진을 찍는 것은 불가능하였으므로, 매리너 9호는 포보스의 사진을 찍었다.
+폭풍이 화성의 표면 사진을 찍기에 충분할 만큼 가라앉았을 때, 전송된 사진은 이전 임무의 결과로 온 사진보다 더 높은 품질을 가지고 있었다.
+이 사진들이 화성에 한때 액체 형태의 물이 있었을는지도 모른다는 것을 증거하는 첫 번째 사진이었다.
+
+[1976년](/wiki/1976%EB%85%84 "1976년")에 두 대의 [바이킹
+호](/wiki/%EB%B0%94%EC%9D%B4%ED%82%B9_%EA%B3%84%ED%9A%8D "바이킹 계획")가 화성 궤도에 들어가
+각각 착륙 모듈을 내려 화성 표면에 내려 앉았다. 이 임무를 통해 인류는 첫 번째 컬러 사진과 더욱 확장된 과학적 정보를 얻을 수 있었다.
+
+[소비에트 연방](/wiki/%EC%86%8C%EB%B9%84%EC%97%90%ED%8A%B8_%EC%97%B0%EB%B0%A9 "소비에트
+연방")의 화성 탐사 계획에서 발사한 우주선들은 바이킹보다 몇 년 일찍 수많은 착륙을 시도했다. 그러나 매리너 계획이 수행했던 것보다
+성공적인 결과를 얻지는 못했다.
+
+[마스
+패스파인더](/wiki/%EB%A7%88%EC%8A%A4_%ED%8C%A8%EC%8A%A4%ED%8C%8C%EC%9D%B8%EB%8D%94
+"마스 패스파인더")는 [1997년](/wiki/1997%EB%85%84 "1997년") [7월
+4일](/wiki/7%EC%9B%94_4%EC%9D%BC "7월 4일")에 화성에 착륙하여, 소저너라는 매우 작은 원격 조정체를 움직여 착륙
+지점 주위의 몇 미터를 여행하고, 화성의 환경 조건을 탐색하고 표면의 돌들을 수집해왔다.
+
+다음 탐사는 [마스 글로벌
+서베이어](/wiki/%EB%A7%88%EC%8A%A4_%EA%B8%80%EB%A1%9C%EB%B2%8C_%EC%84%9C%EB%B2%A0%EC%9D%B4%EC%96%B4
+"마스 글로벌 서베이어")(Mars Global Surveyor)에 의해 이루어졌다. 이 임무는 20여 년간의 화성 탐사역사에서 첫 번째로
+성공적인 것이었고, [1996년](/wiki/1996%EB%85%84 "1996년") [11월
+7일](/wiki/11%EC%9B%94_7%EC%9D%BC "11월 7일")에 발사되어 [1997년](/wiki/1997%EB%85%84
+"1997년") [9월 12일](/wiki/9%EC%9B%94_12%EC%9D%BC "9월 12일")에 화성 궤도에 도달하였다. 1년 반
+정도가 흐른 후, 회전 궤도가 타원형에서 원형으로 자리를 잡았고, 우주선은 [1999년](/wiki/1999%EB%85%84 "1999년")
+3월부터 기초적인 매핑 임무에 돌입했다. 우주선은 화성을 화성력으로 1년, 지구력으로는 거의 2년간 저고도에서 관찰했다. 마스 글로벌
+서베이어호는 최근인 [2001년](/wiki/2001%EB%85%84 "2001년") [1월
+31일](/wiki/1%EC%9B%94_31%EC%9D%BC "1월 31일") 그 기초적인 임무를 완료하고 현재는 2단계 임무를 수행하고
+있다.
+
+이 탐사는 화성 표면, 대기권, 그리고 내부에 대한 전체적인 연구를 수행하고, 지난 탐사 계획에서 거둬들인 모든 결과물보다 더 많은 데이터를
+가져왔다. 이 가치있는 데이터들은 [마스 글로벌 서베이어: MOLA](http://pds-
+geosciences.wustl.edu/missions/mgs/mola.html) 에서 찾아볼 수 있다.
+
+2008년 7월 31일 미국 국립항공우주국은 화성탐사선
+[피닉스](/wiki/%ED%94%BC%EB%8B%89%EC%8A%A4_\(%EC%9A%B0%EC%A3%BC%EC%84%A0\) "피닉스
+\(우주선\)")가 화성에 물이 존재함을 확인하였다고 발표했다. 피닉스는 2008년 11월 10일 임무가 종료되었다.
+
+2021년 2월
+[퍼서비어런스](/wiki/%ED%8D%BC%EC%84%9C%EB%B9%84%EC%96%B4%EB%9F%B0%EC%8A%A4_\(%ED%83%90%EC%82%AC%EC%B0%A8\)
+"퍼서비어런스 \(탐사차\)")(Perseverance) 화성 탐사차가 화성착륙에 성공하였다. 퍼서비어런스는 화성
+[탐사차](/wiki/%ED%83%90%EC%82%AC%EC%B0%A8 "탐사차")로 2020년 7월 30일 지구를 떠나 2021년 2월
+18일 화성에 착륙하였다.[6] 이로써 인간이 어떤 조건으로 착륙해야 되는지 등을 탐색하는등 유인 탐사선 계획등에 주요한 정보를
+제공하였다.[7]
+
+## 관측의 역사[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=12
+"부분 편집: 관측의 역사")]
+
+[기원전 1600년](/wiki/%EA%B8%B0%EC%9B%90%EC%A0%84_1600%EB%85%84 "기원전 1600년")경에 화성에
+대한 관측이 시작되었다고 여겨지며, 화성은 [불](/wiki/%EB%B6%88 "불")과 같이 붉게 빛나고 다른 천체와 달리
+[하늘](/wiki/%ED%95%98%EB%8A%98 "하늘")에서 이상하게 움직인다고 알려졌다.
+
+  * [바빌로니아](/wiki/%EB%B0%94%EB%B9%8C%EB%A1%9C%EB%8B%88%EC%95%84 "바빌로니아")인은 이미 [기원전 400년](/wiki/%EA%B8%B0%EC%9B%90%EC%A0%84_400%EB%85%84 "기원전 400년")경에 천문현상을 연구했었으며 일식, 월식과 같은 천문현상을 예측하기 위해 고도로 발달된 방법을 사용하였다. 그들은 그들의 달력과 종교적인 이유에서 그들을 주의깊게 연구하였다. 그러나 그들이 목격한 현상에 대해서 깊게 분석한다거나 설명하려고 하지는 않았다. 바빌로니아인들은 화성을 [네르갈](/wiki/%EB%84%A4%EB%A5%B4%EA%B0%88 "네르갈")(Nergal, ‘위대한 영웅’ 또는 ‘전쟁의 왕.’ 원뜻은 ‘커다란 집의 주인’)이라 불렀다.
+  * 이집트인은 별이 “고정된” 듯이 보이며, 태양이 고정된 별에 대하여 상대적으로 이동한다고 생각했다. 또한 그들은 하늘의 5개의 빛나는 천체가 고정된 별 사이를 움직인다는 것을 알았다. 이집트인은 화성을 Har Decher(붉은 것) 혹은 '죽음의 별'이라고 불렀다.
+  * 그리스인은 화성을 전쟁의 신의 이름을 따서 아레스(Ares)라고 불렀다. 로마에서도 이 이름을 그대로 번역하여 화성을 마르스(Mars)라고 불렀고, 이는 지금까지 화성의 영어 이름으로 존재하게 된다. 화성의 기호는 마르스의 방패와 칼로 여겨진다.
+  * [조반니 스키아파렐리](/wiki/%EC%A1%B0%EB%B0%98%EB%8B%88_%EC%8A%A4%ED%82%A4%EC%95%84%ED%8C%8C%EB%A0%90%EB%A6%AC "조반니 스키아파렐리")(Giovanni Virginio Schiaparelli, 1835년~1910년)는 [1877년](/wiki/1877%EB%85%84 "1877년"), 화성에서 "canali"로 보이는 것이 발견되었다고 발표했다. 이 단어는 이탈리아어로 "운하들"을 뜻하며 영어로는 "canals, waterways" 가 된다. 당시 수에즈 운하도 건설되던 차 화성 탐사 열풍이 시작되었다.
+
+※ 동양의 고대기록에는 낮에 화성을 본 것이 있으나, 검증결과 금성의 착오였으며, 화성을 낮에 맨 눈으로 본다는 것은 사실상 불가능하다.
+
+## 화성을 소재로 한
+작품[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=13 "부분 편집:
+화성을 소재로 한 작품")]
+
+### 영화[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=14 "부분
+편집: 영화")]
+
+  * [![미국](//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/22px-Flag_of_the_United_States.svg.png)](/wiki/%EB%AF%B8%EA%B5%AD "미국") [마션](/wiki/%EB%A7%88%EC%85%98_\(%EC%98%81%ED%99%94\) "마션 \(영화\)") (2015)
+  * [![미국](//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/22px-Flag_of_the_United_States.svg.png)](/wiki/%EB%AF%B8%EA%B5%AD "미국") [존 카터(바숨전쟁의 서막)](/w/index.php?title=%EC%A1%B4_%EC%B9%B4%ED%84%B0\(%EB%B0%94%EC%88%A8%EC%A0%84%EC%9F%81%EC%9D%98_%EC%84%9C%EB%A7%89\)&action=edit&redlink=1 "존 카터\(바숨전쟁의 서막\) \(없는 문서\)")(2012)
+  * [![미국](//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/22px-Flag_of_the_United_States.svg.png)](/wiki/%EB%AF%B8%EA%B5%AD "미국") [미션 투 마스](/wiki/%EB%AF%B8%EC%85%98_%ED%88%AC_%EB%A7%88%EC%8A%A4 "미션 투 마스")(2000)
+  * [![미국](//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/22px-Flag_of_the_United_States.svg.png)](/wiki/%EB%AF%B8%EA%B5%AD "미국") [레드 플레닛](/w/index.php?title=%EB%A0%88%EB%93%9C_%ED%94%8C%EB%A0%88%EB%8B%9B&action=edit&redlink=1 "레드 플레닛 \(없는 문서\)")(2000)
+  * [![미국](//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/22px-Flag_of_the_United_States.svg.png)](/wiki/%EB%AF%B8%EA%B5%AD "미국") [화성 침공](/wiki/%ED%99%94%EC%84%B1_%EC%B9%A8%EA%B3%B5 "화성 침공")(1996)
+  * [![미국](//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/22px-Flag_of_the_United_States.svg.png)](/wiki/%EB%AF%B8%EA%B5%AD "미국") [화성의 유령들](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EC%9C%A0%EB%A0%B9%EB%93%A4 "화성의 유령들")(2001)
+
+## 참고자료[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=15 "부분
+편집: 참고자료")]
+
+  * "초대규모 우주 프로젝트의 [정치경제학](/wiki/%EC%A0%95%EC%B9%98%EA%B2%BD%EC%A0%9C%ED%95%99 "정치경제학")" : <https://web.archive.org/web/20040606150615/http://www.transhumanist.com/volume4/space.htm>
+
+## 각주[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=16 "부분
+편집: 각주")]
+
+  1. ↑ Simon, J.L.; Bretagnon, P.; Chapront, J.; Chapront-Touzé, M.; Francou, G.; Laskar, J. (1994년 2월). "Numerical expressions for precession formulae and mean elements for the Moon and planets". 《Astronomy and Astrophysics》 **282** (2): 663-683\. [Bibcode](/wiki/%EB%B9%84%EB%B8%8C%EC%BD%94%EB%93%9C "비브코드"):[1994A&A...282..663S](http://adsabs.harvard.edu/abs/1994A&A...282..663S).
+  2. ↑ 가 나 ["Mars Fact Sheet"](http://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html). [NASA](/wiki/NASA "NASA"). 2016년 1월 3일에 확인함.
+  3. ↑ Barlow, Nadine G. (2008). 《Mars: an introduction to its interior, surface and atmosphere》. Cambridge planetary science **8**. Cambridge University Press. 21쪽. [ISBN](/wiki/%EA%B5%AD%EC%A0%9C_%ED%91%9C%EC%A4%80_%EB%8F%84%EC%84%9C_%EB%B2%88%ED%98%B8 "국제 표준 도서 번호") [0-521-85226-9](/wiki/%ED%8A%B9%EC%88%98:%EC%B1%85%EC%B0%BE%EA%B8%B0/0-521-85226-9 "특수:책찾기/0-521-85226-9").
+  4. ↑ H84001에서 유기 화합물을 발견했다. 이 화합물들은 처음에 생물들에 의해서 만들어진 후~ 운석 충돌이 일어나면서 우주로 튕겨 나갔다가, 약 1500만 년 동안의 우주 유영을 한 후 지구에 떨어진 것으로 여겨진다. [메테인](/wiki/%EB%A9%94%ED%85%8C%EC%9D%B8 "메테인")과 [폼알데하이드](/wiki/%ED%8F%BC%EC%95%8C%EB%8D%B0%ED%95%98%EC%9D%B4%EB%93%9C "폼알데하이드")는 화성 대기에서
+  5. ↑ 최근의 연구 결과에 의하면 거주 가능 지대 안에 들어있다. 뉴턴 2010년 8월 호.
+  6. ↑ ["Mars 2020 Mission Overview"](https://mars.jpl.nasa.gov/mars2020/mission/overview/). 2018년 5월 14일에 확인함.
+  7. ↑ ["Curiosity EDL data to provide 2020 Mars Rover with super landing skills"](https://www.nasaspaceflight.com/2014/09/curiosity-edl-provide-2020-rover-super-landing-skills/). 2014년 9월 2일. 2018년 5월 18일에 확인함.
+
+## 외부 링크[[편집](/w/index.php?title=%ED%99%94%EC%84%B1&action=edit&section=17 "부분
+편집: 외부 링크")]
+
+![](//upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/30px-
+Commons-logo.svg.png) | **[위키미디어
+공용](/wiki/%EC%9C%84%ED%82%A4%EB%AF%B8%EB%94%94%EC%96%B4_%EA%B3%B5%EC%9A%A9
+"위키미디어 공용")** 에 관련된  
+미디어 분류가 있습니다.
+
+**[화성](https://commons.wikimedia.org/wiki/Category:Mars_\(planet\)?uselang=ko)**  
+  
+---|---  
+  
+  * [네이버 캐스트 - 화성 탐사로봇 생존기](http://navercast.naver.com/science/documentary/962)
+  * **(영어)** [화성에 저장된 얼음에 대한 이야기, BBC](http://news.bbc.co.uk/hi/english/sci/tech/newsid_2009000/2009318.stm)
+  * **(영어)** [BBC 뉴스 업데이트: 화성 탐사로봇이 지표면의 물을 발견](http://news.bbc.co.uk/1/hi/sci/tech/3426539.stm)
+  * [화성에서 물발견, 조선일보](https://web.archive.org/web/20050109115727/http://www.chosun.com/w21data/html/news/199707/199707070040.html)
+  * [실제비행거리 4억9천만km…궤도수정 5번, 조선일보](https://web.archive.org/web/20050205173643/http://www.chosun.com/w21data/html/news/199707/199707050397.html)
+  * [구글 마스 – 화성 표면을 대화식 화면을 통하여 제공](https://www.google.com/mars/)
+  * [3D maps of Mars in NASA World Wind](http://www.worldwindcentral.com/wiki/Mars)
+  * [Guide to Mars](http://mars.skymania.com/) – information about Mars and how to observe it.
+  * [Nine Planets Mars page](http://www.nineplanets.org/mars.html)
+  * [On Mars: Exploration of the Red Planet 1958–1978](http://history.nasa.gov/SP-4212/on-mars.html) from the NASA History Office.
+  * [Martian Law – a CATO white paper](http://www.cato.org/pubs/wtpapers/980815paper.html)
+  * [Computer Simulation of a flyby through Mariner Valley](https://web.archive.org/web/20110513161927/http://www.maniacworld.com/mars_mariner_valley.htm)
+  * [Mars Unearthed](http://www.marsunearthed.com/) – Comparisons of terrains between Earth and Mars
+  * [Ralph Aeschliman's Online Atlas of Mars](http://ralphaeschliman.com/id30.htm)
+  * [Be on Mars](http://dualmoments.com/marsrovers/index.html) – Anaglyphs from the Mars Rovers (3D)
+  * [NASA/JPL OnMars WMS Server for Mars Data](https://web.archive.org/web/20090705142931/http://onmars.jpl.nasa.gov/) – Work as Google Earth client overlays
+  * [Exploring Mars: Image Center](https://web.archive.org/web/20081230055501/http://www.lpi.usra.edu/expmars/images.html)
+  * [Mars](http://www.astronomycast.com/astronomy/episode-52-mars/) [Astronomy Cast](/w/index.php?title=Astronomy_Cast&action=edit&redlink=1 "Astronomy Cast \(없는 문서\)") episode #52, includes full transcript.
+  * [BBC News Mars pictures reveal frozen sea](http://news.bbc.co.uk/1/hi/sci/tech/4285119.stm)
+  * [Feb 07: ESA Prepares for a Human Mission to Mars](https://web.archive.org/web/20100130202708/http://www.space-nasa.com/02-apr-2007-esa-1.html)
+  * [Mars' apparent relative size](http://hubblesite.org/newscenter/archive/releases/2005/34/image/l) at opposition as seen by HST
+  * [Mars articles in Planetary Science Research Discoveries](http://www.psrd.hawaii.edu/Archive/Archive-Mars.html)
+  * [Flight Into Mariner Valley](http://themis.asu.edu/valles_video/) – NASA/JPL/Arizona State University 3D flythrough of Valles Marineris
+  * [Geody Mars](http://www.geody.com/?world=mars) – World's search engine that supports [NASA World Wind](/w/index.php?title=NASA_World_Wind&action=edit&redlink=1 "NASA World Wind \(없는 문서\)"), [Celestia](/w/index.php?title=Celestia&action=edit&redlink=1 "Celestia \(없는 문서\)"), and other applications
+
+  * [v](/wiki/%ED%8B%80:%ED%99%94%EC%84%B1 "틀:화성")
+  * [t](/wiki/%ED%8B%80%ED%86%A0%EB%A1%A0:%ED%99%94%EC%84%B1 "틀토론:화성")
+  * [e](https://ko.wikipedia.org/w/index.php?title=%ED%8B%80:%ED%99%94%EC%84%B1&action=edit)
+
+화성  
+  
+---  
+화성의 지리|
+
+  * [알베도](/w/index.php?title=%ED%99%94%EC%84%B1%EC%9D%98_%EC%95%8C%EB%B2%A0%EB%8F%84&action=edit&redlink=1 "화성의 알베도 \(없는 문서\)")
+  * [대기](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EB%8C%80%EA%B8%B0 "화성의 대기")
+  * [운하](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EC%9A%B4%ED%95%98 "화성의 운하")
+  * [기후](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EA%B8%B0%ED%9B%84 "화성의 기후")
+  * [생명](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EC%83%9D%EB%AA%85 "화성의 생명")
+  * [올림푸스 화산](/wiki/%EC%98%AC%EB%A6%BC%ED%91%B8%EC%8A%A4_%EC%82%B0_\(%ED%99%94%EC%84%B1\) "올림푸스 산 \(화성\)")
+  * [마리너 계곡](/wiki/%EB%A7%88%EB%A6%AC%EB%84%88_%EA%B3%84%EA%B3%A1 "마리너 계곡")
+  * [충돌구](/w/index.php?title=%ED%99%94%EC%84%B1%EC%9D%98_%EC%B6%A9%EB%8F%8C%EA%B5%AC&action=edit&redlink=1 "화성의 충돌구 \(없는 문서\)")
+  * [지질](/w/index.php?title=%ED%99%94%EC%84%B1%EC%9D%98_%EC%A7%80%EC%A7%88&action=edit&redlink=1 "화성의 지질 \(없는 문서\)")
+  * [헬라스 분지](/wiki/%ED%97%AC%EB%9D%BC%EC%8A%A4_%EB%B6%84%EC%A7%80 "헬라스 분지")
+
+|
+
+[![Mars
+Hubble.jpg](//upload.wikimedia.org/wikipedia/commons/thumb/7/76/Mars_Hubble.jpg/100px-
+Mars_Hubble.jpg)](/wiki/%ED%8C%8C%EC%9D%BC:Mars_Hubble.jpg)  
+  
+[위성](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EC%9C%84%EC%84%B1 "화성의 위성")|
+
+  * [포보스](/wiki/%ED%8F%AC%EB%B3%B4%EC%8A%A4_\(%EC%9C%84%EC%84%B1\) "포보스 \(위성\)")
+  * [데이모스](/wiki/%EB%8D%B0%EC%9D%B4%EB%AA%A8%EC%8A%A4_\(%EC%9C%84%EC%84%B1\) "데이모스 \(위성\)")
+  * [화성의 운석](/w/index.php?title=%ED%99%94%EC%84%B1%EC%9D%98_%EC%9A%B4%EC%84%9D&action=edit&redlink=1 "화성의 운석 \(없는 문서\)")
+
+  
+  
+일식과 일면통과|
+
+  * [화성의 일식](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EC%9D%BC%EC%8B%9D "화성의 일식")
+  * [수성일면통과](/wiki/%ED%99%94%EC%84%B1%EC%97%90%EC%84%9C_%EB%B3%B8_%EC%88%98%EC%84%B1_%EC%9D%BC%EB%A9%B4%ED%86%B5%EA%B3%BC "화성에서 본 수성 일면통과")
+  * [금성일면통과](/wiki/%ED%99%94%EC%84%B1%EC%97%90%EC%84%9C_%EB%B3%B8_%EA%B8%88%EC%84%B1_%EC%9D%BC%EB%A9%B4%ED%86%B5%EA%B3%BC "화성에서 본 금성 일면통과")
+  * [지구일면통과](/wiki/%ED%99%94%EC%84%B1%EC%97%90%EC%84%9C_%EB%B3%B8_%EC%A7%80%EA%B5%AC_%EC%9D%BC%EB%A9%B4%ED%86%B5%EA%B3%BC "화성에서 본 지구 일면통과")
+
+  
+  
+기타|
+
+  * [소행성](/wiki/%EC%86%8C%ED%96%89%EC%84%B1 "소행성")
+  * [다리우스력](/wiki/%EB%8B%A4%EB%A6%AC%EC%9A%B0%EC%8A%A4%EB%A0%A5 "다리우스력")
+
+  
+  
+탐사|
+
+  * [마스 패스파인더](/wiki/%EB%A7%88%EC%8A%A4_%ED%8C%A8%EC%8A%A4%ED%8C%8C%EC%9D%B8%EB%8D%94 "마스 패스파인더")
+  * [2001 마스 오디세이](/wiki/2001_%EB%A7%88%EC%8A%A4_%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4 "2001 마스 오디세이")
+  * [마스 옵저버](/wiki/%EB%A7%88%EC%8A%A4_%EC%98%B5%EC%A0%80%EB%B2%84 "마스 옵저버")
+  * [바이킹 계획](/wiki/%EB%B0%94%EC%9D%B4%ED%82%B9_%EA%B3%84%ED%9A%8D "바이킹 계획")
+  * [매리너 계획](/wiki/%EB%A7%A4%EB%A6%AC%EB%84%88_%EA%B3%84%ED%9A%8D "매리너 계획")
+  * [마스 글로벌 서베이어](/wiki/%EB%A7%88%EC%8A%A4_%EA%B8%80%EB%A1%9C%EB%B2%8C_%EC%84%9C%EB%B2%A0%EC%9D%B4%EC%96%B4 "마스 글로벌 서베이어")
+  * [스피릿](/wiki/%EC%8A%A4%ED%94%BC%EB%A6%BF_\(%ED%83%90%EC%82%AC%EC%B0%A8\) "스피릿 \(탐사차\)")
+  * [오퍼튜니티](/wiki/%EC%98%A4%ED%8D%BC%ED%8A%9C%EB%8B%88%ED%8B%B0_\(%ED%83%90%EC%82%AC%EC%B0%A8\) "오퍼튜니티 \(탐사차\)")
+  * [피닉스](/wiki/%ED%94%BC%EB%8B%89%EC%8A%A4_\(%EC%9A%B0%EC%A3%BC%EC%84%A0\) "피닉스 \(우주선\)")
+  * [큐리오시티](/wiki/%ED%81%90%EB%A6%AC%EC%98%A4%EC%8B%9C%ED%8B%B0_\(%ED%83%90%EC%82%AC%EC%B0%A8\) "큐리오시티 \(탐사차\)")
+  * [인사이트](/wiki/%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8_\(%EC%9A%B0%EC%A3%BC%EC%84%A0\) "인사이트 \(우주선\)")
+
+  
+  
+  * [v](/wiki/%ED%8B%80:%ED%83%9C%EC%96%91%EA%B3%84 "틀:태양계")
+  * [t](/wiki/%ED%8B%80%ED%86%A0%EB%A1%A0:%ED%83%9C%EC%96%91%EA%B3%84 "틀토론:태양계")
+  * [e](https://ko.wikipedia.org/w/index.php?title=%ED%8B%80:%ED%83%9C%EC%96%91%EA%B3%84&action=edit)
+
+[태양계](/wiki/%ED%83%9C%EC%96%91%EA%B3%84 "태양계")  
+  
+---  
+  
+![Solar System Template
+Final.png](//upload.wikimedia.org/wikipedia/commons/b/b8/Solar_System_Template_Final.png)  
+  
+[태양](/wiki/%ED%83%9C%EC%96%91 "태양") *
+[태양권계면](/wiki/%ED%83%9C%EC%96%91%EA%B6%8C%EA%B3%84%EB%A9%B4 "태양권계면")|
+
+| [행성](/wiki/%ED%96%89%EC%84%B1 "행성")
+
+  *     * [위성](/wiki/%EC%9C%84%EC%84%B1 "위성")
+    * [고리](/wiki/%EA%B3%A0%EB%A6%AC "고리")
+
+|
+
+| [지구형 행성](/wiki/%EC%A7%80%EA%B5%AC%ED%98%95_%ED%96%89%EC%84%B1 "지구형 행성")|
+
+* [수성](/wiki/%EC%88%98%EC%84%B1 "수성")
+* [금성](/wiki/%EA%B8%88%EC%84%B1 "금성")
+* [지구](/wiki/%EC%A7%80%EA%B5%AC "지구") ([달](/wiki/%EB%8B%AC "달"))
+* 화성 ([위성](/wiki/%ED%99%94%EC%84%B1%EC%9D%98_%EC%9C%84%EC%84%B1 "화성의 위성"))  
+  
+---|---  
+[목성형 행성](/wiki/%EB%AA%A9%EC%84%B1%ED%98%95_%ED%96%89%EC%84%B1 "목성형 행성")|
+
+  * [목성](/wiki/%EB%AA%A9%EC%84%B1 "목성")
+    * [위성](/wiki/%EB%AA%A9%EC%84%B1%EC%9D%98_%EC%9C%84%EC%84%B1 "목성의 위성")
+    * [고리](/wiki/%EB%AA%A9%EC%84%B1%EC%9D%98_%EA%B3%A0%EB%A6%AC "목성의 고리")
+  * [토성](/wiki/%ED%86%A0%EC%84%B1 "토성")
+    * [위성](/wiki/%ED%86%A0%EC%84%B1%EC%9D%98_%EC%9C%84%EC%84%B1 "토성의 위성")
+    * [고리](/wiki/%ED%86%A0%EC%84%B1%EC%9D%98_%EA%B3%A0%EB%A6%AC "토성의 고리")
+  * [천왕성](/wiki/%EC%B2%9C%EC%99%95%EC%84%B1 "천왕성")
+    * [위성](/wiki/%EC%B2%9C%EC%99%95%EC%84%B1%EC%9D%98_%EC%9C%84%EC%84%B1 "천왕성의 위성")
+    * [고리](/wiki/%EC%B2%9C%EC%99%95%EC%84%B1%EC%9D%98_%EA%B3%A0%EB%A6%AC "천왕성의 고리")
+  * [해왕성](/wiki/%ED%95%B4%EC%99%95%EC%84%B1 "해왕성")
+    * [위성](/wiki/%ED%95%B4%EC%99%95%EC%84%B1%EC%9D%98_%EC%9C%84%EC%84%B1 "해왕성의 위성")
+    * [고리](/wiki/%ED%95%B4%EC%99%95%EC%84%B1%EC%9D%98_%EA%B3%A0%EB%A6%AC "해왕성의 고리")
+
+  
+  
+[왜행성](/wiki/%EC%99%9C%ED%96%89%EC%84%B1 "왜행성")
+
+  *     * [명왕성형 천체](/wiki/%EB%AA%85%EC%99%95%EC%84%B1%ED%98%95_%EC%B2%9C%EC%B2%B4 "명왕성형 천체")
+
+|
+
+* [세레스](/wiki/%EC%84%B8%EB%A0%88%EC%8A%A4_\(%EC%99%9C%ED%96%89%EC%84%B1\) "세레스 \(왜행성\)")
+* [명왕성](/wiki/%EB%AA%85%EC%99%95%EC%84%B1 "명왕성") ([위성](/wiki/%EB%AA%85%EC%99%95%EC%84%B1%EC%9D%98_%EC%9C%84%EC%84%B1 "명왕성의 위성"))
+* [하우메아](/wiki/%ED%95%98%EC%9A%B0%EB%A9%94%EC%95%84_\(%EC%99%9C%ED%96%89%EC%84%B1\) "하우메아 \(왜행성\)") ([위성](/wiki/%ED%95%98%EC%9A%B0%EB%A9%94%EC%95%84%EC%9D%98_%EC%9C%84%EC%84%B1 "하우메아의 위성"))
+* [마케마케](/wiki/%EB%A7%88%EC%BC%80%EB%A7%88%EC%BC%80_\(%EC%99%9C%ED%96%89%EC%84%B1\) "마케마케 \(왜행성\)")
+* [에리스](/wiki/%EC%97%90%EB%A6%AC%EC%8A%A4_\(%EC%99%9C%ED%96%89%EC%84%B1\) "에리스 \(왜행성\)") ([위성](/wiki/%EB%94%94%EC%8A%A4%EB%85%B8%EB%AF%B8%EC%95%84_\(%EC%9C%84%EC%84%B1\) "디스노미아 \(위성\)"))  
+  
+[소천체](/wiki/%ED%83%9C%EC%96%91%EA%B3%84_%EC%86%8C%EC%B2%9C%EC%B2%B4 "태양계
+소천체")|
+
+| [소행성](/wiki/%EC%86%8C%ED%96%89%EC%84%B1 "소행성")|
+
+  * [벌컨군](/wiki/%EB%B2%8C%EC%BB%A8%EA%B5%B0 "벌컨군")
+  * [근지구 소행성](/wiki/%EA%B7%BC%EC%A7%80%EA%B5%AC_%EC%86%8C%ED%96%89%EC%84%B1 "근지구 소행성")
+  * [소행성대](/wiki/%EC%86%8C%ED%96%89%EC%84%B1%EB%8C%80 "소행성대")
+    * [소행성족](/wiki/%EC%86%8C%ED%96%89%EC%84%B1%EC%A1%B1 "소행성족")
+  * [목성 트로이군](/wiki/%EB%AA%A9%EC%84%B1_%ED%8A%B8%EB%A1%9C%EC%9D%B4%EA%B5%B0 "목성 트로이군")
+  * [센타우루스군](/wiki/%EC%84%BC%ED%83%80%EC%9A%B0%EB%A3%A8%EC%8A%A4%EA%B5%B0 "센타우루스군")
+  * [해왕성 트로이군](/wiki/%ED%95%B4%EC%99%95%EC%84%B1_%ED%8A%B8%EB%A1%9C%EC%9D%B4%EA%B5%B0 "해왕성 트로이군")
+  * [소행성 위성](/wiki/%EC%86%8C%ED%96%89%EC%84%B1_%EC%9C%84%EC%84%B1 "소행성 위성")
+  * [유성체](/wiki/%EC%9C%A0%EC%84%B1%EC%B2%B4 "유성체")
+
+  
+  
+---|---  
+[해왕성 바깥
+천체](/wiki/%ED%95%B4%EC%99%95%EC%84%B1_%EB%B0%94%EA%B9%A5_%EC%B2%9C%EC%B2%B4
+"해왕성 바깥 천체")|
+
+  * [카이퍼대](/wiki/%EC%B9%B4%EC%9D%B4%ED%8D%BC%EB%8C%80 "카이퍼대")
+    * [명왕성족](/wiki/%EB%AA%85%EC%99%95%EC%84%B1%EC%A1%B1 "명왕성족")
+    * [고전적 카이퍼대 천체](/wiki/%EA%B3%A0%EC%A0%84%EC%A0%81_%EC%B9%B4%EC%9D%B4%ED%8D%BC%EB%8C%80_%EC%B2%9C%EC%B2%B4 "고전적 카이퍼대 천체")
+  * [산란원반](/wiki/%EC%82%B0%EB%9E%80%EC%9B%90%EB%B0%98 "산란원반")
+  * [분리천체](/wiki/%EB%B6%84%EB%A6%AC%EC%B2%9C%EC%B2%B4 "분리천체")
+
+  
+  
+[혜성](/wiki/%ED%98%9C%EC%84%B1 "혜성")|
+
+  * [주기 혜성](/wiki/%EC%A3%BC%EA%B8%B0_%ED%98%9C%EC%84%B1 "주기 혜성")
+  * [비주기 혜성](/wiki/%EB%B9%84%EC%A3%BC%EA%B8%B0_%ED%98%9C%EC%84%B1 "비주기 혜성")
+  * [다모클레스군](/wiki/%EB%8B%A4%EB%AA%A8%ED%81%B4%EB%A0%88%EC%8A%A4%EA%B5%B0 "다모클레스군")
+  * [힐스 구름](/wiki/%ED%9E%90%EC%8A%A4_%EA%B5%AC%EB%A6%84 "힐스 구름")
+  * [오르트 구름](/wiki/%EC%98%A4%EB%A5%B4%ED%8A%B8_%EA%B5%AC%EB%A6%84 "오르트 구름")
+  * [코르딜레프스키 구름](/wiki/%EC%BD%94%EB%A5%B4%EB%94%9C%EB%A0%88%ED%94%84%EC%8A%A4%ED%82%A4_%EA%B5%AC%EB%A6%84 "코르딜레프스키 구름")
+
+  
+  
+참고|
+
+태양계 천체 목록
+([반지름순](/wiki/%EB%B0%98%EC%A7%80%EB%A6%84%EC%88%9C_%ED%83%9C%EC%96%91%EA%B3%84_%EC%B2%9C%EC%B2%B4_%EB%AA%A9%EB%A1%9D
+"반지름순 태양계 천체 목록"),
+[질량순](/wiki/%EC%A7%88%EB%9F%89%EC%88%9C_%ED%83%9C%EC%96%91%EA%B3%84_%EC%B2%9C%EC%B2%B4_%EB%AA%A9%EB%A1%9D
+"질량순 태양계 천체 목록"), [중력적으로 둥근
+천체](/wiki/%EC%A4%91%EB%A0%A5%EC%A0%81%EC%9C%BC%EB%A1%9C_%EB%91%A5%EA%B7%BC_%ED%83%9C%EC%96%91%EA%B3%84_%EC%B2%9C%EC%B2%B4_%EB%AA%A9%EB%A1%9D
+"중력적으로 둥근 태양계 천체 목록")), [소행성체
+목록](/wiki/%EC%86%8C%ED%96%89%EC%84%B1%EC%B2%B4_%EB%AA%A9%EB%A1%9D "소행성체 목록")  
+  
+[전거
+통제](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%A0%84%EA%B1%B0_%ED%86%B5%EC%A0%9C
+"위키백과:전거 통제") [![위키데이터에서
+편집하기](//upload.wikimedia.org/wikipedia/commons/thumb/8/8a/OOjs_UI_icon_edit-
+ltr-progressive.svg/10px-OOjs_UI_icon_edit-ltr-
+progressive.svg.png)](https://www.wikidata.org/wiki/Q111#identifiers "위키데이터에서
+편집하기")|
+
+  * [BNF](/wiki/BNF_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "BNF \(식별자\)"): [cb120752119](https://catalogue.bnf.fr/ark:/12148/cb120752119) [(data)](https://data.bnf.fr/ark:/12148/cb120752119)
+  * [GND](/wiki/GND_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "GND \(식별자\)"): [4037687-4](https://d-nb.info/gnd/4037687-4)
+  * [LCCN](/wiki/LCCN_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "LCCN \(식별자\)"): [sh85081548](https://id.loc.gov/authorities/subjects/sh85081548)
+  * [NARA](/wiki/NARA_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "NARA \(식별자\)"): [10046638](https://catalog.archives.gov/id/10046638)
+  * [NDL](/wiki/NDL_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "NDL \(식별자\)"): [00565094](https://id.ndl.go.jp/auth/ndlna/00565094)
+  * [NKC](/wiki/NKC_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "NKC \(식별자\)"): [ph117831](https://aleph.nkp.cz/F/?func=find-c&local_base=aut&ccl_term=ica=ph117831&CON_LNG=ENG)
+  * [NLI](/wiki/NLI_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "NLI \(식별자\)"): [000711940](http://uli.nli.org.il/F/?func=direct&doc_number=000711940&local_base=nlx10)
+  * [SUDOC](/wiki/SUDOC_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "SUDOC \(식별자\)"): [029043387](https://www.idref.fr/029043387)
+  * [VIAF](/wiki/VIAF_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "VIAF \(식별자\)"): [316741886](https://viaf.org/viaf/316741886)
+  * [WorldCat Identities](/wiki/WorldCat_Identities_\(%EC%8B%9D%EB%B3%84%EC%9E%90\) "WorldCat Identities \(식별자\)") (via VIAF): [316741886](https://www.worldcat.org/identities/containsVIAFID/316741886)
+
+  
+  
+---|---  
+  
+![](//ko.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1)
+
+원본 주소
+"[https://ko.wikipedia.org/w/index.php?title=화성&oldid=29188636](https://ko.wikipedia.org/w/index.php?title=화성&oldid=29188636)"
+
+[분류](/wiki/%ED%8A%B9%EC%88%98:%EB%B6%84%EB%A5%98 "특수:분류"):
+
+  * [화성](/wiki/%EB%B6%84%EB%A5%98:%ED%99%94%EC%84%B1 "분류:화성")
+  * [지구형 행성](/wiki/%EB%B6%84%EB%A5%98:%EC%A7%80%EA%B5%AC%ED%98%95_%ED%96%89%EC%84%B1 "분류:지구형 행성")
+
+숨은 분류:
+
+  * [출처가 필요한 글/2014년 1월](/wiki/%EB%B6%84%EB%A5%98:%EC%B6%9C%EC%B2%98%EA%B0%80_%ED%95%84%EC%9A%94%ED%95%9C_%EA%B8%80/2014%EB%85%84_1%EC%9B%94 "분류:출처가 필요한 글/2014년 1월")
+  * [출처가 필요한 모든 글](/wiki/%EB%B6%84%EB%A5%98:%EC%B6%9C%EC%B2%98%EA%B0%80_%ED%95%84%EC%9A%94%ED%95%9C_%EB%AA%A8%EB%93%A0_%EA%B8%80 "분류:출처가 필요한 모든 글")
+  * [전체에 출처가 필요한 글](/wiki/%EB%B6%84%EB%A5%98:%EC%A0%84%EC%B2%B4%EC%97%90_%EC%B6%9C%EC%B2%98%EA%B0%80_%ED%95%84%EC%9A%94%ED%95%9C_%EA%B8%80 "분류:전체에 출처가 필요한 글")
+  * [영어 표기를 포함한 문서](/wiki/%EB%B6%84%EB%A5%98:%EC%98%81%EC%96%B4_%ED%91%9C%EA%B8%B0%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EB%AC%B8%EC%84%9C "분류:영어 표기를 포함한 문서")
+  * [BNF 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:BNF_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:BNF 식별자를 포함한 위키백과 문서")
+  * [GND 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:GND_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:GND 식별자를 포함한 위키백과 문서")
+  * [LCCN 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:LCCN_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:LCCN 식별자를 포함한 위키백과 문서")
+  * [NARA 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:NARA_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:NARA 식별자를 포함한 위키백과 문서")
+  * [NDL 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:NDL_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:NDL 식별자를 포함한 위키백과 문서")
+  * [NKC 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:NKC_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:NKC 식별자를 포함한 위키백과 문서")
+  * [NLI 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:NLI_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:NLI 식별자를 포함한 위키백과 문서")
+  * [SUDOC 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:SUDOC_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:SUDOC 식별자를 포함한 위키백과 문서")
+  * [VIAF 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:VIAF_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:VIAF 식별자를 포함한 위키백과 문서")
+  * [WorldCat-VIAF 식별자를 포함한 위키백과 문서](/wiki/%EB%B6%84%EB%A5%98:WorldCat-VIAF_%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A5%BC_%ED%8F%AC%ED%95%A8%ED%95%9C_%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC_%EB%AC%B8%EC%84%9C "분류:WorldCat-VIAF 식별자를 포함한 위키백과 문서")
+
+  * 이 문서는 2021년 4월 22일 (목) 19:35에 마지막으로 편집되었습니다.
+  * 모든 문서는 [크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0](//ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:Creative_Commons_Attribution-ShareAlike_3.0_Unported_License)에 따라 사용할 수 있으며, 추가적인 조건이 적용될 수 있습니다. 자세한 내용은 [이용 약관](//wikimediafoundation.org/wiki/Terms_of_Use/ko)을 참고하십시오.  
+Wikipedia®는 미국 및 다른 국가에 등록되어 있는 [Wikimedia Foundation,
+Inc.](http://www.wikimediafoundation.org) 소유의 등록 상표입니다.
+
+  * [개인정보처리방침](https://foundation.wikimedia.org/wiki/Privacy_policy "wmf:Privacy policy")
+  * [위키백과 소개](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EC%86%8C%EA%B0%9C "위키백과:소개")
+  * [면책 조항](/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%A9%B4%EC%B1%85_%EC%A1%B0%ED%95%AD "위키백과:면책 조항")
+  * [모바일 보기](//ko.m.wikipedia.org/w/index.php?title=%ED%99%94%EC%84%B1&mobileaction=toggle_view_mobile)
+  * [개발자](https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute)
+  * [통계](https://stats.wikimedia.org/#/ko.wikipedia.org)
+  * [쿠키 정책](https://foundation.wikimedia.org/wiki/Cookie_statement)
+
+  * [![Wikimedia Foundation](/static/images/footer/wikimedia-button.png)](https://wikimediafoundation.org/)
+  * [![Powered by MediaWiki](/static/images/footer/poweredby_mediawiki_88x31.png)](https://www.mediawiki.org/)
+
+  *[v]: 이 틀을 보기
+  *[t]: 이 틀에 대한 토론
+  *[e]: 이 틀을 편집하기
+

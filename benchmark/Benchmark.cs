@@ -6,6 +6,10 @@ using System.Text;
 using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Buffers;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace SimdUnicodeBenchmarks
 {
@@ -18,8 +22,8 @@ namespace SimdUnicodeBenchmarks
         List<byte[]> AsciiBytes = new List<byte[]>();
         List<char[]> nonAsciichars = new List<char[]>();
         public List<byte[]> nonAsciiBytes = new List<byte[]>(); // Declare at the class level
-        private List<byte[]> utf8Strings = new List<byte[]>(); // For testing UTF-8 validation
-        private List<byte[]> utf8ErrorStrings = new List<byte[]>(); // For testing UTF-8 validation
+        private List<byte[]> SyntheticUtf8Strings = new List<byte[]>(); // For testing UTF-8 validation
+        private List<byte[]> SynthethicUtf8ErrorStrings = new List<byte[]>(); // For testing UTF-8 validation
 
         List<bool> results = new List<bool>();
         // We don't want to create a new Random object per function call, at least
@@ -115,14 +119,14 @@ namespace SimdUnicodeBenchmarks
             Console.WriteLine("reading data");
             _lines = System.IO.File.ReadAllLines(FileName);
             _linesUtf8 = Array.ConvertAll(_lines, System.Text.Encoding.UTF8.GetBytes);
-            utf8Strings = GenerateUtf8Strings(1000, N); // Generate 1000 UTF-8 strings of length N
+            SyntheticUtf8Strings = GenerateUtf8Strings(1000, N); // Generate 1000 UTF-8 strings of length N
             
-            foreach (var utf8String in utf8Strings)
+            foreach (var utf8String in SyntheticUtf8Strings)
             {
                 byte[] modifiedString = new byte[utf8String.Length];
                 Array.Copy(utf8String, modifiedString, utf8String.Length);
                 IntroduceError(modifiedString); // Method to introduce errors into UTF-8 strings
-                utf8ErrorStrings.Add(modifiedString);
+                SynthethicUtf8ErrorStrings.Add(modifiedString);
             }
 
         }
@@ -400,7 +404,7 @@ namespace SimdUnicodeBenchmarks
         [Benchmark]
         public void ScalarUtf8ValidationValidUtf8()
         {
-            foreach (var utf8String in utf8Strings)
+            foreach (var utf8String in SyntheticUtf8Strings)
             {
                 unsafe
                 {
@@ -415,7 +419,7 @@ namespace SimdUnicodeBenchmarks
         [Benchmark]
         public void CompetitionUtf8ValidationValidUtf8()
         {
-            foreach (var utf8String in utf8Strings)
+            foreach (var utf8String in SyntheticUtf8Strings)
             {
                 unsafe
                 {
@@ -462,7 +466,7 @@ namespace SimdUnicodeBenchmarks
         [Benchmark(Description = "ScalarUtf8ValidationErrorData")]
         public void ScalarUtf8ValidationErrorData()
         {
-            foreach (var utf8StringWithError in utf8ErrorStrings)
+            foreach (var utf8StringWithError in SynthethicUtf8ErrorStrings)
             {
                 unsafe
                 {
@@ -477,7 +481,7 @@ namespace SimdUnicodeBenchmarks
         [Benchmark(Description = "CompetitionUtf8ValidationErrorData")]
         public void CompetitionUtf8ValidationErrorData()
         {
-            foreach (var utf8StringWithError in utf8ErrorStrings)
+            foreach (var utf8StringWithError in SynthethicUtf8ErrorStrings)
             {
                 unsafe
                 {
