@@ -18,6 +18,8 @@ namespace SimdUnicodeBenchmarks
     // for a standard benchmark
     public class Checker
     {
+        public static string DataFilePath { get; set; } // gotten from arguments
+
         List<char[]> names = new List<char[]>();
         List<byte[]> AsciiBytes = new List<byte[]>();
         List<char[]> nonAsciichars = new List<char[]>();
@@ -32,6 +34,10 @@ namespace SimdUnicodeBenchmarks
 
         private string[] _lines;
         private byte[][] _linesUtf8;
+
+        [AttributeUsage(AttributeTargets.Method)]
+        public class UseDataFilesAttribute : Attribute { } // Empty as it is only used as a marker
+
 
         public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
         {
@@ -90,8 +96,40 @@ namespace SimdUnicodeBenchmarks
         [Params(100, 8000)]
         public uint N;
 
-        [Params(@"data/french.utf8.txt")]
-        public string FileName;
+        // [Params(@"data/french.utf8.txt")]
+        // public string FileName;
+
+        [ParamsSource(nameof(FileNames))]
+        public string FileName { get; set; }
+
+        // public static IEnumerable<string> FileNames => 
+        //     Directory.EnumerateFiles(Path.Combine(Directory.GetCurrentDirectory(), "data"), "*.utf8.txt")
+        //             .Select(Path.GetFileName);
+
+        public static IEnumerable<string> FileNames
+        {
+            get
+            {
+                // Get all methods in the Checker class
+                var methods = typeof(Checker).GetMethods();
+
+                // Check each method for the UseDataFiles attribute and the "Data" in its name
+                foreach (var method in methods)
+                {
+                    if (method.GetCustomAttributes(typeof(UseDataFilesAttribute), false).Any() 
+                        && method.Name.Contains("Data"))
+                    {
+                        // Return file names for methods that have the attribute and "Data" in their name
+                        return Directory.EnumerateFiles(Path.Combine(Directory.GetCurrentDirectory(), "data"), "*.utf8.txt")
+                                        .Select(Path.GetFileName);
+                    }
+                }
+
+                // Return an empty collection otherwise
+                return Enumerable.Empty<string>();
+            }
+        }
+
 
 
         [GlobalSetup]
@@ -116,9 +154,13 @@ namespace SimdUnicodeBenchmarks
                 .Select(name => System.Text.Encoding.ASCII.GetBytes(name))
                 .ToList();
 
-            Console.WriteLine("reading data");
-            _lines = System.IO.File.ReadAllLines(FileName);
-            _linesUtf8 = Array.ConvertAll(_lines, System.Text.Encoding.UTF8.GetBytes);
+            // Console.WriteLine("reading data");
+            // _lines = System.IO.File.ReadAllLines(FileName);
+            // _linesUtf8 = Array.ConvertAll(_lines, System.Text.Encoding.UTF8.GetBytes);
+            Console.WriteLine("Reading data from: " + FileName);
+            _lines = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "data", FileName));
+            _linesUtf8 = _lines.Select(Encoding.UTF8.GetBytes).ToArray();
+            
             SyntheticUtf8Strings = GenerateUtf8Strings(1000, N); // Generate 1000 UTF-8 strings of length N
             
             foreach (var utf8String in SyntheticUtf8Strings)
@@ -143,70 +185,6 @@ namespace SimdUnicodeBenchmarks
 
             return strings;
         }
-
-        //     private void IntroduceError(byte[] utf8)
-        // {
-        //     Random random = new Random();
-        //     int errorType = random.Next(5); // Randomly select an error type (0-4)
-        //     int position = random.Next(utf8.Length); // Random position in the byte array
-
-        //     switch (errorType)
-        //     {
-        //         case 0: // Header Bits Error
-        //             if ((utf8[position] & 0b11000000) != 0b10000000)
-        //             {
-        //                 utf8[position] = 0b11111000;
-        //             }
-        //             break;
-
-        //         case 1: // Too Short Error
-        //             if ((utf8[position] & 0b11000000) == 0b10000000)
-        //             {
-        //                 utf8[position] = 0b11100000;
-        //             }
-        //             break;
-
-        //         case 2: // Too Long Error
-        //             if ((utf8[position] & 0b11000000) != 0b10000000)
-        //             {
-        //                 utf8[position] = 0b10000000;
-        //             }
-        //             break;
-
-        //         case 3: // Overlong Error
-        //             if (utf8[position] >= 0b11000000)
-        //             {
-        //                 if ((utf8[position] & 0b11100000) == 0b11000000)
-        //                 {
-        //                     utf8[position] = 0b11000000;
-        //                 }
-        //                 else if ((utf8[position] & 0b11110000) == 0b11100000)
-        //                 {
-        //                     utf8[position] = 0b11100000;
-        //                     utf8[position + 1] = (byte)(utf8[position + 1] & 0b11011111);
-        //                 }
-        //                 else if ((utf8[position] & 0b11111000) == 0b11110000)
-        //                 {
-        //                     utf8[position] = 0b11110000;
-        //                     utf8[position + 1] = (byte)(utf8[position + 1] & 0b11001111);
-        //                 }
-        //             }
-        //             break;
-
-        //             case 4: // Surrogate Error
-        //                 if ((utf8[position] & 0b11110000) == 0b11100000)
-        //                 {
-        //                     utf8[position] = 0b11101101; // Leading byte for surrogate
-        //                     for (int s = 0x8; s < 0xf; s++)
-        //                     {
-        //                         utf8[position + 1] = (byte)((utf8[position + 1] & 0b11000011) | (s << 2));
-        //                         break; // Just introduce one surrogate error
-        //                     }
-        //                 }
-        //                 break;
-
-        //     }
-        // }
 
         private void IntroduceError(byte[] utf8)
         {
@@ -371,6 +349,7 @@ namespace SimdUnicodeBenchmarks
             return result;
         }
 
+        [UseDataFiles]
         [Benchmark(Description = "SimDUnicodeGetIndexOfFirstNonAsciiByteRealData")]
         public void SimDUnicodeGetIndexOfFirstNonAsciiByteRealData()
         {
@@ -386,8 +365,9 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+        [UseDataFiles]
         [Benchmark(Description = "Runtime_GetIndexOfFirstNonAsciiByte_real_data")]
-        public void Runtime_GetIndexOfFirstNonAsciiByte_real_data()
+        public void RuntimeGetIndexOfFirstNonAsciiByteRealData()
         {
             foreach (var line in _linesUtf8)
             {
@@ -432,6 +412,7 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+        [UseDataFiles]
         [Benchmark(Description = "ScalarUtf8ValidationValidData")]
         public void SimDUnicodeUtf8ValidationRealData()
         {
@@ -446,7 +427,8 @@ namespace SimdUnicodeBenchmarks
                 }
             }
         }
-
+        
+        [UseDataFiles]
         [Benchmark(Description = "CompetitionUtf8ValidationValidData")]
         public void CompetitionUtf8ValidationRealData()
         {
@@ -463,6 +445,7 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+        [UseDataFiles]
         [Benchmark(Description = "ScalarUtf8ValidationErrorData")]
         public void ScalarUtf8ValidationErrorData()
         {
@@ -478,6 +461,7 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+        [UseDataFiles]
         [Benchmark(Description = "CompetitionUtf8ValidationErrorData")]
         public void CompetitionUtf8ValidationErrorData()
         {
@@ -494,33 +478,7 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
-
-
-
-
     }
-
-    // public class Program
-    // {
-    //     public static void Main(string[] args)
-    //     {
-    //         if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-    //         {
-    //             Console.WriteLine("ARM64 system detected.");
-    //         }
-    //         else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
-    //         {
-    //             Console.WriteLine("X64 system detected (Intel, AMD,...).");
-
-    //         }
-    //         else
-    //         {
-    //             Console.WriteLine("Unrecognized system.");
-
-    //         }
-    //         var summary = BenchmarkRunner.Run<Checker>();
-    //     }
-    // }
 
         public class Program
     {
