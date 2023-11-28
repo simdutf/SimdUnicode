@@ -16,20 +16,22 @@ namespace SimdUnicodeBenchmarks
 
     // See https://github.com/dotnet/performance/blob/cea924dd0639057c1062444a642a470deef96158/src/benchmarks/micro/libraries/System.Text.Encoding/Perf.Ascii.cs#L38
     // for a standard benchmark
-    public class Checker
-    {
+    // This might provide an alternative way to organize the code: https://benchmarkdotnet.org/articles/samples/IntroParamsSource.html but I felt it was simpler to divide everything into classes(Nick Nuon)
+    public abstract class BenchmarkBase    {
 
         // Common to both classes
         // We don't want to create a new Random object per function call, at least
         // not one with the same seed.
-        static Random rd = new Random(12345); // fixed seed
+        // static Random rd = new Random(12345); // fixed seed
+        protected static Random rd = new Random(12345); // Fixed seed
 
         [Params(100, 8000)]
         public uint N;
 
-        void IntroduceError(byte[] utf8)
+        protected void IntroduceError(byte[] utf8, Random random)
         {
-            Random random = new Random();
+
+            // Random random = new Random();
             bool errorIntroduced = false;
 
             while (!errorIntroduced)
@@ -99,6 +101,12 @@ namespace SimdUnicodeBenchmarks
                 }
             }
         }
+
+
+    }
+
+    public class SyntheticBenchmark : BenchmarkBase
+{
 
         // For synthetic benchmarks
         List<char[]> AsciiChars = new List<char[]>();
@@ -175,20 +183,10 @@ namespace SimdUnicodeBenchmarks
             return strings;
         }
 
-
-        // Parameters and variables for real data
-        [Params(@"data/french.utf8.txt")]
-        public string FileName;
-
-        private string[] _lines;
-        private byte[][] _linesUtf8;
-
+        
         [GlobalSetup]
         public void Setup()
         {
-            // Common setup
-            // We reset rd so that all data is generated with the same.
-            rd = new Random(12345); // fixed seed
 
             // Synthetic setup
             // for the benchmark to be meaningful, we need a lot of data.
@@ -212,19 +210,12 @@ namespace SimdUnicodeBenchmarks
             {
                 byte[] modifiedString = new byte[utf8String.Length];
                 Array.Copy(utf8String, modifiedString, utf8String.Length);
-                IntroduceError(modifiedString); // Method to introduce errors into UTF-8 strings
+                IntroduceError(modifiedString,rd); // Method to introduce errors into UTF-8 strings
                 SynthethicUtf8ErrorStrings.Add(modifiedString);
             }
-
-
-            // For real data only:
-            Console.WriteLine("reading data");
-            _lines = System.IO.File.ReadAllLines(FileName);
-            _linesUtf8 = Array.ConvertAll(_lines, System.Text.Encoding.UTF8.GetBytes);
-
         }
 
-        // Synthetic benchmarks
+            // Synthetic benchmarks
         [Benchmark]
         [BenchmarkCategory("Ascii", "SIMD")]
         public void FastUnicodeIsAscii()
@@ -346,6 +337,34 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+
+}
+
+public class RealDataBenchmark : BenchmarkBase
+{
+    
+        // Parameters and variables for real data
+        [Params(@"data/french.utf8.txt")]
+        public string FileName;
+
+        private string[] _lines;
+        private byte[][] _linesUtf8;
+
+        [GlobalSetup]
+        public void Setup()
+        {
+            // Common setup
+            // We reset rd so that all data is generated with the same.
+            // rd = new Random(12345); // fixed seed
+
+            // For real data only:
+            Console.WriteLine("reading data");
+            _lines = System.IO.File.ReadAllLines(FileName);
+            _linesUtf8 = Array.ConvertAll(_lines, System.Text.Encoding.UTF8.GetBytes);
+
+        }
+
+        
         // Real Data benchmarks
         [Benchmark]
         public void SimDUnicodeGetIndexOfFirstNonAsciiByteRealData()
@@ -412,13 +431,13 @@ namespace SimdUnicodeBenchmarks
         [Benchmark()]
         public void ScalarUtf8ValidationErrorData()
         {
-            foreach (var utf8StringWithError in SynthethicUtf8ErrorStrings)
+            foreach (var line in _linesUtf8)
             {
                 unsafe
                 {
-                    fixed (byte* pUtf8 = utf8StringWithError)
+                    fixed (byte* pUtf8 = line)
                     {
-                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pUtf8, utf8StringWithError.Length);
+                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pUtf8, line.Length);
                     }
                 }
             }
@@ -427,22 +446,24 @@ namespace SimdUnicodeBenchmarks
         [Benchmark()]
         public void CompetitionUtf8ValidationErrorData()
         {
-            foreach (var utf8StringWithError in SynthethicUtf8ErrorStrings)
+            foreach (var line in _linesUtf8)
             {
                 unsafe
                 {
-                    fixed (byte* pUtf8 = utf8StringWithError)
+                    fixed (byte* pUtf8 = line)
                     {
                         int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
-                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, utf8StringWithError.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
                     }
                 }
             }
         }
 
-    }
 
-    // public class Program
+}
+
+
+    //     public class Program
     // {
     //     public static void Main(string[] args)
     //     {
@@ -453,37 +474,47 @@ namespace SimdUnicodeBenchmarks
     //         else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
     //         {
     //             Console.WriteLine("X64 system detected (Intel, AMD,...).");
-
     //         }
     //         else
     //         {
     //             Console.WriteLine("Unrecognized system.");
-
     //         }
-    //         var summary = BenchmarkRunner.Run<Checker>();
+
+    //     var switcher = new BenchmarkSwitcher(new[] { typeof(SyntheticBenchmark), typeof(RealDataBenchmark) });            switcher.Run(args);
     //     }
     // }
 
-        public class Program
+    public class Program
+{
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
         {
-            if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-            {
-                Console.WriteLine("ARM64 system detected.");
-            }
-            else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
-            {
-                Console.WriteLine("X64 system detected (Intel, AMD,...).");
-            }
-            else
-            {
-                Console.WriteLine("Unrecognized system.");
-            }
+            Console.WriteLine("ARM64 system detected.");
+        }
+        else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
+        {
+            Console.WriteLine("X64 system detected (Intel, AMD,...).");
+        }
+        else
+        {
+            Console.WriteLine("Unrecognized system.");
+        }
 
-            var switcher = new BenchmarkSwitcher(new[] { typeof(Checker) });
+        // Check if a specific argument (e.g., "runAll") is provided
+        if (args.Length > 0 && args[0] == "runAll")
+        {
+            // Run all benchmarks directly
+            BenchmarkRunner.Run<SyntheticBenchmark>();
+            BenchmarkRunner.Run<RealDataBenchmark>();
+        }
+        else
+        {
+            // Use the interactive BenchmarkSwitcher
+            var switcher = new BenchmarkSwitcher(new[] { typeof(SyntheticBenchmark), typeof(RealDataBenchmark) });
             switcher.Run(args);
         }
     }
+}
 
 }
