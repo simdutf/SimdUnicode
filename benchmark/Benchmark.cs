@@ -344,7 +344,13 @@ public class RealDataBenchmark : BenchmarkBase
 {
     
         // Parameters and variables for real data
-        [Params(@"data/french.utf8.txt")]
+        [Params(@"data/french.utf8.txt",
+                @"data/arabic.utf8.txt",
+                @"data/chinese.utf8.txt",
+                @"data/english.utf8.txt",
+                @"data/turkish.utf8.txt",
+                @"data/german.utf8.txt",
+                @"data/japanese.utf8.txt")]
         public string FileName;
 
         private string[] _lines;
@@ -501,8 +507,8 @@ public class RealDataBenchmark : BenchmarkBase
             Console.WriteLine("Unrecognized system.");
         }
 
-        // Check if a specific argument (e.g., "runAll") is provided
-        if (args.Length > 0 && args[0] == "runAll")
+        // Check if a specific argument (e.g., "runall") is provided
+        if (args.Length > 0 && args[0] == "runall")
         {
             // Run all benchmarks directly
             BenchmarkRunner.Run<SyntheticBenchmark>();

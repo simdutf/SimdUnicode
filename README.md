@@ -43,24 +43,30 @@ dotnet test -c Release --filter Ascii
 
 ## Running Benchmarks
 
-To run all the benchmarks, run the following command:
+To run the benchmarks, run the following command:
 ```
 cd benchmark
-dotnet run -c Release --filter *Checker*
+dotnet run -c Release
+```
+
+To run all the benchmarks, add the "runall" arguments
+```
+cd benchmark
+dotnet run -c Release runall
 ```
 
 If you are under macOS or Linux, you may want to run the benchmarks in privileged mode:
 
 ```
 cd benchmark
-sudo dotnet run -c Release --filter *Checker*
+sudo dotnet run -c Release
 ```
 
-Still under macOS or Linux, you can change the filter parameter to narrow down the benchmarks you'd like to run (TO DO: check what the command is under Windows):
+Still under macOS or Linux, you can change the filter parameter to narrow down the benchmarks you'd like to run:
 
 ```
 cd benchmark
-sudo dotnet run -c Release --filter *Ascii*
+sudo dotnet run -c Release --filter *RealData*
 ```
 
 ## Building the library
