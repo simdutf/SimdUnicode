@@ -2,6 +2,8 @@
 using SimdUnicode;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Reports;
 using System.Text;
 using System.Runtime;
 using System.Runtime.InteropServices;
@@ -345,11 +347,11 @@ public class RealDataBenchmark : BenchmarkBase
     
         // Parameters and variables for real data
         [Params(@"data/french.utf8.txt",
-                @"data/arabic.utf8.txt",
-                @"data/chinese.utf8.txt",
-                @"data/english.utf8.txt",
-                @"data/turkish.utf8.txt",
-                @"data/german.utf8.txt",
+                // @"data/arabic.utf8.txt",
+                // @"data/chinese.utf8.txt",
+                // @"data/english.utf8.txt",
+                // @"data/turkish.utf8.txt",
+                // @"data/german.utf8.txt",
                 @"data/japanese.utf8.txt")]
         public string FileName;
 
@@ -507,20 +509,24 @@ public class RealDataBenchmark : BenchmarkBase
             Console.WriteLine("Unrecognized system.");
         }
 
+        // Create a BenchmarkDotNet config with a custom maximum parameter column width
+        var config = DefaultConfig.Instance.With(SummaryStyle.Default.WithMaxParameterColumnWidth(100));
+
         // Check if a specific argument (e.g., "runall") is provided
         if (args.Length > 0 && args[0] == "runall")
         {
-            // Run all benchmarks directly
-            BenchmarkRunner.Run<SyntheticBenchmark>();
-            BenchmarkRunner.Run<RealDataBenchmark>();
+            // Run all benchmarks directly with the custom config
+            BenchmarkRunner.Run<SyntheticBenchmark>(config);
+            BenchmarkRunner.Run<RealDataBenchmark>(config);
         }
         else
         {
-            // Use the interactive BenchmarkSwitcher
+            // Use the interactive BenchmarkSwitcher with the custom config
             var switcher = new BenchmarkSwitcher(new[] { typeof(SyntheticBenchmark), typeof(RealDataBenchmark) });
-            switcher.Run(args);
+            switcher.Run(args, config);
         }
     }
+
 }
 
 }
