@@ -84,13 +84,12 @@ namespace SimdUnicode {
 
 
 
-
         // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
-        public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
+        public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)//, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment) <-The 
         {
             // Initialize out parameters
-            utf16CodeUnitCountAdjustment = 0;
-            scalarCountAdjustment = 0;
+            // utf16CodeUnitCountAdjustment = 0;
+            // scalarCountAdjustment = 0;
 
             // If the input is null or length is zero, return immediately.
             if (pInputBuffer == null || inputLength <= 0)
@@ -259,13 +258,42 @@ namespace SimdUnicode {
                     return Avx2.And(Avx2.And(byte_1_high, byte_1_low), byte_2_high);
                 }
 
-                private Vector256<byte> check_multibyte_lengths(Vector256<byte> input, Vector256<byte> prev_input, Vector256<byte> sc) {
-                    Vector256<byte> prev2 = prev_input; 
-                    Vector256<byte> prev3 = prev_input; 
-                    Vector256<byte> must23 = new Vector256<byte>(); // Placeholder for must_be_2_3_continuation logic
+                // I think this is where I made a mistake (Will delete this comment later).
+                private Vector256<byte> check_multibyte_lengths(Vector256<byte> input, Vector256<byte> prev_input, Vector256<byte> sc) 
+                {
+                    // Assuming Prev is correctly implemented to shift the bytes as required
+                    Vector256<byte> prev2 = input.Prev(prev_input, 2);
+                    Vector256<byte> prev3 = input.Prev(prev_input, 3);
 
+                    // Call the must_be_2_3_continuation function with prev2 and prev3
+                    Vector256<byte> must23 = must_be_2_3_continuation(prev2, prev3);
+
+                    // Perform the AND operation with 0x80
                     Vector256<byte> must23_80 = Avx2.And(must23, Vector256.Create((byte)0x80));
+
+                    // XOR the result with sc
                     return Avx2.Xor(must23_80, sc);
+                }
+
+                // Ensure you have the must_be_2_3_continuation function implemented as discussed earlier
+
+
+                private Vector256<byte> must_be_2_3_continuation(Vector256<byte> prev2, Vector256<byte> prev3)
+                {
+                    // Perform saturating subtraction
+                    Vector256<byte> is_third_byte = Avx2.SubtractSaturate(prev2, Vector256.Create((byte)(0b11100000 - 1)));
+                    Vector256<byte> is_fourth_byte = Avx2.SubtractSaturate(prev3, Vector256.Create((byte)(0b11110000 - 1)));
+
+                    // Combine the results using bitwise OR
+                    Vector256<byte> combined = Avx2.Or(is_third_byte, is_fourth_byte);
+
+                    // Compare combined result with zero
+                    Vector256<sbyte> signedCombined = combined.AsSByte();
+                    Vector256<sbyte> zero = Vector256<sbyte>.Zero;
+                    Vector256<sbyte> comparisonResult = Avx2.CompareGreaterThan(signedCombined, zero);
+
+                    // Convert the comparison result back to byte
+                    return comparisonResult.AsByte();
                 }
 
                 private Vector256<byte> is_incomplete(Vector256<byte> input) {
