@@ -333,7 +333,7 @@ namespace SimdUnicodeBenchmarks
                     fixed (byte* pInput = utf8String)
                     {
                         int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
-                        byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
                     }
                 }
             }
@@ -347,11 +347,11 @@ public class RealDataBenchmark : BenchmarkBase
     
         // Parameters and variables for real data
         [Params(@"data/french.utf8.txt",
-                // @"data/arabic.utf8.txt",
-                // @"data/chinese.utf8.txt",
-                // @"data/english.utf8.txt",
-                // @"data/turkish.utf8.txt",
-                // @"data/german.utf8.txt",
+                @"data/arabic.utf8.txt",
+                @"data/chinese.utf8.txt",
+                @"data/english.utf8.txt",
+                @"data/turkish.utf8.txt",
+                @"data/german.utf8.txt",
                 @"data/japanese.utf8.txt")]
         public string FileName;
 
