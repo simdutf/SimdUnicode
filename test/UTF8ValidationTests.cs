@@ -2,7 +2,7 @@ namespace tests;
 using System.Text;
 using SimdUnicode;
 
-public class Utf8ValidationTests
+public class Utf8SIMDValidationTests
 {
 
 
@@ -31,8 +31,16 @@ public void TestGoodSequences()
         {
             fixed (byte* pInput = input)
             {
-                byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                Assert.Equal((IntPtr)(pInput + input.Length), (IntPtr)result); // Expecting the end of the string
+                // Testing SimdUnicode.UTF8.GetPointerToFirstInvalidByte
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
+                            "Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte");
+
+                // Testing Utf8Utility.GetPointerToFirstInvalidByte
+                byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
+                Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
+                            "Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                // Assert.Equal((IntPtr)(pInput + input.Length), (IntPtr)result); // Expecting the end of the string
             }
         }
     }

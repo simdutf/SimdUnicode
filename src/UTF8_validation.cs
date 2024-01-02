@@ -169,7 +169,8 @@ namespace SimdUnicode {
                 }
                 
                 public void check_utf8_bytes(Vector256<byte> input, Vector256<byte> prev_input) {
-                    Vector256<byte> prev1 = input; // Adjust this as necessary for your logic
+                    // Vector256<byte> prev1 = input; // Adjust this as necessary for your logic
+                    Vector256<byte> prev1 = input.Prev(prev_input, 1);
                     Vector256<byte> sc = check_special_cases(input, prev1); 
                     error = Avx2.Or(error, check_multibyte_lengths(input, prev_input, sc)); 
                 }
@@ -181,7 +182,7 @@ namespace SimdUnicode {
                 // This is the first point of entry for this function
                 // The original C++ implementation is much more extensive and assumes a 512 bit stream as well as several implementations
                 // In this case I focus solely on AVX2 instructions for prototyping and benchmarking purposes. 
-                // This is the simplest least time-consuming implementation. 0
+                // This is the simplest least time-consuming implementation. 
                 public void check_next_input(Vector256<byte> input) {
 
                 // Skip this for now, we'll come back later
