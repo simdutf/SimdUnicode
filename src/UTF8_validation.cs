@@ -9,6 +9,7 @@ using System.Runtime.Intrinsics.X86;
 public static class Vector256Extensions
 {
     // Gets the second lane of the current vector and the first lane of the previous vector and returns, then shift it right by an appropriate number of bytes (less than 16, or less than 128 bits)
+    // Should be good? Checked
     public static Vector256<byte> Prev(this Vector256<byte> current, Vector256<byte> prev, int N = 1)
     {
 
@@ -16,9 +17,8 @@ public static class Vector256Extensions
         // 0x21 = 00 10 00 01 translates into a fusing of 
         // second 128-bit lane of first source, 
         // first 128bit lane of second source,
-        Vector256<byte> shuffle = Avx2.Permute2x128(current, prev, 0x21);
-        return Avx2.AlignRight(shuffle, current, (byte)(16 - N)); //shifts right by a certain amount
-        //uses __m256i _mm256_alignr_epi8 under the hood
+        Vector256<byte> shuffle = Avx2.Permute2x128(prev,current,  0x21);  // Wrong order of arguments fixed
+        return Avx2.AlignRight(current,shuffle, (byte)(16 - N)); //shifts right by a certain amount
     }
 
         public static Vector256<byte> Lookup16(this Vector256<byte> source,Vector256<byte> lookupTable)
@@ -167,18 +167,8 @@ namespace SimdUnicode {
                     prev_input_block = Vector256<byte>.Zero;
                     prev_incomplete = Vector256<byte>.Zero;
                 }
-                
-                public void check_utf8_bytes(Vector256<byte> input, Vector256<byte> prev_input) {
-                    // Vector256<byte> prev1 = input; // Adjust this as necessary for your logic
-                    Vector256<byte> prev1 = input.Prev(prev_input, 1);
-                    Vector256<byte> sc = check_special_cases(input, prev1); 
-                    error = Avx2.Or(error, check_multibyte_lengths(input, prev_input, sc)); 
-                }
 
-                public void check_eof() {
-                    error = Avx2.Or(error, prev_incomplete);
-                }
-
+                // Checked - should be OK, look deeper
                 // This is the first point of entry for this function
                 // The original C++ implementation is much more extensive and assumes a 512 bit stream as well as several implementations
                 // In this case I focus solely on AVX2 instructions for prototyping and benchmarking purposes. 
@@ -191,7 +181,9 @@ namespace SimdUnicode {
                 // I'll implement something later. 
                 //     error = Avx2.Or(error, prev_incomplete);
                 // } else {
-                    // Process the 256-bit vector
+                    // Process the 256-bit vector (in the original C++ code, this particular part process
+                    // 256-bits "chunks" of a 512-bit vector, but in this case, we pass on a 256-bit vector directly, saving us the headache for this 
+                    // quick-and-dirty test)
                     check_utf8_bytes(input, prev_input_block);
                 // }
 
@@ -199,13 +191,32 @@ namespace SimdUnicode {
                 prev_incomplete = is_incomplete(input);
                 prev_input_block = input;
             }
+                
+                // Checked
+                public void check_utf8_bytes(Vector256<byte> input, Vector256<byte> prev_input) {
+                    Vector256<byte> prev1 = input.Prev(prev_input, 1);
+                    Vector256<byte> sc = check_special_cases(input, prev1); 
+                    error = Avx2.Or(error, check_multibyte_lengths(input, prev_input, sc)); 
+                }
+
 
                 public bool errors() {
                     return !Avx2.TestZ(error, error);
                 }
 
+                public void check_eof() {
+                    error = Avx2.Or(error, prev_incomplete);
+                }
+
+                //Checked -- should be good
                 private Vector256<byte> check_special_cases(Vector256<byte> input, Vector256<byte> prev1) {
-                    // Define constants
+                    // define bits that indicate error code
+                    // Bit 0 = Too Short (lead byte/ASCII followed by lead byte/ASCII)
+                    // Bit 1 = Too Long (ASCII followed by continuation)
+                    // Bit 2 = Overlong 3-byte
+                    // Bit 4 = Surrogate
+                    // Bit 5 = Overlong 2-byte
+                    // Bit 7 = Two Continuations
                     const byte TOO_SHORT = 1 << 0;
                     const byte TOO_LONG = 1 << 1;
                     const byte OVERLONG_3 = 1 << 2;
@@ -259,7 +270,7 @@ namespace SimdUnicode {
                     return Avx2.And(Avx2.And(byte_1_high, byte_1_low), byte_2_high);
                 }
 
-                // I think this is where I made a mistake (Will delete this comment later).
+                // Cheked -- should be good
                 private Vector256<byte> check_multibyte_lengths(Vector256<byte> input, Vector256<byte> prev_input, Vector256<byte> sc) 
                 {
                     // Assuming Prev is correctly implemented to shift the bytes as required
@@ -278,7 +289,7 @@ namespace SimdUnicode {
 
                 // Ensure you have the must_be_2_3_continuation function implemented as discussed earlier
 
-
+                // Checked
                 private Vector256<byte> must_be_2_3_continuation(Vector256<byte> prev2, Vector256<byte> prev3)
                 {
                     // Perform saturating subtraction
@@ -297,7 +308,10 @@ namespace SimdUnicode {
                     return comparisonResult.AsByte();
                 }
 
+                // Checked should be OK
                 private Vector256<byte> is_incomplete(Vector256<byte> input) {
+                    // Console.WriteLine("Input Vector: " + VectorToString(input));
+
                     // Define the max_value as per your logic
                     byte[] maxArray = new byte[32] {
                         255, 255, 255, 255, 255, 255, 255, 255,
@@ -307,8 +321,19 @@ namespace SimdUnicode {
                     };
                     Vector256<byte> max_value = Vector256.Create(maxArray);
 
-                    return SimdUnicode.Helpers.CompareGreaterThan(input, max_value);
+                    // Vector256<byte> result = SimdUnicode.Helpers.CompareGreaterThan(input, max_value); <= This was incorrect?
+                    Vector256<byte> result = SimdUnicode.Helpers.CompareGreaterThan( max_value, input);
+                    // Console.WriteLine("Result Vector: " + VectorToString(result));
+
+                    return result;
                 }
+
+                // Helper function for debugging , will either move or delete afterward
+                private string VectorToString(Vector256<byte> vector) {
+                Span<byte> span = stackalloc byte[Vector256<byte>.Count];
+                vector.CopyTo(span);
+                return BitConverter.ToString(span.ToArray());
+}
             }
         }
     }
