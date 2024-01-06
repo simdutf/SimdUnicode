@@ -134,6 +134,9 @@ namespace SimdUnicode {
 
                 // Check the block
                 checker.check_next_input(remainingBlock);
+                // Console.WriteLine($"Error found at position: {processedLength}");
+
+                
 
                 // if (checker.errors())
                 // {
@@ -146,11 +149,15 @@ namespace SimdUnicode {
             checker.check_eof();
             if (checker.errors())
             {
+                                // Console.WriteLine("Error Vector: " + VectorToString(error));
+
                 // If an error is found, return the pointer to the start of the erroneous block
+                // Console.WriteLine($"Error found at position: {processedLength}");
                 return pInputBuffer + processedLength;
             }
 
             // If no errors were found, return a pointer to the end of the buffer
+            Console.WriteLine($"No error found, here is processedLength: {processedLength}");
             return pInputBuffer + inputLength;
         }
     }
@@ -190,22 +197,34 @@ namespace SimdUnicode {
                 // Update prev_incomplete and prev_input_block for the next call
                 prev_incomplete = is_incomplete(input);
                 prev_input_block = input;
+                // Console.WriteLine("Error Vector after check_next_input: " + VectorToString(error));
+
+
             }
                 
                 // Checked
                 public void check_utf8_bytes(Vector256<byte> input, Vector256<byte> prev_input) {
-                    Vector256<byte> prev1 = input.Prev(prev_input, 1);
-                    Vector256<byte> sc = check_special_cases(input, prev1); 
-                    error = Avx2.Or(error, check_multibyte_lengths(input, prev_input, sc)); 
+                    Vector256<byte> prev1 = input.Prev(prev_input, 1); // Checked
+                    Vector256<byte> sc = check_special_cases(input, prev1);  //Checked
+                    error = Avx2.Or(error, check_multibyte_lengths(input, prev_input, sc)); // Checked
+                    //  Console.WriteLine("Error Vector after check_utf8_bytes: " + VectorToString(error));
+
                 }
 
 
                 public bool errors() {
+                    // Console.WriteLine("Error Vector at the end: " + VectorToString(error));
+
                     return !Avx2.TestZ(error, error);
                 }
 
                 public void check_eof() {
+                    // Console.WriteLine("Error Vector before check_eof(): " + VectorToString(error));
+                    Console.WriteLine("prev_incomplete Vector in check_eof(): " + VectorToString(prev_incomplete));
+
                     error = Avx2.Or(error, prev_incomplete);
+                    // Console.WriteLine("Error Vector before check_eof(): " + VectorToString(error));
+
                 }
 
                 //Checked -- should be good
@@ -278,7 +297,7 @@ namespace SimdUnicode {
                     Vector256<byte> prev3 = input.Prev(prev_input, 3);
 
                     // Call the must_be_2_3_continuation function with prev2 and prev3
-                    Vector256<byte> must23 = must_be_2_3_continuation(prev2, prev3);
+                    Vector256<byte> must23 = must_be_2_3_continuation(prev2, prev3); // checked
 
                     // Perform the AND operation with 0x80
                     Vector256<byte> must23_80 = Avx2.And(must23, Vector256.Create((byte)0x80));
@@ -305,15 +324,37 @@ namespace SimdUnicode {
                     Vector256<sbyte> comparisonResult = Avx2.CompareGreaterThan(signedCombined, zero);
 
                     // Convert the comparison result back to byte
+                    
                     return comparisonResult.AsByte();
                 }
 
                 // Checked should be OK
-                private Vector256<byte> is_incomplete(Vector256<byte> input) {
-                    // Console.WriteLine("Input Vector: " + VectorToString(input));
+                // private Vector256<byte> is_incomplete(Vector256<byte> input) {
+                //     Console.WriteLine("Input Vector is_incomplete: " + VectorToString(input));
+
+                //     // Define the max_value as per your logic
+                //     byte[] maxArray = new byte[32] {
+                //         255, 255, 255, 255, 255, 255, 255, 255,
+                //         255, 255, 255, 255, 255, 255, 255, 255,
+                //         255, 255, 255, 255, 255, 255, 255, 255,
+                //         255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1
+                //     };
+                //     Vector256<byte> max_value = Vector256.Create(maxArray);
+
+                //     // Vector256<byte> result = SimdUnicode.Helpers.CompareGreaterThan(input, max_value); <= This was incorrect?
+                //     Vector256<byte> result = SimdUnicode.Helpers.CompareGreaterThan( max_value, input);
+                //     Console.WriteLine("Result Vector is_incomplete: " + VectorToString(result));
+
+                //     return result;
+                // }
+
+                private Vector256<byte> is_incomplete(Vector256<byte> input)
+                {
+                    Console.WriteLine("Input Vector is_incomplete: " + VectorToString(input));
 
                     // Define the max_value as per your logic
-                    byte[] maxArray = new byte[32] {
+                    byte[] maxArray = new byte[32]
+                    {
                         255, 255, 255, 255, 255, 255, 255, 255,
                         255, 255, 255, 255, 255, 255, 255, 255,
                         255, 255, 255, 255, 255, 255, 255, 255,
@@ -321,12 +362,32 @@ namespace SimdUnicode {
                     };
                     Vector256<byte> max_value = Vector256.Create(maxArray);
 
-                    // Vector256<byte> result = SimdUnicode.Helpers.CompareGreaterThan(input, max_value); <= This was incorrect?
-                    Vector256<byte> result = SimdUnicode.Helpers.CompareGreaterThan( max_value, input);
-                    // Console.WriteLine("Result Vector: " + VectorToString(result));
+                    // Perform the saturating subtraction
+                    Vector256<byte> result = SaturatingSubtractUnsigned(input, max_value);
+                    Console.WriteLine("Result Vector is_incomplete: " + VectorToString(result));
 
                     return result;
                 }
+
+                private Vector256<byte> SaturatingSubtractUnsigned(Vector256<byte> left, Vector256<byte> right)
+                {
+                    if (!Avx2.IsSupported)
+                    {
+                        throw new PlatformNotSupportedException("AVX2 is not supported on this processor.");
+                    }
+
+                    // Reinterpret as Vector256<ushort> for saturating subtraction
+                    Vector256<ushort> leftUShorts = left.AsUInt16();
+                    Vector256<ushort> rightUShorts = right.AsUInt16();
+
+                    // Perform saturating subtraction
+                    Vector256<ushort> subtractionResult = Avx2.SubtractSaturate(leftUShorts, rightUShorts);
+
+                    // Reinterpret the results back to bytes
+                    return subtractionResult.AsByte();
+                }
+
+
 
                 // Helper function for debugging , will either move or delete afterward
                 private string VectorToString(Vector256<byte> vector) {
