@@ -1,6 +1,7 @@
 namespace tests;
 using System.Text;
 using SimdUnicode;
+using System.Diagnostics;
 
 public class Utf8SIMDValidationTests
 {
@@ -88,8 +89,19 @@ public void TestBadSequences()
         {
             fixed (byte* pInput = input)
             {
-                byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                Assert.Equal((IntPtr)(pInput + input.Length), (IntPtr)result); // Expecting not to reach the end
+                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                // Assert.Equal((IntPtr)(pInput + input.Length), (IntPtr)result); // Expecting not to reach the end
+
+                // Testing SimdUnicode.UTF8.GetPointerToFirstInvalidByte
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
+                            $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
+
+                // Testing Utf8Utility.GetPointerToFirstInvalidByte
+                byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
+                Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
+                            $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+
             }
         }
     }
@@ -270,18 +282,48 @@ public void TestBadSequences()
         }
     }
     
-        private bool ValidateUtf8(byte[] utf8)
+    //     private bool ValidateUtf8(byte[] utf8)
+    // {
+    //     unsafe
+    //     {
+    //         fixed (byte* pInput = utf8)
+    //         {
+    //             byte* invalidBytePointer = UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+    //             // If the pointer to the first invalid byte is at the end of the array, the UTF-8 is valid.
+    //             return invalidBytePointer == pInput + utf8.Length;
+    //         }
+    //     }
+    // }
+
+    private bool ValidateUtf8(byte[] utf8)
     {
         unsafe
         {
             fixed (byte* pInput = utf8)
             {
-                byte* invalidBytePointer = UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
-                // If the pointer to the first invalid byte is at the end of the array, the UTF-8 is valid.
-                return invalidBytePointer == pInput + utf8.Length;
+                // Testing with SimdUnicode.UTF8.GetPointerToFirstInvalidByte
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+                if (scalarResult != pInput + utf8.Length)
+                {
+                    Debug.WriteLine($"SimdUnicode.UTF8.GetPointerToFirstInvalidByte failed. Sequence: {BitConverter.ToString(utf8)}");
+                    return false;
+                }
+
+                // Testing with Utf8Utility.GetPointerToFirstInvalidByte
+                byte* simdResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+                if (simdResult != pInput + utf8.Length)
+                {
+                    Debug.WriteLine($"Utf8Utility.GetPointerToFirstInvalidByte failed. Sequence: {BitConverter.ToString(utf8)}");
+                    return false;
+                }
+
+                // UTF-8 is valid
+                return true;
             }
         }
     }
+
+
     
     // I save this for when testing the SIMD version
     // [Fact]
