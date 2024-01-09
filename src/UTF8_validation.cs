@@ -105,7 +105,7 @@ namespace SimdUnicode {
             // Process each 256-bit block
             while (processedLength + 32 <= inputLength)
             {
-                // Console.WriteLine($"Processing a 256 bit block");
+                // Console.WriteLine($"Processing a 256 bit block: {processed_}");
                 // Load the next 256-bit block
                 Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
 
@@ -120,6 +120,7 @@ namespace SimdUnicode {
 
                 // Update processed length
                 processedLength += 32;
+                Console.WriteLine($"Processed a 256 bit block: {processedLength}");
             }
 
             // Process remaining bytes
@@ -139,7 +140,8 @@ namespace SimdUnicode {
                 checker.check_next_input(remainingBlock);
                 // Console.WriteLine($"Error found at position: {processedLength}");
 
-                
+                processedLength += inputLength - processedLength;
+
 
                 // if (checker.errors())
                 // {
