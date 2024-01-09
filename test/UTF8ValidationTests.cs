@@ -120,11 +120,52 @@ public void TestBadSequences()
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
-
+            Console.WriteLine("Trial run:" + trial);
             byte[] utf8 = generator.Generate(512);
-            Assert.True(ValidateUtf8(utf8));
+            // Assert.True(ValidateUtf8(utf8),$"Failure NoErrorTest: {utf8}");
+            bool isValidUtf8 = ValidateUtf8(utf8);
+            string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
+            Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
         }
     }
+
+    [Fact]
+    public void NoErrorTest1Byte()
+    {
+        RunTestForByteLength(1);
+    }
+
+    [Fact]
+    public void NoErrorTest2Bytes()
+    {
+        RunTestForByteLength(2);
+    }
+
+    [Fact]
+    public void NoErrorTest3Bytes()
+    {
+        RunTestForByteLength(3);
+    }
+
+    [Fact]
+    public void NoErrorTest4Bytes()
+    {
+        RunTestForByteLength(4);
+    }
+
+    private void RunTestForByteLength(int byteLength)
+    {
+        for (int trial = 0; trial < NumTrials; trial++)
+        {
+            // Console.WriteLine($"Trial run {trial} for byte length {byteLength}");
+            byte[] utf8 = generator.Generate(512, byteLength);
+            bool isValidUtf8 = ValidateUtf8(utf8);
+            // string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
+            // Assert.True(isValidUtf8, $"Failure NoErrorTest for {byteLength}-byte UTF8. Sequence: {utf8HexString}");
+            Assert.True(isValidUtf8);
+        }
+    }
+
 
 // Tests to check:
 

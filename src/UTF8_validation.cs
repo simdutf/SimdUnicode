@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
+using System.Linq;
+
 
 // C# already have something that is *more or less* equivalent to our simd class:
 // Vector256 https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.vector256-1?view=net-7.0
@@ -9,7 +11,7 @@ using System.Runtime.Intrinsics.X86;
 public static class Vector256Extensions
 {
     // Gets the second lane of the current vector and the first lane of the previous vector and returns, then shift it right by an appropriate number of bytes (less than 16, or less than 128 bits)
-    // Should be good? Checked
+    //  Checked
     public static Vector256<byte> Prev(this Vector256<byte> current, Vector256<byte> prev, int N = 1)
     {
 
@@ -17,7 +19,7 @@ public static class Vector256Extensions
         // 0x21 = 00 10 00 01 translates into a fusing of 
         // second 128-bit lane of first source, 
         // first 128bit lane of second source,
-        Vector256<byte> shuffle = Avx2.Permute2x128(prev,current,  0x21);  // Wrong order of arguments fixed
+        Vector256<byte> shuffle = Avx2.Permute2x128(prev,current,  0x21);  
         return Avx2.AlignRight(current,shuffle, (byte)(16 - N)); //shifts right by a certain amount
     }
 
@@ -103,6 +105,7 @@ namespace SimdUnicode {
             // Process each 256-bit block
             while (processedLength + 32 <= inputLength)
             {
+                // Console.WriteLine($"Processing a 256 bit block");
                 // Load the next 256-bit block
                 Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
 
@@ -152,12 +155,12 @@ namespace SimdUnicode {
                                 // Console.WriteLine("Error Vector: " + VectorToString(error));
 
                 // If an error is found, return the pointer to the start of the erroneous block
-                // Console.WriteLine($"Error found at position: {processedLength}");
+                Console.WriteLine($"Error found at position: {processedLength}");
                 return pInputBuffer + processedLength;
             }
 
             // If no errors were found, return a pointer to the end of the buffer
-            Console.WriteLine($"No error found, here is processedLength: {processedLength}");
+            // Console.WriteLine($"No error found, here is processedLength: {processedLength}");
             return pInputBuffer + inputLength;
         }
     }
@@ -205,9 +208,14 @@ namespace SimdUnicode {
                 // Checked
                 public void check_utf8_bytes(Vector256<byte> input, Vector256<byte> prev_input) {
                     Vector256<byte> prev1 = input.Prev(prev_input, 1); // Checked
+                    // check 1-2 bytes character
                     Vector256<byte> sc = check_special_cases(input, prev1);  //Checked
+                    // Console.WriteLine("Special_case Vector before check_multibyte_lengths: " + VectorToString(error));
+                   
+                    // All remaining checks are for invalid 3-4 byte sequences, which either have too many continuations
+                    // or not enough (section 6.2 of the paper)
                     error = Avx2.Or(error, check_multibyte_lengths(input, prev_input, sc)); // Checked
-                    //  Console.WriteLine("Error Vector after check_utf8_bytes: " + VectorToString(error));
+                            Console.WriteLine("Error Vector after check_utf8_bytes/after check_multibyte_lengths: " + VectorToString(error));
 
                 }
 
@@ -220,7 +228,7 @@ namespace SimdUnicode {
 
                 public void check_eof() {
                     // Console.WriteLine("Error Vector before check_eof(): " + VectorToString(error));
-                    Console.WriteLine("prev_incomplete Vector in check_eof(): " + VectorToString(prev_incomplete));
+                    // Console.WriteLine("prev_incomplete Vector in check_eof(): " + VectorToString(prev_incomplete));
 
                     error = Avx2.Or(error, prev_incomplete);
                     // Console.WriteLine("Error Vector before check_eof(): " + VectorToString(error));
@@ -228,7 +236,9 @@ namespace SimdUnicode {
                 }
 
                 //Checked -- should be good
+                // This corresponds to section 6.1 e.g Table 6 of the paper e.g. 1-2 bytes
                 private Vector256<byte> check_special_cases(Vector256<byte> input, Vector256<byte> prev1) {
+                    
                     // define bits that indicate error code
                     // Bit 0 = Too Short (lead byte/ASCII followed by lead byte/ASCII)
                     // Bit 1 = Too Long (ASCII followed by continuation)
@@ -292,28 +302,32 @@ namespace SimdUnicode {
                 // Cheked -- should be good
                 private Vector256<byte> check_multibyte_lengths(Vector256<byte> input, Vector256<byte> prev_input, Vector256<byte> sc) 
                 {
-                    // Assuming Prev is correctly implemented to shift the bytes as required
+                    Console.WriteLine("sc: " + VectorToString(sc));
+
+                    // Console.WriteLine("Input: " + VectorToString(input));
+                    // Console.WriteLine("Input(Binary): " + VectorToBinary(input));
+
                     Vector256<byte> prev2 = input.Prev(prev_input, 2);
+                    // Console.WriteLine("Prev2: " + VectorToBinary(prev2));
+
                     Vector256<byte> prev3 = input.Prev(prev_input, 3);
+                    // Console.WriteLine("Prev3: " + VectorToBinary(prev3));
 
-                    // Call the must_be_2_3_continuation function with prev2 and prev3
+
                     Vector256<byte> must23 = must_be_2_3_continuation(prev2, prev3); // checked
+                    Console.WriteLine("must be 2 3 continuation: " + VectorToString(must23));
 
-                    // Perform the AND operation with 0x80
                     Vector256<byte> must23_80 = Avx2.And(must23, Vector256.Create((byte)0x80));
 
-                    // XOR the result with sc
                     return Avx2.Xor(must23_80, sc);
                 }
-
-                // Ensure you have the must_be_2_3_continuation function implemented as discussed earlier
 
                 // Checked
                 private Vector256<byte> must_be_2_3_continuation(Vector256<byte> prev2, Vector256<byte> prev3)
                 {
                     // Perform saturating subtraction
-                    Vector256<byte> is_third_byte = Avx2.SubtractSaturate(prev2, Vector256.Create((byte)(0b11100000 - 1)));
-                    Vector256<byte> is_fourth_byte = Avx2.SubtractSaturate(prev3, Vector256.Create((byte)(0b11110000 - 1)));
+                    Vector256<byte> is_third_byte = Avx2.SubtractSaturate(prev2, Vector256.Create((byte)(0b11100000u - 1)));
+                    Vector256<byte> is_fourth_byte = Avx2.SubtractSaturate(prev3, Vector256.Create((byte)(0b11110000u - 1)));
 
                     // Combine the results using bitwise OR
                     Vector256<byte> combined = Avx2.Or(is_third_byte, is_fourth_byte);
@@ -350,7 +364,7 @@ namespace SimdUnicode {
 
                 private Vector256<byte> is_incomplete(Vector256<byte> input)
                 {
-                    Console.WriteLine("Input Vector is_incomplete: " + VectorToString(input));
+                    // Console.WriteLine("Input Vector is_incomplete: " + VectorToString(input));
 
                     // Define the max_value as per your logic
                     byte[] maxArray = new byte[32]
@@ -364,7 +378,7 @@ namespace SimdUnicode {
 
                     // Perform the saturating subtraction
                     Vector256<byte> result = SaturatingSubtractUnsigned(input, max_value);
-                    Console.WriteLine("Result Vector is_incomplete: " + VectorToString(result));
+                    // Console.WriteLine("Result Vector is_incomplete: " + VectorToString(result));
 
                     return result;
                 }
@@ -394,7 +408,17 @@ namespace SimdUnicode {
                 Span<byte> span = stackalloc byte[Vector256<byte>.Count];
                 vector.CopyTo(span);
                 return BitConverter.ToString(span.ToArray());
-}
+                }
+
+                private string VectorToBinary(Vector256<byte> vector)
+                {
+                    Span<byte> span = stackalloc byte[Vector256<byte>.Count];
+                    vector.CopyTo(span);
+
+                    var binaryStrings = span.ToArray().Select(b => Convert.ToString(b, 2).PadLeft(8, '0'));
+                    return string.Join(" ", binaryStrings);
+                }
+
             }
         }
     }
