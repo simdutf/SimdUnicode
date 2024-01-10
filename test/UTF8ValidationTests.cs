@@ -9,7 +9,7 @@ public class Utf8SIMDValidationTests
 
 private const int NumTrials = 1000;
 private readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
-private readonly Random rand = new Random(1234);
+private static readonly Random rand = new Random();
 
 [Fact]
 public void TestGoodSequences()
@@ -112,7 +112,7 @@ public void TestBadSequences()
     public void Node48995Test()
     {
         byte[] bad = new byte[] { 0x80 };
-        Assert.False(ValidateUtf8(bad)); // Asserting false because it's a bad sequence
+        Assert.False(ValidateUtf8(bad)); 
     }
 
     [Fact]
@@ -120,13 +120,19 @@ public void TestBadSequences()
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
-            Console.WriteLine("Trial run:" + trial);
+            // Console.WriteLine("Trial run:" + trial);
             byte[] utf8 = generator.Generate(512);
             // Assert.True(ValidateUtf8(utf8),$"Failure NoErrorTest: {utf8}");
             bool isValidUtf8 = ValidateUtf8(utf8);
             string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
             Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
         }
+    }
+
+    [Fact]
+    public void NoErrorTestASCII()
+    {
+        RunTestForByteLength(1);
     }
 
     [Fact]
@@ -153,21 +159,32 @@ public void TestBadSequences()
         RunTestForByteLength(4);
     }
 
+    // private void RunTestForByteLength(int byteLength)
+    // {
+    //     for (int trial = 0; trial < NumTrials; trial++)
+    //     {
+    //         // Console.WriteLine($"Trial run {trial} for byte length {byteLength}");
+    //         byte[] utf8 = generator.Generate(990, byteLength);
+    //         bool isValidUtf8 = ValidateUtf8(utf8);
+    //         // string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
+    //         // Assert.True(isValidUtf8, $"Failure NoErrorTest for {byteLength}-byte UTF8. Sequence: {utf8HexString}");
+    //         Assert.True(isValidUtf8);
+    //     }
+    // }
+
     private void RunTestForByteLength(int byteLength)
     {
-        for (int trial = 0; trial < NumTrials; trial++)
+        int[] outputLengths = { 128, 256, 512, 1024, 1000 }; // Example lengths
+        foreach (int outputLength in outputLengths)
         {
-            // Console.WriteLine($"Trial run {trial} for byte length {byteLength}");
-            byte[] utf8 = generator.Generate(512, byteLength);
-            bool isValidUtf8 = ValidateUtf8(utf8);
-            // string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
-            // Assert.True(isValidUtf8, $"Failure NoErrorTest for {byteLength}-byte UTF8. Sequence: {utf8HexString}");
-            Assert.True(isValidUtf8);
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+                byte[] utf8 = generator.Generate(outputLength, byteLength);
+                bool isValidUtf8 = ValidateUtf8(utf8);
+                Assert.True(isValidUtf8, $"Failure for {byteLength}-byte UTF8 of length {outputLength} in trial {trial}");
+            }
         }
     }
-
-
-// Tests to check:
 
     [Fact]
     public void HeaderBitsErrorTest()
@@ -322,19 +339,102 @@ public void TestBadSequences()
             }
         }
     }
-    
-    //     private bool ValidateUtf8(byte[] utf8)
-    // {
-    //     unsafe
-    //     {
-    //         fixed (byte* pInput = utf8)
-    //         {
-    //             byte* invalidBytePointer = UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
-    //             // If the pointer to the first invalid byte is at the end of the array, the UTF-8 is valid.
-    //             return invalidBytePointer == pInput + utf8.Length;
-    //         }
-    //     }
-    // }
+
+    [Fact]
+    public void BruteForceTest()
+    {
+        // Random rand = new Random(); // Random instance for test
+
+        for (int i = 0; i < NumTrials; i++)
+        {
+            // Generate random UTF-8 sequence
+            byte[] utf8 = generator.Generate(rand.Next(2000));
+
+            // Validate with the primary method
+            Assert.True(ValidateUtf8(utf8), "Initial UTF-8 validation (primary) failed.");
+
+            // Validate with the Fuschia method
+            Assert.True(ValidateUtf8Fuschia(utf8), "Initial UTF-8 validation (Fuschia) failed.");
+
+            // Perform random bit flips
+            for (int flip = 0; flip < 1000; flip++)
+            {
+                if (utf8.Length == 0) 
+                {
+                    break; // Skip if the original array is empty
+                }
+                byte[] modifiedUtf8 = (byte[])utf8.Clone();
+                int byteIndex = rand.Next(modifiedUtf8.Length);
+                int bitFlip = 1 << rand.Next(8);
+                modifiedUtf8[byteIndex] ^= (byte)bitFlip;
+
+                // Validate the modified sequence with both methods
+                bool isValidPrimary = ValidateUtf8(modifiedUtf8);
+                bool isValidFuschia = ValidateUtf8Fuschia(modifiedUtf8);
+
+                // Ensure both methods agree on the validation result
+                // Assert.Equal(isValidPrimary, isValidFuschia, "Mismatch in UTF-8 validation detected after bit flip.");
+                Assert.Equal(isValidPrimary, isValidFuschia);
+            }
+        }
+    }
+
+
+    // credit: based on code from Google Fuchsia (Apache Licensed)
+
+    public static bool ValidateUtf8Fuschia(byte[] data)
+    {
+        int pos = 0;
+        int len = data.Length;
+        uint codePoint;
+
+        while (pos < len)
+        {
+            byte byte1 = data[pos];
+            if (byte1 < 0b10000000)
+            {
+                pos++;
+                continue;
+            }
+            else if ((byte1 & 0b11100000) == 0b11000000)
+            {
+                if (pos + 2 > len) return false;
+                if ((data[pos + 1] & 0b11000000) != 0b10000000) return false;
+
+                codePoint = (uint)((byte1 & 0b00011111) << 6 | (data[pos + 1] & 0b00111111));
+                if (codePoint < 0x80 || 0x7ff < codePoint) return false;
+                pos += 2;
+            }
+            else if ((byte1 & 0b11110000) == 0b11100000)
+            {
+                if (pos + 3 > len) return false;
+                if ((data[pos + 1] & 0b11000000) != 0b10000000) return false;
+                if ((data[pos + 2] & 0b11000000) != 0b10000000) return false;
+
+                codePoint = (uint)((byte1 & 0b00001111) << 12 | (data[pos + 1] & 0b00111111) << 6 | (data[pos + 2] & 0b00111111));
+                if (codePoint < 0x800 || 0xffff < codePoint || (0xd7ff < codePoint && codePoint < 0xe000)) return false;
+                pos += 3;
+            }
+            else if ((byte1 & 0b11111000) == 0b11110000)
+            {
+                if (pos + 4 > len) return false;
+                if ((data[pos + 1] & 0b11000000) != 0b10000000) return false;
+                if ((data[pos + 2] & 0b11000000) != 0b10000000) return false;
+                if ((data[pos + 3] & 0b11000000) != 0b10000000) return false;
+
+                codePoint = (uint)((byte1 & 0b00000111) << 18 | (data[pos + 1] & 0b00111111) << 12 | (data[pos + 2] & 0b00111111) << 6 | (data[pos + 3] & 0b00111111));
+                if (codePoint < 0x10000 || 0x10ffff < codePoint) return false;
+                pos += 4;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     private bool ValidateUtf8(byte[] utf8)
     {
@@ -365,8 +465,6 @@ public void TestBadSequences()
     }
 
 
-    
-    // I save this for when testing the SIMD version
     // [Fact]
     // public void BruteForceTest()
     // {
