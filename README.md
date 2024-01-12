@@ -35,6 +35,12 @@ cd test
 dotnet test
 ```
 
+To get a list of available tests, enter the command:
+
+```
+dotnet test --list-tests
+```
+
 To run specific tests, it is helpful to use the filter parameter:
 
 ```
@@ -92,3 +98,7 @@ dotnet format
 https://github.com/dotnet/coreclr/pull/21948/files#diff-2a22774bd6bff8e217ecbb3a41afad033ce0ca0f33645e9d8f5bdf7c9e3ac248
 
 https://github.com/dotnet/runtime/issues/41699
+
+https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/
+
+https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions

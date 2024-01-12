@@ -32,16 +32,13 @@ public void TestGoodSequences()
         {
             fixed (byte* pInput = input)
             {
-                // Testing SimdUnicode.UTF8.GetPointerToFirstInvalidByte
                 byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
                 Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
                             $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                // Testing Utf8Utility.GetPointerToFirstInvalidByte
                 byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
                 Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
                             $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                // Assert.Equal((IntPtr)(pInput + input.Length), (IntPtr)result); // Expecting the end of the string
             }
         }
     }
@@ -89,15 +86,10 @@ public void TestBadSequences()
         {
             fixed (byte* pInput = input)
             {
-                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                // Assert.Equal((IntPtr)(pInput + input.Length), (IntPtr)result); // Expecting not to reach the end
-
-                // Testing SimdUnicode.UTF8.GetPointerToFirstInvalidByte
                 byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
                 Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
                             $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                // Testing Utf8Utility.GetPointerToFirstInvalidByte
                 byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
                 Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
                             $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
@@ -107,7 +99,6 @@ public void TestBadSequences()
     }
 }
 
-    // Not sure why sure a simple test is there, but it was in the C++ code
     [Fact]
     public void Node48995Test()
     {
@@ -350,10 +341,8 @@ public void TestBadSequences()
             // Generate random UTF-8 sequence
             byte[] utf8 = generator.Generate(rand.Next(2000));
 
-            // Validate with the primary method
             Assert.True(ValidateUtf8(utf8), "Initial UTF-8 validation (primary) failed.");
 
-            // Validate with the Fuschia method
             Assert.True(ValidateUtf8Fuschia(utf8), "Initial UTF-8 validation (Fuschia) failed.");
 
             // Perform random bit flips
@@ -361,8 +350,9 @@ public void TestBadSequences()
             {
                 if (utf8.Length == 0) 
                 {
-                    break; // Skip if the original array is empty
+                    break;
                 }
+
                 byte[] modifiedUtf8 = (byte[])utf8.Clone();
                 int byteIndex = rand.Next(modifiedUtf8.Length);
                 int bitFlip = 1 << rand.Next(8);
@@ -373,7 +363,6 @@ public void TestBadSequences()
                 bool isValidFuschia = ValidateUtf8Fuschia(modifiedUtf8);
 
                 // Ensure both methods agree on the validation result
-                // Assert.Equal(isValidPrimary, isValidFuschia, "Mismatch in UTF-8 validation detected after bit flip.");
                 Assert.Equal(isValidPrimary, isValidFuschia);
             }
         }
@@ -442,73 +431,20 @@ public void TestBadSequences()
         {
             fixed (byte* pInput = utf8)
             {
-                // Testing with SimdUnicode.UTF8.GetPointerToFirstInvalidByte
                 byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
                 if (scalarResult != pInput + utf8.Length)
                 {
-                    Debug.WriteLine($"SimdUnicode.UTF8.GetPointerToFirstInvalidByte failed. Sequence: {BitConverter.ToString(utf8)}");
                     return false;
                 }
 
-                // Testing with Utf8Utility.GetPointerToFirstInvalidByte
                 byte* simdResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8.Length);
                 if (simdResult != pInput + utf8.Length)
                 {
-                    Debug.WriteLine($"Utf8Utility.GetPointerToFirstInvalidByte failed. Sequence: {BitConverter.ToString(utf8)}");
                     return false;
                 }
 
-                // UTF-8 is valid
                 return true;
             }
         }
     }
-
-
-    // [Fact]
-    // public void BruteForceTest()
-    // {
-    //     for (int i = 0; i < NumTrials; i++)
-    //     {
-    //         byte[] utf8 = generator.Generate(rand.Next(256));
-    //         Assert.True(ValidateUtf8(utf8), "UTF-8 validation failed, indicating a bug.");
-
-    //         for (int flip = 0; flip < 1000; flip++)
-    //         {
-    //             byte[] modifiedUtf8 = (byte[])utf8.Clone();
-    //             int byteIndex = rand.Next(modifiedUtf8.Length);
-    //             int bitFlip = 1 << rand.Next(8);
-    //             modifiedUtf8[byteIndex] ^= (byte)bitFlip;
-
-    //             bool isValid = ValidateUtf8(modifiedUtf8);
-    //             // This condition may depend on the specific behavior of your validation method
-    //             // and whether or not it should match a reference implementation.
-    //             // In this example, we are simply asserting that the modified sequence is still valid.
-    //             Assert.True(isValid, "Mismatch in UTF-8 validation detected, indicating a bug.");
-    //         }
-    //     }
-    // }
-
-    // Pseudocode for easier ChatGPT generatioN:
-    // 1. Set a seed value (1234).
-    // 2. Create a random UTF-8 generator with equal probabilities for 1, 2, 3, and 4-byte sequences.
-    // 3. Set the total number of trials to 1000.
-
-    // 4. For each trial (0 to total - 1):
-    //    a. Generate a random UTF-8 sequence with a length between 0 and 255.
-    //    b. Validate the UTF-8 sequence. If it's invalid:
-    //       - Output "bug" to stderr.
-    //       - Fail the test.
-
-    //    c. For 1000 times (bit flipping loop):
-    //       i. Generate a random bit position (0 to 7).
-    //       ii. Flip exactly one bit at the random position in a random byte of the UTF-8 sequence.
-    //       iii. Re-validate the modified UTF-8 sequence.
-    //       iv. Compare the result of the validation with a reference validation method.
-    //       v. If the results differ:
-    //          - Output "bug" to stderr.
-    //          - Fail the test.
-
-    // 5. If all tests pass, output "OK".
-
 }

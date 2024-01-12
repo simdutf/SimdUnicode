@@ -339,6 +339,21 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+        [Benchmark]
+        public void SIMDUtf8ValidationValidUtf8()
+        {
+            foreach (var utf8String in SyntheticUtf8Strings)
+            {
+                unsafe
+                {
+                    fixed (byte* pInput = utf8String)
+                    {
+                        byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length);
+                    }
+                }
+            }
+        }
+
 
 }
 
@@ -406,21 +421,6 @@ public class RealDataBenchmark : BenchmarkBase
 
 
         [Benchmark()]
-        public void SimDUnicodeUtf8ValidationRealData()
-        {
-            foreach (var line in _linesUtf8) // Assuming _linesUtf8 contains UTF-8 encoded data
-            {
-                unsafe
-                {
-                    fixed (byte* pUtf8 = line)
-                    {
-                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pUtf8, line.Length);
-                    }
-                }
-            }
-        }
-
-        [Benchmark()]
         public void CompetitionUtf8ValidationRealData()
         {
             foreach (var line in _linesUtf8) // Assuming _linesUtf8 contains UTF-8 encoded data
@@ -452,6 +452,21 @@ public class RealDataBenchmark : BenchmarkBase
         }
 
         [Benchmark()]
+        public void SIMDUtf8ValidationErrorData()
+        {
+            foreach (var line in _linesUtf8)
+            {
+                unsafe
+                {
+                    fixed (byte* pUtf8 = line)
+                    {
+                        byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length);
+                    }
+                }
+            }
+        }
+
+        [Benchmark()]
         public void CompetitionUtf8ValidationErrorData()
         {
             foreach (var line in _linesUtf8)
@@ -469,28 +484,6 @@ public class RealDataBenchmark : BenchmarkBase
 
 
 }
-
-
-    //     public class Program
-    // {
-    //     public static void Main(string[] args)
-    //     {
-    //         if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-    //         {
-    //             Console.WriteLine("ARM64 system detected.");
-    //         }
-    //         else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
-    //         {
-    //             Console.WriteLine("X64 system detected (Intel, AMD,...).");
-    //         }
-    //         else
-    //         {
-    //             Console.WriteLine("Unrecognized system.");
-    //         }
-
-    //     var switcher = new BenchmarkSwitcher(new[] { typeof(SyntheticBenchmark), typeof(RealDataBenchmark) });            switcher.Run(args);
-    //     }
-    // }
 
     public class Program
 {
