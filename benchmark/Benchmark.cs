@@ -33,7 +33,6 @@ namespace SimdUnicodeBenchmarks
         protected void IntroduceError(byte[] utf8, Random random)
         {
 
-            // Random random = new Random();
             bool errorIntroduced = false;
 
             while (!errorIntroduced)
@@ -354,6 +353,52 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
+                [Benchmark]
+        public void ScalarUtf8ValidationErrorUtf8()
+        {
+            foreach (var utf8String in SynthethicUtf8ErrorStrings)
+            {
+                unsafe
+                {
+                    fixed (byte* pInput = utf8String)
+                    {
+                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8String.Length);
+                    }
+                }
+            }
+        }
+
+        [Benchmark]
+        public void CompetitionUtf8ValidationErrorUtf8()
+        {
+            foreach (var utf8String in SynthethicUtf8ErrorStrings)
+            {
+                unsafe
+                {
+                    fixed (byte* pInput = utf8String)
+                    {
+                        int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
+                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+                    }
+                }
+            }
+        }
+
+        [Benchmark]
+        public void SIMDUtf8ValidationErrorUtf8()
+        {
+            foreach (var utf8String in SynthethicUtf8ErrorStrings)
+            {
+                unsafe
+                {
+                    fixed (byte* pInput = utf8String)
+                    {
+                        byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length);
+                    }
+                }
+            }
+        }
+
 
 }
 
@@ -372,7 +417,68 @@ public class RealDataBenchmark : BenchmarkBase
 
         private string[] _lines;
         private byte[][] _linesUtf8;
+        private byte[][] _linesUtf8WithErrors;
 
+        private byte[] _allLinesUtf8;
+        private byte[] _allLinesUtf8WithErrors;
+
+        
+        public unsafe delegate byte* Utf8ValidationFunction(byte* pUtf8, int length);
+        public unsafe delegate byte* CompetitionUtf8ValidationFunction(byte* pUtf8, int length, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
+        public unsafe delegate nuint ASCIIValidationFunction(byte* pUtf8, nuint length);
+
+
+
+
+        // public void RunUtf8ValidationBenchmark(byte[][] data, Utf8ValidationFunction validationFunction)
+        // {
+        //     foreach (var line in data)
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pUtf8 = line)
+        //             {
+        //                 validationFunction(pUtf8, line.Length);
+        //             }
+        //         }
+        //     }
+        // }
+
+        public void RunUtf8ValidationBenchmark(byte[] data, Utf8ValidationFunction validationFunction)
+        {
+            unsafe
+            {
+                fixed (byte* pUtf8 = data)
+                {
+                    validationFunction(pUtf8, data.Length);
+                }
+            }
+        }
+
+        public void RunCompetitionUtf8ValidationBenchmark(byte[] data, CompetitionUtf8ValidationFunction validationFunction)
+        {
+            unsafe
+            {
+                fixed (byte* pUtf8 = data)
+                {
+                    int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
+                    validationFunction(pUtf8, data.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+                }
+            }
+        }
+
+        public void RunAsciiValidationBenchmark(byte[] data, ASCIIValidationFunction validationFunction)
+        {
+            unsafe
+            {
+                fixed (byte* pUtf8 = data)
+                {
+                    nuint result = validationFunction(pUtf8, (nuint)data.Length);
+                }
+            }
+        }
+
+        
         [GlobalSetup]
         public void Setup()
         {
@@ -385,103 +491,206 @@ public class RealDataBenchmark : BenchmarkBase
             _lines = System.IO.File.ReadAllLines(FileName);
             _linesUtf8 = Array.ConvertAll(_lines, System.Text.Encoding.UTF8.GetBytes);
 
+            // Introduce errors to UTF-8 data
+            _linesUtf8WithErrors = new byte[_linesUtf8.Length][];
+            for (int i = 0; i < _linesUtf8.Length; i++)
+            {
+                // Only process lines that are at least 2 bytes long
+                if (_linesUtf8[i].Length > 1)
+                {
+                    byte[] modifiedLine = new byte[_linesUtf8[i].Length];
+                    Array.Copy(_linesUtf8[i], modifiedLine, _linesUtf8[i].Length);
+                    IntroduceError(modifiedLine, rd); // Assuming IntroduceError modifies the array in-place
+                    _linesUtf8WithErrors[i] = modifiedLine;
+                }
+                else
+                {
+                    // For lines that are too short, just copy them as is
+                    _linesUtf8WithErrors[i] = _linesUtf8[i];
+                }
+            }
+
+            _allLinesUtf8 = _linesUtf8.SelectMany(line => line).ToArray();
+
+            _allLinesUtf8WithErrors = new byte[_allLinesUtf8.Length];
+            Array.Copy(_allLinesUtf8, _allLinesUtf8WithErrors, _allLinesUtf8.Length);
+            IntroduceError(_allLinesUtf8WithErrors, rd); 
+
+
         }
 
         
-        // Real Data benchmarks
+        // // Real Data benchmarks 
+        // [Benchmark]
+        // public void SimDUnicodeGetIndexOfFirstNonAsciiByteRealData()
+        // {
+        //     foreach (var line in _linesUtf8)
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pNonAscii = line)
+        //             {
+        //                 nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)line.Length);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // [Benchmark()]
+        // public void RuntimeGetIndexOfFirstNonAsciiByteRealData()
+        // {
+        //     foreach (var line in _linesUtf8)
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pNonAscii = line)
+        //             {
+        //                 nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)line.Length);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // --- this operates on 2d Arrays, or arrays of lines instead of one document. 
+        // [Benchmark()] 
+        // public void CompetitionUtf8ValidationRealData()
+        // {
+        //     foreach (var line in _linesUtf8) // Assuming _linesUtf8 contains UTF-8 encoded data
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pUtf8 = line)
+        //             {
+        //                 int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
+        //                 byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // [Benchmark()]
+        // public void ScalarUtf8ValidationRealData()
+        // {
+        //     foreach (var line in _linesUtf8)
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pUtf8 = line)
+        //             {
+        //                 byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pUtf8, line.Length);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // [Benchmark()]
+        // public void SIMDUtf8ValidationRealData()
+        // {
+        //     foreach (var line in _linesUtf8)
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pUtf8 = line)
+        //             {
+        //                 byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // [Benchmark()]
+        // public void ScalarUtf8ValidationErrorData()
+        // {
+        //     foreach (var line in _linesUtf8WithErrors)
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pUtf8 = line)
+        //             {
+        //                 byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pUtf8, line.Length);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // [Benchmark()]
+        // public void SIMDUtf8ValidationErrorData()
+        // {
+        //     foreach (var line in _linesUtf8WithErrors)
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pUtf8 = line)
+        //             {
+        //                 byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // [Benchmark()]
+        // public void CompetitionUtf8ValidationErrorData()
+        // {
+        //     foreach (var line in _linesUtf8WithErrors)
+        //     {
+        //         unsafe
+        //         {
+        //             fixed (byte* pUtf8 = line)
+        //             {
+        //                 int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
+        //                 byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+        //             }
+        //         }
+        //     }
+        // }
+
         [Benchmark]
-        public void SimDUnicodeGetIndexOfFirstNonAsciiByteRealData()
+        public unsafe void SimDUnicodeGetIndexOfFirstNonAsciiByteRealData()
         {
-            foreach (var line in _linesUtf8)
-            {
-                unsafe
-                {
-                    fixed (byte* pNonAscii = line)
-                    {
-                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)line.Length);
-                    }
-                }
-            }
+            RunAsciiValidationBenchmark(_allLinesUtf8, SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte);
         }
 
-        [Benchmark()]
-        public void RuntimeGetIndexOfFirstNonAsciiByteRealData()
+        [Benchmark]
+        public unsafe void RuntimeGetIndexOfFirstNonAsciiByteRealData()
         {
-            foreach (var line in _linesUtf8)
-            {
-                unsafe
-                {
-                    fixed (byte* pNonAscii = line)
-                    {
-                        nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)line.Length);
-                    }
-                }
-            }
+            RunAsciiValidationBenchmark(_allLinesUtf8, Competition.Ascii.GetIndexOfFirstNonAsciiByte);
         }
 
-
-        [Benchmark()]
-        public void CompetitionUtf8ValidationRealData()
+        [Benchmark]
+        public unsafe void CompetitionUtf8ValidationRealData()
         {
-            foreach (var line in _linesUtf8) // Assuming _linesUtf8 contains UTF-8 encoded data
-            {
-                unsafe
-                {
-                    fixed (byte* pUtf8 = line)
-                    {
-                        int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
-                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
-                    }
-                }
-            }
+            RunCompetitionUtf8ValidationBenchmark(_allLinesUtf8, Competition.Utf8Utility.GetPointerToFirstInvalidByte);
         }
 
-        [Benchmark()]
-        public void ScalarUtf8ValidationErrorData()
+        [Benchmark]
+        public unsafe void ScalarUtf8ValidationRealData()
         {
-            foreach (var line in _linesUtf8)
-            {
-                unsafe
-                {
-                    fixed (byte* pUtf8 = line)
-                    {
-                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pUtf8, line.Length);
-                    }
-                }
-            }
+            RunUtf8ValidationBenchmark(_allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByte);
         }
 
-        [Benchmark()]
-        public void SIMDUtf8ValidationErrorData()
+        [Benchmark]
+        public unsafe void SIMDUtf8ValidationRealData()
         {
-            foreach (var line in _linesUtf8)
-            {
-                unsafe
-                {
-                    fixed (byte* pUtf8 = line)
-                    {
-                        byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length);
-                    }
-                }
-            }
+            RunUtf8ValidationBenchmark(_allLinesUtf8, Utf8Utility.GetPointerToFirstInvalidByte);
         }
 
-        [Benchmark()]
-        public void CompetitionUtf8ValidationErrorData()
+        [Benchmark]
+        public unsafe void ScalarUtf8ValidationErrorData()
         {
-            foreach (var line in _linesUtf8)
-            {
-                unsafe
-                {
-                    fixed (byte* pUtf8 = line)
-                    {
-                        int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
-                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pUtf8, line.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
-                    }
-                }
-            }
+            RunUtf8ValidationBenchmark(_allLinesUtf8WithErrors, SimdUnicode.UTF8.GetPointerToFirstInvalidByte);
         }
 
+        [Benchmark]
+        public unsafe void SIMDUtf8ValidationErrorData()
+        {
+            RunUtf8ValidationBenchmark(_allLinesUtf8WithErrors, Utf8Utility.GetPointerToFirstInvalidByte);
+        }
+
+        [Benchmark]
+        public unsafe void CompetitionUtf8ValidationErrorData()
+        {
+            RunCompetitionUtf8ValidationBenchmark(_allLinesUtf8WithErrors, Competition.Utf8Utility.GetPointerToFirstInvalidByte);
+        }
 
 }
 
