@@ -30,7 +30,7 @@ namespace Competition
 
     internal static unsafe partial class Utf8Utility
     {
-                /// <summary>
+        /// <summary>
         /// Returns <see langword="true"/> iff the low byte of <paramref name="value"/>
         /// is a UTF-8 continuation byte.
         /// </summary>
@@ -40,7 +40,7 @@ namespace Competition
             // The JIT won't emit a single 8-bit signed cmp instruction (see IsUtf8ContinuationByte),
             // so the best we can do for now is the lea / cmp pair.
             // Tracked as https://github.com/dotnet/runtime/issues/10337.
- 
+
             return (byte)(value - 0x80u) <= 0x3Fu;
         }
 
@@ -61,13 +61,13 @@ namespace Competition
             //     const uint comparand = 0xE0808000U;
             //     return ((value & mask) == comparand);
             // }
- 
+
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && (((value - 0x0080_80E0u) & 0x00C0_C0F0u) == 0))
                 || (!BitConverter.IsLittleEndian && (((value - 0xE080_8000u) & 0xF0C0_C000u) == 0));
         }
-                /// <summary>
+        /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="value"/> is a UTF-8 continuation byte;
         /// i.e., has binary representation 10xxxxxx, where x is any bit.
         /// </summary>
@@ -82,21 +82,21 @@ namespace Competition
             //
             // The below check takes advantage of the two's complement representation of negative numbers.
             // [ 0b1000_0000, 0b1011_1111 ] is [ -127 (sbyte.MinValue), -65 ]
- 
+
             return (sbyte)value < -64;
         }
 
         private static bool UInt32FourthByteIsAscii(uint value)
         {
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && ((int)value >= 0))
                 || (!BitConverter.IsLittleEndian && ((value & 0x80u) == 0));
         }
         private static bool UInt32ThirdByteIsAscii(uint value)
         {
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && ((value & 0x0080_0000u) == 0))
                 || (!BitConverter.IsLittleEndian && ((value & 0x8000u) == 0));
         }
@@ -106,16 +106,16 @@ namespace Competition
         {
             // ASSUMPTION: Caller has already checked the '110yyyyy 10xxxxxx' mask of the input.
             Debug.Assert(UInt32EndsWithUtf8TwoByteMask(value));
- 
+
             // Per Table 3-7, first byte of two-byte sequence must be within range C2 .. DF.
             // We already validated that it's 80 .. DF (per mask check earlier).
             // C2 = 1100 0010
             // DF = 1101 1111
             // This means that we can AND the leading byte with the mask 0001 1110 (1E),
             // and if the result is zero the sequence is overlong.
- 
+
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && ((value & 0x001E_0000u) == 0))
                 || (!BitConverter.IsLittleEndian && ((value & 0x1E00u) == 0));
         }
@@ -124,19 +124,19 @@ namespace Competition
         {
             // ASSUMPTION: Caller has already checked the '110yyyyy 10xxxxxx' mask of the input.
             Debug.Assert(UInt32BeginsWithUtf8TwoByteMask(value));
- 
+
             // Per Table 3-7, first byte of two-byte sequence must be within range C2 .. DF.
             // Since we already validated it's 80 <= ?? <= DF (per mask check earlier), now only need
             // to check that it's < C2.
- 
+
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && ((byte)value < 0xC2u))
                 || (!BitConverter.IsLittleEndian && (value < 0xC200_0000u));
         }
 
 
-                private static bool UInt32BeginsWithUtf8TwoByteMask(uint value)
+        private static bool UInt32BeginsWithUtf8TwoByteMask(uint value)
         {
             // The code in this method is equivalent to the code
             // below but is slightly more optimized.
@@ -153,13 +153,13 @@ namespace Competition
             //     const uint comparand = 0xC0800000U;
             //     return ((value & mask) == comparand);
             // }
- 
+
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && (((value - 0x0000_80C0u) & 0x0000_C0E0u) == 0))
                 || (!BitConverter.IsLittleEndian && (((value - 0xC080_0000u) & 0xE0C0_0000u) == 0));
         }
-                /// <summary>
+        /// <summary>
         /// Given a UTF-8 buffer which has been read into a DWORD on a little-endian machine,
         /// returns <see langword="true"/> iff the first two bytes of the buffer are a well-formed
         /// UTF-8 two-byte sequence. This wraps the mask check and the overlong check into a
@@ -175,16 +175,16 @@ namespace Competition
             // WORD with the bitmask [ 11000000 11111111 ] and checking that the value is within
             // the range [ 10000000_11000010, 10000000_11011111 ]. This performs both the
             // 2-byte-sequence bitmask check and overlong form validation with one comparison.
- 
+
             Debug.Assert(BitConverter.IsLittleEndian);
- 
+
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && UnicodeUtility.IsInRangeInclusive(value & 0xC0FFu, 0x80C2u, 0x80DFu))
                 || (!BitConverter.IsLittleEndian && false);
         }
- 
-                /// <summary>
+
+        /// <summary>
         /// Given a UTF-8 buffer which has been read into a DWORD in machine endianness,
         /// returns <see langword="true"/> iff the last two bytes of the buffer match
         /// the UTF-8 2-byte sequence mask [ 110yyyyy 10xxxxxx ]. This method *does not*
@@ -209,14 +209,14 @@ namespace Competition
             //     const uint comparand = 0x0000C080U;
             //     return ((value & mask) == comparand);
             // }
- 
+
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && (((value - 0x80C0_0000u) & 0xC0E0_0000u) == 0))
                 || (!BitConverter.IsLittleEndian && (((value - 0x0000_C080u) & 0x0000_E0C0u) == 0));
         }
 
-                /// <summary>
+        /// <summary>
         /// Given a UTF-8 buffer which has been read into a DWORD on a little-endian machine,
         /// returns <see langword="true"/> iff the last two bytes of the buffer are a well-formed
         /// UTF-8 two-byte sequence. This wraps the mask check and the overlong check into a
@@ -226,11 +226,11 @@ namespace Competition
         private static bool UInt32EndsWithValidUtf8TwoByteSequenceLittleEndian(uint value)
         {
             // See comments in UInt32BeginsWithValidUtf8TwoByteSequenceLittleEndian.
- 
+
             Debug.Assert(BitConverter.IsLittleEndian);
- 
+
             // Return statement is written this way to work around https://github.com/dotnet/runtime/issues/4207.
- 
+
             return (BitConverter.IsLittleEndian && UnicodeUtility.IsInRangeInclusive(value & 0xC0FF_0000u, 0x80C2_0000u, 0x80DF_0000u))
                 || (!BitConverter.IsLittleEndian && false);
         }
@@ -977,7 +977,7 @@ namespace Competition
         }
     }
 
-        internal static class UnicodeDebug
+    internal static class UnicodeDebug
     {
         [Conditional("DEBUG")]
         internal static void AssertIsBmpCodePoint(uint codePoint)
@@ -987,7 +987,7 @@ namespace Competition
                 Debug.Fail($"The value {ToHexString(codePoint)} is not a valid BMP code point.");
             }
         }
- 
+
         [Conditional("DEBUG")]
         internal static void AssertIsHighSurrogateCodePoint(uint codePoint)
         {
@@ -996,7 +996,7 @@ namespace Competition
                 Debug.Fail($"The value {ToHexString(codePoint)} is not a valid UTF-16 high surrogate code point.");
             }
         }
- 
+
         [Conditional("DEBUG")]
         internal static void AssertIsLowSurrogateCodePoint(uint codePoint)
         {
@@ -1005,7 +1005,7 @@ namespace Competition
                 Debug.Fail($"The value {ToHexString(codePoint)} is not a valid UTF-16 low surrogate code point.");
             }
         }
- 
+
         [Conditional("DEBUG")]
         internal static void AssertIsValidCodePoint(uint codePoint)
         {
@@ -1014,7 +1014,7 @@ namespace Competition
                 Debug.Fail($"The value {ToHexString(codePoint)} is not a valid Unicode code point.");
             }
         }
- 
+
         [Conditional("DEBUG")]
         internal static void AssertIsValidScalar(uint scalarValue)
         {
@@ -1023,7 +1023,7 @@ namespace Competition
                 Debug.Fail($"The value {ToHexString(scalarValue)} is not a valid Unicode scalar value.");
             }
         }
- 
+
         [Conditional("DEBUG")]
         internal static void AssertIsValidSupplementaryPlaneScalar(uint scalarValue)
         {
@@ -1032,7 +1032,7 @@ namespace Competition
                 Debug.Fail($"The value {ToHexString(scalarValue)} is not a valid supplementary plane Unicode scalar value.");
             }
         }
- 
+
         /// <summary>
         /// Formats a code point as the hex string "U+XXXX".
         /// </summary>
@@ -1044,24 +1044,24 @@ namespace Competition
             return FormattableString.Invariant($"U+{codePoint:X4}");
         }
     }
-    
-        internal static class UnicodeUtility
+
+    internal static class UnicodeUtility
     {
         /// <summary>
         /// The Unicode replacement character U+FFFD.
         /// </summary>
         public const uint ReplacementChar = 0xFFFD;
- 
+
         /// <summary>
         /// Returns the Unicode plane (0 through 16, inclusive) which contains this code point.
         /// </summary>
         public static int GetPlane(uint codePoint)
         {
             UnicodeDebug.AssertIsValidCodePoint(codePoint);
- 
+
             return (int)(codePoint >> 16);
         }
- 
+
         /// <summary>
         /// Returns a Unicode scalar value from two code points representing a UTF-16 surrogate pair.
         /// </summary>
@@ -1069,28 +1069,28 @@ namespace Competition
         {
             UnicodeDebug.AssertIsHighSurrogateCodePoint(highSurrogateCodePoint);
             UnicodeDebug.AssertIsLowSurrogateCodePoint(lowSurrogateCodePoint);
- 
+
             // This calculation comes from the Unicode specification, Table 3-5.
             // Need to remove the D800 marker from the high surrogate and the DC00 marker from the low surrogate,
             // then fix up the "wwww = uuuuu - 1" section of the bit distribution. The code is written as below
             // to become just two instructions: shl, lea.
- 
+
             return (highSurrogateCodePoint << 10) + lowSurrogateCodePoint - ((0xD800U << 10) + 0xDC00U - (1 << 16));
         }
- 
+
         /// <summary>
         /// Given a Unicode scalar value, gets the number of UTF-16 code units required to represent this value.
         /// </summary>
         public static int GetUtf16SequenceLength(uint value)
         {
             UnicodeDebug.AssertIsValidScalar(value);
- 
+
             value -= 0x10000;   // if value < 0x10000, high byte = 0xFF; else high byte = 0x00
             value += (2 << 24); // if value < 0x10000, high byte = 0x01; else high byte = 0x02
             value >>= 24;       // shift high byte down
             return (int)value;  // and return it
         }
- 
+
         /// <summary>
         /// Decomposes an astral Unicode scalar into UTF-16 high and low surrogate code units.
         /// </summary>
@@ -1098,29 +1098,29 @@ namespace Competition
         public static void GetUtf16SurrogatesFromSupplementaryPlaneScalar(uint value, out char highSurrogateCodePoint, out char lowSurrogateCodePoint)
         {
             UnicodeDebug.AssertIsValidSupplementaryPlaneScalar(value);
- 
+
             // This calculation comes from the Unicode specification, Table 3-5.
- 
+
             highSurrogateCodePoint = (char)((value + ((0xD800u - 0x40u) << 10)) >> 10);
             lowSurrogateCodePoint = (char)((value & 0x3FFu) + 0xDC00u);
         }
- 
+
         /// <summary>
         /// Given a Unicode scalar value, gets the number of UTF-8 code units required to represent this value.
         /// </summary>
         public static int GetUtf8SequenceLength(uint value)
         {
             UnicodeDebug.AssertIsValidScalar(value);
- 
+
             // The logic below can handle all valid scalar values branchlessly.
             // It gives generally good performance across all inputs, and on x86
             // it's only six instructions: lea, sar, xor, add, shr, lea.
- 
+
             // 'a' will be -1 if input is < 0x800; else 'a' will be 0
             // => 'a' will be -1 if input is 1 or 2 UTF-8 code units; else 'a' will be 0
- 
+
             int a = ((int)value - 0x0800) >> 31;
- 
+
             // The number of UTF-8 code units for a given scalar is as follows:
             // - U+0000..U+007F => 1 code unit
             // - U+0080..U+07FF => 2 code units
@@ -1135,12 +1135,12 @@ namespace Competition
             //
             // Since the 1- and 3-code unit cases are now clustered, they can
             // both be checked together very cheaply.
- 
+
             value ^= 0xF800u;
             value -= 0xF880u;   // if scalar is 1 or 3 code units, high byte = 0xFF; else high byte = 0x00
             value += (4 << 24); // if scalar is 1 or 3 code units, high byte = 0x03; else high byte = 0x04
             value >>= 24;       // shift high byte down
- 
+
             // Final return value:
             // - U+0000..U+007F => 3 + (-1) * 2 = 1
             // - U+0080..U+07FF => 4 + (-1) * 2 = 2
@@ -1148,7 +1148,7 @@ namespace Competition
             // - U+10000+       => 4 + ( 0) * 2 = 4
             return (int)value + (a * 2);
         }
- 
+
         /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="value"/> is an ASCII
         /// character ([ U+0000..U+007F ]).
@@ -1158,49 +1158,49 @@ namespace Competition
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAsciiCodePoint(uint value) => value <= 0x7Fu;
- 
+
         /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="value"/> is in the
         /// Basic Multilingual Plane (BMP).
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsBmpCodePoint(uint value) => value <= 0xFFFFu;
- 
+
         /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="value"/> is a UTF-16 high surrogate code point,
         /// i.e., is in [ U+D800..U+DBFF ], inclusive.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsHighSurrogateCodePoint(uint value) => IsInRangeInclusive(value, 0xD800U, 0xDBFFU);
- 
+
         /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="value"/> is between
         /// <paramref name="lowerBound"/> and <paramref name="upperBound"/>, inclusive.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsInRangeInclusive(uint value, uint lowerBound, uint upperBound) => (value - lowerBound) <= (upperBound - lowerBound);
- 
+
         /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="value"/> is a UTF-16 low surrogate code point,
         /// i.e., is in [ U+DC00..U+DFFF ], inclusive.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsLowSurrogateCodePoint(uint value) => IsInRangeInclusive(value, 0xDC00U, 0xDFFFU);
- 
+
         /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="value"/> is a UTF-16 surrogate code point,
         /// i.e., is in [ U+D800..U+DFFF ], inclusive.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsSurrogateCodePoint(uint value) => IsInRangeInclusive(value, 0xD800U, 0xDFFFU);
- 
+
         /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="codePoint"/> is a valid Unicode code
         /// point, i.e., is in [ U+0000..U+10FFFF ], inclusive.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsValidCodePoint(uint codePoint) => codePoint <= 0x10FFFFU;
- 
+
         /// <summary>
         /// Returns <see langword="true"/> iff <paramref name="value"/> is a valid Unicode scalar
         /// value, i.e., is in [ U+0000..U+D7FF ], inclusive; or [ U+E000..U+10FFFF ], inclusive.
@@ -1218,7 +1218,7 @@ namespace Competition
             //
             // So now the range [ FFEF0800..FFFFFFFF ] contains all valid code points,
             // excluding surrogates. This allows us to perform a single comparison.
- 
+
             return ((value - 0x110000u) ^ 0xD800u) >= 0xFFEF0800u;
         }
     }

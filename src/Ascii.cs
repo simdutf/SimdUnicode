@@ -187,28 +187,29 @@ namespace SimdUnicode
             byte* pCurrent = pBuffer;
             byte* pBufferEnd = pBuffer + bufferLength;
 
-            if (!Vector128.IsHardwareAccelerated){
+            if (!Vector128.IsHardwareAccelerated)
+            {
 
                 // Process in blocks of 16 bytes when possible
-                    while (pCurrent + 16 <= pBufferEnd)
-                    {
-                        ulong v1 = *(ulong*)pCurrent;
-                        ulong v2 = *(ulong*)(pCurrent + 8);
-                        ulong v = v1 | v2;
+                while (pCurrent + 16 <= pBufferEnd)
+                {
+                    ulong v1 = *(ulong*)pCurrent;
+                    ulong v2 = *(ulong*)(pCurrent + 8);
+                    ulong v = v1 | v2;
 
-                        if ((v & 0x8080808080808080) != 0)
+                    if ((v & 0x8080808080808080) != 0)
+                    {
+                        for (; pCurrent < pBufferEnd; pCurrent++)
                         {
-                            for (; pCurrent < pBufferEnd; pCurrent++)
+                            if (*pCurrent >= 0b10000000)
                             {
-                                if (*pCurrent >= 0b10000000)
-                                {
-                                    return (nuint)(pCurrent - pBuffer);
-                                }
+                                return (nuint)(pCurrent - pBuffer);
                             }
                         }
-
-                        pCurrent += 16;
                     }
+
+                    pCurrent += 16;
+                }
             }
 
             // Process the tail byte-by-byte

@@ -7,14 +7,14 @@ public class Utf8SIMDValidationTests
 {
 
 
-private const int NumTrials = 1000;
-private readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
-private static readonly Random rand = new Random();
+    private const int NumTrials = 1000;
+    private readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
+    private static readonly Random rand = new Random();
 
-[Fact]
-public void TestGoodSequences()
-{
-    string[] goodSequences = {
+    [Fact]
+    public void TestGoodSequences()
+    {
+        string[] goodSequences = {
         "a",
         "\xC3\xB1",
         "\xE2\x82\xA1",
@@ -25,29 +25,29 @@ public void TestGoodSequences()
         "\xEF\xBB\xBF"
     };
 
-    foreach (var seq in goodSequences)
-    {
-        byte[] input = System.Text.Encoding.UTF8.GetBytes(seq);
-        unsafe
+        foreach (var seq in goodSequences)
         {
-            fixed (byte* pInput = input)
+            byte[] input = System.Text.Encoding.UTF8.GetBytes(seq);
+            unsafe
             {
-                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
-                            $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                fixed (byte* pInput = input)
+                {
+                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
+                                $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
-                Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
-                            $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
+                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                }
             }
         }
     }
-}
 
-[Fact]
-public void TestBadSequences()
-{
-    string[] badSequences = {
+    [Fact]
+    public void TestBadSequences()
+    {
+        string[] badSequences = {
         "\xC3\x28",
         "\xA0\xA1",
         "\xE2\x28\xA1",
@@ -79,31 +79,31 @@ public void TestBadSequences()
         "\x20\x0b\x01\x01\x01\x64\x3a\x64\x3a\x64\x3a\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x5b\x30\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x80\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01",
     };
 
-    foreach (var seq in badSequences)
-    {
-        byte[] input = System.Text.Encoding.UTF8.GetBytes(seq);
-        unsafe
+        foreach (var seq in badSequences)
         {
-            fixed (byte* pInput = input)
+            byte[] input = System.Text.Encoding.UTF8.GetBytes(seq);
+            unsafe
             {
-                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
-                            $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                fixed (byte* pInput = input)
+                {
+                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
+                                $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
-                Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
-                            $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
+                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
 
+                }
             }
         }
     }
-}
 
     [Fact]
     public void Node48995Test()
     {
         byte[] bad = new byte[] { 0x80 };
-        Assert.False(ValidateUtf8(bad)); 
+        Assert.False(ValidateUtf8(bad));
     }
 
     [Fact]
@@ -237,7 +237,7 @@ public void TestBadSequences()
         }
     }
 
-// 
+    // 
 
     [Fact]
     public void OverlongErrorTest()
@@ -256,17 +256,17 @@ public void TestBadSequences()
 
                     if ((old & 0b11100000) == 0b11000000) // two-bytes case, change to a value less or equal than 0x7f
                     {
-                        utf8[i] = 0b11000000; 
+                        utf8[i] = 0b11000000;
                     }
                     else if ((old & 0b11110000) == 0b11100000) // three-bytes case, change to a value less or equal than 0x7ff
                     {
                         utf8[i] = 0b11100000;
-                        utf8[i + 1] = (byte)(utf8[i + 1] & 0b11011111); 
+                        utf8[i + 1] = (byte)(utf8[i + 1] & 0b11011111);
                     }
                     else if ((old & 0b11111000) == 0b11110000) // four-bytes case, change to a value less or equal than 0xffff
                     {
                         utf8[i] = 0b11110000;
-                        utf8[i + 1] = (byte)(utf8[i + 1] & 0b11001111); 
+                        utf8[i + 1] = (byte)(utf8[i + 1] & 0b11001111);
                     }
 
                     Assert.False(ValidateUtf8(utf8));
@@ -348,7 +348,7 @@ public void TestBadSequences()
             // Perform random bit flips
             for (int flip = 0; flip < 1000; flip++)
             {
-                if (utf8.Length == 0) 
+                if (utf8.Length == 0)
                 {
                     break;
                 }

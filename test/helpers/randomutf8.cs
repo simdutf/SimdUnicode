@@ -15,21 +15,21 @@ public class RandomUtf8
         probabilities = new double[maxByteLength] { prob_1byte, prob_2bytes, prob_3bytes, prob_4bytes };
     }
 
-public byte[] Generate(int outputBytes, int? byteCount = null)
-{
-    var result = new List<byte>();
-    while (result.Count < outputBytes)
+    public byte[] Generate(int outputBytes, int? byteCount = null)
     {
-        int count = byteCount ?? PickRandomByteCount();
-        int codePoint = GenerateCodePoint(count);
-        byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
+        var result = new List<byte>();
+        while (result.Count < outputBytes)
+        {
+            int count = byteCount ?? PickRandomByteCount();
+            int codePoint = GenerateCodePoint(count);
+            byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
 
-        if (result.Count + utf8Bytes.Length > outputBytes)
-            break;
-        result.AddRange(utf8Bytes);
+            if (result.Count + utf8Bytes.Length > outputBytes)
+                break;
+            result.AddRange(utf8Bytes);
+        }
+        return result.ToArray();
     }
-    return result.ToArray();
-}
 
 
     private int GenerateCodePoint(int byteCount)
