@@ -8,7 +8,7 @@ namespace SimdUnicode
 {
     public static class UTF8
     {
-        
+
         //         |                             Method |               FileName |    N |      Mean |    Error |   StdDev |    Median |
         // |----------------------------------- |----------------------- |----- |----------:|---------:|---------:|----------:|
         // |  SimDUnicodeUtf8ValidationRealData |   data/arabic.utf8.txt |  100 | 443.13 us | 2.262 us | 2.005 us | 442.34 us |
@@ -103,7 +103,7 @@ namespace SimdUnicode
                     if (next_pos > inputLength) { return pInputBuffer + pos; } // Too short
                     if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; } // Too short
                     // range check
-                    code_point = (uint)(first_byte & 0b00011111) << 6 | (uint)(pInputBuffer[pos + 1] & 0b00111111); 
+                    code_point = (uint)(first_byte & 0b00011111) << 6 | (uint)(pInputBuffer[pos + 1] & 0b00111111);
                     if ((code_point < 0x80) || (0x7ff < code_point)) { return pInputBuffer + pos; } // Overlong
                 }
                 else if ((first_byte & 0b11110000) == 0b11100000)

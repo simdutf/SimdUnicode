@@ -55,12 +55,6 @@ cd benchmark
 dotnet run -c Release
 ```
 
-To run all the benchmarks, add the "runall" arguments
-```
-cd benchmark
-dotnet run -c Release runall
-```
-
 If you are under macOS or Linux, you may want to run the benchmarks in privileged mode:
 
 ```
@@ -73,6 +67,26 @@ Still under macOS or Linux, you can change the filter parameter to narrow down t
 ```
 cd benchmark
 sudo dotnet run -c Release --filter *RealData*
+```
+
+To get a list of all available tests you may enter:
+
+```
+cd benchmark
+sudo dotnet run -c Release --list tree
+```
+
+To get a prettier list in tree format, you may enter:
+
+```
+cd benchmark
+sudo dotnet run -c Release --list tree
+```
+
+To run all benchmarks, you may enter:
+
+```
+sudo dotnet run -c Release runall
 ```
 
 ## Building the library
