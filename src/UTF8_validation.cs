@@ -2,6 +2,7 @@ using System;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 
 // C# already have something that is *more or less* equivalent to our C++ simd class:
@@ -11,7 +12,8 @@ using System.Linq;
 public static class Vector256Extensions
 {
     // Gets the second lane of the current vector and the first lane of the previous vector and returns, then shift it right by an appropriate number of bytes (less than 16, or less than 128 bits)
-    //  Checked
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
     public static Vector256<byte> Prev(this Vector256<byte> current, Vector256<byte> prev, int N = 1)
     {
 
@@ -85,6 +87,7 @@ namespace SimdUnicode
 
 
         // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
         {
             if (pInputBuffer == null || inputLength <= 0)
@@ -148,6 +151,7 @@ namespace SimdUnicode
             // The original C++ implementation is much more extensive and assumes a 512 bit stream as well as several implementations
             // In this case I focus solely on AVX2 instructions for prototyping and benchmarking purposes. 
             // This is the simplest least time-consuming implementation. 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
             public void check_next_input(Vector256<byte> input)
             {
@@ -159,7 +163,6 @@ namespace SimdUnicode
                     // Contains non-ASCII characters, process the vector
                     check_utf8_bytes(input, prev_input_block);
                     prev_incomplete = is_incomplete(input);
-
                 }
 
 
@@ -170,7 +173,8 @@ namespace SimdUnicode
 
             }
 
-            // Checked
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
             public void check_utf8_bytes(Vector256<byte> input, Vector256<byte> prev_input)
             {
                 Vector256<byte> prev1 = input.Prev(prev_input, 1);
@@ -185,6 +189,7 @@ namespace SimdUnicode
 
             }
 
+            // [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
             public bool errors()
             {
@@ -192,6 +197,8 @@ namespace SimdUnicode
 
                 return !Avx2.TestZ(error, error);
             }
+
+            // [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
             public void check_eof()
             {
@@ -202,6 +209,8 @@ namespace SimdUnicode
                 // Console.WriteLine("Error Vector before check_eof(): " + VectorToString(error));
 
             }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
             // This corresponds to section 6.1 e.g Table 6 of the paper e.g. 1-2 bytes
             private Vector256<byte> check_special_cases(Vector256<byte> input, Vector256<byte> prev1)
@@ -267,6 +276,8 @@ namespace SimdUnicode
                 return Avx2.And(Avx2.And(byte_1_high, byte_1_low), byte_2_high);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
             private Vector256<byte> check_multibyte_lengths(Vector256<byte> input, Vector256<byte> prev_input, Vector256<byte> sc)
             {
                 // Console.WriteLine("sc: " + VectorToString(sc));
@@ -289,6 +300,8 @@ namespace SimdUnicode
                 return Avx2.Xor(must23_80, sc);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
             private Vector256<byte> must_be_2_3_continuation(Vector256<byte> prev2, Vector256<byte> prev3)
             {
                 Vector256<byte> is_third_byte = Avx2.SubtractSaturate(prev2, Vector256.Create((byte)(0b11100000u - 1)));
@@ -302,6 +315,8 @@ namespace SimdUnicode
 
                 return comparisonResult.AsByte();
             }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
             private Vector256<byte> is_incomplete(Vector256<byte> input)
             {
@@ -321,6 +336,8 @@ namespace SimdUnicode
                 return result;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
             private Vector256<byte> SaturatingSubtractUnsigned(Vector256<byte> left, Vector256<byte> right)
             {
                 if (!Avx2.IsSupported)
@@ -336,6 +353,7 @@ namespace SimdUnicode
                 return subtractionResult.AsByte();
             }
 
+            
             // Helper functions for debugging
             private string VectorToString(Vector256<byte> vector)
             {

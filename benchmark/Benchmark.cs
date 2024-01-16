@@ -104,6 +104,9 @@ namespace SimdUnicodeBenchmarks
 
     }
 
+
+[MemoryDiagnoser]
+
     public class SyntheticBenchmark : BenchmarkBase
     {
 
@@ -402,6 +405,9 @@ namespace SimdUnicodeBenchmarks
 
 
     }
+
+
+[MemoryDiagnoser]
 
     public class RealDataBenchmark : BenchmarkBase
     {
