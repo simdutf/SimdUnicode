@@ -4,7 +4,6 @@ using System.Runtime.Intrinsics.X86;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-
 // C# already have something that is *more or less* equivalent to our C++ simd class:
 // Vector256 https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.vector256-1?view=net-7.0
 //  I extend it as needed
@@ -84,6 +83,25 @@ namespace SimdUnicode
     public static unsafe class Utf8Utility
     {
 
+        // Helper functions for debugging
+        // string VectorToString(Vector256<byte> vector)
+        // {
+        //     Span<byte> span = stackalloc byte[Vector256<byte>.Count];
+        //     vector.CopyTo(span);
+        //     return BitConverter.ToString(span.ToArray());
+        // }
+
+        // string VectorToBinary(Vector256<byte> vector)
+        // {
+        //     Span<byte> span = stackalloc byte[Vector256<byte>.Count];
+        //     vector.CopyTo(span);
+
+        //     var binaryStrings = span.ToArray().Select(b => Convert.ToString(b, 2).PadLeft(8, '0'));
+        //     return string.Join(" ", binaryStrings);
+        // }
+
+
+
 
 
         // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
@@ -98,13 +116,22 @@ namespace SimdUnicode
             var checker = new SimdUnicode.utf8_validation.utf8_checker();
             int processedLength = 0;
 
+            // Helpers.CheckForGCCollections("Before AVX2 procession");
             while (processedLength + 32 <= inputLength)
             {
+                // Console.WriteLine("-------New AVX2 vector blocked processing!------------");
+                
                 Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+                // Helpers.CheckForGCCollections($"Before check_next_input:{processedLength}");
                 checker.check_next_input(currentBlock);
+                // Helpers.CheckForGCCollections($"After check_next_input:{processedLength}");
 
                 processedLength += 32;
+                
             }
+
+            // Helpers.CheckForGCCollections("After AVX2 procession");
+
 
             if (processedLength < inputLength)
             {
@@ -121,6 +148,24 @@ namespace SimdUnicode
 
             }
 
+            // CheckForGCCollections("After processed remaining bytes");
+
+
+            // if (processedLength < inputLength)
+            // {
+            //     // Directly call the scalar function on the remaining part of the buffer
+            //     byte* invalidBytePointer = GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength -1);
+                
+            //     // You can then use `invalidBytePointer` as needed, for example:
+            //     // if (invalidBytePointer != pInputBuffer + inputLength) {
+            //     //     // Handle the case where an invalid byte is found
+            //     // }
+
+            //     // Update processedLength to reflect the processing done by the scalar function
+            //     processedLength += (int)(invalidBytePointer - pInputBuffer);
+            // }
+            
+
             checker.check_eof();
             if (checker.errors())
             {
@@ -131,14 +176,18 @@ namespace SimdUnicode
         }
     }
 
-
-    public static class utf8_validation
+// C# docs suggests that classes are allocated on the heap:
+// it doesnt seem to do much in this case but I tthought the suggestion to be sensible. 
+    public struct utf8_validation
     {
-        public class utf8_checker
+        public struct utf8_checker
         {
             Vector256<byte> error;
             Vector256<byte> prev_input_block;
             Vector256<byte> prev_incomplete;
+
+
+
 
             public utf8_checker()
             {
@@ -156,11 +205,13 @@ namespace SimdUnicode
             public void check_next_input(Vector256<byte> input)
             {
                 // Check if the entire 256-bit vector is ASCII
+                
                 Vector256<sbyte> inputSBytes = input.AsSByte(); // Reinterpret the byte vector as sbyte
                 int mask = Avx2.MoveMask(inputSBytes.AsByte());
                 if (mask != 0)
                 {
                     // Contains non-ASCII characters, process the vector
+                    
                     check_utf8_bytes(input, prev_input_block);
                     prev_incomplete = is_incomplete(input);
                 }
@@ -316,21 +367,31 @@ namespace SimdUnicode
                 return comparisonResult.AsByte();
             }
 
+
+            private static readonly byte[] MaxArray = new byte[32]
+            {
+                255, 255, 255, 255, 255, 255, 255, 255,
+                255, 255, 255, 255, 255, 255, 255, 255,
+                255, 255, 255, 255, 255, 255, 255, 255,
+                255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1
+            };
+            Vector256<byte> maxValue = Vector256.Create(MaxArray);
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
             private Vector256<byte> is_incomplete(Vector256<byte> input)
             {
                 // Console.WriteLine("Input Vector is_incomplete: " + VectorToString(input));
-                byte[] maxArray = new byte[32]
-                {
-                        255, 255, 255, 255, 255, 255, 255, 255,
-                        255, 255, 255, 255, 255, 255, 255, 255,
-                        255, 255, 255, 255, 255, 255, 255, 255,
-                        255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1
-                };
-                Vector256<byte> max_value = Vector256.Create(maxArray);
+                // byte[] maxArray = new byte[32]
+                // {
+                //         255, 255, 255, 255, 255, 255, 255, 255,
+                //         255, 255, 255, 255, 255, 255, 255, 255,
+                //         255, 255, 255, 255, 255, 255, 255, 255,
+                //         255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1
+                // };
+                // Vector256<byte> max_value = Vector256.Create(maxArray);
 
-                Vector256<byte> result = SaturatingSubtractUnsigned(input, max_value);
+                Vector256<byte> result = SaturatingSubtractUnsigned(input, maxValue);
                 // Console.WriteLine("Result Vector is_incomplete: " + VectorToString(result));
 
                 return result;
@@ -352,25 +413,6 @@ namespace SimdUnicode
 
                 return subtractionResult.AsByte();
             }
-
-            
-            // Helper functions for debugging
-            private string VectorToString(Vector256<byte> vector)
-            {
-                Span<byte> span = stackalloc byte[Vector256<byte>.Count];
-                vector.CopyTo(span);
-                return BitConverter.ToString(span.ToArray());
-            }
-
-            private string VectorToBinary(Vector256<byte> vector)
-            {
-                Span<byte> span = stackalloc byte[Vector256<byte>.Count];
-                vector.CopyTo(span);
-
-                var binaryStrings = span.ToArray().Select(b => Convert.ToString(b, 2).PadLeft(8, '0'));
-                return string.Join(" ", binaryStrings);
-            }
-
         }
     }
 }

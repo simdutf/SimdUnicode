@@ -11,6 +11,8 @@ using System.Buffers;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using BenchmarkDotNet.Engines; // Correct namespace for HardwareCounter
+
 
 
 namespace SimdUnicodeBenchmarks
@@ -105,7 +107,18 @@ namespace SimdUnicodeBenchmarks
     }
 
 
-[MemoryDiagnoser]
+    [MemoryDiagnoser]
+    // [HardwareCounters(
+    //     HardwareCounter.BranchInstructions,
+    //     HardwareCounter.BranchMispredictions,
+    //     HardwareCounter.CacheMisses,
+    //     HardwareCounter.TotalCycles,
+    //     HardwareCounter.TotalInstructions,
+    //     HardwareCounter.L1CacheMisses,
+    //     HardwareCounter.L2CacheMisses,
+    //     HardwareCounter.L3CacheMisses,
+    //     HardwareCounter.InstructionRetired
+    // )]
 
     public class SyntheticBenchmark : BenchmarkBase
     {
