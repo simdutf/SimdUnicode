@@ -8,6 +8,12 @@ using System.Runtime.CompilerServices;
 // Vector256 https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.vector256-1?view=net-7.0
 //  I extend it as needed
 
+
+// |                      Method |    N |       Mean |     Error |    StdDev |   Gen0 | Allocated |
+// |---------------------------- |----- |-----------:|----------:|----------:|-------:|----------:|
+// | SIMDUtf8ValidationValidUtf8 |  100 |   165.8 us |   2.87 us |   2.55 us | 0.4883 |  54.69 KB |
+// | SIMDUtf8ValidationValidUtf8 | 8000 | 8,733.5 us | 167.05 us | 211.27 us |      - |  33.21 KB |
+
 public static class Vector256Extensions
 {
     // Gets the second lane of the current vector and the first lane of the previous vector and returns, then shift it right by an appropriate number of bytes (less than 16, or less than 128 bits)
@@ -177,7 +183,7 @@ namespace SimdUnicode
     }
 
 // C# docs suggests that classes are allocated on the heap:
-// it doesnt seem to do much in this case but I tthought the suggestion to be sensible. 
+// it doesnt seem to do much in this case but I thought the suggestion to be sensible. 
     public struct utf8_validation
     {
         public struct utf8_checker
@@ -359,12 +365,14 @@ namespace SimdUnicode
                 Vector256<byte> is_fourth_byte = Avx2.SubtractSaturate(prev3, Vector256.Create((byte)(0b11110000u - 1)));
 
                 Vector256<byte> combined = Avx2.Or(is_third_byte, is_fourth_byte);
+                return combined;
 
-                Vector256<sbyte> signedCombined = combined.AsSByte();
-                Vector256<sbyte> zero = Vector256<sbyte>.Zero;
-                Vector256<sbyte> comparisonResult = Avx2.CompareGreaterThan(signedCombined, zero);
+                // Vector256<sbyte> signedCombined = combined.AsSByte();
 
-                return comparisonResult.AsByte();
+                // Vector256<sbyte> zero = Vector256<sbyte>.Zero;
+                // Vector256<sbyte> comparisonResult = Avx2.CompareGreaterThan(signedCombined, zero);
+
+                // return comparisonResult.AsByte();
             }
 
 
@@ -376,6 +384,13 @@ namespace SimdUnicode
                 255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1
             };
             Vector256<byte> maxValue = Vector256.Create(MaxArray);
+
+    //         private static readonly Vector256<byte> maxValue = Vector256.Create(
+    // 255, 255, 255, 255, 255, 255, 255, 255,
+    // 255, 255, 255, 255, 255, 255, 255, 255,
+    // 255, 255, 255, 255, 255, 255, 255, 255,
+    // 255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1);
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 

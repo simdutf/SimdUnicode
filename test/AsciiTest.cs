@@ -2,8 +2,6 @@ namespace tests;
 using System.Text;
 using SimdUnicode;
 
-//TODO (Nick Nuon): Test UTF8 Generator works correctly
-
 public class AsciiTest
 {
     [Fact]
@@ -140,7 +138,7 @@ public class AsciiTest
             {
                 fixed (byte* pAscii = ascii)
                 {
-                    nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
+                    nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
                     if (result != (nuint)ascii.Length)
                     {
                         throw new Exception($"Unexpected non-ASCII character found at index {result}");
@@ -170,7 +168,7 @@ public class AsciiTest
                 {
                     fixed (byte* pAscii = ascii)
                     {
-                        nuint result = Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
+                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
                         if (result != (nuint)i)
                         {
                             throw new Exception($"Expected non-ASCII character at index {i}, but found at index {result}");

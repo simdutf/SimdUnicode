@@ -28,5 +28,30 @@ namespace SimdUnicode
 
             return result;
         }
+
+        private static readonly int[] previousCollectionCounts = new int[GC.MaxGeneration + 1];
+
+        public static void CheckForGCCollections(string sectionName)
+        {
+            bool collectionOccurred = false;
+
+            for (int i = 0; i <= GC.MaxGeneration; i++)
+            {
+                int currentCount = GC.CollectionCount(i);
+                if (currentCount != previousCollectionCounts[i])
+                {
+                    Console.WriteLine($"GC occurred in generation {i} during '{sectionName}'. Collections: {currentCount - previousCollectionCounts[i]}");
+                    previousCollectionCounts[i] = currentCount;
+                    collectionOccurred = true;
+                }
+            }
+
+            if (!collectionOccurred)
+            {
+                Console.WriteLine($"No GC occurred during '{sectionName}'.");
+            }
+        }
     }
+
+    
 }
