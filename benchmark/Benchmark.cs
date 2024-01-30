@@ -95,7 +95,7 @@ namespace SimdUnicodeBenchmarks
                             {
                                 utf8[position + 1] = (byte)((utf8[position + 1] & 0b11000011) | (s << 2));
                                 errorIntroduced = true;
-                                break; // Just introduce one surrogate error
+                                break; // Just introduce one surrogate error // TODO: having a loop that breaks immediately does not make much sense !!!!!!!!!!!!!!!!!!!!!!
                             }
                         }
                         break;
@@ -433,7 +433,7 @@ namespace SimdUnicodeBenchmarks
                 @"data/turkish.utf8.txt",
                 @"data/german.utf8.txt",
                 @"data/japanese.utf8.txt")]
-        public string FileName;
+        public string? FileName;
 
         private string[] _lines = Array.Empty<string>();
         private byte[][] _linesUtf8 = Array.Empty<byte[]>();
@@ -607,7 +607,7 @@ namespace SimdUnicodeBenchmarks
             }
 
             // Create a BenchmarkDotNet config with a custom maximum parameter column width
-            var config = DefaultConfig.Instance.With(SummaryStyle.Default.WithMaxParameterColumnWidth(100));
+            var config = DefaultConfig.Instance.With(summaryStyle: SummaryStyle.Default.WithMaxParameterColumnWidth(100));
 
             // Check if a specific argument (e.g., "runall") is provided
             if (args.Length > 0 && args[0] == "runall")
