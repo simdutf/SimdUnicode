@@ -3,6 +3,8 @@ using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics.Arm;
+using static System.Net.Mime.MediaTypeNames;
 
 // C# already have something that is *more or less* equivalent to our C++ simd class:
 // Vector256 https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.vector256-1?view=net-7.0
@@ -46,8 +48,7 @@ public static class Vector256Extensions
         Vector256<byte> shuffle = Avx2.Permute2x128(prev, current, 0x21);
         return Avx2.AlignRight(current, shuffle, (byte)(16 - 2)); //shifts right by a certain amount
     }
-
-
+ 
     public static Vector256<byte> Prev3(this Vector256<byte> current, Vector256<byte> prev)
     {
 
@@ -116,20 +117,25 @@ namespace SimdUnicode
         //     return string.Join(" ", binaryStrings);
         // }
 
-
-
-
-
         // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
         // [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
         {
+            ////////////////
+            // TODO: I recommend taking this code and calling it something
+            // else. Then have the current function (GetPointerToFirstInvalidByte)
+            // call the SIMD function only if inputLength is sufficiently large (maybe 64 bytes),
+            // otherwise, use the scalar function.
+            ////////////////
             if (pInputBuffer == null || inputLength <= 0)
             {
                 return pInputBuffer;
             }
+            Vector256<byte> error = Vector256<byte>.Zero;
+            Vector256<byte> prev_input_block = Vector256<byte>.Zero;
+            Vector256<byte> prev_incomplete = Vector256<byte>.Zero;
 
-            var checker = new SimdUnicode.Utf8Validation.utf8_checker();
+
             int processedLength = 0;
 
             // Helpers.CheckForGCCollections("Before AVX2 procession");
@@ -139,7 +145,7 @@ namespace SimdUnicode
                 
                 Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
                 // Helpers.CheckForGCCollections($"Before check_next_input:{processedLength}");
-                checker.CheckNextInput(currentBlock);
+                Utf8Validation.utf8_checker.CheckNextInput(currentBlock, ref prev_input_block, ref prev_incomplete, ref error);
                 // Helpers.CheckForGCCollections($"After check_next_input:{processedLength}");
 
                 processedLength += 32;
@@ -147,10 +153,13 @@ namespace SimdUnicode
             }
 
             // Helpers.CheckForGCCollections("After AVX2 procession");
-
-
+            
             if (processedLength < inputLength)
             {
+                // Unfortunalely, this approach with stackalloc might be expensive.
+                // TODO: replace it by a simple scalar routine. You need to handle
+                // prev_incomplete but it should be doable.
+
                 Span<byte> remainingBytes = stackalloc byte[32];
                 for (int i = 0; i < inputLength - processedLength; i++)
                 {
@@ -158,8 +167,7 @@ namespace SimdUnicode
                 }
 
                 Vector256<byte> remainingBlock = Vector256.Create(remainingBytes.ToArray());
-
-                checker.CheckNextInput(remainingBlock);
+                Utf8Validation.utf8_checker.CheckNextInput(remainingBlock, ref prev_input_block, ref prev_incomplete, ref error);
                 processedLength += inputLength - processedLength;
 
             }
@@ -171,7 +179,7 @@ namespace SimdUnicode
             // {
             //     // Directly call the scalar function on the remaining part of the buffer
             //     byte* invalidBytePointer = GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength -1);
-                
+
             //     // You can then use `invalidBytePointer` as needed, for example:
             //     // if (invalidBytePointer != pInputBuffer + inputLength) {
             //     //     // Handle the case where an invalid byte is found
@@ -180,10 +188,10 @@ namespace SimdUnicode
             //     // Update processedLength to reflect the processing done by the scalar function
             //     processedLength += (int)(invalidBytePointer - pInputBuffer);
             // }
-            
 
-            checker.CheckEof();
-            if (checker.Errors())
+
+            Utf8Validation.utf8_checker.CheckEof(ref error, prev_incomplete);
+            if (Utf8Validation.utf8_checker.Errors(error))
             {
                 return pInputBuffer + processedLength;
             }
@@ -198,19 +206,7 @@ namespace SimdUnicode
     {
         public struct utf8_checker
         {
-            Vector256<byte> error;
-            Vector256<byte> prev_input_block;
-            Vector256<byte> prev_incomplete;
 
-
-
-
-            public utf8_checker()
-            {
-                error = Vector256<byte>.Zero;
-                prev_input_block = Vector256<byte>.Zero;
-                prev_incomplete = Vector256<byte>.Zero;
-            }
 
             // This is the first point of entry for this function
             // The original C++ implementation is much more extensive and assumes a 512 bit stream as well as several implementations
@@ -218,17 +214,59 @@ namespace SimdUnicode
             // This is the simplest least time-consuming implementation. 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            public void CheckNextInput(Vector256<byte> input)
+            public static void CheckNextInput(Vector256<byte> input, ref Vector256<byte> prev_input_block, ref Vector256<byte> prev_incomplete, ref Vector256<byte> error)
             {
+                // Compiles to:
+                /*
+    G_M000_IG02:                ;; offset=0x0003
+           vmovups  ymm0, ymmword ptr [rcx]
+           vpmovmskb eax, ymm0
+           test     eax, eax
+           je       G_M000_IG04
+
+    G_M000_IG03:                ;; offset=0x0013
+           vmovups  ymm1, ymmword ptr [rdx]
+           vperm2i128 ymm1, ymm1, ymm0, 33
+           vpalignr ymm2, ymm0, ymm1, 15
+           vpsrlw   ymm3, ymm2, 4
+           vmovups  ymm4, ymmword ptr [reloc @RWD00]
+           vpshufb  ymm3, ymm4, ymm3
+           vpand    ymm2, ymm2, ymmword ptr [reloc @RWD32]
+           vmovups  ymm4, ymmword ptr [reloc @RWD64]
+           vpshufb  ymm2, ymm4, ymm2
+           vpand    ymm2, ymm3, ymm2
+           vpsrlw   ymm3, ymm0, 4
+           vmovups  ymm4, ymmword ptr [reloc @RWD96]
+           vpshufb  ymm3, ymm4, ymm3
+           vpand    ymm2, ymm2, ymm3
+           vmovups  ymm3, ymmword ptr [r9]
+           vpalignr ymm4, ymm0, ymm1, 14
+           vpsubusb ymm4, ymm4, ymmword ptr [reloc @RWD128]
+           vpalignr ymm0, ymm0, ymm1, 13
+           vpsubusb ymm0, ymm0, ymmword ptr [reloc @RWD160]
+           vpor     ymm0, ymm4, ymm0
+           vpand    ymm0, ymm0, ymmword ptr [reloc @RWD192]
+           vpxor    ymm0, ymm0, ymm2
+           vpor     ymm0, ymm3, ymm0
+           vmovups  ymmword ptr [r9], ymm0
+           vmovups  ymm0, ymmword ptr [rcx]
+           vpsubusw ymm0, ymm0, ymmword ptr [reloc @RWD224]
+           vmovups  ymmword ptr [r8], ymm0
+
+    G_M000_IG04:                ;; offset=0x00AF
+           vmovups  ymm0, ymmword ptr [rcx]
+           vmovups  ymmword ptr [rdx], ymm0
+                */
                 // Check if the entire 256-bit vector is ASCII
-                
+
+
                 Vector256<sbyte> inputSBytes = input.AsSByte(); // Reinterpret the byte vector as sbyte
                 int mask = Avx2.MoveMask(inputSBytes.AsByte());
                 if (mask != 0)
                 {
                     // Contains non-ASCII characters, process the vector
                     
-                    CheckUtf8Bytes(input, prev_input_block);
+                    CheckUtf8Bytes(input, prev_input_block, ref error);
                     prev_incomplete = IsIncomplete(input);
                 }
 
@@ -242,8 +280,33 @@ namespace SimdUnicode
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            public void CheckUtf8Bytes(Vector256<byte> input, Vector256<byte> prevInput)
+            public static void CheckUtf8Bytes(Vector256<byte> input, Vector256<byte> prevInput, ref Vector256<byte> error)
             {
+                // compiles to
+                //        vmovups  ymm0, ymmword ptr [rcx]
+                //        vmovups ymm1, ymmword ptr[rdx]
+                //        vperm2i128 ymm1, ymm1, ymm0, 33
+                //        vpalignr ymm2, ymm0, ymm1, 15
+                //        vpsrlw ymm3, ymm2, 4
+                //        vmovups ymm4, ymmword ptr[reloc @RWD00]
+                //        vpshufb ymm3, ymm4, ymm3
+                //        vpand ymm2, ymm2, ymmword ptr[reloc @RWD32]
+                //         ymm4, ymmword ptr[reloc @RWD64]
+                //        vpshufb ymm2, ymm4, ymm2
+                //        vpand ymm2, ymm3, ymm2
+                //        vpsrlw ymm3, ymm0, 4
+                //        vmovups ymm4, ymmword ptr[reloc @RWD96]
+                //        vpshufb ymm3, ymm4, ymm3
+                //        vpand ymm2, ymm2, ymm3
+                //        vmovups ymm3, ymmword ptr[r8]
+                //        vpalignr ymm4, ymm0, ymm1, 14
+                //         ymm4, ymm4, ymmword ptr[reloc @RWD128]
+                //        vpalignr ymm0, ymm0, ymm1, 13
+                //        vpsubusb ymm0, ymm0, ymmword ptr[reloc @RWD160]
+                //        vpor ymm0, ymm4, ymm0
+                //        vpand ymm0, ymm0, ymmword ptr[reloc @RWD192]
+                //        vpxor ymm0, ymm0, ymm2
+                //        vpor ymm0, ymm3, ymm0
                 Vector256<byte> prev1 = input.Prev1(prevInput);
                 // check 1-2 bytes character
                 Vector256<byte> sc = CheckSpecialCases(input, prev1);
@@ -258,7 +321,7 @@ namespace SimdUnicode
 
             // [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            public bool Errors()
+            public static bool Errors(Vector256<byte> error)
             {
                 // Console.WriteLine("Error Vector at the end: " + VectorToString(error));
                 // compiles to:
@@ -270,7 +333,7 @@ namespace SimdUnicode
 
             // [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            public void CheckEof()
+            public static void CheckEof(ref Vector256<byte> error, Vector256<byte> prev_incomplete)
             {
                 // Console.WriteLine("Error Vector before check_eof(): " + VectorToString(error));
                 // Console.WriteLine("prev_incomplete Vector in check_eof(): " + VectorToString(prev_incomplete));
@@ -292,67 +355,6 @@ namespace SimdUnicode
             const byte OVERLONG_4 = 1 << 6;
             const byte CARRY = TOO_SHORT | TOO_LONG | TWO_CONTS;
 
-            static readonly Vector256<byte> shuf1 = Vector256.Create(TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
-                    TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
-                    TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
-                    TOO_SHORT | OVERLONG_2,
-                    TOO_SHORT,
-                    TOO_SHORT | OVERLONG_3 | SURROGATE,
-                    TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4,
-                    TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
-                    TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
-                    TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
-                    TOO_SHORT | OVERLONG_2,
-                    TOO_SHORT,
-                    TOO_SHORT | OVERLONG_3 | SURROGATE,
-                    TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4);
-
-            static readonly Vector256<byte> shuf2 = Vector256.Create(CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
-                    CARRY | OVERLONG_2,
-                    CARRY,
-                    CARRY,
-                    CARRY | TOO_LARGE,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000 | SURROGATE,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
-                    CARRY | OVERLONG_2,
-                    CARRY,
-                    CARRY,
-                    CARRY | TOO_LARGE,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000 | SURROGATE,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000,
-                    CARRY | TOO_LARGE | TOO_LARGE_1000);
-
-            static readonly Vector256<byte> shuf3 = Vector256.Create(TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
-                    TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
-                    TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE_1000 | OVERLONG_4,
-                    TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE,
-                    TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE | TOO_LARGE,
-                    TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE | TOO_LARGE,
-                    TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
-                    TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
-                    TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE_1000 | OVERLONG_4,
-                    TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE,
-                    TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE | TOO_LARGE,
-                    TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE | TOO_LARGE,
-                    TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT);
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
@@ -367,7 +369,82 @@ namespace SimdUnicode
                 // Bit 4 = Surrogate
                 // Bit 5 = Overlong 2-byte
                 // Bit 7 = Two Continuations
+                // Compiles to
+                //        vmovups  ymm0, ymmword ptr [r8]
+                //        vpsrlw ymm1, ymm0, 4
+                //        vmovups ymm2, ymmword ptr[reloc @RWD00]
+                //        vpshufb ymm1, ymm2, ymm1
+                //        vpand ymm0, ymm0, ymmword ptr[reloc @RWD32]
+                //        vmovups ymm2, ymmword ptr[reloc @RWD64]
+                //        vpshufb ymm0, ymm2, ymm0
+                //        vpand ymm0, ymm1, ymm0
+                //        vmovups ymm1, ymmword ptr[rdx]
+                //        vpsrlw ymm1, ymm1, 4
+                //        vmovups ymm2, ymmword ptr[reloc @RWD96]
+                //        vpshufb ymm1, ymm2, ymm1
+                //        vpand ymm0, ymm0, ymm1
 
+                Vector256<byte> shuf1 = Vector256.Create(TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+                        TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+                        TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
+                        TOO_SHORT | OVERLONG_2,
+                        TOO_SHORT,
+                        TOO_SHORT | OVERLONG_3 | SURROGATE,
+                        TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4,
+                        TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+                        TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+                        TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
+                        TOO_SHORT | OVERLONG_2,
+                        TOO_SHORT,
+                        TOO_SHORT | OVERLONG_3 | SURROGATE,
+                        TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4);
+
+                Vector256<byte> shuf2 = Vector256.Create(CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
+                        CARRY | OVERLONG_2,
+                        CARRY,
+                        CARRY,
+                        CARRY | TOO_LARGE,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000 | SURROGATE,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
+                        CARRY | OVERLONG_2,
+                        CARRY,
+                        CARRY,
+                        CARRY | TOO_LARGE,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000 | SURROGATE,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000,
+                        CARRY | TOO_LARGE | TOO_LARGE_1000);
+
+                Vector256<byte> shuf3 = Vector256.Create(TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+                        TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+                        TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE_1000 | OVERLONG_4,
+                        TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE,
+                        TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE | TOO_LARGE,
+                        TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE | TOO_LARGE,
+                        TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+                        TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+                        TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE_1000 | OVERLONG_4,
+                        TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE,
+                        TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE | TOO_LARGE,
+                        TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE | TOO_LARGE,
+                        TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT);
                 Vector256<byte> byte_1_high = prev1.ShiftRightLogical4().Lookup16(shuf1);
 
                 Vector256<byte> byte_1_low = (prev1 & Vector256.Create((byte)0x0F)).Lookup16(shuf2);
@@ -384,6 +461,14 @@ namespace SimdUnicode
 
                 // Console.WriteLine("Input: " + VectorToString(input));
                 // Console.WriteLine("Input(Binary): " + VectorToBinary(input));
+                // compiles to:
+                //        vperm2i128 ymm1, ymm1, ymm0, 33
+                //        vpalignr ymm2, ymm0, ymm1, 14
+                //        vpsubusb ymm2, ymm2, ymmword ptr[reloc @RWD00]
+                //        vpalignr ymm0, ymm0, ymm1, 13
+                //        vpsubusb ymm0, ymm0, ymmword ptr[reloc @RWD32]
+                //        vpor ymm0, ymm2, ymm0
+                //        vpand ymm0, ymm0, ymmword ptr[reloc
 
                 Vector256<byte> prev2 = input.Prev2(prev_input);
                 // Console.WriteLine("Prev2: " + VectorToBinary(prev2));
@@ -392,7 +477,7 @@ namespace SimdUnicode
                 // Console.WriteLine("Prev3: " + VectorToBinary(prev3));
 
 
-                Vector256<byte> must23 = Must_be_2_3_continuation(prev2, prev3);
+                Vector256<byte> must23 = MustBe23Continuation(prev2, prev3);
                 // Console.WriteLine("must be 2 3 continuation: " + VectorToString(must23));
 
                 Vector256<byte> must23_80 = Avx2.And(must23, Vector256.Create((byte)0x80));
@@ -401,8 +486,16 @@ namespace SimdUnicode
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static Vector256<byte> Must_be_2_3_continuation(Vector256<byte> prev2, Vector256<byte> prev3)
+            private static Vector256<byte> MustBe23Continuation(Vector256<byte> prev2, Vector256<byte> prev3)
             {
+                // Compiles to
+                //         vmovups  ymm0, ymmword ptr [rdx]
+                //        vpsubusb ymm0, ymm0, ymmword ptr [reloc @RWD00]
+                //        vmovups ymm1, ymmword ptr[r8]
+                //        vpsubusb ymm1, ymm1, ymmword ptr[reloc @RWD32]
+                //        vpor ymm0, ymm0, ymm1
+
+
                 Vector256<byte> is_third_byte = Avx2.SubtractSaturate(prev2, Vector256.Create((byte)(0b11100000u - 0x80)));
                 Vector256<byte> is_fourth_byte = Avx2.SubtractSaturate(prev3, Vector256.Create((byte)(0b11110000u - 0x80)));
 
@@ -417,11 +510,6 @@ namespace SimdUnicode
                 // return comparisonResult.AsByte();
             }
 
-
-            static readonly Vector256<byte> maxValue = Vector256.Create(255, 255, 255, 255, 255, 255, 255, 255,
-                255, 255, 255, 255, 255, 255, 255, 255,
-                255, 255, 255, 255, 255, 255, 255, 255,
-                255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1);
 
             //         private static readonly Vector256<byte> maxValue = Vector256.Create(
             // 255, 255, 255, 255, 255, 255, 255, 255,
@@ -443,7 +531,13 @@ namespace SimdUnicode
                 //         255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1
                 // };
                 // Vector256<byte> max_value = Vector256.Create(maxArray);
-
+                // Compiles to
+                //        vmovups  ymm0, ymmword ptr [rdx]
+                //        vpsubusw ymm0, ymm0, ymmword ptr[reloc @RWD00]
+                Vector256<byte> maxValue = Vector256.Create(255, 255, 255, 255, 255, 255, 255, 255,
+                255, 255, 255, 255, 255, 255, 255, 255,
+                255, 255, 255, 255, 255, 255, 255, 255,
+                255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1);
                 Vector256<byte> result = SaturatingSubtractUnsigned(input, maxValue);
                 // Console.WriteLine("Result Vector is_incomplete: " + VectorToString(result));
 
