@@ -154,27 +154,64 @@ namespace SimdUnicode
 
             // Helpers.CheckForGCCollections("After AVX2 procession");
             
-            if (processedLength < inputLength)
-            {
-                // Unfortunalely, this approach with stackalloc might be expensive.
-                // TODO: replace it by a simple scalar routine. You need to handle
-                // prev_incomplete but it should be doable.
+    
+                // |                      Method |               FileName |      Mean |     Error |    StdDev | Allocated |
+                // |---------------------------- |----------------------- |----------:|----------:|----------:|----------:|
+                // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 33.062 us | 0.5046 us | 0.4720 us |      56 B |
+                // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 35.609 us | 0.3369 us | 0.3152 us |      56 B |
+                // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 11.603 us | 0.2232 us | 0.2293 us |      56 B |
+                // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt | 12.317 us | 0.1826 us | 0.1708 us |      56 B |
+                // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt | 13.726 us | 0.2471 us | 0.2311 us |      56 B |
+                // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt | 13.392 us | 0.0520 us | 0.0487 us |      56 B |
+                // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt | 24.345 us | 0.2012 us | 0.1882 us |      56 B |
+                // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt | 23.778 us | 0.1892 us | 0.1769 us |      56 B |
+                // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |  9.323 us | 0.0155 us | 0.0130 us |      56 B |
+                // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |  8.336 us | 0.0502 us | 0.0470 us |      56 B |
+                // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 10.728 us | 0.1370 us | 0.1282 us |      56 B |
+                // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt | 10.837 us | 0.1389 us | 0.1300 us |      56 B |
+                // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 11.086 us | 0.1190 us | 0.1113 us |      56 B |
+                // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 10.017 us | 0.0615 us | 0.0514 us |      56 B |
 
-                Span<byte> remainingBytes = stackalloc byte[32];
-                for (int i = 0; i < inputLength - processedLength; i++)
-                {
-                    remainingBytes[i] = pInputBuffer[processedLength + i];
-                }
 
-                Vector256<byte> remainingBlock = Vector256.Create(remainingBytes.ToArray());
-                Utf8Validation.utf8_checker.CheckNextInput(remainingBlock, ref prev_input_block, ref prev_incomplete, ref error);
-                processedLength += inputLength - processedLength;
+            // if (processedLength < inputLength)
+            // {
+            //     // Unfortunalely, this approach with stackalloc might be expensive.
+            //     // TODO: replace it by a simple scalar routine. You need to handle
+            //     // prev_incomplete but it should be doable.
 
-            }
+
+            //     Span<byte> remainingBytes = stackalloc byte[32];
+            //     for (int i = 0; i < inputLength - processedLength; i++)
+            //     {
+            //         remainingBytes[i] = pInputBuffer[processedLength + i];
+            //     }
+
+            //     Vector256<byte> remainingBlock = Vector256.Create(remainingBytes.ToArray());
+            //     Utf8Validation.utf8_checker.CheckNextInput(remainingBlock, ref prev_input_block, ref prev_incomplete, ref error);
+            //     processedLength += inputLength - processedLength;
+
+            // }
 
             // CheckForGCCollections("After processed remaining bytes");
 
+            // |                      Method |               FileName |      Mean |     Error |    StdDev |    Median | Allocated |
+            // |---------------------------- |----------------------- |----------:|----------:|----------:|----------:|----------:|
+            // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 36.968 us | 0.4637 us | 0.4111 us | 37.018 us |      56 B |
+            // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 31.851 us | 0.2252 us | 0.2107 us | 31.865 us |      56 B |
+            // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 10.541 us | 0.0870 us | 0.0814 us | 10.490 us |      56 B |
+            // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt | 12.404 us | 0.2447 us | 0.2913 us | 12.355 us |      56 B |
+            // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt | 14.297 us | 0.2786 us | 0.4655 us | 14.225 us |      56 B |
+            // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt | 14.207 us | 0.0272 us | 0.0241 us | 14.211 us |      56 B |
+            // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt | 23.993 us | 0.2287 us | 0.2140 us | 23.879 us |      56 B |
+            // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt | 26.856 us | 0.5314 us | 1.4367 us | 27.005 us |      56 B |
+            // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |  8.541 us | 0.1702 us | 0.2090 us |  8.456 us |      56 B |
+            // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |  8.728 us | 0.1618 us | 0.3938 us |  8.567 us |      56 B |
+            // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 11.108 us | 0.1767 us | 0.1653 us | 11.184 us |      56 B |
+            // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  9.533 us | 0.1288 us | 0.1205 us |  9.490 us |      56 B |
+            // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 10.128 us | 0.0544 us | 0.0454 us | 10.126 us |      56 B |
+            // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 10.078 us | 0.0499 us | 0.0467 us | 10.079 us |      56 B |
 
+            // scalar results:
             // if (processedLength < inputLength)
             // {
             //     // Directly call the scalar function on the remaining part of the buffer
@@ -188,6 +225,41 @@ namespace SimdUnicode
             //     // Update processedLength to reflect the processing done by the scalar function
             //     processedLength += (int)(invalidBytePointer - pInputBuffer);
             // }
+
+
+            // |                      Method |               FileName |      Mean |     Error |    StdDev | Allocated |
+            // |---------------------------- |----------------------- |----------:|----------:|----------:|----------:|
+            // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 20.136 us | 0.3869 us | 0.5031 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 19.576 us | 0.2366 us | 0.2098 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt |  6.207 us | 0.0479 us | 0.0400 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  6.169 us | 0.0541 us | 0.0506 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  9.212 us | 0.0121 us | 0.0107 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  9.373 us | 0.0250 us | 0.0209 us |         - |
+            // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt | 13.726 us | 0.2609 us | 0.2900 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt | 13.948 us | 0.2122 us | 0.1985 us |         - |
+            // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |  4.916 us | 0.0176 us | 0.0147 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |  4.897 us | 0.0525 us | 0.0491 us |         - |
+            // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt |  5.526 us | 0.0463 us | 0.0411 us |         - |
+            // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  5.538 us | 0.0405 us | 0.0379 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt |  5.838 us | 0.0363 us | 0.0340 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |  5.813 us | 0.0440 us | 0.0412 us |         - |
+
+
+            if (processedLength < inputLength)
+            {
+
+                Span<byte> remainingBytes = stackalloc byte[32];
+                for (int i = 0; i < inputLength - processedLength; i++)
+                {
+                    remainingBytes[i] = pInputBuffer[processedLength + i];
+                }
+
+                ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
+                Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
+                Utf8Validation.utf8_checker.CheckNextInput(remainingBlock, ref prev_input_block, ref prev_incomplete, ref error);
+                processedLength += inputLength - processedLength;
+
+            }
 
 
             Utf8Validation.utf8_checker.CheckEof(ref error, prev_incomplete);
