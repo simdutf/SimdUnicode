@@ -245,14 +245,46 @@ namespace SimdUnicode
             // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |  5.813 us | 0.0440 us | 0.0412 us |         - |
 
 
+            // if (processedLength < inputLength)
+            // {
+
+            //     Span<byte> remainingBytes = stackalloc byte[32];
+            //     for (int i = 0; i < inputLength - processedLength; i++)
+            //     {
+            //         remainingBytes[i] = pInputBuffer[processedLength + i];
+            //     }
+
+            //     ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
+            //     Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
+            //     Utf8Validation.utf8_checker.CheckNextInput(remainingBlock, ref prev_input_block, ref prev_incomplete, ref error);
+            //     processedLength += inputLength - processedLength;
+
+            // }
+
+
+
+
+            // |                      Method |               FileName |      Mean |     Error |    StdDev | Allocated |
+            // |---------------------------- |----------------------- |----------:|----------:|----------:|----------:|
+            // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 31.216 us | 0.2960 us | 0.2624 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 31.732 us | 0.3772 us | 0.3528 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 10.281 us | 0.1234 us | 0.1154 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt | 10.370 us | 0.2019 us | 0.1889 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt | 12.003 us | 0.2378 us | 0.4102 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt | 11.403 us | 0.1818 us | 0.1700 us |         - |
+            // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt | 25.936 us | 0.3735 us | 0.3311 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt | 22.630 us | 0.3594 us | 0.3362 us |         - |
+            // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |  7.186 us | 0.0220 us | 0.0195 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |  7.425 us | 0.1450 us | 0.1985 us |         - |
+            // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt |  9.359 us | 0.1549 us | 0.1294 us |         - |
+            // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt | 10.929 us | 0.2096 us | 0.1961 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 10.493 us | 0.2098 us | 0.5708 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |  9.575 us | 0.1878 us | 0.1757 us |         - |
             if (processedLength < inputLength)
             {
 
                 Span<byte> remainingBytes = stackalloc byte[32];
-                for (int i = 0; i < inputLength - processedLength; i++)
-                {
-                    remainingBytes[i] = pInputBuffer[processedLength + i];
-                }
+                new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
 
                 ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
                 Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
