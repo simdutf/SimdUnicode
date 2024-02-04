@@ -11,7 +11,7 @@ namespace SimdUnicode
 
 
         // Translated method.
-        public unsafe static byte*  RewindAndValidateWithErrors(byte* start, byte* buf, int len)
+        public unsafe static byte*  RewindAndValidateWithErrors(byte* buf, int len)
         {
             int extraLen = 0;
             // A leading byte cannot be further than 4 bytes away.

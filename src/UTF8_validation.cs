@@ -212,19 +212,16 @@ namespace SimdUnicode
             // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 10.078 us | 0.0499 us | 0.0467 us | 10.079 us |      56 B |
 
             // scalar results:
-            // if (processedLength < inputLength)
-            // {
-            //     // Directly call the scalar function on the remaining part of the buffer
-            //     byte* invalidBytePointer = GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength -1);
-
-            //     // You can then use `invalidBytePointer` as needed, for example:
-            //     // if (invalidBytePointer != pInputBuffer + inputLength) {
-            //     //     // Handle the case where an invalid byte is found
-            //     // }
-
-            //     // Update processedLength to reflect the processing done by the scalar function
-            //     processedLength += (int)(invalidBytePointer - pInputBuffer);
-            // }
+        if (processedLength < inputLength)
+        {
+            byte* invalidBytePointer = UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength, inputLength - processedLength);
+            if (invalidBytePointer != pInputBuffer + inputLength)
+            {
+                // An invalid byte was found. Adjust error handling as needed.
+                error = Vector256.Create((byte)1);
+            }
+            processedLength += (int)(invalidBytePointer - (pInputBuffer + processedLength));
+        }
 
 
             // |                      Method |               FileName |      Mean |     Error |    StdDev | Allocated |
@@ -280,18 +277,48 @@ namespace SimdUnicode
             // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt | 10.929 us | 0.2096 us | 0.1961 us |         - |
             // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 10.493 us | 0.2098 us | 0.5708 us |         - |
             // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |  9.575 us | 0.1878 us | 0.1757 us |         - |
-            if (processedLength < inputLength)
-            {
+            // if (processedLength < inputLength)
+            // {
 
-                Span<byte> remainingBytes = stackalloc byte[32];
-                new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
+            //     Span<byte> remainingBytes = stackalloc byte[32];
+            //     new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
 
-                ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
-                Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
-                Utf8Validation.utf8_checker.CheckNextInput(remainingBlock, ref prev_input_block, ref prev_incomplete, ref error);
-                processedLength += inputLength - processedLength;
+            //     ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
+            //     Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
+            //     Utf8Validation.utf8_checker.CheckNextInput(remainingBlock, ref prev_input_block, ref prev_incomplete, ref error);
+            //     processedLength += inputLength - processedLength;
 
-            }
+            // }
+
+            // if (processedLength < inputLength)
+            // {
+
+            //     Span<byte> remainingBytes = stackalloc byte[32];
+            //     new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
+
+            //     ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
+            //     Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
+            //     Utf8Validation.utf8_checker.CheckNextInput(remainingBlock, ref prev_input_block, ref prev_incomplete, ref error);
+            //     processedLength += inputLength - processedLength;
+
+            // }
+
+            // if (processedLength < inputLength)
+            // {
+            //     // Directly call the scalar function on the remaining part of the buffer
+            //     byte* startOfRemaining = pInputBuffer + processedLength;
+            //     int lengthOfRemaining = inputLength - processedLength;
+            //     byte* invalidBytePointer = UTF8.GetPointerToFirstInvalidByte(startOfRemaining, lengthOfRemaining);
+
+            //     // Use `invalidBytePointer` as needed, for example:
+            //     // if (invalidBytePointer != startOfRemaining + lengthOfRemaining) {
+            //     //     // Handle the case where an invalid byte is found
+            //     // }
+
+            //     // Update processedLength based on the result of the scalar function
+            //     processedLength += (int)(invalidBytePointer - pInputBuffer);
+            // }
+
 
 
             Utf8Validation.utf8_checker.CheckEof(ref error, prev_incomplete);
