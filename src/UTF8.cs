@@ -9,6 +9,33 @@ namespace SimdUnicode
     public static class UTF8
     {
 
+
+        // Translated method.
+        public unsafe static byte*  RewindAndValidateWithErrors(byte* start, byte* buf, int len)
+        {
+            int extraLen = 0;
+            // A leading byte cannot be further than 4 bytes away.
+
+            for (int i = 0; i < 5; i++)
+            {
+                byte currentByte = *buf;
+                if ((currentByte & 0b11000000) != 0b10000000)
+                {
+                    break; // Found a leading byte or ASCII, stop rewinding.
+                }
+                else
+                {
+                    buf--; // Rewind to the previous byte.
+                    extraLen++;
+                }
+            }
+
+            // Now buf points to the start of a UTF-8 sequence or the start of the buffer.
+            // Validate from this new start point with the adjusted length.
+            byte* invalidByte = GetPointerToFirstInvalidByte(buf, len + extraLen);
+
+            return invalidByte;
+        }
         public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
         {
 
