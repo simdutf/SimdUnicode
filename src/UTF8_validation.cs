@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.Arm;
 using static System.Net.Mime.MediaTypeNames;
+using System.Numerics;
+
 
 // C# already have something that is *more or less* equivalent to our C++ simd class:
 // Vector256 https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.vector256-1?view=net-7.0
@@ -117,6 +119,11 @@ namespace SimdUnicode
         //     return string.Join(" ", binaryStrings);
         // }
 
+                public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
+        {
+
+        }
+
         // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
         // [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
@@ -194,34 +201,77 @@ namespace SimdUnicode
 
             // CheckForGCCollections("After processed remaining bytes");
 
-            // |                      Method |               FileName |      Mean |     Error |    StdDev |    Median | Allocated |
-            // |---------------------------- |----------------------- |----------:|----------:|----------:|----------:|----------:|
-            // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 36.968 us | 0.4637 us | 0.4111 us | 37.018 us |      56 B |
-            // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 31.851 us | 0.2252 us | 0.2107 us | 31.865 us |      56 B |
-            // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 10.541 us | 0.0870 us | 0.0814 us | 10.490 us |      56 B |
-            // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt | 12.404 us | 0.2447 us | 0.2913 us | 12.355 us |      56 B |
-            // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt | 14.297 us | 0.2786 us | 0.4655 us | 14.225 us |      56 B |
-            // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt | 14.207 us | 0.0272 us | 0.0241 us | 14.211 us |      56 B |
-            // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt | 23.993 us | 0.2287 us | 0.2140 us | 23.879 us |      56 B |
-            // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt | 26.856 us | 0.5314 us | 1.4367 us | 27.005 us |      56 B |
-            // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |  8.541 us | 0.1702 us | 0.2090 us |  8.456 us |      56 B |
-            // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |  8.728 us | 0.1618 us | 0.3938 us |  8.567 us |      56 B |
-            // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 11.108 us | 0.1767 us | 0.1653 us | 11.184 us |      56 B |
-            // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  9.533 us | 0.1288 us | 0.1205 us |  9.490 us |      56 B |
-            // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 10.128 us | 0.0544 us | 0.0454 us | 10.126 us |      56 B |
-            // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 10.078 us | 0.0499 us | 0.0467 us | 10.079 us |      56 B |
-
+// |                      Method |               FileName |      Mean |     Error |    StdDev | Allocated |
+// |---------------------------- |----------------------- |----------:|----------:|----------:|----------:|
+// |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 31.509 us | 0.2234 us | 0.2089 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 28.280 us | 0.2042 us | 0.1810 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt |  6.682 us | 0.0400 us | 0.0354 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  6.750 us | 0.1294 us | 0.1080 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  9.291 us | 0.0345 us | 0.0323 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  9.483 us | 0.0486 us | 0.0454 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/french.utf8.txt | 19.547 us | 0.3349 us | 0.3132 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/french.utf8.txt | 18.264 us | 0.2890 us | 0.2703 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |  4.972 us | 0.0402 us | 0.0357 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |  4.936 us | 0.0468 us | 0.0438 us |         - |
+// |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt |  6.039 us | 0.0680 us | 0.0636 us |         - |
+// | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  5.683 us | 0.0970 us | 0.0907 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt |  6.054 us | 0.1161 us | 0.1627 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |  5.909 us | 0.0483 us | 0.0452 us |         - |
             // scalar results:
-        if (processedLength < inputLength)
-        {
-            byte* invalidBytePointer = UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength, inputLength - processedLength);
-            if (invalidBytePointer != pInputBuffer + inputLength)
-            {
-                // An invalid byte was found. Adjust error handling as needed.
-                error = Vector256.Create((byte)1);
-            }
-            processedLength += (int)(invalidBytePointer - (pInputBuffer + processedLength));
-        }
+        // if (processedLength < inputLength)
+        // {
+        //     byte* invalidBytePointer = UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength, inputLength - processedLength);
+        //     // This makes little difference
+        //     if (invalidBytePointer != pInputBuffer + inputLength)
+        //     {
+        //         // An invalid byte was found. Adjust error handling as needed.
+        //         error = Vector256.Create((byte)1);
+        //     }
+        //     processedLength += (int)(invalidBytePointer - (pInputBuffer + processedLength));
+        // }
+
+
+// ThreadStaticAttribute approach is buggy
+        // if (processedLength < inputLength)
+        // {
+
+        //     // int mask = Avx2.MoveMask(prev_incomplete.AsSByte());
+        //     // int index = BitOperations.TrailingZeroCount(mask);
+
+
+        //     // byte* invalidBytePointer = UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength, inputLength - processedLength);
+        //     // // This makes little difference
+        //     // if (invalidBytePointer != pInputBuffer + inputLength)
+        //     // {
+        //     //     // An invalid byte was found. Adjust error handling as needed.
+        //     //     error = Vector256.Create((byte)1);
+        //     // }
+
+        //         // Find the position of the first set bit in incompleteMask, indicating the start of an incomplete sequence.
+        //     int incompleteMask = Avx2.MoveMask(prev_incomplete.AsSByte());
+        //     int firstIncompletePos = BitOperations.LeadingZeroCount((uint)incompleteMask);
+
+        //     // Calculate the pointer adjustment based on the position of the incomplete sequence.
+        //     byte* startPtrForScalarValidation = pInputBuffer + processedLength + firstIncompletePos;
+
+        //     // Ensure startPtrForScalarValidation does not precede pInputBuffer.
+        //     // startPtrForScalarValidation = Math.Max(pInputBuffer, startPtrForScalarValidation);
+
+        //     // Now, ensure startPtrForScalarValidation points to a leading byte by backtracking if it's pointing to a continuation byte.
+        //     // while (startPtrForScalarValidation > pInputBuffer && (*startPtrForScalarValidation & 0xC0) == 0x80) {
+        //     //     startPtrForScalarValidation--;
+        //     // }
+
+        //     // Invoke scalar validation from the identified leading byte position.
+        //     byte* invalidBytePointer = UTF8.GetPointerToFirstInvalidByte(startPtrForScalarValidation, inputLength - (int)(startPtrForScalarValidation - pInputBuffer));
+        //     if (invalidBytePointer != pInputBuffer + inputLength)
+        //     {
+        //         // An invalid byte was found. Adjust error handling as needed.
+        //         error = Vector256.Create((byte)1);
+        //     }
+        //     processedLength += (int)(invalidBytePointer - (pInputBuffer + processedLength));
+        // }
+
 
 
             // |                      Method |               FileName |      Mean |     Error |    StdDev | Allocated |
