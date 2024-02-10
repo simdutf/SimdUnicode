@@ -195,16 +195,33 @@ namespace SimdUnicode
             //         return invalidBytePointer;
             //     }
             // }
+
+//             |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+// |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+// |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 454.633 us | 4.3116 us | 3.8221 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 270.426 us | 4.4255 us | 4.5447 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 129.489 us | 2.3981 us | 2.3553 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  16.391 us | 0.3104 us | 0.2752 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.192 us | 0.0790 us | 0.0660 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.244 us | 0.1760 us | 0.1646 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.826 us | 0.0646 us | 0.0573 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  13.416 us | 0.2554 us | 0.4921 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   6.006 us | 0.1154 us | 0.1617 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.925 us | 0.0930 us | 0.0870 us |         - |
+// |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 138.051 us | 1.2770 us | 1.1945 us |         - |
+// | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  75.751 us | 0.9603 us | 0.7498 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 173.199 us | 3.4289 us | 5.4386 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 112.989 us | 1.7684 us | 1.5677 us |         - |
             if (processedLength < inputLength)
             {
 
-                Span<byte> remainingBytes = stackalloc byte[32];
+                Span<byte> remainingBytes = stackalloc byte[64];
                 new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
 
                 ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
                 Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
                 Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
-                
+
                 Utf8Validation.utf8_checker.CheckEof();
                 if (Utf8Validation.utf8_checker.Errors())
                 {
