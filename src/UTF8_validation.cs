@@ -119,6 +119,25 @@ namespace SimdUnicode
         //     return string.Join(" ", binaryStrings);
         // }
 
+
+
+// par:
+// |                             Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+// |----------------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+// |  CompetitionUtf8ValidationRealData |   data/arabic.utf8.txt | 199.315 us | 0.2632 us | 0.2334 us |         - |
+// | CompetitionUtf8ValidationErrorData |   data/arabic.utf8.txt | 132.782 us | 0.5135 us | 0.4552 us |         - |
+// |  CompetitionUtf8ValidationRealData |  data/chinese.utf8.txt |  29.674 us | 0.3246 us | 0.2710 us |         - |
+// | CompetitionUtf8ValidationErrorData |  data/chinese.utf8.txt |   5.185 us | 0.0177 us | 0.0148 us |         - |
+// |  CompetitionUtf8ValidationRealData |  data/english.utf8.txt |  16.251 us | 0.2844 us | 0.2793 us |         - |
+// | CompetitionUtf8ValidationErrorData |  data/english.utf8.txt |  11.119 us | 0.0405 us | 0.0379 us |         - |
+// |  CompetitionUtf8ValidationRealData |   data/french.utf8.txt |  70.772 us | 0.2132 us | 0.1890 us |         - |
+// | CompetitionUtf8ValidationErrorData |   data/french.utf8.txt |  22.515 us | 0.1278 us | 0.1195 us |         - |
+// |  CompetitionUtf8ValidationRealData |   data/german.utf8.txt |  14.132 us | 0.0722 us | 0.0640 us |         - |
+// | CompetitionUtf8ValidationErrorData |   data/german.utf8.txt |   6.889 us | 0.0231 us | 0.0205 us |         - |
+// |  CompetitionUtf8ValidationRealData | data/japanese.utf8.txt |  25.023 us | 0.1017 us | 0.0952 us |         - |
+// | CompetitionUtf8ValidationErrorData | data/japanese.utf8.txt |  17.504 us | 0.0712 us | 0.0666 us |         - |
+// |  CompetitionUtf8ValidationRealData |  data/turkish.utf8.txt |  23.755 us | 0.3332 us | 0.3117 us |         - |
+// | CompetitionUtf8ValidationErrorData |  data/turkish.utf8.txt |  21.983 us | 0.1308 us | 0.1223 us |         - |
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
         {
 
@@ -146,16 +165,59 @@ namespace SimdUnicode
 
             }
 
+            // First fix bencrmarks static utf checker
+        // |                      Method |               FileName |       Mean |     Error |     StdDev | Allocated |
+        // |---------------------------- |----------------------- |-----------:|----------:|-----------:|----------:|
+        // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 478.655 us | 8.9312 us | 15.4059 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 283.895 us | 5.2810 us |  8.9675 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 134.967 us | 2.6698 us |  5.1438 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  17.403 us | 0.3361 us |  0.4820 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.186 us | 0.0707 us |  0.0626 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.167 us | 0.1118 us |  0.0991 us |         - |
+        // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  13.303 us | 0.2523 us |  0.2236 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  13.002 us | 0.1448 us |  0.1284 us |         - |
+        // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.965 us | 0.1016 us |  0.0901 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.981 us | 0.0683 us |  0.0639 us |         - |
+        // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 138.114 us | 2.6217 us |  3.0191 us |         - |
+        // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  66.023 us | 1.2819 us |  1.1364 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 168.166 us | 2.4131 us |  2.2572 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 112.761 us | 2.2175 us |  1.9657 us |         - |
+
+        
+
                 // Process the remaining bytes with the scalar function
+            // if (processedLength < inputLength)
+            // {
+            //     byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength);
+            //     if (invalidBytePointer != pInputBuffer + inputLength)
+            //     {
+            //         // An invalid byte was found by the scalar function
+            //         return invalidBytePointer;
+            //     }
+            // }
             if (processedLength < inputLength)
             {
-                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength);
-                if (invalidBytePointer != pInputBuffer + inputLength)
+
+                Span<byte> remainingBytes = stackalloc byte[32];
+                new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
+
+                ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
+                Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
+                Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
+                
+                Utf8Validation.utf8_checker.CheckEof();
+                if (Utf8Validation.utf8_checker.Errors())
                 {
-                    // An invalid byte was found by the scalar function
-                    return invalidBytePointer;
+                    // return pInputBuffer + processedLength;
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength,inputLength - processedLength);
                 }
+                processedLength += inputLength - processedLength;
+
             }
+
+
+
+            
             return pInputBuffer + inputLength;
 
         }
