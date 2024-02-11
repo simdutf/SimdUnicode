@@ -12,24 +12,6 @@ using System.Numerics;
 // Vector256 https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.vector256-1?view=net-7.0
 //  I extend it as needed
 
-// non-static benchmarks
-// |                      Method |               FileName |       Mean |     Error |    StdDev |     Median | Allocated |
-// |---------------------------- |----------------------- |-----------:|----------:|----------:|-----------:|----------:|
-// |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 419.461 us | 4.7151 us | 4.4105 us | 420.020 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 268.504 us | 2.5139 us | 2.2285 us | 267.491 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 113.877 us | 2.2331 us | 3.4101 us | 113.649 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  16.100 us | 0.3168 us | 0.3648 us |  16.059 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.170 us | 0.1277 us | 0.1132 us |  11.130 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.010 us | 0.1023 us | 0.0957 us |  11.007 us |         - |
-// |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.987 us | 0.1030 us | 0.0963 us |  12.980 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.786 us | 0.1989 us | 0.1860 us |  12.824 us |         - |
-// |  SIMDUtf8ValidationRealData |   data/german.utf8.txt | 100.692 us | 2.0088 us | 5.2921 us | 102.429 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |  33.260 us | 0.4813 us | 0.4502 us |  33.186 us |         - |
-// |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 134.439 us | 1.0321 us | 0.9149 us | 134.324 us |         - |
-// | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  65.396 us | 1.2923 us | 1.1456 us |  65.504 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt |   5.519 us | 0.0311 us | 0.0275 us |   5.517 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |   5.470 us | 0.0270 us | 0.0253 us |   5.466 us |         - |
-
 
 // |                      Method |    N |       Mean |     Error |    StdDev |   Gen0 | Allocated |
 // |---------------------------- |----- |-----------:|----------:|----------:|-------:|----------:|
@@ -159,7 +141,7 @@ namespace SimdUnicode
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
         {
 
-            var checker = new Utf8Validation.utf8_checker();
+
 
             int processedLength = 0;
 
@@ -171,15 +153,10 @@ namespace SimdUnicode
             while (processedLength + 64 <= inputLength)
             {                
                 
-                // SIMDGetPointerToFirstInvalidByte(pInputBuffer,processedLength);
-
-                Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
-                checker.CheckNextInput(currentBlock);
-                currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
-                checker.CheckNextInput(currentBlock);
-
-                checker.CheckEof();
-                if (checker.Errors())
+                SIMDGetPointerToFirstInvalidByte(pInputBuffer,processedLength);
+                
+                Utf8Validation.utf8_checker.CheckEof();
+                if (Utf8Validation.utf8_checker.Errors())
                 {
                     // return pInputBuffer + processedLength;
                     return SimdUnicode.UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength,inputLength - processedLength);
@@ -243,10 +220,10 @@ namespace SimdUnicode
 
                 ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
                 Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
-                checker.CheckNextInput(remainingBlock);
+                Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
 
-                checker.CheckEof();
-                if (checker.Errors())
+                Utf8Validation.utf8_checker.CheckEof();
+                if (Utf8Validation.utf8_checker.Errors())
                 {
                     // return pInputBuffer + processedLength;
                     return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength,inputLength - processedLength);
@@ -264,28 +241,28 @@ namespace SimdUnicode
 
         // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
         // [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        // public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
-        // {
-        //     ////////////////
-        //     // TODO: I recommend taking this code and calling it something
-        //     // else. Then have the current function (GetPointerToFirstInvalidByte)
-        //     // call the SIMD function only if inputLength is sufficiently large (maybe 64 bytes),
-        //     // otherwise, use the scalar function.
-        //     ////////////////
+        public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
+        {
+            ////////////////
+            // TODO: I recommend taking this code and calling it something
+            // else. Then have the current function (GetPointerToFirstInvalidByte)
+            // call the SIMD function only if inputLength is sufficiently large (maybe 64 bytes),
+            // otherwise, use the scalar function.
+            ////////////////
 
 
                 
-        //     Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
-        //     checker.CheckNextInput(currentBlock);
+            Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+            Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
 
-        //     processedLength += 32;
+            processedLength += 32;
 
-        //     currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
-        //     checker.CheckNextInput(currentBlock);
-        //     processedLength += 32;
+            currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+            Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
+            processedLength += 32;
 
-        //     return pInputBuffer + processedLength;
-        // }
+            return pInputBuffer + processedLength;
+        }
     }
 
 // C# docs suggests that classes are allocated on the heap:
@@ -296,9 +273,9 @@ namespace SimdUnicode
         {
 
 
-            Vector256<byte> error = Vector256<byte>.Zero;
-            Vector256<byte> prev_input_block = Vector256<byte>.Zero;
-            Vector256<byte> prev_incomplete = Vector256<byte>.Zero;
+            static Vector256<byte> error = Vector256<byte>.Zero;
+            static Vector256<byte> prev_input_block = Vector256<byte>.Zero;
+            static Vector256<byte> prev_incomplete = Vector256<byte>.Zero;
 
             // Explicit constructor
             public utf8_checker()
@@ -315,7 +292,7 @@ namespace SimdUnicode
             // This is the simplest least time-consuming implementation. 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            public void CheckNextInput(Vector256<byte> input)
+            public static void CheckNextInput(Vector256<byte> input)
             {
                 // Compiles to:
                 /*
@@ -381,7 +358,7 @@ namespace SimdUnicode
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            public void CheckUtf8Bytes(Vector256<byte> input)
+            public static void CheckUtf8Bytes(Vector256<byte> input)
             {
                 // compiles to
                 //        vmovups  ymm0, ymmword ptr [rcx]
@@ -422,7 +399,7 @@ namespace SimdUnicode
 
             // [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            public bool Errors()
+            public static bool Errors()
             {
                 // Console.WriteLine("Error Vector at the end: " + VectorToString(error));
                 // compiles to:
@@ -434,7 +411,7 @@ namespace SimdUnicode
 
             // [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            public void CheckEof()
+            public static void CheckEof()
             {
                 // Console.WriteLine("Error Vector before check_eof(): " + VectorToString(error));
                 // Console.WriteLine("prev_incomplete Vector in check_eof(): " + VectorToString(prev_incomplete));
@@ -460,7 +437,7 @@ namespace SimdUnicode
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
             // This corresponds to section 6.1 e.g Table 6 of the paper e.g. 1-2 bytes
-            private Vector256<byte> CheckSpecialCases(Vector256<byte> input, Vector256<byte> prev1)
+            private static Vector256<byte> CheckSpecialCases(Vector256<byte> input, Vector256<byte> prev1)
             {
 
                 // define bits that indicate error code
@@ -556,7 +533,7 @@ namespace SimdUnicode
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private Vector256<byte> CheckMultibyteLengths(Vector256<byte> input, Vector256<byte> prev_input, Vector256<byte> sc)
+            private static Vector256<byte> CheckMultibyteLengths(Vector256<byte> input, Vector256<byte> prev_input, Vector256<byte> sc)
             {
                 // Console.WriteLine("sc: " + VectorToString(sc));
 
@@ -587,7 +564,7 @@ namespace SimdUnicode
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private Vector256<byte> MustBe23Continuation(Vector256<byte> prev2, Vector256<byte> prev3)
+            private static Vector256<byte> MustBe23Continuation(Vector256<byte> prev2, Vector256<byte> prev3)
             {
                 // Compiles to
                 //         vmovups  ymm0, ymmword ptr [rdx]
@@ -621,7 +598,7 @@ namespace SimdUnicode
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            private Vector256<byte> IsIncomplete(Vector256<byte> input)
+            private static Vector256<byte> IsIncomplete(Vector256<byte> input)
             {
                 // Console.WriteLine("Input Vector is_incomplete: " + VectorToString(input));
                 // byte[] maxArray = new byte[32]
@@ -647,7 +624,7 @@ namespace SimdUnicode
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-            private Vector256<byte> SaturatingSubtractUnsigned(Vector256<byte> left, Vector256<byte> right)
+            private static Vector256<byte> SaturatingSubtractUnsigned(Vector256<byte> left, Vector256<byte> right)
             {
                 // Compiles to
                 //        vpsubusw ymm0, ymm0, ymmword ptr [r8]
