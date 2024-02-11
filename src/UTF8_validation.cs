@@ -12,6 +12,24 @@ using System.Numerics;
 // Vector256 https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.vector256-1?view=net-7.0
 //  I extend it as needed
 
+// non-static benchmarks
+// |                      Method |               FileName |       Mean |     Error |    StdDev |     Median | Allocated |
+// |---------------------------- |----------------------- |-----------:|----------:|----------:|-----------:|----------:|
+// |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 419.461 us | 4.7151 us | 4.4105 us | 420.020 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 268.504 us | 2.5139 us | 2.2285 us | 267.491 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 113.877 us | 2.2331 us | 3.4101 us | 113.649 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  16.100 us | 0.3168 us | 0.3648 us |  16.059 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.170 us | 0.1277 us | 0.1132 us |  11.130 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.010 us | 0.1023 us | 0.0957 us |  11.007 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.987 us | 0.1030 us | 0.0963 us |  12.980 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.786 us | 0.1989 us | 0.1860 us |  12.824 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/german.utf8.txt | 100.692 us | 2.0088 us | 5.2921 us | 102.429 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |  33.260 us | 0.4813 us | 0.4502 us |  33.186 us |         - |
+// |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 134.439 us | 1.0321 us | 0.9149 us | 134.324 us |         - |
+// | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  65.396 us | 1.2923 us | 1.1456 us |  65.504 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt |   5.519 us | 0.0311 us | 0.0275 us |   5.517 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |   5.470 us | 0.0270 us | 0.0253 us |   5.466 us |         - |
+
 
 // |                      Method |    N |       Mean |     Error |    StdDev |   Gen0 | Allocated |
 // |---------------------------- |----- |-----------:|----------:|----------:|-------:|----------:|
