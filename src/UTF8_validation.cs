@@ -165,7 +165,8 @@ namespace SimdUnicode
 
             }
 
-            // First fix bencrmarks static utf checker
+            // First fix bencrmarks static utf checker 
+            // 
         // |                      Method |               FileName |       Mean |     Error |     StdDev | Allocated |
         // |---------------------------- |----------------------- |-----------:|----------:|-----------:|----------:|
         // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 478.655 us | 8.9312 us | 15.4059 us |         - |
@@ -212,16 +213,56 @@ namespace SimdUnicode
 // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  75.751 us | 0.9603 us | 0.7498 us |         - |
 // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 173.199 us | 3.4289 us | 5.4386 us |         - |
 // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 112.989 us | 1.7684 us | 1.5677 us |         - |
+            // if (processedLength < inputLength)
+            // {
+
+            //     Span<byte> remainingBytes = stackalloc byte[64];
+            //     new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
+
+            //     ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
+            //     Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
+            //     Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
+
+            //     Utf8Validation.utf8_checker.CheckEof();
+            //     if (Utf8Validation.utf8_checker.Errors())
+            //     {
+            //         // return pInputBuffer + processedLength;
+            //         return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength,inputLength - processedLength);
+            //     }
+            //     processedLength += inputLength - processedLength;
+
+            // }
+
+            // |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+            // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+            // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 454.353 us | 6.0327 us | 5.3478 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 278.734 us | 5.3031 us | 5.8943 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 127.542 us | 2.2544 us | 2.1087 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  15.822 us | 0.3030 us | 0.3832 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.016 us | 0.1309 us | 0.1225 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.030 us | 0.1580 us | 0.1400 us |         - |
+            // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.547 us | 0.0740 us | 0.0656 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.652 us | 0.1455 us | 0.1290 us |         - |
+            // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.755 us | 0.0277 us | 0.0246 us |         - |
+            // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.669 us | 0.0079 us | 0.0070 us |         - |
+            // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 130.835 us | 0.5999 us | 0.5612 us |         - |
+            // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  71.814 us | 1.0399 us | 0.9727 us |         - |
+            // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 167.163 us | 3.1610 us | 4.1103 us |         - |
+            // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 109.607 us | 0.6636 us | 0.5542 us |         - |
+
+
             if (processedLength < inputLength)
             {
 
                 Span<byte> remainingBytes = stackalloc byte[64];
-                new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
+                for (int i = 0; i < inputLength - processedLength; i++)
+                {
+                    remainingBytes[i] = pInputBuffer[processedLength + i];
+                }
 
                 ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
                 Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
                 Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
-
                 Utf8Validation.utf8_checker.CheckEof();
                 if (Utf8Validation.utf8_checker.Errors())
                 {
@@ -229,7 +270,6 @@ namespace SimdUnicode
                     return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength,inputLength - processedLength);
                 }
                 processedLength += inputLength - processedLength;
-
             }
 
 
@@ -239,7 +279,7 @@ namespace SimdUnicode
 
         }
 
-        // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
+        Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
         // [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
         {
