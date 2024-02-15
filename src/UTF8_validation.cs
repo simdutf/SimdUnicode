@@ -9,6 +9,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices.JavaScript;
 using static SimdUnicode.Utf8Validation;
+using System.Threading.Channels;
 
 
 // C# already have something that is *more or less* equivalent to our C++ simd class:
@@ -625,6 +626,8 @@ namespace SimdUnicode
                 }
             }
 
+    //  benches done with 2 times unroll
+
 //             |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
 // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
 // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 454.633 us | 4.3116 us | 3.8221 us |         - |
@@ -796,6 +799,10 @@ namespace SimdUnicode
         // call the SIMD function only if inputLength is sufficiently large (maybe 64 bytes),
         // otherwise, use the scalar function.
         ////////////////
+        ///
+        
+        
+    // unrolling benchmarks done with scalar tail
     // |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
     // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
     // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 428.127 us | 7.9313 us | 7.7896 us |         - |
