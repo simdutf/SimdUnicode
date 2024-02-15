@@ -546,6 +546,21 @@ namespace SimdUnicode
                 return pInputBuffer;
             }
 
+            // while (processedLength + 128 <= inputLength)
+            // {                
+                
+            //     SIMDGetPointerToFirstInvalidByte(pInputBuffer,processedLength);
+                
+            //     Utf8Validation.utf8_checker.CheckEof();
+            //     if (Utf8Validation.utf8_checker.Errors())
+            //     {
+            //         // return pInputBuffer + processedLength;
+            //         return SimdUnicode.UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength,inputLength - processedLength);
+            //     }
+            //     processedLength += 128;
+
+            // }  
+
             while (processedLength + 64 <= inputLength)
             {                
                 
@@ -559,7 +574,24 @@ namespace SimdUnicode
                 }
                 processedLength += 64;
 
-            }
+            }  
+
+
+
+            // while (processedLength + 32 <= inputLength)
+            // {                
+                
+            //     SIMDGetPointerToFirstInvalidByte(pInputBuffer,processedLength);
+                
+            //     Utf8Validation.utf8_checker.CheckEof();
+            //     if (Utf8Validation.utf8_checker.Errors())
+            //     {
+            //         // return pInputBuffer + processedLength;
+            //         return SimdUnicode.UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength,inputLength - processedLength);
+            //     }
+            //     processedLength += 32;
+
+            // }
 
             // First fix bencrmarks static utf checker 
             // 
@@ -583,15 +615,15 @@ namespace SimdUnicode
         
 
                 // Process the remaining bytes with the scalar function
-            // if (processedLength < inputLength)
-            // {
-            //     byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength);
-            //     if (invalidBytePointer != pInputBuffer + inputLength)
-            //     {
-            //         // An invalid byte was found by the scalar function
-            //         return invalidBytePointer;
-            //     }
-            // }
+            if (processedLength < inputLength)
+            {
+                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength);
+                if (invalidBytePointer != pInputBuffer + inputLength)
+                {
+                    // An invalid byte was found by the scalar function
+                    return invalidBytePointer;
+                }
+            }
 
 //             |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
 // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
@@ -647,26 +679,26 @@ namespace SimdUnicode
             // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 109.607 us | 0.6636 us | 0.5542 us |         - |
 
 
-            if (processedLength < inputLength)
-            {
+            // if (processedLength < inputLength)
+            // {
 
-                Span<byte> remainingBytes = stackalloc byte[64];
-                for (int i = 0; i < inputLength - processedLength; i++)
-                {
-                    remainingBytes[i] = pInputBuffer[processedLength + i];
-                }
+            //     Span<byte> remainingBytes = stackalloc byte[64];
+            //     for (int i = 0; i < inputLength - processedLength; i++)
+            //     {
+            //         remainingBytes[i] = pInputBuffer[processedLength + i];
+            //     }
 
-                ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
-                Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
-                Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
-                Utf8Validation.utf8_checker.CheckEof();
-                if (Utf8Validation.utf8_checker.Errors())
-                {
-                    // return pInputBuffer + processedLength;
-                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength,inputLength - processedLength);
-                }
-                processedLength += inputLength - processedLength;
-            }
+            //     ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
+            //     Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
+            //     Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
+            //     Utf8Validation.utf8_checker.CheckEof();
+            //     if (Utf8Validation.utf8_checker.Errors())
+            //     {
+            //         // return pInputBuffer + processedLength;
+            //         return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength,inputLength - processedLength);
+            //     }
+            //     processedLength += inputLength - processedLength;
+            // }
 
 
 
@@ -675,18 +707,47 @@ namespace SimdUnicode
 
         }
 
-        Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
-        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
-        {
-        ////////////////
-        // TODO: I recommend taking this code and calling it something
-        // else. Then have the current function (GetPointerToFirstInvalidByte)
-        // call the SIMD function only if inputLength is sufficiently large (maybe 64 bytes),
-        // otherwise, use the scalar function.
-        ////////////////
+// |                      Method |               FileName |       Mean |     Error |     StdDev | Allocated |
+// |---------------------------- |----------------------- |-----------:|----------:|-----------:|----------:|
+// |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 472.648 us | 9.2039 us | 14.3294 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 270.666 us | 1.8206 us |  1.6139 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 129.587 us | 2.4394 us |  2.2818 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  14.699 us | 0.2902 us |  0.4254 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  10.944 us | 0.1793 us |  0.1590 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.954 us | 0.1190 us |  0.1113 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.971 us | 0.2540 us |  0.2495 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.692 us | 0.1270 us |  0.1126 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.751 us | 0.0576 us |  0.0539 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.735 us | 0.0164 us |  0.0145 us |         - |
+// |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 132.404 us | 1.3084 us |  1.2239 us |         - |
+// | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  74.305 us | 1.4385 us |  1.4128 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 161.232 us | 1.5357 us |  1.4365 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 107.539 us | 1.0781 us |  0.9557 us |         - |
 
-            //        G_M000_IG01:; ; offset = 0x0000
+        // public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
+        // {
+        //     Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+        //     Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
+
+        //     processedLength += 32;
+
+        //     currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+        //     Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
+        //     processedLength += 32;
+            
+        //     currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+        //     Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
+
+        //     processedLength += 32;
+
+        //     currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+        //     Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
+        //     processedLength += 32;
+
+        //     return pInputBuffer + processedLength;
+        // }
+
+                    //        G_M000_IG01:; ; offset = 0x0000
             //       push rbp
             //       sub rsp, 112
             //       vzeroupper
@@ -729,7 +790,33 @@ namespace SimdUnicode
 
             //; Total bytes of code 114
 
+                    ////////////////
+        // TODO: I recommend taking this code and calling it something
+        // else. Then have the current function (GetPointerToFirstInvalidByte)
+        // call the SIMD function only if inputLength is sufficiently large (maybe 64 bytes),
+        // otherwise, use the scalar function.
+        ////////////////
+    // |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+    // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+    // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 428.127 us | 7.9313 us | 7.7896 us |         - |
+    // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 263.689 us | 5.2244 us | 7.4927 us |         - |
+    // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 112.669 us | 1.7434 us | 1.5455 us |         - |
+    // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  16.209 us | 0.3105 us | 0.4250 us |         - |
+    // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  10.804 us | 0.0878 us | 0.0821 us |         - |
+    // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.873 us | 0.0428 us | 0.0379 us |         - |
+    // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.423 us | 0.0771 us | 0.0721 us |         - |
+    // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  13.878 us | 0.2719 us | 0.4152 us |         - |
+    // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   6.425 us | 0.1266 us | 0.2044 us |         - |
+    // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   6.452 us | 0.1281 us | 0.2277 us |         - |
+    // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 148.702 us | 2.9438 us | 6.1447 us |         - |
+    // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  81.048 us | 1.5900 us | 3.3538 us |         - |
+    // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 177.423 us | 3.5294 us | 7.2096 us |         - |
+    // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 116.685 us | 2.3214 us | 4.0044 us |         - |
 
+        // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
+        {
             Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
             Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
 
@@ -741,7 +828,41 @@ namespace SimdUnicode
 
             return pInputBuffer + processedLength;
         }
+
+
+// |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+// |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+// |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 456.220 us | 9.1097 us | 9.7472 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 263.690 us | 3.8144 us | 3.3813 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 128.735 us | 2.1841 us | 2.0430 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  14.677 us | 0.2860 us | 0.3060 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.059 us | 0.1237 us | 0.1157 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.031 us | 0.1627 us | 0.1270 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.780 us | 0.2398 us | 0.2126 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.776 us | 0.2530 us | 0.2367 us |         - |
+// |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.851 us | 0.1000 us | 0.0887 us |         - |
+// | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.801 us | 0.0567 us | 0.0530 us |         - |
+// |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 133.673 us | 2.1092 us | 1.7612 us |         - |
+// | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  73.525 us | 0.8027 us | 0.7116 us |         - |
+// |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 165.167 us | 3.1097 us | 3.3274 us |         - |
+// | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 113.276 us | 2.1983 us | 2.9346 us |         - |
+
+
+        // // unroll once
+        // public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
+        // {
+        //     Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+        //     Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
+
+        //     processedLength += 32;
+
+        //     return pInputBuffer + processedLength;
+        // }
     }
+
+
+
+
 
 // C# docs suggests that classes are allocated on the heap:
 // it doesnt seem to do much in this case but I thought the suggestion to be sensible. 
