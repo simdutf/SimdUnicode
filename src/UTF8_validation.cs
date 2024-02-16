@@ -143,16 +143,6 @@ namespace SimdUnicode
 // |  CompetitionUtf8ValidationRealData |  data/turkish.utf8.txt |  23.755 us | 0.3332 us | 0.3117 us |         - |
 // | CompetitionUtf8ValidationErrorData |  data/turkish.utf8.txt |  21.983 us | 0.1308 us | 0.1223 us |         - |
 
-//Notchecked
-//        ; Assembly listing for method SimdUnicode.Utf8Utility:GetPointerToFirstInvalidByte(ulong, int):ulong (FullOpts)
-//; Emitting BLENDED_CODE for X64 with AVX - Windows
-//; FullOpts code
-//; optimized code
-//; rbp based frame
-//; fully interruptible
-//; No PGO data
-//; 4 inlinees with PGO data; 46 single block inlinees; 7 inlinees without PGO data
-
 //G_M000_IG01:                ;; offset=0x0000
 //       push rbp
 //       push r15
@@ -427,114 +417,6 @@ namespace SimdUnicode
 //       call CORINFO_HELP_FAIL_FAST
 
 
-//G_M000_IG21:                ;; offset=0x0433
-//       nop
-
-//G_M000_IG22:                ;; offset=0x0434
-//       vmovaps xmm6, xmmword ptr[rbp + 0x40]
-//       vmovaps  xmm7, xmmword ptr[rbp + 0x30]
-//       vmovaps xmm8, xmmword ptr[rbp + 0x20]
-//       vmovaps  xmm9, xmmword ptr[rbp + 0x10]
-//       vzeroupper
-//       lea      rsp, [rbp+0x50]
-//        pop rbx
-//       pop rsi
-//       pop rdi
-//       pop r13
-//       pop r14
-//       pop r15
-//       pop rbp
-//       ret
-
-//G_M000_IG23:                ;; offset=0x045A
-//       movsxd rax, esi
-//       add rax, rbx
-//       mov rcx, 0x552066960748
-//       cmp qword ptr[rbp + 0x08], rcx
-//       je       SHORT G_M000_IG24
-//       call CORINFO_HELP_FAIL_FAST
-
-
-//G_M000_IG24:                ;; offset=0x0475
-//       nop
-
-//G_M000_IG25:                ;; offset=0x0476
-//       vmovaps xmm6, xmmword ptr[rbp + 0x40]
-//       vmovaps  xmm7, xmmword ptr[rbp + 0x30]
-//       vmovaps xmm8, xmmword ptr[rbp + 0x20]
-//       vmovaps  xmm9, xmmword ptr[rbp + 0x10]
-//       vzeroupper
-//       lea      rsp, [rbp+0x50]
-//        pop rbx
-//       pop rsi
-//       pop rdi
-//       pop r13
-//       pop r14
-//       pop r15
-//       pop rbp
-//       ret
-
-//G_M000_IG26:                ;; offset=0x049C
-//       mov rcx, 0x7FF825F90918
-//       mov edx, 8
-//       vextractf128 xmm8, ymm7, 1
-//       vextractf128 xmm9, ymm6, 1
-//       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
-//       vinsertf128 ymm7, ymm7, xmm8, 1
-//       vinsertf128 ymm6, ymm6, xmm9, 1
-//       jmp G_M000_IG08
-
-
-//G_M000_IG27:                ;; offset=0x04CD
-//       mov rcx, 0x7FF825F90918
-//       mov edx, 8
-//       vextractf128 xmm8, ymm7, 1
-//       vextractf128 xmm9, ymm6, 1
-//       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
-//       vinsertf128 ymm7, ymm7, xmm8, 1
-//       vinsertf128 ymm6, ymm6, xmm9, 1
-//       jmp G_M000_IG10
-
-
-//G_M000_IG28:                ;; offset=0x04FE
-//       call[System.ThrowHelper:ThrowArgumentOutOfRangeException()]
-//       int3
-
-
-//G_M000_IG29:                ;; offset=0x0505
-//       call[System.ThrowHelper:ThrowArgumentException_DestinationTooShort()]
-//       int3
-
-
-//G_M000_IG30:                ;; offset=0x050C
-//       mov rcx, 0x7FF825F90918
-//       mov edx, 8
-//       vextractf128 xmm7, ymm6, 1
-//       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
-//       vinsertf128 ymm6, ymm6, xmm7, 1
-//       jmp G_M000_IG18
-
-
-//G_M000_IG31:                ;; offset=0x0531
-//       mov rcx, 0x7FF825F90918
-//       mov edx, 8
-//       vextractf128 xmm7, ymm6, 1
-//       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
-//       vinsertf128 ymm6, ymm6, xmm7, 1
-//       jmp G_M000_IG20
-
-
-//RWD00 dq	0202020202020202h, 4915012180808080h, 0202020202020202h, 4915012180808080h
-//RWD32   dq	0F0F0F0F0F0F0F0Fh, 0F0F0F0F0F0F0F0Fh, 0F0F0F0F0F0F0F0Fh, 0F0F0F0F0F0F0F0Fh
-//RWD64   dq CBCBCB8B8383A3E7h, CBCBDBCBCBCBCBCBh, CBCBCB8B8383A3E7h, CBCBDBCBCBCBCBCBh
-//RWD96 dq	0101010101010101h, 01010101BABAAEE6h, 0101010101010101h, 01010101BABAAEE6h
-//RWD128  dq	7070707070707070h, 7070707070707070h, 7070707070707070h, 7070707070707070h
-//RWD160  dq	6060606060606060h, 6060606060606060h, 6060606060606060h, 6060606060606060h
-//RWD192  dq	8080808080808080h, 8080808080808080h, 8080808080808080h, 8080808080808080h
-//RWD224  dq FFFFFFFFFFFFFFFFh, FFFFFFFFFFFFFFFFh, FFFFFFFFFFFFFFFFh, BFDFEFFFFFFFFFFFh
-
-//; Total bytes of code 1366
-
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
         {
 
@@ -710,22 +592,22 @@ namespace SimdUnicode
 
         }
 
-// |                      Method |               FileName |       Mean |     Error |     StdDev | Allocated |
-// |---------------------------- |----------------------- |-----------:|----------:|-----------:|----------:|
-// |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 472.648 us | 9.2039 us | 14.3294 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 270.666 us | 1.8206 us |  1.6139 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 129.587 us | 2.4394 us |  2.2818 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  14.699 us | 0.2902 us |  0.4254 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  10.944 us | 0.1793 us |  0.1590 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.954 us | 0.1190 us |  0.1113 us |         - |
-// |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.971 us | 0.2540 us |  0.2495 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.692 us | 0.1270 us |  0.1126 us |         - |
-// |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.751 us | 0.0576 us |  0.0539 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.735 us | 0.0164 us |  0.0145 us |         - |
-// |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 132.404 us | 1.3084 us |  1.2239 us |         - |
-// | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  74.305 us | 1.4385 us |  1.4128 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 161.232 us | 1.5357 us |  1.4365 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 107.539 us | 1.0781 us |  0.9557 us |         - |
+        // |                      Method |               FileName |       Mean |     Error |     StdDev | Allocated |
+        // |---------------------------- |----------------------- |-----------:|----------:|-----------:|----------:|
+        // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 472.648 us | 9.2039 us | 14.3294 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 270.666 us | 1.8206 us |  1.6139 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 129.587 us | 2.4394 us |  2.2818 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  14.699 us | 0.2902 us |  0.4254 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  10.944 us | 0.1793 us |  0.1590 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.954 us | 0.1190 us |  0.1113 us |         - |
+        // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.971 us | 0.2540 us |  0.2495 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.692 us | 0.1270 us |  0.1126 us |         - |
+        // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.751 us | 0.0576 us |  0.0539 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.735 us | 0.0164 us |  0.0145 us |         - |
+        // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 132.404 us | 1.3084 us |  1.2239 us |         - |
+        // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  74.305 us | 1.4385 us |  1.4128 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 161.232 us | 1.5357 us |  1.4365 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 107.539 us | 1.0781 us |  0.9557 us |         - |
 
         // public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
         // {
@@ -737,7 +619,7 @@ namespace SimdUnicode
         //     currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
         //     Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
         //     processedLength += 32;
-            
+
         //     currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
         //     Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
 
@@ -750,78 +632,118 @@ namespace SimdUnicode
         //     return pInputBuffer + processedLength;
         // }
 
-                    //        G_M000_IG01:; ; offset = 0x0000
-            //       push rbp
-            //       sub rsp, 112
-            //       vzeroupper
-            //       lea      rbp, [rsp+0x70]
-            //       mov qword ptr[rbp + 0x10], rcx
-            //       mov      dword ptr[rbp + 0x18], edx
+        
+//        |                      Method |               FileName |       Mean |     Error |     StdDev | Allocated |
+//|---------------------------- |----------------------- |-----------:|----------:|-----------:|----------:|
+//|  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 456.040 us | 2.3088 us |  1.8026 us |         - |
+//| SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 281.697 us | 5.6153 us | 10.2680 us |         - |
+//|  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 109.537 us | 1.2642 us |  1.0557 us |         - |
+//| SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  17.258 us | 0.3422 us |  0.6833 us |         - |
+//|  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.107 us | 0.2221 us |  0.3114 us |         - |
+//| SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.859 us | 0.0686 us |  0.0608 us |         - |
+//|  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.512 us | 0.1065 us |  0.0890 us |         - |
+//| SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.530 us | 0.1196 us |  0.0998 us |         - |
+//|  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.807 us | 0.0545 us |  0.0510 us |         - |
+//| SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.849 us | 0.1123 us |  0.1050 us |         - |
+//|  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 135.855 us | 1.2883 us |  1.0758 us |         - |
+//| SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  74.063 us | 0.6956 us |  0.6507 us |         - |
+//|  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 123.874 us | 0.7700 us |  0.7203 us |         - |
+//| SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |  77.987 us | 1.3605 us |  1.2726 us |         - |
+
+        
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
+        //{
+        //    Vector256<byte> currentBlock1 = Avx.LoadVector256(pInputBuffer + processedLength);
+        //    Vector256<byte> currentBlock2 = Avx.LoadVector256(pInputBuffer + processedLength + 32);
+        //    Vector256<byte> currentBlock3 = Avx.LoadVector256(pInputBuffer + processedLength + 64);
+        //    Vector256<byte> currentBlock4 = Avx.LoadVector256(pInputBuffer + processedLength + 96);
+
+        //    Utf8Validation.utf8_checker.CheckNextInput(currentBlock1);
+        //    Utf8Validation.utf8_checker.CheckNextInput(currentBlock2);
+        //    Utf8Validation.utf8_checker.CheckNextInput(currentBlock3);
+        //    Utf8Validation.utf8_checker.CheckNextInput(currentBlock4);
+
+        //    processedLength += 128;
+
+        //    return pInputBuffer + processedLength;
+        //}
 
 
-            //G_M000_IG02:; ; offset = 0x0014
-            //       mov rcx, qword ptr[rbp + 0x10]
-            //       mov eax, dword ptr[rbp + 0x18]
-            //       cdqe
-            //       vmovups  ymm0, ymmword ptr[rcx + rax]
-            //       vmovups ymmword ptr[rbp - 0x30], ymm0
-            //       lea      rcx, [rbp-0x30]
-            //       call[SimdUnicode.Utf8Validation + utf8_checker:CheckNextInput(System.Runtime.Intrinsics.Vector256`1[ubyte])]
-            //       mov ecx, dword ptr[rbp + 0x18]
-            //       add ecx, 32
-            //       mov dword ptr[rbp + 0x18], ecx
-            //       mov      rcx, qword ptr[rbp + 0x10]
-            //       mov eax, dword ptr[rbp + 0x18]
-            //       cdqe
-            //       vmovups  ymm0, ymmword ptr[rcx + rax]
-            //       vmovups ymmword ptr[rbp - 0x50], ymm0
-            //       lea      rcx, [rbp-0x50]
-            //       call[SimdUnicode.Utf8Validation + utf8_checker:CheckNextInput(System.Runtime.Intrinsics.Vector256`1[ubyte])]
-            //       mov eax, dword ptr[rbp + 0x18]
-            //       add eax, 32
-            //       mov dword ptr[rbp + 0x18], eax
-            //       mov      eax, dword ptr[rbp + 0x18]
-            //       cdqe
-            //       add      rax, qword ptr[rbp + 0x10]
 
 
-            //G_M000_IG03:; ; offset = 0x0069
-            //       vzeroupper
-            //       add      rsp, 112
-            //       pop rbp
-            //       ret
+        //        G_M000_IG01:; ; offset = 0x0000
+        //       push rbp
+        //       sub rsp, 112
+        //       vzeroupper
+        //       lea      rbp, [rsp+0x70]
+        //       mov qword ptr[rbp + 0x10], rcx
+        //       mov      dword ptr[rbp + 0x18], edx
 
-            //; Total bytes of code 114
 
-                    ////////////////
+        //G_M000_IG02:; ; offset = 0x0014
+        //       mov rcx, qword ptr[rbp + 0x10]
+        //       mov eax, dword ptr[rbp + 0x18]
+        //       cdqe
+        //       vmovups  ymm0, ymmword ptr[rcx + rax]
+        //       vmovups ymmword ptr[rbp - 0x30], ymm0
+        //       lea      rcx, [rbp-0x30]
+        //       call[SimdUnicode.Utf8Validation + utf8_checker:CheckNextInput(System.Runtime.Intrinsics.Vector256`1[ubyte])]
+        //       mov ecx, dword ptr[rbp + 0x18]
+        //       add ecx, 32
+        //       mov dword ptr[rbp + 0x18], ecx
+        //       mov      rcx, qword ptr[rbp + 0x10]
+        //       mov eax, dword ptr[rbp + 0x18]
+        //       cdqe
+        //       vmovups  ymm0, ymmword ptr[rcx + rax]
+        //       vmovups ymmword ptr[rbp - 0x50], ymm0
+        //       lea      rcx, [rbp-0x50]
+        //       call[SimdUnicode.Utf8Validation + utf8_checker:CheckNextInput(System.Runtime.Intrinsics.Vector256`1[ubyte])]
+        //       mov eax, dword ptr[rbp + 0x18]
+        //       add eax, 32
+        //       mov dword ptr[rbp + 0x18], eax
+        //       mov      eax, dword ptr[rbp + 0x18]
+        //       cdqe
+        //       add      rax, qword ptr[rbp + 0x10]
+
+
+        //G_M000_IG03:; ; offset = 0x0069
+        //       vzeroupper
+        //       add      rsp, 112
+        //       pop rbp
+        //       ret
+
+        //; Total bytes of code 114
+
+        ////////////////
         // TODO: I recommend taking this code and calling it something
         // else. Then have the current function (GetPointerToFirstInvalidByte)
         // call the SIMD function only if inputLength is sufficiently large (maybe 64 bytes),
         // otherwise, use the scalar function.
         ////////////////
         ///
-        
-        
-    // unrolling benchmarks done with scalar tail
-    // |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
-    // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
-    // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 428.127 us | 7.9313 us | 7.7896 us |         - |
-    // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 263.689 us | 5.2244 us | 7.4927 us |         - |
-    // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 112.669 us | 1.7434 us | 1.5455 us |         - |
-    // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  16.209 us | 0.3105 us | 0.4250 us |         - |
-    // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  10.804 us | 0.0878 us | 0.0821 us |         - |
-    // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.873 us | 0.0428 us | 0.0379 us |         - |
-    // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.423 us | 0.0771 us | 0.0721 us |         - |
-    // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  13.878 us | 0.2719 us | 0.4152 us |         - |
-    // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   6.425 us | 0.1266 us | 0.2044 us |         - |
-    // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   6.452 us | 0.1281 us | 0.2277 us |         - |
-    // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 148.702 us | 2.9438 us | 6.1447 us |         - |
-    // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  81.048 us | 1.5900 us | 3.3538 us |         - |
-    // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 177.423 us | 3.5294 us | 7.2096 us |         - |
-    // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 116.685 us | 2.3214 us | 4.0044 us |         - |
 
-        // Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+        // unrolling benchmarks done with scalar tail
+        // |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+        // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+        // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 428.127 us | 7.9313 us | 7.7896 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 263.689 us | 5.2244 us | 7.4927 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 112.669 us | 1.7434 us | 1.5455 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  16.209 us | 0.3105 us | 0.4250 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  10.804 us | 0.0878 us | 0.0821 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.873 us | 0.0428 us | 0.0379 us |         - |
+        // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.423 us | 0.0771 us | 0.0721 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  13.878 us | 0.2719 us | 0.4152 us |         - |
+        // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   6.425 us | 0.1266 us | 0.2044 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   6.452 us | 0.1281 us | 0.2277 us |         - |
+        // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 148.702 us | 2.9438 us | 6.1447 us |         - |
+        // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  81.048 us | 1.5900 us | 3.3538 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 177.423 us | 3.5294 us | 7.2096 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 116.685 us | 2.3214 us | 4.0044 us |         - |
+
+        //// Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
         {
             Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
@@ -836,23 +758,55 @@ namespace SimdUnicode
             return pInputBuffer + processedLength;
         }
 
+        //|                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+        //|---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+        //|  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 444.313 us | 2.2924 us | 2.1443 us |         - |
+        //| SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 248.330 us | 2.8213 us | 2.6390 us |         - |
+        //|  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 123.766 us | 1.0880 us | 1.0177 us |         - |
+        //| SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  13.967 us | 0.1877 us | 0.1756 us |         - |
+        //|  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  10.743 us | 0.0751 us | 0.0627 us |         - |
+        //| SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.694 us | 0.0494 us | 0.0413 us |         - |
+        //|  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.302 us | 0.0101 us | 0.0079 us |         - |
+        //| SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.574 us | 0.2230 us | 0.1862 us |         - |
+        //|  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.673 us | 0.0272 us | 0.0227 us |         - |
+        //| SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.661 us | 0.0045 us | 0.0040 us |         - |
+        //|  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 132.369 us | 0.3841 us | 0.2999 us |         - |
+        //| SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  64.057 us | 1.2313 us | 1.0915 us |         - |
+        //|  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 158.865 us | 0.9343 us | 0.7802 us |         - |
+        //| SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |  77.935 us | 1.5116 us | 1.6801 us |         - |
 
-// |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
-// |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
-// |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 456.220 us | 9.1097 us | 9.7472 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 263.690 us | 3.8144 us | 3.3813 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 128.735 us | 2.1841 us | 2.0430 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  14.677 us | 0.2860 us | 0.3060 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.059 us | 0.1237 us | 0.1157 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.031 us | 0.1627 us | 0.1270 us |         - |
-// |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.780 us | 0.2398 us | 0.2126 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.776 us | 0.2530 us | 0.2367 us |         - |
-// |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.851 us | 0.1000 us | 0.0887 us |         - |
-// | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.801 us | 0.0567 us | 0.0530 us |         - |
-// |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 133.673 us | 2.1092 us | 1.7612 us |         - |
-// | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  73.525 us | 0.8027 us | 0.7116 us |         - |
-// |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 165.167 us | 3.1097 us | 3.3274 us |         - |
-// | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 113.276 us | 2.1983 us | 2.9346 us |         - |
+
+        //// Returns a pointer to the first invalid byte in the input buffer if it's invalid, or a pointer to the end if it's valid.
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static byte* SIMDGetPointerToFirstInvalidByte(byte* pInputBuffer, int processedLength)
+        //{
+        //    Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
+        //    Vector256<byte> currentBlock2 = Avx.LoadVector256(pInputBuffer + processedLength +32);
+
+        //    Utf8Validation.utf8_checker.CheckNextInput(currentBlock);
+        //    Utf8Validation.utf8_checker.CheckNextInput(currentBlock2);
+        //    processedLength += 64;
+
+        //    return pInputBuffer + processedLength;
+        //}
+
+
+        // |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+        // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+        // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 456.220 us | 9.1097 us | 9.7472 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 263.690 us | 3.8144 us | 3.3813 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 128.735 us | 2.1841 us | 2.0430 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  14.677 us | 0.2860 us | 0.3060 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.059 us | 0.1237 us | 0.1157 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.031 us | 0.1627 us | 0.1270 us |         - |
+        // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.780 us | 0.2398 us | 0.2126 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.776 us | 0.2530 us | 0.2367 us |         - |
+        // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.851 us | 0.1000 us | 0.0887 us |         - |
+        // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.801 us | 0.0567 us | 0.0530 us |         - |
+        // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 133.673 us | 2.1092 us | 1.7612 us |         - |
+        // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  73.525 us | 0.8027 us | 0.7116 us |         - |
+        // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 165.167 us | 3.1097 us | 3.3274 us |         - |
+        // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 113.276 us | 2.1983 us | 2.9346 us |         - |
 
 
         // // unroll once
@@ -871,8 +825,8 @@ namespace SimdUnicode
 
 
 
-// C# docs suggests that classes are allocated on the heap:
-// it doesnt seem to do much in this case but I thought the suggestion to be sensible. 
+    // C# docs suggests that classes are allocated on the heap:
+    // it doesnt seem to do much in this case but I thought the suggestion to be sensible. 
     public struct Utf8Validation
     {
         public struct utf8_checker
