@@ -113,229 +113,65 @@ namespace SimdUnicode
 
 
 
-//G_M000_IG01:                ;; offset=0x0000
-//       push rbp
+
+//        G_M000_IG01:                ;; offset=0x0000
 //       push r15
 //       push r14
-//       push r13
 //       push rdi
 //       push rsi
+//       push rbp
 //       push rbx
-//       sub rsp, 112
+//       sub rsp, 168
 //       vzeroupper
-//       vmovaps  xmmword ptr[rsp + 0x60], xmm6
-//       vmovaps xmmword ptr[rsp + 0x50], xmm7
-//       vmovaps  xmmword ptr[rsp + 0x40], xmm8
-//       vmovaps xmmword ptr[rsp + 0x30], xmm9
-//       lea      rbp, [rsp+0x20]
-//        mov rax, 0x552066960748
-//       mov qword ptr[rbp + 0x08], rax
+//       vmovaps  xmmword ptr[rsp + 0x90], xmm6
+//       vmovaps xmmword ptr[rsp + 0x80], xmm7
+//       vxorps   xmm4, xmm4, xmm4
+//       vmovdqa  xmmword ptr[rsp + 0x60], xmm4
+//       vmovdqa xmmword ptr[rsp + 0x70], xmm4
 //       mov      rbx, rcx
 //       mov      esi, edx
 
-//G_M000_IG02:                ;; offset=0x0041
+//G_M000_IG02:                ;; offset=0x0039
 //       xor edi, edi
 //       test rbx, rbx
 //       je SHORT G_M000_IG04
 
-//G_M000_IG03:                ;; offset=0x0048
+//G_M000_IG03:                ;; offset=0x0040
 //       test esi, esi
-//       jg G_M000_IG16 
+//       jg G_M000_IG14
 
 
-//G_M000_IG04:                ;; offset=0x0050
+//G_M000_IG04:                ;; offset=0x0048
 //       mov rax, rbx
-//       mov rcx, 0x552066960748
-//       cmp qword ptr[rbp + 0x08], rcx
-//       je       SHORT G_M000_IG05
-//       call CORINFO_HELP_FAIL_FAST
 
 
-//G_M000_IG05:                ;; offset=0x0068
-//       nop
-
-//G_M000_IG06:                ;; offset=0x0069
-//       vmovaps xmm6, xmmword ptr[rbp + 0x40]
-//       vmovaps  xmm7, xmmword ptr[rbp + 0x30]
-//       vmovaps xmm8, xmmword ptr[rbp + 0x20]
-//       vmovaps  xmm9, xmmword ptr[rbp + 0x10]
+//G_M000_IG05:                ;; offset=0x004B
+//       vmovaps xmm6, xmmword ptr[rsp + 0x90]
+//       vmovaps  xmm7, xmmword ptr[rsp + 0x80]
 //       vzeroupper
-//       lea      rsp, [rbp+0x50]
-//        pop rbx
+//       add      rsp, 168
+//       pop rbx
+//       pop rbp
 //       pop rsi
 //       pop rdi
-//       pop r13
 //       pop r14
 //       pop r15
-//       pop rbp
 //       ret
 
-//G_M000_IG07:                ;; offset=0x008F
-//       mov r15d, edi
-//       movsxd rax, r15d
-//       vmovups ymm6, ymmword ptr[rbx + rax]
-//       vmovaps  ymm7, ymm6
-//       vpmovmskb eax, ymm7
-//       test     eax, eax
-//       je       G_M000_IG09
-//       test     byte ptr[(reloc 0x7ff825f90950)], 1
-//       je G_M000_IG26
+//G_M000_IG06:                ;; offset=0x0070
+//       mov ebp, edi
+//       movsxd rdx, ebp
+//       vmovups ymm6, ymmword ptr[rbx + rdx]
+//       vpmovmskb edx, ymm6
+//       test     edx, edx
+//       je       G_M000_IG08
+//       test     byte ptr[(reloc 0x7ff9541f0950)], 1
+//       je G_M000_IG17
 
 
-//G_M000_IG08:                ;; offset=0x00B7
-//       mov rax, 0x2132D1715C8
-//       vmovups ymm0, ymmword ptr[rax]
-//       vperm2i128 ymm0, ymm0, ymm7, 33
-//       vpalignr ymm1, ymm7, ymm0, 15
-//       vpsrlw ymm2, ymm1, 4
-//       vmovups ymm3, ymmword ptr[reloc @RWD00]
-//       vpshufb  ymm2, ymm3, ymm2
-//       vpand    ymm1, ymm1, ymmword ptr[reloc @RWD32]
-//       vmovups ymm3, ymmword ptr[reloc @RWD64]
-//       vpshufb  ymm1, ymm3, ymm1
-//       vpand    ymm1, ymm2, ymm1
-//       vpsrlw   ymm2, ymm7, 4
-//       vmovups ymm3, ymmword ptr[reloc @RWD96]
-//       vpshufb  ymm2, ymm3, ymm2
-//       vpand    ymm1, ymm1, ymm2
-//       mov      r13, 0x2132D171628
-//       vmovups ymm2, ymmword ptr[r13]
-//       vpalignr ymm3, ymm7, ymm0, 13
-//       vpsubusb ymm3, ymm3, ymmword ptr[reloc @RWD128]
-//       vpalignr ymm0, ymm7, ymm0, 14
-//       vpsubusb ymm0, ymm0, ymmword ptr[reloc @RWD160]
-//       vpor     ymm0, ymm0, ymm3
-//       vpand    ymm0, ymm0, ymmword ptr[reloc @RWD192]
-//       vpxor ymm0, ymm0, ymm1
-//       vpor ymm0, ymm2, ymm0
-//       vmovups ymmword ptr[r13], ymm0
-//       vpsubusw ymm0, ymm7, ymmword ptr[reloc @RWD224]
-//       mov rax, 0x2132D1715F8
-//       vmovups ymmword ptr[rax], ymm0
-
-//G_M000_IG09:                ;; offset=0x016E
-//       test byte ptr[(reloc 0x7ff825f90950)], 1
-//       je G_M000_IG27
-
-
-//G_M000_IG10:                ;; offset=0x017B
-//       mov rax, 0x2132D1715C8
-//       vmovups ymmword ptr[rax], ymm7
-//       add      r15d, 32
-//       movsxd rax, r15d
-//       vmovups ymm0, ymmword ptr[rbx + rax]
-//       vpmovmskb eax, ymm0
-//       test     eax, eax
-//       je       G_M000_IG11
-//       vperm2i128 ymm1, ymm6, ymm0, 33
-//       vpalignr ymm2, ymm0, ymm1, 15
-//       vpsrlw ymm3, ymm2, 4
-//       vmovups ymm4, ymmword ptr[reloc @RWD00]
-//       vpshufb  ymm3, ymm4, ymm3
-//       vpand    ymm2, ymm2, ymmword ptr[reloc @RWD32]
-//       vmovups ymm4, ymmword ptr[reloc @RWD64]
-//       vpshufb  ymm2, ymm4, ymm2
-//       vpand    ymm2, ymm3, ymm2
-//       vpsrlw   ymm3, ymm0, 4
-//       vmovups ymm4, ymmword ptr[reloc @RWD96]
-//       vpshufb  ymm3, ymm4, ymm3
-//       vpand    ymm2, ymm2, ymm3
-//       mov      r13, 0x2132D171628
-//       vmovups ymm3, ymmword ptr[r13]
-//       vpalignr ymm4, ymm0, ymm1, 13
-//       vpsubusb ymm4, ymm4, ymmword ptr[reloc @RWD128]
-//       vpalignr ymm1, ymm0, ymm1, 14
-//       vpsubusb ymm1, ymm1, ymmword ptr[reloc @RWD160]
-//       vpor     ymm1, ymm1, ymm4
-//       vpand    ymm1, ymm1, ymmword ptr[reloc @RWD192]
-//       vpxor ymm1, ymm1, ymm2
-//       vpor ymm1, ymm3, ymm1
-//       vmovups ymmword ptr[r13], ymm1
-//       vpsubusw ymm1, ymm0, ymmword ptr[reloc @RWD224]
-//       mov rax, 0x2132D1715F8
-//       vmovups ymmword ptr[rax], ymm1
-
-//G_M000_IG11:                ;; offset=0x024A
-//       mov rax, 0x2132D1715C8
-//       vmovups ymmword ptr[rax], ymm0
-//       call[SimdUnicode.Utf8Validation + utf8_checker:CheckEof()]
-//       call[SimdUnicode.Utf8Validation + utf8_checker:Errors():bool]
-//       test     eax, eax
-//       je       SHORT G_M000_IG15
-
-
-//G_M000_IG12:                ;; offset=0x0268
-//       movsxd rcx, edi
-//       add rcx, rbx
-//       mov edx, esi
-//       sub edx, edi
-//       call[SimdUnicode.UTF8:RewindAndValidateWithErrors(ulong, int):ulong]
-//       mov      rcx, 0x552066960748
-//       cmp qword ptr[rbp + 0x08], rcx
-//       je       SHORT G_M000_IG13
-//       call CORINFO_HELP_FAIL_FAST
-
-
-//G_M000_IG13:                ;; offset=0x028D
-//       nop
-
-//G_M000_IG14:                ;; offset=0x028E
-//       vmovaps xmm6, xmmword ptr[rbp + 0x40]
-//       vmovaps  xmm7, xmmword ptr[rbp + 0x30]
-//       vmovaps xmm8, xmmword ptr[rbp + 0x20]
-//       vmovaps  xmm9, xmmword ptr[rbp + 0x10]
-//       vzeroupper
-//       lea      rsp, [rbp+0x50]
-//        pop rbx
-//       pop rsi
-//       pop rdi
-//       pop r13
-//       pop r14
-//       pop r15
-//       pop rbp
-//       ret
-
-//G_M000_IG15:                ;; offset=0x02B4
-//       mov edi, r14d
-
-
-//G_M000_IG16:                ;; offset=0x02B7
-//       lea r14d, [rdi + 0x40]
-//       cmp r14d, esi
-//       jle G_M000_IG07
-
-
-//G_M000_IG17:                ;; offset=0x02C4
-//       cmp edi, esi
-//       jge G_M000_IG23
-//       test dword ptr[rsp], esp
-//       sub      rsp, 64
-//       lea rcx, [rsp + 0x20]
-//       vxorps ymm0, ymm0, ymm0
-//       vmovdqu ymmword ptr[rcx], ymm0
-//       vmovdqu  ymmword ptr[rcx + 0x20], ymm0
-//       mov r13, rcx
-//       mov ecx, esi
-//       sub ecx, edi
-//       js G_M000_IG28
-//       movsxd rdx, edi
-//       add rdx, rbx
-//       cmp ecx, 64
-//       ja G_M000_IG29
-//       mov r8d, ecx
-//       mov rcx, r13
-//       call[System.Buffer:Memmove(byref, byref, ulong)]
-//       vmovups  ymm6, ymmword ptr[r13]
-//       vpmovmskb eax, ymm6
-//       test eax, eax
-//       je G_M000_IG19
-//       test byte ptr[(reloc 0x7ff825f90950)], 1
-//       je G_M000_IG30
-
-
-//G_M000_IG18:                ;; offset=0x032C
-//       mov rax, 0x2132D1715C8
-//       vmovups ymm0, ymmword ptr[rax]
+//G_M000_IG07:                ;; offset=0x0093
+//       mov r14, 0x200DAD215C8
+//       vmovups ymm0, ymmword ptr[r14]
 //       vperm2i128 ymm0, ymm0, ymm6, 33
 //       vpalignr ymm1, ymm6, ymm0, 15
 //       vpsrlw ymm2, ymm1, 4
@@ -349,8 +185,8 @@ namespace SimdUnicode
 //       vmovups ymm3, ymmword ptr[reloc @RWD96]
 //       vpshufb  ymm2, ymm3, ymm2
 //       vpand    ymm1, ymm1, ymm2
-//       mov      r13, 0x2132D171628
-//       vmovups ymm2, ymmword ptr[r13]
+//       mov      r15, 0x200DAD21628
+//       vmovups ymm2, ymmword ptr[r15]
 //       vpalignr ymm3, ymm6, ymm0, 13
 //       vpsubusb ymm3, ymm3, ymmword ptr[reloc @RWD128]
 //       vpalignr ymm0, ymm6, ymm0, 14
@@ -359,32 +195,129 @@ namespace SimdUnicode
 //       vpand    ymm0, ymm0, ymmword ptr[reloc @RWD192]
 //       vpxor ymm0, ymm0, ymm1
 //       vpor ymm0, ymm2, ymm0
-//       vmovups ymmword ptr[r13], ymm0
+//       vmovups ymmword ptr[r15], ymm0
 //       vpsubusw ymm0, ymm6, ymmword ptr[reloc @RWD224]
-//       mov rax, 0x2132D1715F8
+//       mov rdx, 0x200DAD215F8
+//       vmovups ymmword ptr[rdx], ymm0
+
+//G_M000_IG08:                ;; offset=0x0149
+//       test byte ptr[(reloc 0x7ff9541f0950)], 1
+//       je G_M000_IG18
+
+
+//G_M000_IG09:                ;; offset=0x0156
+//       mov r14, 0x200DAD215C8
+//       vmovups ymmword ptr[r14], ymm6
+//       add      ebp, 32
+//       movsxd rdx, ebp
+//       vmovups ymm6, ymmword ptr[rbx + rdx]
+//       vpmovmskb edx, ymm6
+//       test     edx, edx
+//       je       G_M000_IG10
+//       vxorps   ymm0, ymm0, ymm0
+//       vmovups  ymmword ptr[rsp + 0x60], ymm0
+//       vmovups ymm0, ymmword ptr[r14]
+//       vmovups  ymmword ptr[rsp + 0x40], ymm6
+//       vperm2i128 ymm0, ymm0, ymm6, 33
+//       vpalignr ymm0, ymm6, ymm0, 15
+//       vmovups ymmword ptr[rsp + 0x20], ymm0
+//       lea      rdx, [rsp+0x40]
+//        lea r8, [rsp + 0x20]
+//       lea rcx, [rsp + 0x60]
+//       vextractf128 xmm7, ymm6, 1
+//       call[SimdUnicode.Utf8Validation + utf8_checker:CheckSpecialCases(System.Runtime.Intrinsics.Vector256`1[ubyte], System.Runtime.Intrinsics.Vector256`1[ubyte]):System.Runtime.Intrinsics.Vector256`1[ubyte]]
+//       mov      r15, 0x200DAD21628
+//       vmovups ymm0, ymmword ptr[r15]
+//       vmovups  ymm1, ymmword ptr[r14]
+//       vinsertf128 ymm6, ymm6, xmm7, 1
+//       vperm2i128 ymm1, ymm1, ymm6, 33
+//       vpalignr ymm2, ymm6, ymm1, 14
+//       vpsubusb ymm2, ymm2, ymmword ptr[reloc @RWD160]
+//       vpalignr ymm1, ymm6, ymm1, 13
+//       vpsubusb ymm1, ymm1, ymmword ptr[reloc @RWD128]
+//       vpor     ymm1, ymm2, ymm1
+//       vpand    ymm1, ymm1, ymmword ptr[reloc @RWD192]
+//       vpxor ymm1, ymm1, ymmword ptr[rsp + 0x60]
+//       vpor     ymm0, ymm0, ymm1
+//       vmovups  ymmword ptr[r15], ymm0
+//       vpsubusw ymm0, ymm6, ymmword ptr[reloc @RWD224]
+//       mov      rax, 0x200DAD215F8
 //       vmovups ymmword ptr[rax], ymm0
 
-//G_M000_IG19:                ;; offset=0x03E3
-//       test byte ptr[(reloc 0x7ff825f90950)], 1
-//       je G_M000_IG31
-
-
-//G_M000_IG20:                ;; offset=0x03F0
-//       mov rax, 0x2132D1715C8
-//       vmovups ymmword ptr[rax], ymm6
+//G_M000_IG10:                ;; offset=0x022B
+//       vmovups ymmword ptr[r14], ymm6
 //       call[SimdUnicode.Utf8Validation + utf8_checker:CheckEof()]
 //       call[SimdUnicode.Utf8Validation + utf8_checker:Errors():bool]
 //       test     eax, eax
-//       je       SHORT G_M000_IG23
+//       je       SHORT G_M000_IG13
+
+
+//G_M000_IG11:                ;; offset=0x0240
 //       movsxd rcx, edi
 //       add rcx, rbx
 //       mov edx, esi
 //       sub edx, edi
-//       call[SimdUnicode.UTF8:GetPointerToFirstInvalidByte(ulong, int):ulong]
-//       mov      rcx, 0x552066960748
-//       cmp qword ptr[rbp + 0x08], rcx
-//       je       SHORT G_M000_IG21
-//       call CORINFO_HELP_FAIL_FAST
+//       call[SimdUnicode.UTF8:RewindAndValidateWithErrors(ulong, int):ulong]
+//       nop
+
+
+//G_M000_IG12:                ;; offset=0x0251
+//       vmovaps xmm6, xmmword ptr[rsp + 0x90]
+//       vmovaps  xmm7, xmmword ptr[rsp + 0x80]
+//       vzeroupper
+//       add      rsp, 168
+//       pop rbx
+//       pop rbp
+//       pop rsi
+//       pop rdi
+//       pop r14
+//       pop r15
+//       ret
+
+//G_M000_IG13:                ;; offset=0x0276
+//       add edi, 64
+
+
+//G_M000_IG14:                ;; offset=0x0279
+//       lea edx, [rdi + 0x40]
+//       cmp edx, esi
+//       jle G_M000_IG06
+
+
+//G_M000_IG15:                ;; offset=0x0284
+//       movsxd rax, esi
+//       add rax, rbx
+
+
+//G_M000_IG16:                ;; offset=0x028A
+//       vmovaps xmm6, xmmword ptr[rsp + 0x90]
+//       vmovaps  xmm7, xmmword ptr[rsp + 0x80]
+//       vzeroupper
+//       add      rsp, 168
+//       pop rbx
+//       pop rbp
+//       pop rsi
+//       pop rdi
+//       pop r14
+//       pop r15
+//       ret
+
+//G_M000_IG17:                ;; offset=0x02AF
+//       mov rcx, 0x7FF9541F0918
+//       mov edx, 8
+//       vextractf128 xmm7, ymm6, 1
+//       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
+//       vinsertf128 ymm6, ymm6, xmm7, 1
+//       jmp G_M000_IG07
+
+
+//G_M000_IG18:                ;; offset=0x02D4
+//       mov rcx, 0x7FF9541F0918
+//       mov edx, 8
+//       vextractf128 xmm7, ymm6, 1
+//       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
+//       vinsertf128 ymm6, ymm6, xmm7, 1
+//       jmp G_M000_IG09
 
 
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
@@ -448,15 +381,15 @@ namespace SimdUnicode
 
 
             // Process the remaining bytes with the scalar function
-            //if (processedLength < inputLength)
-            //{
-            //    byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength);
-            //    if (invalidBytePointer != pInputBuffer + inputLength)
-            //    {
-            //        // An invalid byte was found by the scalar function
-            //        return invalidBytePointer;
-            //    }
-            //}
+            if (processedLength < inputLength)
+            {
+                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength);
+                if (invalidBytePointer != pInputBuffer + inputLength)
+                {
+                    // An invalid byte was found by the scalar function
+                    return invalidBytePointer;
+                }
+            }
 
             //  benches done with 2 times unroll
 
@@ -844,104 +777,6 @@ namespace SimdUnicode
            vmovups  ymm0, ymmword ptr [rcx]
            vmovups  ymmword ptr [rdx], ymm0
                 */
-
-
-                            // Check if the entire 256-bit vector is ASCII
-
-
-            //                ; Assembly listing for method SimdUnicode.Utf8Validation + utf8_checker:CheckNextInput(System.Runtime.Intrinsics.Vector256`1[ubyte])(FullOpts)
-            //; Emitting BLENDED_CODE for X64 with AVX - Windows
-            //; FullOpts code
-            //; optimized code
-            //; rsp based frame
-            //; partially interruptible
-            //; No PGO data
-            //; 0 inlinees with PGO data; 13 single block inlinees; 1 inlinees without PGO data
-
-            //G_M000_IG01:; ; offset = 0x0000
-            //       push rbx
-            //       sub rsp, 32
-            //       vzeroupper
-            //       mov      rbx, rcx
-
-            //G_M000_IG02:                ; ; offset = 0x000B
-            //       vmovups ymm0, ymmword ptr[rbx]
-            //       vpmovmskb ecx, ymm0
-            //       test ecx, ecx
-            //       je G_M000_IG05
-
-
-            //G_M000_IG03:; ; offset = 0x001B
-            //       test     byte ptr[(reloc 0x7ff825f80950)], 1
-            //       je G_M000_IG08
-
-
-            //G_M000_IG04:; ; offset = 0x0028
-            //       mov rcx, 0x2C6C2E116D8
-            //       vmovups ymm0, ymmword ptr[rcx]
-            //       vmovups ymm1, ymmword ptr[rbx]
-            //       vperm2i128 ymm0, ymm0, ymmword ptr[rbx], 33
-            //       vpalignr ymm1, ymm1, ymm0, 15
-            //       vpsrlw ymm2, ymm1, 4
-            //       vmovups ymm3, ymmword ptr[reloc @RWD00]
-            //       vpshufb ymm2, ymm3, ymm2
-            //       vpand ymm1, ymm1, ymmword ptr[reloc @RWD32]
-            //       vmovups ymm3, ymmword ptr[reloc @RWD64]
-            //       vpshufb ymm1, ymm3, ymm1
-            //       vpand ymm1, ymm2, ymm1
-            //       vmovups ymm2, ymmword ptr[rbx]
-            //       vpsrlw ymm2, ymm2, 4
-            //       vmovups ymm3, ymmword ptr[reloc @RWD96]
-            //       vpshufb ymm2, ymm3, ymm2
-            //       vpand ymm1, ymm1, ymm2
-            //       mov rcx, 0x2C6C2E11738
-            //       vmovups ymm2, ymmword ptr[rcx]
-            //       vmovups ymm3, ymmword ptr[rbx]
-            //       vpalignr ymm3, ymm3, ymm0, 14
-            //       vpsubusb ymm3, ymm3, ymmword ptr[reloc @RWD128]
-            //       vmovups ymm4, ymmword ptr[rbx]
-            //       vpalignr ymm0, ymm4, ymm0, 13
-            //       vpsubusb ymm0, ymm0, ymmword ptr[reloc @RWD160]
-            //       vpor ymm0, ymm3, ymm0
-            //       vpand ymm0, ymm0, ymmword ptr[reloc @RWD192]
-            //       vpxor ymm0, ymm0, ymm1
-            //       vpor ymm0, ymm2, ymm0
-            //       vmovups ymmword ptr[rcx], ymm0
-            //       vmovups  ymm0, ymmword ptr[rbx]
-            //       vpsubusw ymm0, ymm0, ymmword ptr[reloc @RWD224]
-            //       mov rcx, 0x2C6C2E11708
-            //       vmovups ymmword ptr[rcx], ymm0
-
-            //G_M000_IG05:                ; ; offset = 0x00EF
-            //       test     byte ptr[(reloc 0x7ff825f80950)], 1
-            //       je SHORT G_M000_IG09
-
-            //G_M000_IG06:                ; ; offset = 0x00F8
-            //       vmovups ymm0, ymmword ptr[rbx]
-            //       mov rcx, 0x2C6C2E116D8
-            //       vmovups ymmword ptr[rcx], ymm0
-
-            //G_M000_IG07:                ; ; offset = 0x010A
-            //       vzeroupper
-            //       add      rsp, 32
-            //       pop rbx
-            //       ret
-
-            //G_M000_IG08:                ; ; offset = 0x0113
-            //       mov rcx, 0x7FF825F80918
-            //       mov edx, 8
-            //       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
-            //       jmp G_M000_IG04
-
-
-            //G_M000_IG09:; ; offset = 0x012C
-            //       mov rcx, 0x7FF825F80918
-            //       mov edx, 8
-            //       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
-            //       jmp SHORT G_M000_IG06
-
-
-            //; Total bytes of code 322
 
                 Vector256<sbyte> inputSBytes = input.AsSByte(); // Reinterpret the byte vector as sbyte
                 int mask = Avx2.MoveMask(inputSBytes.AsByte());

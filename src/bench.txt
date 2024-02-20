@@ -17,7 +17,7 @@
 // |  CompetitionUtf8ValidationRealData |  data/turkish.utf8.txt |  23.755 us | 0.3332 us | 0.3117 us |         - |
 // | CompetitionUtf8ValidationErrorData |  data/turkish.utf8.txt |  21.983 us | 0.1308 us | 0.1223 us |         - |
 
-
+Tail variations:
 2x unroll(64 bit) + scalar function
 
 |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
@@ -37,7 +37,6 @@
 |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 157.773 us | 0.4643 us | 0.4343 us |         - |
 | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt |  79.188 us | 1.2791 us | 1.4731 us |         - |
 
-Tail variations:
 (stack alloc + readonlyspan)
 |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
 |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
@@ -76,3 +75,21 @@ Tail variations:
 |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 158.760 us | 1.0077 us | 0.9426 us |         - |
 | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 105.604 us | 0.6117 us | 0.5722 us |         - |
 
+Cutting off the tail entirely:
+
+|                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
+|---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
+|  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 440.652 us | 1.5019 us | 1.4048 us |         - |
+| SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 260.569 us | 0.2840 us | 0.2217 us |         - |
+|  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 112.917 us | 2.1083 us | 1.6460 us |         - |
+| SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  14.340 us | 0.2851 us | 0.3806 us |         - |
+|  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  10.657 us | 0.0497 us | 0.0415 us |         - |
+| SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  10.734 us | 0.0978 us | 0.0817 us |         - |
+|  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.457 us | 0.0432 us | 0.0383 us |         - |
+| SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.473 us | 0.0609 us | 0.0539 us |         - |
+|  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.690 us | 0.0270 us | 0.0225 us |         - |
+| SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.639 us | 0.0518 us | 0.0485 us |         - |
+|  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 102.807 us | 1.9887 us | 2.3674 us |         - |
+| SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  60.665 us | 1.1087 us | 1.0371 us |         - |
+|  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 157.632 us | 0.8420 us | 0.7876 us |         - |
+| SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 104.590 us | 0.5121 us | 0.4790 us |         - |
