@@ -107,7 +107,7 @@ namespace SimdUnicodeBenchmarks
     }
 
 
-    [MemoryDiagnoser]
+//    [MemoryDiagnoser]
     // [HardwareCounters(
     //     HardwareCounter.BranchInstructions,
     //     HardwareCounter.BranchMispredictions,
@@ -120,319 +120,22 @@ namespace SimdUnicodeBenchmarks
     //     HardwareCounter.InstructionRetired
     // )]
 
-    public class SyntheticBenchmark : BenchmarkBase
-    {
-
-        [Params(100, 8000)]
-        public uint N;
-
-        // For synthetic benchmarks
-        List<char[]> AsciiChars = new List<char[]>();
-        List<byte[]> AsciiBytes = new List<byte[]>();
-        List<char[]> nonAsciichars = new List<char[]>();
-        public List<byte[]> nonAsciiBytes = new List<byte[]>(); // Declare at the class level
-        private List<byte[]> SyntheticUtf8Strings = new List<byte[]>(); // For testing UTF-8 validation
-        private List<byte[]> SynthethicUtf8ErrorStrings = new List<byte[]>(); // For testing UTF-8 validation
-
-        List<bool> results = new List<bool>();
-
-        // Synthetic functions
-        public static bool RuntimeIsAsciiApproach(ReadOnlySpan<char> s)
-        {
-
-            // The runtime as of NET 8.0 has a dedicated method for this, but
-            // it is not available prior to that, so let us branch.
-#if NET8_0_OR_GREATER
-            return System.Text.Ascii.IsValid(s);
-
-#else
-            foreach (char c in s)
-            {
-                if (c >= 128)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-#endif
-        }
-
-        public static char[] GetRandomASCIIString(uint n)
-        {
-            var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
-
-            var chars = new char[n];
 
 
-            for (var i = 0; i < n; i++)
-            {
-                chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
-            }
-
-            return chars;
-        }
-
-        public static char[] GetRandomNonASCIIString(uint n)
-        {
-            // Chose a few Latin Extended-A and Latin Extended-B characters alongside ASCII chars
-            var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ01234567é89šžŸũŭůűųŷŹźŻżŽ";
-
-            var chars = new char[n];
-
-            for (var i = 0; i < n; i++)
-            {
-                chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
-            }
-
-            return chars;
-        }
-
-        public static List<byte[]> GenerateUtf8Strings(int count, uint length)
-        {
-            var strings = new List<byte[]>();
-            var randomUtf8Generator = new RandomUtf8(12345, 1, 1, 1, 1);
-
-            for (int i = 0; i < count; i++)
-            {
-                strings.Add(randomUtf8Generator.Generate((int)length));
-            }
-
-            return strings;
-        }
-
-
-        [GlobalSetup]
-        public void Setup()
-        {
-
-            // Synthetic setup
-            // for the benchmark to be meaningful, we need a lot of data.
-            for (int i = 0; i < 5000; i++)
-            {
-                AsciiChars.Add(GetRandomASCIIString(N));
-                char[] nonAsciiChars = GetRandomNonASCIIString(N);
-                nonAsciiBytes.Add(Encoding.UTF8.GetBytes(nonAsciiChars));  // Convert to byte array and store
-                results.Add(false);
-            }
-
-            AsciiBytes = AsciiChars
-                .Select(name => System.Text.Encoding.ASCII.GetBytes(name))
-                .ToList();
-
-
-            SyntheticUtf8Strings = GenerateUtf8Strings(1000, N); // Generate 1000 UTF-8 strings of length N
-
-            // Introduce errors to synthetic UTF-8 data
-            foreach (var utf8String in SyntheticUtf8Strings)
-            {
-                byte[] modifiedString = new byte[utf8String.Length];
-                Array.Copy(utf8String, modifiedString, utf8String.Length);
-                IntroduceError(modifiedString, rd); // Method to introduce errors into UTF-8 strings
-                SynthethicUtf8ErrorStrings.Add(modifiedString);
-            }
-        }
-
-        // Synthetic benchmarks
-        [Benchmark]
-        [BenchmarkCategory("Ascii", "SIMD")]
-        public void FastUnicodeIsAscii()
-        {
-            int count = 0;
-            foreach (char[] name in AsciiChars)
-            {
-                results[count] = SimdUnicode.Ascii.SIMDIsAscii(name);
-                count += 1;
-            }
-        }
-
-        [Benchmark]
-        [BenchmarkCategory("Ascii", "Runtime")]
-        public void RuntimeIsAscii()
-        {
-            int count = 0;
-            foreach (char[] name in AsciiChars)
-            {
-                results[count] = RuntimeIsAsciiApproach(name);
-                count += 1;
-            }
-        }
-        [Benchmark]
-        public void Error_GetIndexOfFirstNonAsciiByte()
-        {
-            foreach (byte[] nonAsciiByte in nonAsciiBytes)  // Use nonAsciiBytes directly
-            {
-                unsafe
-                {
-                    fixed (byte* pNonAscii = nonAsciiByte)
-                    {
-                        nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiByte.Length);
-                    }
-                }
-            }
-        }
-
-        [Benchmark]
-        public void Error_Runtime_GetIndexOfFirstNonAsciiByte()
-        {
-            foreach (byte[] nonAsciiByte in nonAsciiBytes)  // Use nonAsciiBytes directly
-            {
-                unsafe
-                {
-                    fixed (byte* pNonAscii = nonAsciiByte)
-                    {
-                        nuint result = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pNonAscii, (nuint)nonAsciiByte.Length);
-                    }
-                }
-            }
-        }
-
-        [Benchmark]
-        public nuint allAsciiGetIndexOfFirstNonAsciiByte()
-        {
-            nuint result = 0;
-            foreach (byte[] Abyte in AsciiBytes)  // Use AsciiBytes directly
-            {
-                // Console.WriteLine(System.Text.Encoding.ASCII.GetString(Abyte));
-                unsafe
-                {
-                    fixed (byte* pAllAscii = Abyte)
-                    {
-                        result += SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pAllAscii, (nuint)Abyte.Length);
-                    }
-                }
-            }
-            return result;
-        }
-
-
-        [Benchmark]
-        public nuint AllAsciiRuntimeGetIndexOfFirstNonAsciiByte()
-        {
-            nuint result = 0;
-            foreach (byte[] Abyte in AsciiBytes)  // Use AsciiBytes directly
-            {
-                unsafe
-                {
-                    fixed (byte* pAllAscii = Abyte)
-                    {
-                        result += Competition.Ascii.GetIndexOfFirstNonAsciiByte(pAllAscii, (nuint)Abyte.Length);
-                    }
-                }
-            }
-            return result;
-        }
-
-
-        [Benchmark]
-        public void ScalarUtf8ValidationValidUtf8()
-        {
-            foreach (var utf8String in SyntheticUtf8Strings)
-            {
-                unsafe
-                {
-                    fixed (byte* pInput = utf8String)
-                    {
-                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8String.Length);
-                    }
-                }
-            }
-        }
-
-        [Benchmark]
-        public void CompetitionUtf8ValidationValidUtf8()
-        {
-            foreach (var utf8String in SyntheticUtf8Strings)
-            {
-                unsafe
-                {
-                    fixed (byte* pInput = utf8String)
-                    {
-                        int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
-                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
-                    }
-                }
-            }
-        }
-
-        [Benchmark]
-        public void SIMDUtf8ValidationValidUtf8()
-        {
-            foreach (var utf8String in SyntheticUtf8Strings)
-            {
-                unsafe
-                {
-                    fixed (byte* pInput = utf8String)
-                    {
-                        byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length);
-                    }
-                }
-            }
-        }
-
-        [Benchmark]
-        public void ScalarUtf8ValidationErrorUtf8()
-        {
-            foreach (var utf8String in SynthethicUtf8ErrorStrings)
-            {
-                unsafe
-                {
-                    fixed (byte* pInput = utf8String)
-                    {
-                        byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8String.Length);
-                    }
-                }
-            }
-        }
-
-        [Benchmark]
-        public void CompetitionUtf8ValidationErrorUtf8()
-        {
-            foreach (var utf8String in SynthethicUtf8ErrorStrings)
-            {
-                unsafe
-                {
-                    fixed (byte* pInput = utf8String)
-                    {
-                        int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
-                        byte* invalidBytePointer = Competition.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
-                    }
-                }
-            }
-        }
-
-        [Benchmark]
-        public void SIMDUtf8ValidationErrorUtf8()
-        {
-            foreach (var utf8String in SynthethicUtf8ErrorStrings)
-            {
-                unsafe
-                {
-                    fixed (byte* pInput = utf8String)
-                    {
-                        byte* invalidBytePointer = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8String.Length);
-                    }
-                }
-            }
-        }
-
-
-    }
-
-
-[MemoryDiagnoser]
+//[MemoryDiagnoser]
 
     public class RealDataBenchmark : BenchmarkBase
     {
 
         // Parameters and variables for real data
-        [Params(@"data/french.utf8.txt",
-                @"data/arabic.utf8.txt",
-                @"data/chinese.utf8.txt",
-                @"data/english.utf8.txt",
-                @"data/turkish.utf8.txt",
-                @"data/german.utf8.txt",
-                @"data/japanese.utf8.txt")]
+        [Params(//@"data/french.utf8.txt",
+                @"data/arabic.utf8.txt"
+                //@"data/chinese.utf8.txt",
+                //@"data/english.utf8.txt",
+                //@"data/turkish.utf8.txt",
+                //@"data/german.utf8.txt",
+                //@"data/japanese.utf8.txt"
+                )]
         public string? FileName;
 
         private string[] _lines = Array.Empty<string>();
@@ -538,7 +241,7 @@ namespace SimdUnicodeBenchmarks
 
 
         }
-
+/*
         [Benchmark]
         public unsafe void SimDUnicodeGetIndexOfFirstNonAsciiByteRealData()
         {
@@ -561,7 +264,7 @@ namespace SimdUnicodeBenchmarks
         public unsafe void ScalarUtf8ValidationRealData()
         {
             RunUtf8ValidationBenchmark(_allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByte);
-        }
+        }*/
 
         [Benchmark]
         public unsafe void SIMDUtf8ValidationRealData()
@@ -569,7 +272,7 @@ namespace SimdUnicodeBenchmarks
             RunUtf8ValidationBenchmark(_allLinesUtf8, Utf8Utility.GetPointerToFirstInvalidByte);
         }
 
-        [Benchmark]
+/*        [Benchmark]
         public unsafe void ScalarUtf8ValidationErrorData()
         {
             RunUtf8ValidationBenchmark(_allLinesUtf8WithErrors, SimdUnicode.UTF8.GetPointerToFirstInvalidByte);
@@ -586,7 +289,7 @@ namespace SimdUnicodeBenchmarks
         {
             RunCompetitionUtf8ValidationBenchmark(_allLinesUtf8WithErrors, Competition.Utf8Utility.GetPointerToFirstInvalidByte);
         }
-
+*/
     }
 
     public class Program
@@ -610,18 +313,18 @@ namespace SimdUnicodeBenchmarks
             var config = DefaultConfig.Instance.With(summaryStyle: SummaryStyle.Default.WithMaxParameterColumnWidth(100));
 
             // Check if a specific argument (e.g., "runall") is provided
-            if (args.Length > 0 && args[0] == "runall")
-            {
+            //if (args.Length > 0 && args[0] == "runall")
+           // {
                 // Run all benchmarks directly with the custom config
-                BenchmarkRunner.Run<SyntheticBenchmark>(config);
+               // BenchmarkRunner.Run<SyntheticBenchmark>(config);
                 BenchmarkRunner.Run<RealDataBenchmark>(config);
-            }
-            else
-            {
+          //  }
+            //else
+           // {
                 // Use the interactive BenchmarkSwitcher with the custom config
-                var switcher = new BenchmarkSwitcher(new[] { typeof(SyntheticBenchmark), typeof(RealDataBenchmark) });
-                switcher.Run(args, config);
-            }
+               // var switcher = new BenchmarkSwitcher(new[] { typeof(SyntheticBenchmark), typeof(RealDataBenchmark) });
+               // switcher.Run(args, config);
+           // }
         }
 
     }

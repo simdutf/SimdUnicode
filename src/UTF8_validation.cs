@@ -93,233 +93,6 @@ namespace SimdUnicode
     public static unsafe class Utf8Utility
     {
 
-        // Helper functions for debugging
-        // string VectorToString(Vector256<byte> vector)
-        // {
-        //     Span<byte> span = stackalloc byte[Vector256<byte>.Count];
-        //     vector.CopyTo(span);
-        //     return BitConverter.ToString(span.ToArray());
-        // }
-
-        // string VectorToBinary(Vector256<byte> vector)
-        // {
-        //     Span<byte> span = stackalloc byte[Vector256<byte>.Count];
-        //     vector.CopyTo(span);
-
-        //     var binaryStrings = span.ToArray().Select(b => Convert.ToString(b, 2).PadLeft(8, '0'));
-        //     return string.Join(" ", binaryStrings);
-        // }
-
-
-
-
-
-//        G_M000_IG01:                ;; offset=0x0000
-//       push r15
-//       push r14
-//       push rdi
-//       push rsi
-//       push rbp
-//       push rbx
-//       sub rsp, 168
-//       vzeroupper
-//       vmovaps  xmmword ptr[rsp + 0x90], xmm6
-//       vmovaps xmmword ptr[rsp + 0x80], xmm7
-//       vxorps   xmm4, xmm4, xmm4
-//       vmovdqa  xmmword ptr[rsp + 0x60], xmm4
-//       vmovdqa xmmword ptr[rsp + 0x70], xmm4
-//       mov      rbx, rcx
-//       mov      esi, edx
-
-//G_M000_IG02:                ;; offset=0x0039
-//       xor edi, edi
-//       test rbx, rbx
-//       je SHORT G_M000_IG04
-
-//G_M000_IG03:                ;; offset=0x0040
-//       test esi, esi
-//       jg G_M000_IG14
-
-
-//G_M000_IG04:                ;; offset=0x0048
-//       mov rax, rbx
-
-
-//G_M000_IG05:                ;; offset=0x004B
-//       vmovaps xmm6, xmmword ptr[rsp + 0x90]
-//       vmovaps  xmm7, xmmword ptr[rsp + 0x80]
-//       vzeroupper
-//       add      rsp, 168
-//       pop rbx
-//       pop rbp
-//       pop rsi
-//       pop rdi
-//       pop r14
-//       pop r15
-//       ret
-
-//G_M000_IG06:                ;; offset=0x0070
-//       mov ebp, edi
-//       movsxd rdx, ebp
-//       vmovups ymm6, ymmword ptr[rbx + rdx]
-//       vpmovmskb edx, ymm6
-//       test     edx, edx
-//       je       G_M000_IG08
-//       test     byte ptr[(reloc 0x7ff9541f0950)], 1
-//       je G_M000_IG17
-
-
-//G_M000_IG07:                ;; offset=0x0093
-//       mov r14, 0x200DAD215C8
-//       vmovups ymm0, ymmword ptr[r14]
-//       vperm2i128 ymm0, ymm0, ymm6, 33
-//       vpalignr ymm1, ymm6, ymm0, 15
-//       vpsrlw ymm2, ymm1, 4
-//       vmovups ymm3, ymmword ptr[reloc @RWD00]
-//       vpshufb  ymm2, ymm3, ymm2
-//       vpand    ymm1, ymm1, ymmword ptr[reloc @RWD32]
-//       vmovups ymm3, ymmword ptr[reloc @RWD64]
-//       vpshufb  ymm1, ymm3, ymm1
-//       vpand    ymm1, ymm2, ymm1
-//       vpsrlw   ymm2, ymm6, 4
-//       vmovups ymm3, ymmword ptr[reloc @RWD96]
-//       vpshufb  ymm2, ymm3, ymm2
-//       vpand    ymm1, ymm1, ymm2
-//       mov      r15, 0x200DAD21628
-//       vmovups ymm2, ymmword ptr[r15]
-//       vpalignr ymm3, ymm6, ymm0, 13
-//       vpsubusb ymm3, ymm3, ymmword ptr[reloc @RWD128]
-//       vpalignr ymm0, ymm6, ymm0, 14
-//       vpsubusb ymm0, ymm0, ymmword ptr[reloc @RWD160]
-//       vpor     ymm0, ymm0, ymm3
-//       vpand    ymm0, ymm0, ymmword ptr[reloc @RWD192]
-//       vpxor ymm0, ymm0, ymm1
-//       vpor ymm0, ymm2, ymm0
-//       vmovups ymmword ptr[r15], ymm0
-//       vpsubusw ymm0, ymm6, ymmword ptr[reloc @RWD224]
-//       mov rdx, 0x200DAD215F8
-//       vmovups ymmword ptr[rdx], ymm0
-
-//G_M000_IG08:                ;; offset=0x0149
-//       test byte ptr[(reloc 0x7ff9541f0950)], 1
-//       je G_M000_IG18
-
-
-//G_M000_IG09:                ;; offset=0x0156
-//       mov r14, 0x200DAD215C8
-//       vmovups ymmword ptr[r14], ymm6
-//       add      ebp, 32
-//       movsxd rdx, ebp
-//       vmovups ymm6, ymmword ptr[rbx + rdx]
-//       vpmovmskb edx, ymm6
-//       test     edx, edx
-//       je       G_M000_IG10
-//       vxorps   ymm0, ymm0, ymm0
-//       vmovups  ymmword ptr[rsp + 0x60], ymm0
-//       vmovups ymm0, ymmword ptr[r14]
-//       vmovups  ymmword ptr[rsp + 0x40], ymm6
-//       vperm2i128 ymm0, ymm0, ymm6, 33
-//       vpalignr ymm0, ymm6, ymm0, 15
-//       vmovups ymmword ptr[rsp + 0x20], ymm0
-//       lea      rdx, [rsp+0x40]
-//        lea r8, [rsp + 0x20]
-//       lea rcx, [rsp + 0x60]
-//       vextractf128 xmm7, ymm6, 1
-//       call[SimdUnicode.Utf8Validation + utf8_checker:CheckSpecialCases(System.Runtime.Intrinsics.Vector256`1[ubyte], System.Runtime.Intrinsics.Vector256`1[ubyte]):System.Runtime.Intrinsics.Vector256`1[ubyte]]
-//       mov      r15, 0x200DAD21628
-//       vmovups ymm0, ymmword ptr[r15]
-//       vmovups  ymm1, ymmword ptr[r14]
-//       vinsertf128 ymm6, ymm6, xmm7, 1
-//       vperm2i128 ymm1, ymm1, ymm6, 33
-//       vpalignr ymm2, ymm6, ymm1, 14
-//       vpsubusb ymm2, ymm2, ymmword ptr[reloc @RWD160]
-//       vpalignr ymm1, ymm6, ymm1, 13
-//       vpsubusb ymm1, ymm1, ymmword ptr[reloc @RWD128]
-//       vpor     ymm1, ymm2, ymm1
-//       vpand    ymm1, ymm1, ymmword ptr[reloc @RWD192]
-//       vpxor ymm1, ymm1, ymmword ptr[rsp + 0x60]
-//       vpor     ymm0, ymm0, ymm1
-//       vmovups  ymmword ptr[r15], ymm0
-//       vpsubusw ymm0, ymm6, ymmword ptr[reloc @RWD224]
-//       mov      rax, 0x200DAD215F8
-//       vmovups ymmword ptr[rax], ymm0
-
-//G_M000_IG10:                ;; offset=0x022B
-//       vmovups ymmword ptr[r14], ymm6
-//       call[SimdUnicode.Utf8Validation + utf8_checker:CheckEof()]
-//       call[SimdUnicode.Utf8Validation + utf8_checker:Errors():bool]
-//       test     eax, eax
-//       je       SHORT G_M000_IG13
-
-
-//G_M000_IG11:                ;; offset=0x0240
-//       movsxd rcx, edi
-//       add rcx, rbx
-//       mov edx, esi
-//       sub edx, edi
-//       call[SimdUnicode.UTF8:RewindAndValidateWithErrors(ulong, int):ulong]
-//       nop
-
-
-//G_M000_IG12:                ;; offset=0x0251
-//       vmovaps xmm6, xmmword ptr[rsp + 0x90]
-//       vmovaps  xmm7, xmmword ptr[rsp + 0x80]
-//       vzeroupper
-//       add      rsp, 168
-//       pop rbx
-//       pop rbp
-//       pop rsi
-//       pop rdi
-//       pop r14
-//       pop r15
-//       ret
-
-//G_M000_IG13:                ;; offset=0x0276
-//       add edi, 64
-
-
-//G_M000_IG14:                ;; offset=0x0279
-//       lea edx, [rdi + 0x40]
-//       cmp edx, esi
-//       jle G_M000_IG06
-
-
-//G_M000_IG15:                ;; offset=0x0284
-//       movsxd rax, esi
-//       add rax, rbx
-
-
-//G_M000_IG16:                ;; offset=0x028A
-//       vmovaps xmm6, xmmword ptr[rsp + 0x90]
-//       vmovaps  xmm7, xmmword ptr[rsp + 0x80]
-//       vzeroupper
-//       add      rsp, 168
-//       pop rbx
-//       pop rbp
-//       pop rsi
-//       pop rdi
-//       pop r14
-//       pop r15
-//       ret
-
-//G_M000_IG17:                ;; offset=0x02AF
-//       mov rcx, 0x7FF9541F0918
-//       mov edx, 8
-//       vextractf128 xmm7, ymm6, 1
-//       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
-//       vinsertf128 ymm6, ymm6, xmm7, 1
-//       jmp G_M000_IG07
-
-
-//G_M000_IG18:                ;; offset=0x02D4
-//       mov rcx, 0x7FF9541F0918
-//       mov edx, 8
-//       vextractf128 xmm7, ymm6, 1
-//       call CORINFO_HELP_GETSHARED_NONGCSTATIC_BASE
-//       vinsertf128 ymm6, ymm6, xmm7, 1
-//       jmp G_M000_IG09
-
-
         public static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
         {
 
@@ -331,58 +104,69 @@ namespace SimdUnicode
             {
                 return pInputBuffer;
             }
+            // TODO: this is arbitrary, we should benchmark this and make sure it's the right value (128)
+            if(inputLength > 128)
+            {
+                // We have enough data to use the SIMD function
 
-            // while (processedLength + 128 <= inputLength)
-            // {                
-                
-            //     SIMDGetPointerToFirstInvalidByte(pInputBuffer,processedLength);
-                
-            //     Utf8Validation.utf8_checker.CheckEof();
-            //     if (Utf8Validation.utf8_checker.Errors())
-            //     {
-            //         // return pInputBuffer + processedLength;
-            //         return SimdUnicode.UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength,inputLength - processedLength);
-            //     }
-            //     processedLength += 128;
+                Vector256<byte> error = Vector256<byte>.Zero;
+                Vector256<byte> prev_input_block = Vector256<byte>.Zero;
+                Vector256<byte> prev_incomplete = Vector256<byte>.Zero;
 
-            // }  
+                while (processedLength + 64 <= inputLength)
+                {                
+                    
+                    Vector256<byte> currentBlock1 = Avx.LoadVector256(pInputBuffer + processedLength);
+                    Vector256<byte> currentBlock2 = Avx.LoadVector256(pInputBuffer + processedLength + 32);
 
-            while (processedLength + 64 <= inputLength)
-            {                
-                
-                SIMDGetPointerToFirstInvalidByte(pInputBuffer,processedLength);
-                
-                Utf8Validation.utf8_checker.CheckEof();
-                if (Utf8Validation.utf8_checker.Errors())
-                {
-                    // return pInputBuffer + processedLength;
-                    return SimdUnicode.UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength,inputLength - processedLength);
+
+
+                    int mask1 = Avx2.MoveMask(currentBlock1);
+                    int mask2 = Avx2.MoveMask(currentBlock1);
+                    /*if (mask != 0)
+                    {
+                        // Contains non-ASCII characters, process the vector
+                        
+                        CheckUtf8Bytes(input);
+                        prev_incomplete = IsIncomplete(input);
+                    }*/
+
+
+
+                    //prev_input_block = input;
+
+                    /*SIMDGetPointerToFirstInvalidByte(pInputBuffer,processedLength);
+                    
+                    //Utf8Validation.utf8_checker.CheckEof(); // I don't think that's right??? To be verified.
+                    if (Utf8Validation.utf8_checker.Errors())
+                    {
+                        // return pInputBuffer + processedLength;
+                        return SimdUnicode.UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength,inputLength - processedLength);
+                    }*/
+                    //SHIT
+                    processedLength += 64;
+
                 }
-                processedLength += 64;
-
+        
             }
 
-
-
-            // while (processedLength + 32 <= inputLength)
-            // {                
-
-            //     SIMDGetPointerToFirstInvalidByte(pInputBuffer,processedLength);
-
-            //     Utf8Validation.utf8_checker.CheckEof();
-            //     if (Utf8Validation.utf8_checker.Errors())
-            //     {
-            //         // return pInputBuffer + processedLength;
-            //         return SimdUnicode.UTF8.RewindAndValidateWithErrors(pInputBuffer + processedLength,inputLength - processedLength);
-            //     }
-            //     processedLength += 32;
-
-            // }
 
 
             // Process the remaining bytes with the scalar function
             if (processedLength < inputLength)
             {
+                // We need to possibly backtrack to the start of the last code point
+                // worst possible case is 4 bytes, where we need to backtrack 3 bytes
+                // 11110xxxx 10xxxxxx 10xxxxxx 10xxxxxx <== we might be pointing at the last byte
+                if ((sbyte)pInputBuffer[processedLength] <= -65 && processedLength > 0) {
+                    processedLength -= 1;
+                    if ((sbyte)pInputBuffer[processedLength] <= -65 && processedLength > 0) {
+                        processedLength -= 1;
+                        if ((sbyte)pInputBuffer[processedLength] <= -65 && processedLength > 0) {
+                            processedLength -= 1;
+                        }
+                    }
+                }
                 byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
@@ -390,86 +174,6 @@ namespace SimdUnicode
                     return invalidBytePointer;
                 }
             }
-
-            //  benches done with 2 times unroll
-
-            //             |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
-            // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
-            // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 454.633 us | 4.3116 us | 3.8221 us |         - |
-            // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 270.426 us | 4.4255 us | 4.5447 us |         - |
-            // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 129.489 us | 2.3981 us | 2.3553 us |         - |
-            // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  16.391 us | 0.3104 us | 0.2752 us |         - |
-            // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.192 us | 0.0790 us | 0.0660 us |         - |
-            // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.244 us | 0.1760 us | 0.1646 us |         - |
-            // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.826 us | 0.0646 us | 0.0573 us |         - |
-            // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  13.416 us | 0.2554 us | 0.4921 us |         - |
-            // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   6.006 us | 0.1154 us | 0.1617 us |         - |
-            // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.925 us | 0.0930 us | 0.0870 us |         - |
-            // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 138.051 us | 1.2770 us | 1.1945 us |         - |
-            // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  75.751 us | 0.9603 us | 0.7498 us |         - |
-            // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 173.199 us | 3.4289 us | 5.4386 us |         - |
-            // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 112.989 us | 1.7684 us | 1.5677 us |         - |
-            //if (processedLength < inputLength)
-            //{
-
-            //    Span<byte> remainingBytes = stackalloc byte[64];
-            //    new Span<byte>(pInputBuffer + processedLength, inputLength - processedLength).CopyTo(remainingBytes);
-
-            //    ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
-            //    Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
-            //    Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
-
-            //    Utf8Validation.utf8_checker.CheckEof();
-            //    if (Utf8Validation.utf8_checker.Errors())
-            //    {
-            //        // return pInputBuffer + processedLength;
-            //        return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength, inputLength - processedLength);
-            //    }
-            //    processedLength += inputLength - processedLength;
-
-            //}
-
-            // |                      Method |               FileName |       Mean |     Error |    StdDev | Allocated |
-            // |---------------------------- |----------------------- |-----------:|----------:|----------:|----------:|
-            // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 454.353 us | 6.0327 us | 5.3478 us |         - |
-            // | SIMDUtf8ValidationErrorData |   data/arabic.utf8.txt | 278.734 us | 5.3031 us | 5.8943 us |         - |
-            // |  SIMDUtf8ValidationRealData |  data/chinese.utf8.txt | 127.542 us | 2.2544 us | 2.1087 us |         - |
-            // | SIMDUtf8ValidationErrorData |  data/chinese.utf8.txt |  15.822 us | 0.3030 us | 0.3832 us |         - |
-            // |  SIMDUtf8ValidationRealData |  data/english.utf8.txt |  11.016 us | 0.1309 us | 0.1225 us |         - |
-            // | SIMDUtf8ValidationErrorData |  data/english.utf8.txt |  11.030 us | 0.1580 us | 0.1400 us |         - |
-            // |  SIMDUtf8ValidationRealData |   data/french.utf8.txt |  12.547 us | 0.0740 us | 0.0656 us |         - |
-            // | SIMDUtf8ValidationErrorData |   data/french.utf8.txt |  12.652 us | 0.1455 us | 0.1290 us |         - |
-            // |  SIMDUtf8ValidationRealData |   data/german.utf8.txt |   5.755 us | 0.0277 us | 0.0246 us |         - |
-            // | SIMDUtf8ValidationErrorData |   data/german.utf8.txt |   5.669 us | 0.0079 us | 0.0070 us |         - |
-            // |  SIMDUtf8ValidationRealData | data/japanese.utf8.txt | 130.835 us | 0.5999 us | 0.5612 us |         - |
-            // | SIMDUtf8ValidationErrorData | data/japanese.utf8.txt |  71.814 us | 1.0399 us | 0.9727 us |         - |
-            // |  SIMDUtf8ValidationRealData |  data/turkish.utf8.txt | 167.163 us | 3.1610 us | 4.1103 us |         - |
-            // | SIMDUtf8ValidationErrorData |  data/turkish.utf8.txt | 109.607 us | 0.6636 us | 0.5542 us |         - |
-
-
-            // if (processedLength < inputLength)
-            // {
-
-            //     Span<byte> remainingBytes = stackalloc byte[64];
-            //     for (int i = 0; i < inputLength - processedLength; i++)
-            //     {
-            //         remainingBytes[i] = pInputBuffer[processedLength + i];
-            //     }
-
-            //     ReadOnlySpan<Byte> remainingBytesReadOnly = remainingBytes;
-            //     Vector256<byte> remainingBlock = Vector256.Create(remainingBytesReadOnly);
-            //     Utf8Validation.utf8_checker.CheckNextInput(remainingBlock);
-            //     Utf8Validation.utf8_checker.CheckEof();
-            //     if (Utf8Validation.utf8_checker.Errors())
-            //     {
-            //         // return pInputBuffer + processedLength;
-            //         return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer + processedLength,inputLength - processedLength);
-            //     }
-            //     processedLength += inputLength - processedLength;
-            // }
-
-
-
 
             return pInputBuffer + inputLength;
 
