@@ -19,7 +19,7 @@ using System.Runtime.Intrinsics.X86;
 //Vector128's by 16 (see:https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/Vector128.cs,eb1e72a6f843c5a5)
 // GetIndexofFirstNonAsciiByte is no longer internal
 
-namespace Competition
+namespace DotnetRuntime
 {
     // I copy pasted this from: https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Runtime/CompilerServices/CompExactlyDependsOnAttribute.cs
     // Use this attribute to indicate that a function should only be compiled into a Ready2Run

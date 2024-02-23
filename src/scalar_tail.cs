@@ -1,6 +1,6 @@
 //             // Helpers.CheckForGCCollections("After AVX2 procession");
-            
-    
+
+
 //                 // |                      Method |               FileName |      Mean |     Error |    StdDev | Allocated |
 //                 // |---------------------------- |----------------------- |----------:|----------:|----------:|----------:|
 //                 // |  SIMDUtf8ValidationRealData |   data/arabic.utf8.txt | 33.062 us | 0.5046 us | 0.4720 us |      56 B |

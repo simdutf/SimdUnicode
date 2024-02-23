@@ -17,12 +17,6 @@
     <ProjectReference Include="..\test\tests.csproj" />
   </ItemGroup>
 
-    <!-- <ItemGroup>
-    <None Update="data\french.utf8.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup> -->
-
   <ItemGroup>
   <None Update="data\*.utf8.txt">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -32,11 +32,11 @@ public class Utf8SIMDValidationTests
             {
                 fixed (byte* pInput = input)
                 {
-                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
                                 $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                    byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
                                 $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
                 }
@@ -86,11 +86,11 @@ public class Utf8SIMDValidationTests
             {
                 fixed (byte* pInput = input)
                 {
-                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
                                 $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                    byte* SIMDResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
                                 $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
 
@@ -431,13 +431,13 @@ public class Utf8SIMDValidationTests
         {
             fixed (byte* pInput = utf8)
             {
-                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length);
                 if (scalarResult != pInput + utf8.Length)
                 {
                     return false;
                 }
 
-                byte* simdResult = Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
                 if (simdResult != pInput + utf8.Length)
                 {
                     return false;

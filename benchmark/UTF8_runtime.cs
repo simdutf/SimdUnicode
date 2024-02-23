@@ -25,7 +25,7 @@ using System.Runtime.Intrinsics.X86;
 // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,706384069881fe22
 // 
 
-namespace Competition
+namespace DotnetRuntime
 {
 
     internal static unsafe partial class Utf8Utility
@@ -249,7 +249,7 @@ namespace Competition
             Debug.Assert(pInputBuffer != null || inputLength == 0, "Input length must be zero if input buffer pointer is null.");
 
             // First, try to drain off as many ASCII bytes as we can from the beginning.
-            nuint numAsciiBytesCounted = Competition.Ascii.GetIndexOfFirstNonAsciiByte(pInputBuffer, (uint)inputLength);
+            nuint numAsciiBytesCounted = DotnetRuntime.Ascii.GetIndexOfFirstNonAsciiByte(pInputBuffer, (uint)inputLength);
             pInputBuffer += numAsciiBytesCounted;
 
             // Quick check - did we just end up consuming the entire input buffer?
@@ -302,7 +302,7 @@ namespace Competition
 
                 // First, check for the common case of all-ASCII bytes.
 
-                if (Competition.Ascii.AllBytesInUInt32AreAscii(thisDWord))
+                if (DotnetRuntime.Ascii.AllBytesInUInt32AreAscii(thisDWord))
                 {
                     // We read an all-ASCII sequence.
 
@@ -322,7 +322,7 @@ namespace Competition
                         // the read pointer up to the next aligned address.
 
                         thisDWord = Unsafe.ReadUnaligned<uint>(pInputBuffer);
-                        if (!Competition.Ascii.AllBytesInUInt32AreAscii(thisDWord))
+                        if (!DotnetRuntime.Ascii.AllBytesInUInt32AreAscii(thisDWord))
                         {
                             goto AfterReadDWordSkipAllBytesAsciiCheck;
                         }
@@ -376,12 +376,12 @@ namespace Competition
                                 }
                                 else
                                 {
-                                    if (!Competition.Ascii.AllBytesInUInt32AreAscii(((uint*)pInputBuffer)[0] | ((uint*)pInputBuffer)[1]))
+                                    if (!DotnetRuntime.Ascii.AllBytesInUInt32AreAscii(((uint*)pInputBuffer)[0] | ((uint*)pInputBuffer)[1]))
                                     {
                                         goto LoopTerminatedEarlyDueToNonAsciiDataInFirstPair;
                                     }
 
-                                    if (!Competition.Ascii.AllBytesInUInt32AreAscii(((uint*)pInputBuffer)[2] | ((uint*)pInputBuffer)[3]))
+                                    if (!DotnetRuntime.Ascii.AllBytesInUInt32AreAscii(((uint*)pInputBuffer)[2] | ((uint*)pInputBuffer)[3]))
                                     {
                                         goto LoopTerminatedEarlyDueToNonAsciiDataInSecondPair;
                                     }
@@ -426,7 +426,7 @@ namespace Competition
                         // Let's perform a quick check here to bypass the logic at the beginning of the main loop.
 
                         thisDWord = *(uint*)pInputBuffer; // still aligned here
-                        if (Competition.Ascii.AllBytesInUInt32AreAscii(thisDWord))
+                        if (DotnetRuntime.Ascii.AllBytesInUInt32AreAscii(thisDWord))
                         {
                             pInputBuffer += sizeof(uint); // consumed 1 more DWORD
                             thisDWord = *(uint*)pInputBuffer; // still aligned here
@@ -440,13 +440,13 @@ namespace Competition
 
             AfterReadDWordSkipAllBytesAsciiCheck:
 
-                Debug.Assert(!Competition.Ascii.AllBytesInUInt32AreAscii(thisDWord)); // this should have been handled earlier
+                Debug.Assert(!DotnetRuntime.Ascii.AllBytesInUInt32AreAscii(thisDWord)); // this should have been handled earlier
 
                 // Next, try stripping off ASCII bytes one at a time.
                 // We only handle up to three ASCII bytes here since we handled the four ASCII byte case above.
 
                 {
-                    uint numLeadingAsciiBytes = Competition.Ascii.CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(thisDWord);
+                    uint numLeadingAsciiBytes = DotnetRuntime.Ascii.CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(thisDWord);
                     pInputBuffer += numLeadingAsciiBytes;
 
                     if (pFinalPosWhereCanReadDWordFromInputBuffer < pInputBuffer)
