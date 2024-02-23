@@ -82,7 +82,6 @@ namespace SimdUnicodeBenchmarks
                 @"data/japanese.utf8.txt",
                 @"data/korean.utf8.txt",
                 @"data/persan.utf8.txt",
-                @"data/persan.utf8.txt",
                 @"data/portuguese.utf8.txt",
                 @"data/russian.utf8.txt",
                 @"data/thai.utf8.txt",
