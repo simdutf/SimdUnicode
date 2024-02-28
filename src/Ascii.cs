@@ -4,6 +4,8 @@ using System.Runtime.Intrinsics.X86;
 using System.Runtime.Intrinsics.Arm;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Numerics;
+
 
 
 
@@ -102,9 +104,9 @@ namespace SimdUnicode
                         {
                             Vector128<ushort> raw1 = Sse41.LoadDquVector128((ushort*)pStart + i);
                             Vector128<ushort> raw2 = Sse41.LoadDquVector128((ushort*)pStart + i + 8);
-                            
+
                             total = Sse2.Or(total, raw1);
-                            total = Sse2.Or(total, raw2); 
+                            total = Sse2.Or(total, raw2);
                         }
 
                         Vector128<ushort> b127 = Vector128.Create((ushort)127);
@@ -135,28 +137,80 @@ namespace SimdUnicode
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
         {
-            byte* pBufferEnd = pBuffer + bufferLength;
-            byte* pCurrent = pBuffer;
+            byte* buf_orig = pBuffer;
+            byte* end = pBuffer + bufferLength;
+            Vector256<sbyte> ascii = Vector256<sbyte>.Zero;
 
-            // Process in blocks of 16 bytes when possible
-            while (pCurrent + 16 <= pBufferEnd)
+            if (Vector256.IsHardwareAccelerated)
             {
-                ulong v1 = *(ulong*)pCurrent;
-                ulong v2 = *(ulong*)(pCurrent + 8);
-                ulong v = v1 | v2;
-
-                if ((v & 0x8080808080808080) != 0)
+                for (; pBuffer + 32 <= end; pBuffer += 32)
                 {
-                    for (; pCurrent < pBufferEnd; pCurrent++)
+                    Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
+                    int notascii = Avx2.MoveMask(input.AsByte());
+                    if (notascii != 0)
                     {
-                        if (*pCurrent >= 0b10000000)
-                        {
-                            return (nuint)(pCurrent - pBuffer);
-                        }
+                        // Print a message for debugging
+                        // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
+
+                        return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
                     }
                 }
+            }
 
-                pCurrent += 16;
+            if (Vector128.IsHardwareAccelerated)
+            {
+                for (; pBuffer + 16 <= end; pBuffer += 16)
+                {
+                    Vector128<sbyte> input = Sse2.LoadVector128((sbyte*)pBuffer);
+                    int notascii = Sse2.MoveMask(input.AsByte());
+                    if (notascii != 0)
+                    {
+                        // Print a message for debugging
+                        // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
+
+                        return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                    }
+                }
+            }
+
+
+            // Call the scalar function for the remaining bytes
+            nuint scalarResult = Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
+
+            // Add the number of bytes processed by SIMD
+            return (nuint)(pBuffer - buf_orig) + scalarResult;
+
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe nuint Scalar_GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+        {
+            byte* pCurrent = pBuffer;
+            byte* pBufferEnd = pBuffer + bufferLength;
+
+            if (!Vector128.IsHardwareAccelerated)
+            {
+
+                // Process in blocks of 16 bytes when possible
+                while (pCurrent + 16 <= pBufferEnd)
+                {
+                    ulong v1 = *(ulong*)pCurrent;
+                    ulong v2 = *(ulong*)(pCurrent + 8);
+                    ulong v = v1 | v2;
+
+                    if ((v & 0x8080808080808080) != 0)
+                    {
+                        for (; pCurrent < pBufferEnd; pCurrent++)
+                        {
+                            if (*pCurrent >= 0b10000000)
+                            {
+                                return (nuint)(pCurrent - pBuffer);
+                            }
+                        }
+                    }
+
+                    pCurrent += 16;
+                }
             }
 
             // Process the tail byte-by-byte
@@ -171,9 +225,10 @@ namespace SimdUnicode
             return bufferLength;
         }
 
+
+
+
     }
-
-
 }
 // Further reading:
 // https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Encodings.Web/src/System/Text/Unicode/UnicodeHelpers.cs
