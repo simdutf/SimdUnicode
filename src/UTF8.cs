@@ -45,21 +45,6 @@ namespace SimdUnicode
             uint codePoint = 0;
             while (pos < inputLength)
             {
-                // If the next  16 bytes are ascii, we can skip them.
-                nextPos = pos + 16;
-                if (nextPos <= inputLength)
-                { // if it is safe to read 16 more bytes, check that they are ascii
-                    ulong v1 = *(ulong*)pInputBuffer;
-                    ulong v2 = *(ulong*)(pInputBuffer + 8);
-                    ulong v = v1 | v2;
-
-                    if ((v & 0x8080808080808080) == 0)
-                    {
-                        pos = nextPos;
-                        continue;
-                    }
-
-                }
                 byte firstByte = pInputBuffer[pos];
                 while (firstByte < 0b10000000)
                 {
@@ -233,7 +218,6 @@ namespace SimdUnicode
 
                     for (; processedLength + 32 <= inputLength; processedLength += 32)
                     {
-
                         Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
 
                         int mask = Avx2.MoveMask(currentBlock);
@@ -241,9 +225,10 @@ namespace SimdUnicode
                         {
                             // We have an ASCII block, no need to process it, but
                             // we need to check if the previous block was incomplete.
-                            if (Avx2.MoveMask(prevIncomplete) != 0)
+                            if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
-                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength);
+                                int off = processedLength >= 32 ? processedLength - 32 : processedLength;
+                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
                             }
                             prevIncomplete = Vector256<byte>.Zero;
                         }
@@ -264,34 +249,31 @@ namespace SimdUnicode
                             Vector256<byte> must23 = Avx2.Or(isThirdByte, isFourthByte);
                             Vector256<byte> must23As80 = Avx2.And(must23, v80);
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
-                            if (Avx2.MoveMask(error) != 0)
+                            if (!Avx2.TestZ(error, error))
                             {
-                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength);
+                                int off = processedLength >= 32 ? processedLength - 32 : processedLength;
+                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
                             }
                             prevIncomplete = Avx2.SubtractSaturate(currentBlock, maxValue);
                         }
                     }
+
+                                    if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
+                {
+                    int off = processedLength >= 32 ? processedLength - 32 : processedLength;
+                    return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
+                }
                 }
             }
-            // We have processed all the blocks using SIMD, we need to process the remaining bytes.
 
+            // We have processed all the blocks using SIMD, we need to process the remaining bytes.
             // Process the remaining bytes with the scalar function
             if (processedLength < inputLength)
             {
                 // We need to possibly backtrack to the start of the last code point
-                // worst possible case is 4 bytes, where we need to backtrack 3 bytes
-                // 11110xxxx 10xxxxxx 10xxxxxx 10xxxxxx <== we might be pointing at the last byte
-                if (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
+                while (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
                 {
                     processedLength -= 1;
-                    if (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
-                    {
-                        processedLength -= 1;
-                        if (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
-                        {
-                            processedLength -= 1;
-                        }
-                    }
                 }
                 byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength);
                 if (invalidBytePointer != pInputBuffer + inputLength)

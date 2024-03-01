@@ -26,8 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\SimdUnicode.csproj" />
-    <!-- <ProjectReference Include="..\test\randomutf8.csproj" /> -->
-
+    <ProjectReference Include="..\benchmark\benchmark.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,6 +11,35 @@ public class Utf8SIMDValidationTests
     private readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
     private static readonly Random rand = new Random();
 
+
+    /*
+       [Fact]
+       public void TooLongErrorTest()
+       {
+           for (int trial = 0; trial < 10; trial++)
+           {
+               Console.WriteLine("Trial {0}", trial);
+
+               byte[] utf8 = generator.Generate(3*64);
+               for (int i = 0; i < utf8.Length; i++)
+               {
+                               Console.WriteLine("Trial {0} i = {1}", trial, i);
+
+                   if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+                   {
+                       byte oldByte = utf8[i];
+                       utf8[i] = 0b10000000; // Forcing a too long error
+                       Assert.False(ValidateUtf8(utf8));
+                       Assert.True(InvalidateUtf8(utf8, i));
+                       utf8[i] = oldByte; // Restore the original byte
+                   }
+                                               Console.WriteLine("Trial {0} i = {1} DONE", trial, i);
+
+               }
+           }
+       }*/
+
+
     [Fact]
     public void TestGoodSequences()
     {
@@ -38,7 +67,7 @@ public class Utf8SIMDValidationTests
 
                     byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
-                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");
                 }
             }
         }
@@ -92,7 +121,7 @@ public class Utf8SIMDValidationTests
 
                     byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
-                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
                 }
             }
@@ -111,9 +140,7 @@ public class Utf8SIMDValidationTests
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
-            // Console.WriteLine("Trial run:" + trial);
             byte[] utf8 = generator.Generate(512);
-            // Assert.True(ValidateUtf8(utf8),$"Failure NoErrorTest: {utf8}");
             bool isValidUtf8 = ValidateUtf8(utf8);
             string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
             Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
@@ -150,19 +177,6 @@ public class Utf8SIMDValidationTests
         RunTestForByteLength(4);
     }
 
-    // private void RunTestForByteLength(int byteLength)
-    // {
-    //     for (int trial = 0; trial < NumTrials; trial++)
-    //     {
-    //         // Console.WriteLine($"Trial run {trial} for byte length {byteLength}");
-    //         byte[] utf8 = generator.Generate(990, byteLength);
-    //         bool isValidUtf8 = ValidateUtf8(utf8);
-    //         // string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
-    //         // Assert.True(isValidUtf8, $"Failure NoErrorTest for {byteLength}-byte UTF8. Sequence: {utf8HexString}");
-    //         Assert.True(isValidUtf8);
-    //     }
-    // }
-
     private void RunTestForByteLength(int byteLength)
     {
         int[] outputLengths = { 128, 256, 512, 1024, 1000 }; // Example lengths
@@ -191,6 +205,7 @@ public class Utf8SIMDValidationTests
                     byte oldByte = utf8[i];
                     utf8[i] = 0b11111000; // Forcing a header bits error
                     Assert.False(ValidateUtf8(utf8));
+                    Assert.True(InvalidateUtf8(utf8, i));
                     utf8[i] = oldByte; // Restore the original byte
                 }
             }
@@ -211,6 +226,7 @@ public class Utf8SIMDValidationTests
                     byte oldByte = utf8[i];
                     utf8[i] = 0b11100000; // Forcing a too short error
                     Assert.False(ValidateUtf8(utf8));
+                    Assert.True(InvalidateUtf8(utf8, i));
                     utf8[i] = oldByte; // Restore the original byte
                 }
             }
@@ -231,13 +247,12 @@ public class Utf8SIMDValidationTests
                     byte oldByte = utf8[i];
                     utf8[i] = 0b10000000; // Forcing a too long error
                     Assert.False(ValidateUtf8(utf8));
+                    Assert.True(InvalidateUtf8(utf8, i));
                     utf8[i] = oldByte; // Restore the original byte
                 }
             }
         }
     }
-
-    // 
 
     [Fact]
     public void OverlongErrorTest()
@@ -294,7 +309,7 @@ public class Utf8SIMDValidationTests
                     utf8[i] += (byte)(((utf8[i] & 0b100) == 0b100) ? 0b10 : 0b100);
 
                     Assert.False(ValidateUtf8(utf8));
-
+                    Assert.True(InvalidateUtf8(utf8, i));
                     utf8[i] = old;
                 }
             }
@@ -322,6 +337,7 @@ public class Utf8SIMDValidationTests
                         utf8[i + 1] = (byte)((utf8[i + 1] & 0b11000011) | (s << 2));
 
                         Assert.False(ValidateUtf8(utf8));
+                        Assert.True(InvalidateUtf8(utf8, i));
                     }
 
                     utf8[i] = old;
@@ -334,8 +350,6 @@ public class Utf8SIMDValidationTests
     [Fact]
     public void BruteForceTest()
     {
-        // Random rand = new Random(); // Random instance for test
-
         for (int i = 0; i < NumTrials; i++)
         {
             // Generate random UTF-8 sequence
@@ -368,9 +382,7 @@ public class Utf8SIMDValidationTests
         }
     }
 
-
     // credit: based on code from Google Fuchsia (Apache Licensed)
-
     public static bool ValidateUtf8Fuschia(byte[] data)
     {
         int pos = 0;
@@ -424,7 +436,34 @@ public class Utf8SIMDValidationTests
         return true;
     }
 
+    // Check that all functions agree on the result when the input might be invalid.
+    private bool InvalidateUtf8(byte[] utf8, int badindex)
+    {
+        unsafe
+        {
+            fixed (byte* pInput = utf8)
+            {
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length);
+                int scalarOffset = (int)(scalarResult - pInput);
+                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+                int simdOffset = (int)(simdResult - pInput);
+                int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
+                byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+                int dotnetOffset = (int)(dotnetResult - pInput);
+                if (scalarOffset != simdOffset)
+                {
+                    Console.WriteLine("Suprisingly, scalarResult != simdResult {0} != {1}, badindex = {2}, length = {3}", scalarOffset, simdOffset, badindex, utf8.Length);
+                }
+                if (dotnetOffset != simdOffset)
+                {
+                    Console.WriteLine("Suprisingly, dotnetOffset != simdResult {0} != {1}, badindex = {2}, length = {3}", dotnetOffset, simdOffset, badindex, utf8.Length);
+                }
+                return (scalarResult == simdResult) && (simdResult == dotnetResult);
+            }
+        }
+    }
 
+    // check that all methods agree that the result is valid
     private bool ValidateUtf8(byte[] utf8)
     {
         unsafe

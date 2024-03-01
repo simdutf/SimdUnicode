@@ -28,7 +28,7 @@ using System.Runtime.Intrinsics.X86;
 namespace DotnetRuntime
 {
 
-    internal static unsafe partial class Utf8Utility
+    public static unsafe partial class Utf8Utility
     {
         /// <summary>
         /// Returns <see langword="true"/> iff the low byte of <paramref name="value"/>
