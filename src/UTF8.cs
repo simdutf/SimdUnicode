@@ -227,7 +227,7 @@ namespace SimdUnicode
                             // we need to check if the previous block was incomplete.
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
-                                int off = processedLength >= 32 ? processedLength - 32 : processedLength;
+                                int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
                             }
                             prevIncomplete = Vector256<byte>.Zero;
@@ -258,11 +258,19 @@ namespace SimdUnicode
                         }
                     }
 
-                                    if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
-                {
-                    int off = processedLength >= 32 ? processedLength - 32 : processedLength;
-                    return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
-                }
+                    if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
+                    {
+                        // We have an unterminated sequence.
+                        processedLength -= 3;
+                        for(int k = 0; k < 3; k++)
+                        {
+                            if ((pInputBuffer[processedLength + k] & 0b11000000) == 0b11000000)
+                            {
+                                processedLength += k;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
