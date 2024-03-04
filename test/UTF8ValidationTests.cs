@@ -11,33 +11,12 @@ public class Utf8SIMDValidationTests
     private readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
     private static readonly Random rand = new Random();
 
+    // int[] outputLengths = { 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472, 1536, 1600, 1664, 1728, 1792, 1856, 1920, 1984, 2048, 2112, 2176, 2240, 2304, 2368, 2432, 2496, 2560, 2624, 2688, 2752, 2816, 2880, 2944, 3008, 3072, 3136, 3200, 3264, 3328, 3392, 3456, 3520, 3584, 3648, 3712, 3776, 3840, 3904, 3968, 4032, 4096, 4160, 4224, 4288, 4352, 4416, 4480, 4544, 4608, 4672, 4736, 4800, 4864, 4928, 4992, 5056, 5120, 5184, 5248, 5312, 5376, 5440, 5504, 5568, 5632, 5696, 5760, 5824, 5888, 5952, 6016, 6080, 6144, 6208, 6272, 6336, 6400, 6464, 6528, 6592, 6656, 6720, 6784, 6848, 6912, 6976, 7040, 7104, 7168, 7232, 7296, 7360, 7424, 7488, 7552, 7616, 7680, 7744, 7808, 7872, 7936, 8000, 8064, 8128, 8192, 8256, 8320, 8384, 8448, 8512, 8576, 8640, 8704, 8768, 8832, 8896, 8960, 9024, 9088, 9152, 9216, 9280, 9344, 9408, 9472, 9536, 9600, 9664, 9728, 9792, 9856, 9920, 9984, 10000 };
+    int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
 
-    /*
-       [Fact]
-       public void TooLongErrorTest()
-       {
-           for (int trial = 0; trial < 10; trial++)
-           {
-               Console.WriteLine("Trial {0}", trial);
 
-               byte[] utf8 = generator.Generate(3*64);
-               for (int i = 0; i < utf8.Length; i++)
-               {
-                               Console.WriteLine("Trial {0} i = {1}", trial, i);
 
-                   if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
-                   {
-                       byte oldByte = utf8[i];
-                       utf8[i] = 0b10000000; // Forcing a too long error
-                       Assert.False(ValidateUtf8(utf8));
-                       Assert.True(InvalidateUtf8(utf8, i));
-                       utf8[i] = oldByte; // Restore the original byte
-                   }
-                                               Console.WriteLine("Trial {0} i = {1} DONE", trial, i);
 
-               }
-           }
-       }*/
 
 
     [Fact]
@@ -138,12 +117,15 @@ public class Utf8SIMDValidationTests
     [Fact]
     public void NoErrorTest()
     {
-        for (int trial = 0; trial < NumTrials; trial++)
+        foreach (int outputLength in outputLengths)
         {
-            byte[] utf8 = generator.Generate(512);
-            bool isValidUtf8 = ValidateUtf8(utf8);
-            string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
-            Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+                byte[] utf8 = generator.Generate(outputLength);
+                bool isValidUtf8 = ValidateUtf8(utf8);
+                string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
+                Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
+            }
         }
     }
 
@@ -179,7 +161,7 @@ public class Utf8SIMDValidationTests
 
     private void RunTestForByteLength(int byteLength)
     {
-        int[] outputLengths = { 128, 256, 512, 1024, 1000 }; // Example lengths
+        // int[] outputLengths = { 128, 256, 512, 1024, 1000 }; // Example lengths
         foreach (int outputLength in outputLengths)
         {
             for (int trial = 0; trial < NumTrials; trial++)
@@ -215,40 +197,47 @@ public class Utf8SIMDValidationTests
     [Fact]
     public void TooShortErrorTest()
     {
-        for (int trial = 0; trial < NumTrials; trial++)
+        foreach (int outputLength in outputLengths)
         {
-
-            byte[] utf8 = generator.Generate(512);
-            for (int i = 0; i < utf8.Length; i++)
+            for (int trial = 0; trial < NumTrials; trial++)
             {
-                if ((utf8[i] & 0b11000000) == 0b10000000) // Only process continuation bytes
+            byte[] utf8 = generator.Generate(outputLength);
+
+                for (int i = 0; i < utf8.Length; i++)
                 {
-                    byte oldByte = utf8[i];
-                    utf8[i] = 0b11100000; // Forcing a too short error
-                    Assert.False(ValidateUtf8(utf8));
-                    Assert.True(InvalidateUtf8(utf8, i));
-                    utf8[i] = oldByte; // Restore the original byte
+                    if ((utf8[i] & 0b11000000) == 0b10000000) // Only process continuation bytes
+                    {
+                        byte oldByte = utf8[i];
+                        utf8[i] = 0b11100000; // Forcing a too short error
+                        Assert.False(ValidateUtf8(utf8));
+                        Assert.True(InvalidateUtf8(utf8, i));
+                        utf8[i] = oldByte; // Restore the original byte
+                    }
                 }
             }
         }
+        
     }
 
     [Fact]
     public void TooLongErrorTest()
     {
-        for (int trial = 0; trial < NumTrials; trial++)
+        foreach (int outputLength in outputLengths)
         {
-
-            byte[] utf8 = generator.Generate(512);
-            for (int i = 0; i < utf8.Length; i++)
+            for (int trial = 0; trial < NumTrials; trial++)
             {
-                if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+                byte[] utf8 = generator.Generate(outputLength);
+
+                for (int i = 0; i < utf8.Length; i++)
                 {
-                    byte oldByte = utf8[i];
-                    utf8[i] = 0b10000000; // Forcing a too long error
-                    Assert.False(ValidateUtf8(utf8));
-                    Assert.True(InvalidateUtf8(utf8, i));
-                    utf8[i] = oldByte; // Restore the original byte
+                    if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+                    {
+                        byte oldByte = utf8[i];
+                        utf8[i] = 0b10000000; // Forcing a too long error
+                        Assert.False(ValidateUtf8(utf8));
+                        Assert.True(InvalidateUtf8(utf8, i));
+                        utf8[i] = oldByte; // Restore the original byte
+                    }
                 }
             }
         }
@@ -259,58 +248,107 @@ public class Utf8SIMDValidationTests
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
-
-            byte[] utf8 = generator.Generate(512);
-
-            for (int i = 0; i < utf8.Length; i++)
+            foreach (int outputLength in outputLengths)
             {
-                if (utf8[i] >= 0b11000000) // Only non-ASCII leading bytes can be overlong
+                byte[] utf8 = generator.Generate(outputLength);
+
+
+                for (int i = 0; i < utf8.Length; i++)
                 {
-                    byte old = utf8[i];
-                    byte secondOld = utf8[i + 1];
-
-                    if ((old & 0b11100000) == 0b11000000) // two-bytes case, change to a value less or equal than 0x7f
+                    if (utf8[i] >= 0b11000000) // Only non-ASCII leading bytes can be overlong
                     {
-                        utf8[i] = 0b11000000;
-                    }
-                    else if ((old & 0b11110000) == 0b11100000) // three-bytes case, change to a value less or equal than 0x7ff
-                    {
-                        utf8[i] = 0b11100000;
-                        utf8[i + 1] = (byte)(utf8[i + 1] & 0b11011111);
-                    }
-                    else if ((old & 0b11111000) == 0b11110000) // four-bytes case, change to a value less or equal than 0xffff
-                    {
-                        utf8[i] = 0b11110000;
-                        utf8[i + 1] = (byte)(utf8[i + 1] & 0b11001111);
-                    }
+                        byte old = utf8[i];
+                        byte secondOld = utf8[i + 1];
 
-                    Assert.False(ValidateUtf8(utf8));
+                        if ((old & 0b11100000) == 0b11000000) // two-bytes case, change to a value less or equal than 0x7f
+                        {
+                            utf8[i] = 0b11000000;
+                        }
+                        else if ((old & 0b11110000) == 0b11100000) // three-bytes case, change to a value less or equal than 0x7ff
+                        {
+                            utf8[i] = 0b11100000;
+                            utf8[i + 1] = (byte)(utf8[i + 1] & 0b11011111);
+                        }
+                        else if ((old & 0b11111000) == 0b11110000) // four-bytes case, change to a value less or equal than 0xffff
+                        {
+                            utf8[i] = 0b11110000;
+                            utf8[i + 1] = (byte)(utf8[i + 1] & 0b11001111);
+                        }
 
-                    utf8[i] = old;
-                    utf8[i + 1] = secondOld;
+                        Assert.False(ValidateUtf8(utf8));
+                        Assert.True(InvalidateUtf8(utf8, i));
+
+                        utf8[i] = old;
+                        utf8[i + 1] = secondOld;
+                    }
                 }
             }
         }
     }
 
+
+//  This might seems redundant with but it actually failed PR #17.
+//  The issue is fixed in PR#18 but I thought it a good idea to formally cover it as further changes are possible.
     [Fact]
-    public void TooLargeErrorTest()
+    public void TooShortTest2()
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
-
-            byte[] utf8 = generator.Generate(512);
-
-            for (int i = 0; i < utf8.Length; i++)
+            foreach (int outputLength in outputLengths)
             {
-                if ((utf8[i] & 0b11111000) == 0b11110000) // Only in 4-bytes case
-                {
-                    byte old = utf8[i];
-                    utf8[i] += (byte)(((utf8[i] & 0b100) == 0b100) ? 0b10 : 0b100);
+                byte[] oneUTFunit = generator.Generate( howManyUnits:1 ,byteCountInUnit: 2);            
+                //  PrintHexAndBinary(oneUTFunit);
+                byte[] utf8 = generator.Generate(outputLength,byteCountInUnit: 1);            
+                // for (int i = 0; i < utf8.Length; i++)
+                // {
+                    // if ((utf8[i] & 0b11000000) == 0b10000000) // Only process continuation bytes
+                    // {
+                        byte oldByte = utf8[outputLength - 1];
+                        utf8[outputLength -1] = oneUTFunit[0];//0b11000000; // Forcing a too short error at the very end
+                        // PrintHexAndBinary(utf8);
+                        Assert.False(ValidateUtf8(utf8));
+                        utf8[outputLength -1] = oldByte; // Restore the original byte
+                    
+                // }
+            }
+        }
+    }
 
-                    Assert.False(ValidateUtf8(utf8));
-                    Assert.True(InvalidateUtf8(utf8, i));
-                    utf8[i] = old;
+            // Prints both hexadecimal and binary representations of a byte array
+    static void PrintHexAndBinary(byte[] bytes)
+    {
+        // Convert to hexadecimal
+        string hexRepresentation = BitConverter.ToString(bytes).Replace("-", " ");
+        Console.WriteLine($"Hex: {hexRepresentation}");
+
+        // Convert to binary
+        string binaryRepresentation = string.Join(" ", Array.ConvertAll(bytes, byteValue => Convert.ToString(byteValue, 2).PadLeft(8, '0')));
+        Console.WriteLine($"Binary: {binaryRepresentation}");
+    }
+
+
+    [Fact]
+    public void TooLargeErrorTest()
+    {
+        foreach (int outputLength in outputLengths)
+        {
+
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+
+                byte[] utf8 = generator.Generate(outputLength);
+
+                for (int i = 0; i < utf8.Length; i++)
+                {
+                    if ((utf8[i] & 0b11111000) == 0b11110000) // Only in 4-bytes case
+                    {
+                        byte old = utf8[i];
+                        utf8[i] += (byte)(((utf8[i] & 0b100) == 0b100) ? 0b10 : 0b100);
+
+                        Assert.False(ValidateUtf8(utf8));
+                        Assert.True(InvalidateUtf8(utf8, i));
+                        utf8[i] = old;
+                    }
                 }
             }
         }
@@ -319,29 +357,32 @@ public class Utf8SIMDValidationTests
     [Fact]
     public void SurrogateErrorTest()
     {
-        for (int trial = 0; trial < NumTrials; trial++)
+        foreach (int outputLength in outputLengths)
         {
-
-            byte[] utf8 = generator.Generate(512);
-
-            for (int i = 0; i < utf8.Length; i++)
+            for (int trial = 0; trial < NumTrials; trial++)
             {
-                if ((utf8[i] & 0b11110000) == 0b11100000) // Only in 3-bytes case
+
+                byte[] utf8 = generator.Generate(outputLength);
+
+                for (int i = 0; i < utf8.Length; i++)
                 {
-                    byte old = utf8[i];
-                    byte secondOld = utf8[i + 1];
-
-                    utf8[i] = 0b11101101; // Leading byte for surrogate
-                    for (int s = 0x8; s < 0xf; s++)
+                    if ((utf8[i] & 0b11110000) == 0b11100000) // Only in 3-bytes case
                     {
-                        utf8[i + 1] = (byte)((utf8[i + 1] & 0b11000011) | (s << 2));
+                        byte old = utf8[i];
+                        byte secondOld = utf8[i + 1];
 
-                        Assert.False(ValidateUtf8(utf8));
-                        Assert.True(InvalidateUtf8(utf8, i));
+                        utf8[i] = 0b11101101; // Leading byte for surrogate
+                        for (int s = 0x8; s < 0xf; s++)
+                        {
+                            utf8[i + 1] = (byte)((utf8[i + 1] & 0b11000011) | (s << 2));
+
+                            Assert.False(ValidateUtf8(utf8));
+                            Assert.True(InvalidateUtf8(utf8, i));
+                        }
+
+                        utf8[i] = old;
+                        utf8[i + 1] = secondOld;
                     }
-
-                    utf8[i] = old;
-                    utf8[i + 1] = secondOld;
                 }
             }
         }
@@ -350,34 +391,38 @@ public class Utf8SIMDValidationTests
     [Fact]
     public void BruteForceTest()
     {
-        for (int i = 0; i < NumTrials; i++)
+        foreach (int outputLength in outputLengths)
         {
-            // Generate random UTF-8 sequence
-            byte[] utf8 = generator.Generate(rand.Next(2000));
-
-            Assert.True(ValidateUtf8(utf8), "Initial UTF-8 validation (primary) failed.");
-
-            Assert.True(ValidateUtf8Fuschia(utf8), "Initial UTF-8 validation (Fuschia) failed.");
-
-            // Perform random bit flips
-            for (int flip = 0; flip < 1000; flip++)
+            for (int i = 0; i < NumTrials; i++)
             {
-                if (utf8.Length == 0)
+
+                // Generate random UTF-8 sequence
+                byte[] utf8 = generator.Generate(rand.Next(outputLength));
+
+                Assert.True(ValidateUtf8(utf8), "Initial UTF-8 validation (primary) failed.");
+
+                Assert.True(ValidateUtf8Fuschia(utf8), "Initial UTF-8 validation (Fuschia) failed.");
+
+                // Perform random bit flips
+                for (int flip = 0; flip < 1000; flip++)
                 {
-                    break;
+                    if (utf8.Length == 0)
+                    {
+                        break;
+                    }
+
+                    byte[] modifiedUtf8 = (byte[])utf8.Clone();
+                    int byteIndex = rand.Next(modifiedUtf8.Length);
+                    int bitFlip = 1 << rand.Next(8);
+                    modifiedUtf8[byteIndex] ^= (byte)bitFlip;
+
+                    // Validate the modified sequence with both methods
+                    bool isValidPrimary = ValidateUtf8(modifiedUtf8);
+                    bool isValidFuschia = ValidateUtf8Fuschia(modifiedUtf8);
+
+                    // Ensure both methods agree on the validation result
+                    Assert.Equal(isValidPrimary, isValidFuschia);
                 }
-
-                byte[] modifiedUtf8 = (byte[])utf8.Clone();
-                int byteIndex = rand.Next(modifiedUtf8.Length);
-                int bitFlip = 1 << rand.Next(8);
-                modifiedUtf8[byteIndex] ^= (byte)bitFlip;
-
-                // Validate the modified sequence with both methods
-                bool isValidPrimary = ValidateUtf8(modifiedUtf8);
-                bool isValidFuschia = ValidateUtf8Fuschia(modifiedUtf8);
-
-                // Ensure both methods agree on the validation result
-                Assert.Equal(isValidPrimary, isValidFuschia);
             }
         }
     }
