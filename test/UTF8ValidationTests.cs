@@ -12,7 +12,7 @@ public class Utf8SIMDValidationTests
     private static readonly Random rand = new Random();
 
     // int[] outputLengths = { 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472, 1536, 1600, 1664, 1728, 1792, 1856, 1920, 1984, 2048, 2112, 2176, 2240, 2304, 2368, 2432, 2496, 2560, 2624, 2688, 2752, 2816, 2880, 2944, 3008, 3072, 3136, 3200, 3264, 3328, 3392, 3456, 3520, 3584, 3648, 3712, 3776, 3840, 3904, 3968, 4032, 4096, 4160, 4224, 4288, 4352, 4416, 4480, 4544, 4608, 4672, 4736, 4800, 4864, 4928, 4992, 5056, 5120, 5184, 5248, 5312, 5376, 5440, 5504, 5568, 5632, 5696, 5760, 5824, 5888, 5952, 6016, 6080, 6144, 6208, 6272, 6336, 6400, 6464, 6528, 6592, 6656, 6720, 6784, 6848, 6912, 6976, 7040, 7104, 7168, 7232, 7296, 7360, 7424, 7488, 7552, 7616, 7680, 7744, 7808, 7872, 7936, 8000, 8064, 8128, 8192, 8256, 8320, 8384, 8448, 8512, 8576, 8640, 8704, 8768, 8832, 8896, 8960, 9024, 9088, 9152, 9216, 9280, 9344, 9408, 9472, 9536, 9600, 9664, 9728, 9792, 9856, 9920, 9984, 10000 };
-    int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
+    static int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
 
 
 
@@ -289,29 +289,53 @@ public class Utf8SIMDValidationTests
 
 //  This might seems redundant with but it actually failed PR #17.
 //  The issue is fixed in PR#18 but I thought it a good idea to formally cover it as further changes are possible.
-    [Fact]
-    public void TooShortTest2()
-    {
-        for (int trial = 0; trial < NumTrials; trial++)
-        {
-            foreach (int outputLength in outputLengths)
-            {
-                byte[] oneUTFunit = generator.Generate( howManyUnits:1 ,byteCountInUnit: 2);            
-                //  PrintHexAndBinary(oneUTFunit);
-                byte[] utf8 = generator.Generate(outputLength,byteCountInUnit: 1);            
-                // for (int i = 0; i < utf8.Length; i++)
-                // {
-                    // if ((utf8[i] & 0b11000000) == 0b10000000) // Only process continuation bytes
-                    // {
-                        byte oldByte = utf8[outputLength - 1];
-                        utf8[outputLength -1] = oneUTFunit[0];//0b11000000; // Forcing a too short error at the very end
-                        // PrintHexAndBinary(utf8);
-                        Assert.False(ValidateUtf8(utf8));
-                        utf8[outputLength -1] = oldByte; // Restore the original byte
+    // [Fact]
+    // public void TooShortTest2()
+    // {
+    //     for (int trial = 0; trial < NumTrials; trial++)
+    //     {
+    //         foreach (int outputLength in outputLengths)
+    //         {
+    //             byte[] oneUTFunit = generator.Generate( howManyUnits:1 ,byteCountInUnit: 2);            
+    //             //  PrintHexAndBinary(oneUTFunit);
+    //             byte[] utf8 = generator.Generate(outputLength,byteCountInUnit: 1);            
+    //             // for (int i = 0; i < utf8.Length; i++)
+    //             // {
+    //                 // if ((utf8[i] & 0b11000000) == 0b10000000) // Only process continuation bytes
+    //                 // {
+    //                     byte oldByte = utf8[outputLength - 1];
+    //                     utf8[outputLength -1] = oneUTFunit[0];//0b11000000; // Forcing a too short error at the very end
+    //                     // PrintHexAndBinary(utf8);
+    //                     Assert.False(ValidateUtf8(utf8));
+    //                     utf8[outputLength -1] = oldByte; // Restore the original byte
                     
-                // }
-            }
-        }
+    //             // }
+    //         }
+    //     }
+    // }
+
+    public static IEnumerable<object[]> TestData()
+    {
+        var utf8CharacterLengths = new[] {  2, 3, 4 }; // UTF-8 characters can be 1-4 bytes.
+        return outputLengths.SelectMany(
+            outputLength => Enumerable.Range(0, outputLength),
+            (outputLength, position) => new object[] { outputLength, position });
+    }
+
+
+    [Theory]
+    [MemberData(nameof(TestData))]
+    public void TooShortTestEnd(int outputLength, int position)
+    {
+        byte[] oneUTFunit = generator.Generate(howManyUnits: 1, byteCountInUnit: 2);
+        byte[] utf8 = generator.Generate(outputLength, byteCountInUnit: 1);
+
+        byte oldByte = utf8[position];
+        utf8[position] = oneUTFunit[0]; // Force a condition
+        
+        Assert.False(ValidateUtf8(utf8)); // Test the condition
+        
+        utf8[position] = oldByte; // Restore
     }
 
             // Prints both hexadecimal and binary representations of a byte array
