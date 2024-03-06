@@ -316,7 +316,7 @@ public class Utf8SIMDValidationTests
 
     public static IEnumerable<object[]> TestData()
     {
-        var utf8CharacterLengths = new[] {  2, 3, 4 }; // UTF-8 characters can be 1-4 bytes.
+        // var utf8CharacterLengths = new[] {  2, 3, 4 }; // UTF-8 characters can be 1-4 bytes.
         return outputLengths.SelectMany(
             outputLength => Enumerable.Range(0, outputLength),
             (outputLength, position) => new object[] { outputLength, position });
@@ -337,6 +337,55 @@ public class Utf8SIMDValidationTests
         
         utf8[position] = oldByte; // Restore
     }
+
+    // public static IEnumerable<object[]> InvalidTestData()
+    // {
+    //     var random = new Random();
+    //     foreach (var length in outputLengths)
+    //     {
+    //         for (int trial = 0; trial < NumTrials; trial++)
+    //         {
+    //             int position = random.Next(length  - 3); // Choose a random position
+    //             byte invalidByte = (byte)random.Next(0xF5, 0x100); // Generate a random invalid byte
+
+    //             yield return new object[] { length, position, invalidByte };
+    //         }
+    //     }
+    // }
+
+    public static IEnumerable<object[]> InvalidTestData()
+{
+    var invalidBytes = Enumerable.Range(0xF5, 0x100 - 0xF5).Select(i => (byte)i).ToArray(); // 0xF5 to 0xFF
+    foreach (var length in outputLengths)
+    {
+        for (int position = 0; position < length; position++)
+        {
+            foreach (var invalidByte in invalidBytes)
+            {
+                yield return new object[] { length, position, invalidByte };
+            }
+        }
+    }
+}
+
+
+    //corresponds to condition 5.4.1 in the paper
+    [Theory]
+    [MemberData(nameof(InvalidTestData))]
+    public void Invalid0xf50xff(int outputLength, int position, byte invalidByte)
+    {
+        byte[] utf8 = generator.Generate(outputLength,1);
+
+        // Initialize utf8 with some valid data, if necessary
+        // Array.Fill(utf8, (byte)0x20); // Filling with spaces for simplicity
+
+        utf8[position] = invalidByte; // Inject an invalid byte at a random position
+
+        // PrintHexAndBinary(utf8);
+
+        Assert.False(ValidateUtf8(utf8)); // Expect the validation to fail due to the invalid byte
+    }
+
 
             // Prints both hexadecimal and binary representations of a byte array
     static void PrintHexAndBinary(byte[] bytes)
