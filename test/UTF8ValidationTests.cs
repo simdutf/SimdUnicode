@@ -15,34 +15,6 @@ public class Utf8SIMDValidationTests
     static int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
 
 
-    public static void ShiftLeft<T>(T[] array, int shiftAmount)
-    {
-        int length = array.Length;
-        if (length == 0 || shiftAmount % length == 0) return; // No need to shift
-        T[] copy = new T[length];
-        Array.Copy(array, copy, length);
-
-        for (int i = 0; i < length; i++)
-        {
-            int newIndex = (i + length - shiftAmount % length) % length;
-            array[newIndex] = copy[i];
-        }
-    }
-
-    public static void ShiftRight<T>(T[] array, int shiftAmount)
-    {
-        int length = array.Length;
-        if (length == 0 || shiftAmount % length == 0) return; // No need to shift
-        T[] copy = new T[length];
-        Array.Copy(array, copy, length);
-
-        for (int i = 0; i < length; i++)
-        {
-            int newIndex = (i + shiftAmount) % length;
-            array[newIndex] = copy[i];
-        }
-    }
-
 
 
 
