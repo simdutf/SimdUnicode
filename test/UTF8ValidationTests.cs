@@ -8,13 +8,40 @@ public class Utf8SIMDValidationTests
 
 
     private const int NumTrials = 1000;
-    private readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
+    private static readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
     private static readonly Random rand = new Random();
 
     // int[] outputLengths = { 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472, 1536, 1600, 1664, 1728, 1792, 1856, 1920, 1984, 2048, 2112, 2176, 2240, 2304, 2368, 2432, 2496, 2560, 2624, 2688, 2752, 2816, 2880, 2944, 3008, 3072, 3136, 3200, 3264, 3328, 3392, 3456, 3520, 3584, 3648, 3712, 3776, 3840, 3904, 3968, 4032, 4096, 4160, 4224, 4288, 4352, 4416, 4480, 4544, 4608, 4672, 4736, 4800, 4864, 4928, 4992, 5056, 5120, 5184, 5248, 5312, 5376, 5440, 5504, 5568, 5632, 5696, 5760, 5824, 5888, 5952, 6016, 6080, 6144, 6208, 6272, 6336, 6400, 6464, 6528, 6592, 6656, 6720, 6784, 6848, 6912, 6976, 7040, 7104, 7168, 7232, 7296, 7360, 7424, 7488, 7552, 7616, 7680, 7744, 7808, 7872, 7936, 8000, 8064, 8128, 8192, 8256, 8320, 8384, 8448, 8512, 8576, 8640, 8704, 8768, 8832, 8896, 8960, 9024, 9088, 9152, 9216, 9280, 9344, 9408, 9472, 9536, 9600, 9664, 9728, 9792, 9856, 9920, 9984, 10000 };
     static int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
 
 
+    public static void ShiftLeft<T>(T[] array, int shiftAmount)
+    {
+        int length = array.Length;
+        if (length == 0 || shiftAmount % length == 0) return; // No need to shift
+        T[] copy = new T[length];
+        Array.Copy(array, copy, length);
+
+        for (int i = 0; i < length; i++)
+        {
+            int newIndex = (i + length - shiftAmount % length) % length;
+            array[newIndex] = copy[i];
+        }
+    }
+
+    public static void ShiftRight<T>(T[] array, int shiftAmount)
+    {
+        int length = array.Length;
+        if (length == 0 || shiftAmount % length == 0) return; // No need to shift
+        T[] copy = new T[length];
+        Array.Copy(array, copy, length);
+
+        for (int i = 0; i < length; i++)
+        {
+            int newIndex = (i + shiftAmount) % length;
+            array[newIndex] = copy[i];
+        }
+    }
 
 
 
@@ -176,19 +203,22 @@ public class Utf8SIMDValidationTests
     [Fact]
     public void HeaderBitsErrorTest()
     {
-        for (int trial = 0; trial < NumTrials; trial++)
-        {
-
-            byte[] utf8 = generator.Generate(512);
-            for (int i = 0; i < utf8.Length; i++)
+        foreach (int outputLength in outputLengths)
             {
-                if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+
+                byte[] utf8 = generator.Generate(outputLength);
+                for (int i = 0; i < utf8.Length; i++)
                 {
-                    byte oldByte = utf8[i];
-                    utf8[i] = 0b11111000; // Forcing a header bits error
-                    Assert.False(ValidateUtf8(utf8));
-                    Assert.True(InvalidateUtf8(utf8, i));
-                    utf8[i] = oldByte; // Restore the original byte
+                    if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+                    {
+                        byte oldByte = utf8[i];
+                        utf8[i] = 0b11111000; // Forcing a header bits error
+                        Assert.False(ValidateUtf8(utf8));
+                        Assert.True(InvalidateUtf8(utf8, i));
+                        utf8[i] = oldByte; // Restore the original byte
+                    }
                 }
             }
         }
@@ -318,8 +348,33 @@ public class Utf8SIMDValidationTests
     {
         // var utf8CharacterLengths = new[] {  2, 3, 4 }; // UTF-8 characters can be 1-4 bytes.
         return outputLengths.SelectMany(
-            outputLength => Enumerable.Range(0, outputLength),
+            outputLength => Enumerable.Range(1, outputLength),
             (outputLength, position) => new object[] { outputLength, position });
+    }
+
+
+    // [Theory]
+    // [MemberData(nameof(TestData))]
+    // public void TooShortTestEnd(int outputLength, int position)
+    // {
+    //     byte[] oneUTFunit = generator.Generate(howManyUnits: 1, byteCountInUnit: 2);
+    //     byte[] utf8 = generator.Generate(outputLength, byteCountInUnit: 1);
+
+    //     byte oldByte = utf8[position];
+    //     utf8[position] = oneUTFunit[0]; // Force a condition
+        
+    //     Assert.False(ValidateUtf8(utf8)); // Test the condition
+        
+    //     utf8[position] = oldByte; // Restore
+    // }
+
+    public byte[] PrependAndTake(byte[] first, byte[] second, int takeCount)
+    {
+        // Concatenate 'first' array at the beginning of 'second' array
+        var combined = first.Concat(second).ToArray();
+
+        // Take the first 'takeCount' elements from the combined array
+        return combined.Take(takeCount).ToArray();
     }
 
 
@@ -327,15 +382,18 @@ public class Utf8SIMDValidationTests
     [MemberData(nameof(TestData))]
     public void TooShortTestEnd(int outputLength, int position)
     {
-        byte[] oneUTFunit = generator.Generate(howManyUnits: 1, byteCountInUnit: 2);
-        byte[] utf8 = generator.Generate(outputLength, byteCountInUnit: 1);
+        // (Nick: I know this is slow ... but I think for a first pass, it might be ok?)
+        byte[] filler = generator.Generate(howManyUnits: position, byteCountInUnit: 1);
+        byte[] utf8 = generator.Generate(outputLength);
 
-        byte oldByte = utf8[position];
-        utf8[position] = oneUTFunit[0]; // Force a condition
+        // Assuming 'prepend' and 'take' logic needs to be applied here as per the pseudocode
+        byte[] result = PrependAndTake(filler, utf8, position);
         
-        Assert.False(ValidateUtf8(utf8)); // Test the condition
-        
-        utf8[position] = oldByte; // Restore
+        if (result[^1] >= 0b11000000)// non-ASCII bytes will provide an error as we're truncating a perfectly good array otherwise
+        {
+            Assert.False(ValidateUtf8(utf8)); // Test the condition
+        } 
+
     }
 
     // public static IEnumerable<object[]> InvalidTestData()
@@ -355,14 +413,16 @@ public class Utf8SIMDValidationTests
 
     public static IEnumerable<object[]> InvalidTestData()
 {
+
     var invalidBytes = Enumerable.Range(0xF5, 0x100 - 0xF5).Select(i => (byte)i).ToArray(); // 0xF5 to 0xFF
     foreach (var length in outputLengths)
     {
-        for (int position = 0; position < length; position++)
+        byte[] utf8 = generator.Generate(length);
+        for (int position = 0; position < utf8.Length; position++)
         {
             foreach (var invalidByte in invalidBytes)
             {
-                yield return new object[] { length, position, invalidByte };
+                yield return new object[] { length, position, invalidByte ,utf8 };
             }
         }
     }
@@ -372,9 +432,8 @@ public class Utf8SIMDValidationTests
     //corresponds to condition 5.4.1 in the paper
     [Theory]
     [MemberData(nameof(InvalidTestData))]
-    public void Invalid0xf50xff(int outputLength, int position, byte invalidByte)
+    public void Invalid0xf50xff(int outputLength, int position, byte invalidByte,byte[] utf8)
     {
-        byte[] utf8 = generator.Generate(outputLength,1);
 
         // Initialize utf8 with some valid data, if necessary
         // Array.Fill(utf8, (byte)0x20); // Filling with spaces for simplicity
