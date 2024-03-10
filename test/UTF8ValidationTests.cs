@@ -354,19 +354,45 @@ public class Utf8SIMDValidationTests
     [MemberData(nameof(TestData))]
     public void TooShortTestEnd(int outputLength, int position)
     {
-        // (Nick: I know this is slow ... but I think for a first pass, it might be ok?)
-        byte[] filler = generator.Generate(howManyUnits: position, byteCountInUnit: 1);
+        // ( know this is slow ... but I think for a first pass, it might be ok?)
         byte[] utf8 = generator.Generate(outputLength);
+        byte[] filler = generator.Generate(howManyUnits: position, byteCountInUnit: 1);
+
 
         // Assuming 'prepend' and 'take' logic needs to be applied here as per the pseudocode
         byte[] result = PrependAndTake(filler, utf8, position);
-        
-        if (result[^1] >= 0b11000000)// non-ASCII bytes will provide an error as we're truncating a perfectly good array otherwise
+
+
+        if (result[^1] >= 0b11000000)// non-ASCII bytes will provide an error as we're truncating a perfectly good array
         {
             Assert.False(ValidateUtf8(utf8)); // Test the condition
         } 
 
     }
+
+    //     [Fact]
+    // public void TooLongErrorTestEnd()
+    // {
+    //     foreach (int outputLength in outputLengths)
+    //     {
+    //         for (int trial = 0; trial < NumTrials; trial++)
+    //         {
+    //             byte[] utf8 = generator.Generate(outputLength);
+
+    //             for (int i = 0; i < utf8.Length; i++)
+    //             {
+    //                 if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+    //                 {
+    //                     byte oldByte = utf8[i];
+    //                     utf8[i] = 0b10000000; // Forcing a too long error
+    //                     Assert.False(ValidateUtf8(utf8));
+    //                     Assert.True(InvalidateUtf8(utf8, i));
+    //                     utf8[i] = oldByte; // Restore the original byte
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     // public static IEnumerable<object[]> InvalidTestData()
     // {
@@ -613,20 +639,49 @@ public class Utf8SIMDValidationTests
     }
 
     // check that all methods agree that the result is valid
-    private bool ValidateUtf8(byte[] utf8)
+    // private bool ValidateUtf8(byte[] utf8)
+    // {
+    //     unsafe
+    //     {
+    //         fixed (byte* pInput = utf8)
+    //         {
+    //             byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length);
+    //             if (scalarResult != pInput + utf8.Length)
+    //             {
+    //                 return false;
+    //             }
+
+    //             byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+    //             if (simdResult != pInput + utf8.Length)
+    //             {
+    //                 return false;
+    //             }
+
+    //             return true;
+    //         }
+    //     }
+    // }
+
+
+    private bool ValidateUtf8(byte[] utf8, Range range = default)
     {
+        // Adjusted check for default Range
+        var isDefaultRange = range.Equals(default(Range));
+        var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
+
         unsafe
         {
             fixed (byte* pInput = utf8)
             {
-                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length);
-                if (scalarResult != pInput + utf8.Length)
+                byte* startPtr = pInput + offset;
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(startPtr, length);
+                if (scalarResult != startPtr + length)
                 {
                     return false;
                 }
 
-                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
-                if (simdResult != pInput + utf8.Length)
+                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(startPtr, length);
+                if (simdResult != startPtr + length)
                 {
                     return false;
                 }
@@ -634,5 +689,14 @@ public class Utf8SIMDValidationTests
                 return true;
             }
         }
+    }
+
+        // Helper method to calculate the actual offset and length from a Range
+    private (int offset, int length) GetOffsetAndLength(int totalLength, Range range)
+    {
+        var start = range.Start.GetOffset(totalLength);
+        var end = range.End.GetOffset(totalLength);
+        var length = end - start;
+        return (start, length);
     }
 }
