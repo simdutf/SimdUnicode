@@ -224,6 +224,9 @@ public class Utf8SIMDValidationTests
     [Fact]
     public void TooLongErrorTest()
     {
+
+        int[] outputLengths = { 128, 256, 512, 1024 }; // Example lengths
+
         foreach (int outputLength in outputLengths)
         {
             for (int trial = 0; trial < NumTrials; trial++)
@@ -483,6 +486,29 @@ public class Utf8SIMDValidationTests
             }
         }
     }
+
+        [Fact]
+    public void TooLargeErrorTestEnd()
+    {
+        foreach (int outputLength in outputLengths)
+        {
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+
+                byte[] filler = generator.Generate(outputLength,byteCountInUnit:1);
+                byte[] twobytetoolong = generator.AppendContinuationByte(generator.Generate(1,2));
+                byte[] threebytetoolong = generator.Generate(1,3);
+                byte[] fourbytetoolong = generator.Generate(1,4);
+
+                generator.ReplaceEndOfArray(filler,twobytetoolong); 
+
+                Assert.False(ValidateUtf8(filler ));
+                // Assert.True(InvalidateUtf8(utf8, outputLength));
+
+                }
+        }
+    }
+    
 
     [Fact]
     public void SurrogateErrorTest()

@@ -63,6 +63,49 @@ public class RandomUtf8
         }
     }
 
+    public void AppendContinuationByte(List<byte> utf8Bytes)
+    {
+        byte continuationByte = (byte)gen.Next(0x80, 0xBF + 1);
+        utf8Bytes.Add(continuationByte);
+    }
+
+    public byte[] AppendContinuationByte(byte[] utf8Bytes)
+{
+    // Create a new array that is one byte larger than the original
+    byte[] newArray = new byte[utf8Bytes.Length + 1];
+
+    // Copy the original bytes into the new array
+    Array.Copy(utf8Bytes, newArray, utf8Bytes.Length);
+
+    // Generate a random continuation byte (0x80 to 0xBF)
+    byte continuationByte = (byte)gen.Next(0x80, 0xBF + 1);
+
+    // Append the continuation byte at the end of the new array
+    newArray[utf8Bytes.Length] = continuationByte;
+
+    // Return the new array with the appended continuation byte
+    return newArray;
+}
+
+
+    public void ReplaceEndOfArray(byte[] original, byte[] replacement)//, int startIndex)
+    {
+        // // Check if the startIndex is within the bounds of the original array
+        // if (startIndex < 0 || startIndex > original.Length)
+        // {
+        //     throw new ArgumentOutOfRangeException(nameof(startIndex), "Start index is out of the range of the original array.");
+        // }
+
+                // Calculate the start index for replacement
+        int startIndex = original.Length - replacement.Length;
+
+        // Copy the replacement array into the original starting at startIndex
+        Array.Copy(replacement, 0, original, startIndex, Math.Min(replacement.Length, original.Length - startIndex));
+    }
+
+    
+
+
     private int PickRandomByteCount()
     {
         double randomValue = gen.NextDouble() * probabilities.Sum();
