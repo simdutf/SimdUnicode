@@ -127,7 +127,7 @@ namespace SimdUnicode
         const byte OVERLONG_4 = 1 << 6;
         const byte CARRY = TOO_SHORT | TOO_LONG | TWO_CONTS;
 
-        public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
+        public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength)
         {
             int processedLength = 0;
 
@@ -303,7 +303,18 @@ namespace SimdUnicode
 
             return pInputBuffer + inputLength;
         }
+
+        public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
+        {
+            if (Avx2.IsSupported)
+            {
+                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength);
+            }
+            else
+            {
+                return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
+            }
+        }
+
     }
-
-
 }
