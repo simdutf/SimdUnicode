@@ -369,7 +369,10 @@ public class Utf8SIMDValidationTests
         if (result[^1] >= 0b11000000)// non-ASCII bytes will provide an error as we're truncating a perfectly good array
         {
             Assert.False(ValidateUtf8(utf8)); // Test the condition
+            Assert.True(InvalidateUtf8(utf8,position));
         } 
+
+        Assert.True(ValidateUtf8(utf8)); // Test the condition
 
     }
 
@@ -444,6 +447,7 @@ public class Utf8SIMDValidationTests
         // PrintHexAndBinary(utf8);
 
         Assert.False(ValidateUtf8(utf8)); // Expect the validation to fail due to the invalid byte
+        Assert.True(InvalidateUtf8(utf8,position));
     }
 
 
@@ -494,18 +498,19 @@ public class Utf8SIMDValidationTests
         {
             for (int trial = 0; trial < NumTrials; trial++)
             {
-
+                for (int i = 1; i <= 4; i++)
+             {
                 byte[] filler = generator.Generate(outputLength,byteCountInUnit:1);
-                byte[] twobytetoolong = generator.AppendContinuationByte(generator.Generate(1,2));
-                byte[] threebytetoolong = generator.Generate(1,3);
-                byte[] fourbytetoolong = generator.Generate(1,4);
+                byte[] toolong = generator.AppendContinuationByte(generator.Generate(1,i));
 
-                generator.ReplaceEndOfArray(filler,twobytetoolong); 
+                generator.ReplaceEndOfArray(filler,toolong); 
 
                 Assert.False(ValidateUtf8(filler ));
-                // Assert.True(InvalidateUtf8(utf8, outputLength));
+                Assert.True(InvalidateUtf8(filler, outputLength -1));
+             }
 
-                }
+
+            }
         }
     }
     

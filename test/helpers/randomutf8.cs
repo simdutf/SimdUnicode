@@ -31,6 +31,31 @@ public class RandomUtf8
         return result.ToArray();
     }
 
+    //     public object Generate(int howManyUnits, int? byteCountInUnit = null, bool returnAsList = false)
+    // {
+    //     var result = new List<byte>();
+    //     while (result.Count < howManyUnits)
+    //     {
+    //         int count = byteCountInUnit ?? PickRandomByteCount();
+    //         int codePoint = GenerateCodePoint(count);
+    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
+
+    //         if (result.Count + utf8Bytes.Length > howManyUnits)
+    //             break;
+
+    //         result.AddRange(utf8Bytes);
+    //     }
+
+    //     if (returnAsList)
+    //     {
+    //         return result;
+    //     }
+    //     else
+    //     {
+    //         return result.ToArray();
+    //     }
+    // }
+
     private int GenerateCodePoint(int byteCount)
     {
         switch (byteCount)
@@ -69,6 +94,7 @@ public class RandomUtf8
         utf8Bytes.Add(continuationByte);
     }
 
+//TODO(Nick): redo this monstruosity
     public byte[] AppendContinuationByte(byte[] utf8Bytes)
 {
     // Create a new array that is one byte larger than the original
