@@ -120,7 +120,7 @@ public class Utf8SIMDValidationTests
         {
             for (int trial = 0; trial < NumTrials; trial++)
             {
-                byte[] utf8 = generator.Generate(outputLength);
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
                 bool isValidUtf8 = ValidateUtf8(utf8);
                 string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
                 Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
@@ -165,7 +165,7 @@ public class Utf8SIMDValidationTests
         {
             for (int trial = 0; trial < NumTrials; trial++)
             {
-                byte[] utf8 = generator.Generate(outputLength, byteLength);
+                byte[] utf8 = generator.Generate(outputLength, byteLength).ToArray();
                 bool isValidUtf8 = ValidateUtf8(utf8);
                 Assert.True(isValidUtf8, $"Failure for {byteLength}-byte UTF8 of length {outputLength} in trial {trial}");
             }
@@ -180,7 +180,7 @@ public class Utf8SIMDValidationTests
             for (int trial = 0; trial < NumTrials; trial++)
             {
 
-                byte[] utf8 = generator.Generate(outputLength);
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
                 for (int i = 0; i < utf8.Length; i++)
                 {
                     if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
@@ -203,7 +203,7 @@ public class Utf8SIMDValidationTests
         {
             for (int trial = 0; trial < NumTrials; trial++)
             {
-            byte[] utf8 = generator.Generate(outputLength);
+            byte[] utf8 = generator.Generate(outputLength).ToArray();
 
                 for (int i = 0; i < utf8.Length; i++)
                 {
@@ -231,7 +231,7 @@ public class Utf8SIMDValidationTests
         {
             for (int trial = 0; trial < NumTrials; trial++)
             {
-                byte[] utf8 = generator.Generate(outputLength);
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
 
                 for (int i = 0; i < utf8.Length; i++)
                 {
@@ -255,7 +255,7 @@ public class Utf8SIMDValidationTests
         {
             foreach (int outputLength in outputLengths)
             {
-                byte[] utf8 = generator.Generate(outputLength);
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
 
 
                 for (int i = 0; i < utf8.Length; i++)
@@ -358,8 +358,8 @@ public class Utf8SIMDValidationTests
     public void TooShortTestEnd(int outputLength, int position)
     {
         // ( know this is slow ... but I think for a first pass, it might be ok?)
-        byte[] utf8 = generator.Generate(outputLength);
-        byte[] filler = generator.Generate(howManyUnits: position, byteCountInUnit: 1);
+        byte[] utf8 = generator.Generate(outputLength).ToArray();
+        byte[] filler = generator.Generate(howManyUnits: position, byteCountInUnit: 1).ToArray();
 
 
         // Assuming 'prepend' and 'take' logic needs to be applied here as per the pseudocode
@@ -421,7 +421,7 @@ public class Utf8SIMDValidationTests
     var invalidBytes = Enumerable.Range(0xF5, 0x100 - 0xF5).Select(i => (byte)i).ToArray(); // 0xF5 to 0xFF
     foreach (var length in outputLengths)
     {
-        byte[] utf8 = generator.Generate(length);
+        byte[] utf8 = generator.Generate(length).ToArray();
         for (int position = 0; position < utf8.Length; position++)
         {
             foreach (var invalidByte in invalidBytes)
@@ -473,7 +473,7 @@ public class Utf8SIMDValidationTests
             for (int trial = 0; trial < NumTrials; trial++)
             {
 
-                byte[] utf8 = generator.Generate(outputLength);
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
 
                 for (int i = 0; i < utf8.Length; i++)
                 {
@@ -500,8 +500,8 @@ public class Utf8SIMDValidationTests
             {
                 for (int i = 1; i <= 4; i++)
              {
-                byte[] filler = generator.Generate(outputLength,byteCountInUnit:1);
-                byte[] toolong = generator.AppendContinuationByte(generator.Generate(1,i));
+                byte[] filler = generator.Generate(outputLength,byteCountInUnit:1).ToArray();
+                byte[] toolong = generator.AppendContinuationByte(generator.Generate(1,i)).ToArray();
 
                 generator.ReplaceEndOfArray(filler,toolong); 
 
@@ -523,7 +523,7 @@ public class Utf8SIMDValidationTests
             for (int trial = 0; trial < NumTrials; trial++)
             {
 
-                byte[] utf8 = generator.Generate(outputLength);
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
 
                 for (int i = 0; i < utf8.Length; i++)
                 {
@@ -558,7 +558,7 @@ public class Utf8SIMDValidationTests
             {
 
                 // Generate random UTF-8 sequence
-                byte[] utf8 = generator.Generate(rand.Next(outputLength));
+                byte[] utf8 = generator.Generate(rand.Next(outputLength)).ToArray();
 
                 Assert.True(ValidateUtf8(utf8), "Initial UTF-8 validation (primary) failed.");
 

@@ -15,7 +15,23 @@ public class RandomUtf8
         probabilities = new double[maxByteLength] { prob_1byte, prob_2bytes, prob_3bytes, prob_4bytes };
     }
 
-    public byte[] Generate(int howManyUnits, int? byteCountInUnit = null)
+    // public byte[] Generate(int howManyUnits, int? byteCountInUnit = null)
+    // {
+    //     var result = new List<byte>();
+    //     while (result.Count < howManyUnits)
+    //     {
+    //         int count = byteCountInUnit ?? PickRandomByteCount();
+    //         int codePoint = GenerateCodePoint(count);
+    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
+
+    //         result.AddRange(utf8Bytes);
+    //         if (result.Count + utf8Bytes.Length > howManyUnits)
+    //             break;
+    //     }
+    //     return result.ToArray();
+    // }
+
+        public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
     {
         var result = new List<byte>();
         while (result.Count < howManyUnits)
@@ -28,7 +44,7 @@ public class RandomUtf8
             if (result.Count + utf8Bytes.Length > howManyUnits)
                 break;
         }
-        return result.ToArray();
+        return result;
     }
 
     //     public object Generate(int howManyUnits, int? byteCountInUnit = null, bool returnAsList = false)
@@ -88,30 +104,10 @@ public class RandomUtf8
         }
     }
 
-    public void AppendContinuationByte(List<byte> utf8Bytes)
-    {
-        byte continuationByte = (byte)gen.Next(0x80, 0xBF + 1);
-        utf8Bytes.Add(continuationByte);
-    }
+    public List<byte> AppendContinuationByte(List<byte> utf8Bytes) => 
+                            utf8Bytes.Concat(new byte[] {(byte)gen.Next(0x80, 0xBF + 1)}).ToList();
 
-//TODO(Nick): redo this monstruosity
-    public byte[] AppendContinuationByte(byte[] utf8Bytes)
-{
-    // Create a new array that is one byte larger than the original
-    byte[] newArray = new byte[utf8Bytes.Length + 1];
 
-    // Copy the original bytes into the new array
-    Array.Copy(utf8Bytes, newArray, utf8Bytes.Length);
-
-    // Generate a random continuation byte (0x80 to 0xBF)
-    byte continuationByte = (byte)gen.Next(0x80, 0xBF + 1);
-
-    // Append the continuation byte at the end of the new array
-    newArray[utf8Bytes.Length] = continuationByte;
-
-    // Return the new array with the appended continuation byte
-    return newArray;
-}
 
 
     public void ReplaceEndOfArray(byte[] original, byte[] replacement)//, int startIndex)
