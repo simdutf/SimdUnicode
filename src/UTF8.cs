@@ -465,11 +465,11 @@ namespace SimdUnicode
             //if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
             //{
             //    return GetPointerToFirstInvalidByteAvx512(pInputBuffer, inputLength);
-            //
+            //GetPointerToFirstInvalidByteAvx2
             //}
-            //if (Sse2.IsSupported)
+            //if (Sse42.IsSupported)
             //{
-            //    return GetPointerToFirstInvalidByteSse2(pInputBuffer, inputLength);
+            //    return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength);
             //}
             return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
         }
