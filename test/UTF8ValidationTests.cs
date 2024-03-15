@@ -376,6 +376,49 @@ public class Utf8SIMDValidationTests
 
     }
 
+    // public List<byte> PrependAndTake(List<byte> first, List<byte> second, int takeCount)
+    // {
+    //     // Concatenate 'first' list at the beginning of 'second' list
+    //     List<byte> combined = new List<byte>(first);
+    //     combined.AddRange(second);
+
+    //     // Take the first 'takeCount' elements from the combined list
+    //     // Ensure we don't exceed the combined list's count
+    //     takeCount = Math.Min(takeCount, combined.Count);
+        
+    //     return combined.GetRange(0, takeCount);
+    // }
+
+
+
+    // // [Theory]
+    // // [MemberData(nameof(TestData))]
+    // [Fact]
+    // public void TooShortTestEnd()
+    // {
+    //     foreach (int outputLength in outputLengths)
+    //     {
+    //         // for (int trial = 0; trial < NumTrials; trial++)
+    //         // {
+    //             List<byte> utf8 = generator.Generate(outputLength);
+
+    //             for (int i = 0; i < utf8.Count; i++)
+    //             {
+    //                 List<byte> filler = generator.Generate(howManyUnits: i, byteCountInUnit: 1);
+
+    //                 // Assuming 'prepend' and 'take' logic needs to be applied here as per the pseudocode
+    //                 byte[] result = PrependAndTake(filler, utf8, i).ToArray();
+
+
+    //                 if (result[^1] >= 0b11000000)// non-ASCII bytes will provide an error as we're truncating a perfectly good array
+    //                 {
+    //                     Assert.False(ValidateUtf8(result)); // Test the condition
+    //                     Assert.True(InvalidateUtf8(result,result.Length));
+    //                 } 
+    //             }
+    //         // }
+    //     }
+
     //     [Fact]
     // public void TooLongErrorTestEnd()
     // {
