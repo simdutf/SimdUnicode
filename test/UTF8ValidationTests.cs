@@ -111,9 +111,7 @@ public class Utf8SIMDValidationTests
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
-            // Console.WriteLine("Trial run:" + trial);
             byte[] utf8 = generator.Generate(512);
-            // Assert.True(ValidateUtf8(utf8),$"Failure NoErrorTest: {utf8}");
             bool isValidUtf8 = ValidateUtf8(utf8);
             string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
             Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");

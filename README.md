@@ -47,6 +47,13 @@ cd benchmark
 dotnet run -c Release
 ```
 
+To run just one benchmark, use a filter:
+
+```
+cd benchmark
+dotnet run --configuration Release --filter "*Arabic-Lipsum*"
+```
+
 If you are under macOS or Linux, you may want to run the benchmarks in privileged mode:
 
 ```

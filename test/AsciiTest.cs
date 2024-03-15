@@ -107,12 +107,7 @@ public class AsciiTest
                 {
                     validSequencesCount++;
                 }
-
-                // Console.WriteLine($"{length}-byte sequence: {BitConverter.ToString(sequence)}"); // Print the sequence as hex bytes
             }
-
-            // Print the validation results
-            // Console.WriteLine($"For {length}-byte sequences, {validSequencesCount * 100.0 / NUM_TRIALS}% were valid ASCII.");
 
             // Assertion or check to ensure all sequences were valid ASCII
             if (validSequencesCount != NUM_TRIALS)
