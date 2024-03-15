@@ -88,7 +88,17 @@ You can print the content of a vector register like so:
             v.CopyTo(b);
             Console.WriteLine(Convert.ToHexString(b));
         }
+        public static void ToString(Vector128<byte> v)
+        {
+            Span<byte> b = stackalloc byte[16];
+            v.CopyTo(b);
+            Console.WriteLine(Convert.ToHexString(b));
+        }
 ```
+
+## Performance tips
+
+- Be careful: `Vector128.Shuffle` is not the same as `Ssse3.Shuffle` nor is  `Vector128.Shuffle` the same as `Avx2.Shuffle`. Prefer the latter.
 
 ## More reading 
 
