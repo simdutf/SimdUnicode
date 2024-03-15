@@ -83,7 +83,7 @@ namespace SimdUnicodeBenchmarks
                         Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX2 support.");
                         AddFilter(new AnyCategoriesFilter(["avx", "sse", "scalar", "runtime"]));
                     }
-                    else if (Sse42.IsSupported)
+                    else if (Ssse3.IsSupported)
                     {
                         Console.WriteLine("X64 system detected (Intel, AMD,...) with Sse4.2 support.");
                         AddFilter(new AnyCategoriesFilter(["sse", "scalar", "runtime"]));
@@ -214,8 +214,6 @@ namespace SimdUnicodeBenchmarks
                 RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
             }
         }
-        /*
-        // TODO: enable this benchmark when the SSE implementation is ready
         [Benchmark]
         [BenchmarkCategory("sse")]
         public unsafe void SIMDUtf8ValidationRealDataSse()
@@ -224,7 +222,7 @@ namespace SimdUnicodeBenchmarks
             {
                 RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
             }
-        }*/
+        }
         /*
         // TODO: enable this benchmark when the AVX-512 implementation is ready
         [Benchmark]
