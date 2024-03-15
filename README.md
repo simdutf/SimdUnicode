@@ -30,13 +30,20 @@ dotnet test
 To get a list of available tests, enter the command:
 
 ```
+dotnet test --list-tests | cut -d '(' -f 1 |  uniq
+```
+
+For a far more verbose output:
+
+```
 dotnet test --list-tests
 ```
 
 To run specific tests, it is helpful to use the filter parameter:
 
+
 ```
-dotnet test -c Release --filter Ascii
+dotnet test --filter Ascii
 ```
 
 ## Running Benchmarks
