@@ -137,45 +137,98 @@ namespace SimdUnicode
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe nuint GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
         {
-            byte* buf_orig = pBuffer;
-            byte* end = pBuffer + bufferLength;
-            Vector256<sbyte> ascii = Vector256<sbyte>.Zero;
-
-            if (Vector256.IsHardwareAccelerated)
+            if (AdvSimd.Arm64.IsSupported)
             {
-                for (; pBuffer + 32 <= end; pBuffer += 32)
-                {
-                    Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
-                    int notascii = Avx2.MoveMask(input.AsByte());
-                    if (notascii != 0)
-                    {
-                        // Print a message for debugging
-                        // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
-
-                        return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
-                    }
-                }
+                return GetIndexOfFirstNonAsciiByteArm64(pBuffer, bufferLength);
+            }
+            // TODO: Add support for other architectures
+            /*if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
+            {
+                return GetIndexOfFirstNonAsciiByteAvx512(pBuffer, bufferLength);
+            }*/
+            if (Avx2.IsSupported)
+            {
+                return GetIndexOfFirstNonAsciiByteAvx2(pBuffer, bufferLength);
             }
 
-            if (Vector128.IsHardwareAccelerated)
+            if (Sse2.IsSupported)
             {
-                for (; pBuffer + 16 <= end; pBuffer += 16)
-                {
-                    Vector128<sbyte> input = Sse2.LoadVector128((sbyte*)pBuffer);
-                    int notascii = Sse2.MoveMask(input.AsByte());
-                    if (notascii != 0)
-                    {
-                        // Print a message for debugging
-                        // Console.WriteLine($"Non-ASCII character found. notascii: {notascii}, index: {(nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii)}");
+                return GetIndexOfFirstNonAsciiByteSse2(pBuffer, bufferLength);
 
-                        return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
-                    }
+            }
+
+            return  GetIndexOfFirstNonAsciiByteScalar(pBuffer, bufferLength);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe nuint GetIndexOfFirstNonAsciiByteArm64(byte* pBuffer, nuint bufferLength)
+        {
+            byte* buf_orig = pBuffer;
+            byte* end = pBuffer + bufferLength;
+
+            for (; pBuffer + 16 <= end; pBuffer += 16)
+            {
+                Vector128<byte> input = AdvSimd.LoadVector128(pBuffer);
+                if (AdvSimd.Arm64.MaxAcross(input).ToScalar() > 127)
+                {
+                    return (nuint)(pBuffer - buf_orig) + GetIndexOfFirstNonAsciiByteScalar(pBuffer, (nuint)(end - pBuffer));
                 }
             }
 
 
             // Call the scalar function for the remaining bytes
-            nuint scalarResult = Scalar_GetIndexOfFirstNonAsciiByte(pBuffer, (nuint)(end - pBuffer));
+            nuint scalarResult = GetIndexOfFirstNonAsciiByteScalar(pBuffer, (nuint)(end - pBuffer));
+
+            // Add the number of bytes processed by SIMD
+            return (nuint)(pBuffer - buf_orig) + scalarResult;
+
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe nuint GetIndexOfFirstNonAsciiByteSse2(byte* pBuffer, nuint bufferLength)
+        {
+            byte* buf_orig = pBuffer;
+            byte* end = pBuffer + bufferLength;
+
+            for (; pBuffer + 16 <= end; pBuffer += 16)
+            {
+                Vector128<sbyte> input = Sse2.LoadVector128((sbyte*)pBuffer);
+                int notascii = Sse2.MoveMask(input.AsByte());
+                if (notascii != 0)
+                {
+                    return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                }
+            }
+
+            // Call the scalar function for the remaining bytes
+            nuint scalarResult = GetIndexOfFirstNonAsciiByteScalar(pBuffer, (nuint)(end - pBuffer));
+
+            // Add the number of bytes processed by SIMD
+            return (nuint)(pBuffer - buf_orig) + scalarResult;
+
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe nuint GetIndexOfFirstNonAsciiByteAvx2(byte* pBuffer, nuint bufferLength)
+        {
+            byte* buf_orig = pBuffer;
+            byte* end = pBuffer + bufferLength;
+
+            for (; pBuffer + 32 <= end; pBuffer += 32)
+            {
+                Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
+                int notascii = Avx2.MoveMask(input.AsByte());
+                if (notascii != 0)
+                {
+                    return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                }
+            }
+
+
+
+            // Call the scalar function for the remaining bytes
+            nuint scalarResult = GetIndexOfFirstNonAsciiByteScalar(pBuffer, (nuint)(end - pBuffer));
 
             // Add the number of bytes processed by SIMD
             return (nuint)(pBuffer - buf_orig) + scalarResult;
@@ -183,35 +236,10 @@ namespace SimdUnicode
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe nuint Scalar_GetIndexOfFirstNonAsciiByte(byte* pBuffer, nuint bufferLength)
+        public static unsafe nuint GetIndexOfFirstNonAsciiByteScalar(byte* pBuffer, nuint bufferLength)
         {
             byte* pCurrent = pBuffer;
             byte* pBufferEnd = pBuffer + bufferLength;
-
-            if (!Vector128.IsHardwareAccelerated)
-            {
-
-                // Process in blocks of 16 bytes when possible
-                while (pCurrent + 16 <= pBufferEnd)
-                {
-                    ulong v1 = *(ulong*)pCurrent;
-                    ulong v2 = *(ulong*)(pCurrent + 8);
-                    ulong v = v1 | v2;
-
-                    if ((v & 0x8080808080808080) != 0)
-                    {
-                        for (; pCurrent < pBufferEnd; pCurrent++)
-                        {
-                            if (*pCurrent >= 0b10000000)
-                            {
-                                return (nuint)(pCurrent - pBuffer);
-                            }
-                        }
-                    }
-
-                    pCurrent += 16;
-                }
-            }
 
             // Process the tail byte-by-byte
             for (; pCurrent < pBufferEnd; pCurrent++)

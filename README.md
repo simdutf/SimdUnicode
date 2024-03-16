@@ -54,6 +54,13 @@ cd benchmark
 dotnet run -c Release
 ```
 
+To run just one benchmark, use a filter:
+
+```
+cd benchmark
+dotnet run --configuration Release --filter "*Arabic-Lipsum*"
+```
+
 If you are under macOS or Linux, you may want to run the benchmarks in privileged mode:
 
 ```
@@ -88,7 +95,17 @@ You can print the content of a vector register like so:
             v.CopyTo(b);
             Console.WriteLine(Convert.ToHexString(b));
         }
+        public static void ToString(Vector128<byte> v)
+        {
+            Span<byte> b = stackalloc byte[16];
+            v.CopyTo(b);
+            Console.WriteLine(Convert.ToHexString(b));
+        }
 ```
+
+## Performance tips
+
+- Be careful: `Vector128.Shuffle` is not the same as `Ssse3.Shuffle` nor is  `Vector128.Shuffle` the same as `Avx2.Shuffle`. Prefer the latter.
 
 ## More reading 
 
