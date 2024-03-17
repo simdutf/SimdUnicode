@@ -773,4 +773,46 @@ public class Utf8SIMDValidationTests
         var length = end - start;
         return (start, length);
     }
+
+
+[Fact]
+public void ExtraArgsTest()
+{
+    int utf16Adjustment, scalarCountAdjustment;
+    // Generate a UTF-8 sequence with 3 units, each 2 bytes long, presumed to be valid.
+    byte[] utf8 = generator.Generate(howManyUnits: 3, byteCountInUnit: 2).ToArray();
+    PrintHexAndBinary(utf8);
+    var (offset, length) = (0, utf8.Length);
+
+    unsafe
+    {
+        fixed (byte* pInput = utf8)
+        {
+            byte* startPtr = pInput + offset;
+            // Invoke the method under test.
+            byte* result = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out utf16Adjustment, out scalarCountAdjustment);
+
+            // Since we are generating presumably valid 2-byte sequences, and depending on the specifics
+            // of the generator and Utf8Utility implementation, we need to assert expectations for adjustments.
+            // These assertions need to match your understanding of how utf16CodeUnitCountAdjustment and
+            // scalarCountAdjustment are supposed to be calculated based on the input data.
+
+            // Example: For simple 2-byte characters that map 1:1 from UTF-8 to UTF-16,
+            // utf16CodeUnitCountAdjustment might be 0 if the utility directly translates byte count.
+            // Assert.Equal(0, utf16Adjustment); // Placeholder, adjust based on actual logic.
+            // Assert.Equal(0, scalarCountAdjustment); // Placeholder, adjust based on actual logic.
+
+            Console.WriteLine("Scalar:" + scalarCountAdjustment);
+
+            Console.WriteLine("utf16:" + utf16Adjustment);
+
+            // If your generator creates specific patterns or the utility calculates these adjustments differently,
+            // you'll need to adjust the expected values accordingly.
+        }
+    }
+}
+
+
+
+
 }

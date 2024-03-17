@@ -31,21 +31,44 @@ public class RandomUtf8
     //     return result.ToArray();
     // }
 
+    //     public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
+    // {
+    //     var result = new List<byte>();
+    //     while (result.Count < howManyUnits)
+    //     {
+    //         int count = byteCountInUnit ?? PickRandomByteCount();
+    //         int codePoint = GenerateCodePoint(count);
+    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
+
+    //         result.AddRange(utf8Bytes);
+    //         if (result.Count + utf8Bytes.Length > howManyUnits)
+    //             break;
+    //     }
+    //     return result;
+    // }
+
         public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
     {
         var result = new List<byte>();
-        while (result.Count < howManyUnits)
+        var unitsAdded = 0; // Track the number of characters added.
+
+        while (unitsAdded < howManyUnits)
         {
             int count = byteCountInUnit ?? PickRandomByteCount();
             int codePoint = GenerateCodePoint(count);
             byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
 
-            result.AddRange(utf8Bytes);
-            if (result.Count + utf8Bytes.Length > howManyUnits)
+            // Ensure adding the new character won't exceed the howManyUnits limit.
+            if (unitsAdded + 1 > howManyUnits)
                 break;
+
+            result.AddRange(utf8Bytes);
+            unitsAdded++; // Increment the units (characters) count.
         }
+
         return result;
     }
+
 
     //     public object Generate(int howManyUnits, int? byteCountInUnit = null, bool returnAsList = false)
     // {
