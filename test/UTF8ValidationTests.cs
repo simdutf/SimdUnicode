@@ -775,44 +775,53 @@ public class Utf8SIMDValidationTests
     }
 
 
-[Fact]
-public void ExtraArgsTest()
-{
-    int utf16Adjustment, scalarCountAdjustment;
-    // Generate a UTF-8 sequence with 3 units, each 2 bytes long, presumed to be valid.
-    byte[] utf8 = generator.Generate(howManyUnits: 3, byteCountInUnit: 2).ToArray();
-    PrintHexAndBinary(utf8);
-    var (offset, length) = (0, utf8.Length);
-
-    unsafe
+    [Fact]
+    public void ExtraArgsTest()
     {
-        fixed (byte* pInput = utf8)
+        int[] outputLengths = { 10, 15, 11,12 ,15,15,1, 3, 5, 8, 10, 12, 15, 18 };
+
+        foreach (int outputLength in outputLengths)
         {
-            byte* startPtr = pInput + offset;
-            // Invoke the method under test.
-            byte* result = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out utf16Adjustment, out scalarCountAdjustment);
+            int utf16Adjustment, scalarCountAdjustment;
+            // Generate a UTF-8 sequence with 3 units, each 2 bytes long, presumed to be valid.
+            // byte[] utf8 = generator.Generate(howManyUnits: 11, byteCountInUnit: 3).ToArray();
+            byte[] utf8 = generator.Generate(howManyUnits: 13).ToArray();
+            PrintHexAndBinary(utf8);
+            var (offset, length) = (0, utf8.Length);
 
-            // Since we are generating presumably valid 2-byte sequences, and depending on the specifics
-            // of the generator and Utf8Utility implementation, we need to assert expectations for adjustments.
-            // These assertions need to match your understanding of how utf16CodeUnitCountAdjustment and
-            // scalarCountAdjustment are supposed to be calculated based on the input data.
+            unsafe
+            {
+                fixed (byte* pInput = utf8)
+                {
+                    byte* startPtr = pInput + offset;
+                    // Invoke the method under test.
+                    byte* result = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out utf16Adjustment, out scalarCountAdjustment);
 
-            // Example: For simple 2-byte characters that map 1:1 from UTF-8 to UTF-16,
-            // utf16CodeUnitCountAdjustment might be 0 if the utility directly translates byte count.
-            // Assert.Equal(0, utf16Adjustment); // Placeholder, adjust based on actual logic.
-            // Assert.Equal(0, scalarCountAdjustment); // Placeholder, adjust based on actual logic.
+                    // Since we are generating presumably valid 2-byte sequences, and depending on the specifics
+                    // of the generator and Utf8Utility implementation, we need to assert expectations for adjustments.
+                    // These assertions need to match your understanding of how utf16CodeUnitCountAdjustment and
+                    // scalarCountAdjustment are supposed to be calculated based on the input data.
 
-            Console.WriteLine("Scalar:" + scalarCountAdjustment);
+                    // Example: For simple 2-byte characters that map 1:1 from UTF-8 to UTF-16,
+                    // utf16CodeUnitCountAdjustment might be 0 if the utility directly translates byte count.
+                    // Assert.Equal(0, utf16Adjustment); // Placeholder, adjust based on actual logic.
+                    // Assert.Equal(0, scalarCountAdjustment); // Placeholder, adjust based on actual logic.
 
-            Console.WriteLine("utf16:" + utf16Adjustment);
+                    Console.WriteLine("Lenght:" + utf8.Length);
 
-            // If your generator creates specific patterns or the utility calculates these adjustments differently,
-            // you'll need to adjust the expected values accordingly.
+                    Console.WriteLine("Scalar:" + scalarCountAdjustment);
+
+                    Console.WriteLine("utf16:" + utf16Adjustment);
+                    Console.WriteLine("___________________________________________________");
+
+
+                    // If your generator creates specific patterns or the utility calculates these adjustments differently,
+                    // you'll need to adjust the expected values accordingly.
+                }
+            }
         }
     }
-}
-
-
-
 
 }
+
+
