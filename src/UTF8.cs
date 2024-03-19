@@ -59,7 +59,7 @@ namespace SimdUnicode
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + inputLength; }
                     firstByte = pInputBuffer[pos];
-                    TempUtf16CodeUnitCountAdjustment -= 2;
+                    TempUtf16CodeUnitCountAdjustment -= 1;
                 }
 
                 if ((firstByte & 0b11100000) == 0b11000000)
@@ -79,7 +79,7 @@ namespace SimdUnicode
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + pos; } // Overlong
-                    TempUtf16CodeUnitCountAdjustment -= 2;
+                    TempUtf16CodeUnitCountAdjustment -= 1;
                 }
                 else if ((firstByte & 0b11110000) == 0b11100000)
                 {
@@ -113,6 +113,8 @@ namespace SimdUnicode
                 }
                 else if ((firstByte & 0b11111000) == 0b11110000)
                 { // 0b11110000
+                    TempScalarCountAdjustment = -1;
+
                     nextPos = pos + 4;
                     if (nextPos > inputLength) { 
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
@@ -138,7 +140,6 @@ namespace SimdUnicode
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + pos; }
                     TempUtf16CodeUnitCountAdjustment -= 2;
-                    TempScalarCountAdjustment = -1;
 
 
                 }
@@ -309,7 +310,9 @@ namespace SimdUnicode
                         }
                     }
                 }
-                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength);
+                int TailScalarCodeUnitCountAdjustment = 0;
+                int TailUtf16CodeUnitCountAdjustment = 0;
+                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     // An invalid byte was found by the scalar function
@@ -494,7 +497,9 @@ namespace SimdUnicode
                 {
                     processedLength -= 1;
                 }
-                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength);
+                int TailScalarCodeUnitCountAdjustment = 0;
+                int TailUtf16CodeUnitCountAdjustment = 0;
+                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     // An invalid byte was found by the scalar function
@@ -639,7 +644,9 @@ namespace SimdUnicode
                         }
                     }
                 }
-                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength);
+                int TailScalarCodeUnitCountAdjustment = 0;
+                int TailUtf16CodeUnitCountAdjustment = 0;
+                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     // An invalid byte was found by the scalar function
@@ -667,7 +674,12 @@ namespace SimdUnicode
             {
                 return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength);
             }
-            return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
+            // return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
+
+            int TailScalarCodeUnitCountAdjustment = 0;
+            int TailUtf16CodeUnitCountAdjustment = 0;
+            return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+
         }
 
     }

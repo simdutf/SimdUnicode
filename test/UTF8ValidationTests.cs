@@ -39,7 +39,9 @@ public class Utf8SIMDValidationTests
             {
                 fixed (byte* pInput = input)
                 {
-                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length);
+                    int TailScalarCodeUnitCountAdjustment = 0;
+                    int TailUtf16CodeUnitCountAdjustment = 0;
+                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
                                 $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
@@ -93,8 +95,10 @@ public class Utf8SIMDValidationTests
             {
                 fixed (byte* pInput = input)
                 {
-                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length);
-                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
+                    int TailScalarCodeUnitCountAdjustment = 0;
+                    int TailUtf16CodeUnitCountAdjustment = 0;
+                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+                                        Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
                                 $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
                     byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
@@ -692,7 +696,10 @@ public class Utf8SIMDValidationTests
         {
             fixed (byte* pInput = utf8)
             {
-                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length);
+                int TailScalarCodeUnitCountAdjustment = 0;
+                int TailUtf16CodeUnitCountAdjustment = 0;
+
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                 int scalarOffset = (int)(scalarResult - pInput);
                 byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
                 int simdOffset = (int)(simdResult - pInput);
@@ -748,7 +755,9 @@ public class Utf8SIMDValidationTests
             fixed (byte* pInput = utf8)
             {
                 byte* startPtr = pInput + offset;
-                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(startPtr, length);
+                int TailScalarCodeUnitCountAdjustment =0;
+                int TailUtf16CodeUnitCountAdjustment = 0;
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(startPtr, length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                 if (scalarResult != startPtr + length)
                 {
                     return false;
@@ -776,13 +785,15 @@ public class Utf8SIMDValidationTests
 
 
     [Fact]
-    public void ExtraArgsTest()
+    public void ScalarUTF16CountTest()
     {
         int[] outputLengths = { 10, 15, 11,12 ,15,15,1, 3, 5, 8, 10, 12, 15, 18 };
+        int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
+        int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+
 
         foreach (int outputLength in outputLengths)
         {
-            int utf16Adjustment, scalarCountAdjustment;
             // Generate a UTF-8 sequence with 3 units, each 2 bytes long, presumed to be valid.
             // byte[] utf8 = generator.Generate(howManyUnits: 11, byteCountInUnit: 3).ToArray();
             byte[] utf8 = generator.Generate(howManyUnits: 13).ToArray();
@@ -795,7 +806,15 @@ public class Utf8SIMDValidationTests
                 {
                     byte* startPtr = pInput + offset;
                     // Invoke the method under test.
-                    byte* result = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out utf16Adjustment, out scalarCountAdjustment);
+
+                    DotnetUtf16Adjustment= 0; 
+                    DotnetScalarCountAdjustment= 0;
+                    DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
+
+                    SimdUnicodeUtf16Adjustment= 0; 
+                    SimdUnicodeScalarCountAdjustment= 0;
+                    SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+
 
                     // Since we are generating presumably valid 2-byte sequences, and depending on the specifics
                     // of the generator and Utf8Utility implementation, we need to assert expectations for adjustments.
@@ -804,14 +823,17 @@ public class Utf8SIMDValidationTests
 
                     // Example: For simple 2-byte characters that map 1:1 from UTF-8 to UTF-16,
                     // utf16CodeUnitCountAdjustment might be 0 if the utility directly translates byte count.
-                    // Assert.Equal(0, utf16Adjustment); // Placeholder, adjust based on actual logic.
-                    // Assert.Equal(0, scalarCountAdjustment); // Placeholder, adjust based on actual logic.
+                    // Assert.Equal(DotnetUtf16Adjustment, SimdUnicodeUtf16Adjustment); // Placeholder, adjust based on actual logic.
+                    // Assert.Equal(DotnetScalarCountAdjustment, SimdUnicodeScalarCountAdjustment); // Placeholder, adjust based on actual logic.
+                    Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
+                    Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
+
 
                     Console.WriteLine("Lenght:" + utf8.Length);
 
-                    Console.WriteLine("Scalar:" + scalarCountAdjustment);
+                    // Console.WriteLine("Scalar:" + scalarCountAdjustment);
 
-                    Console.WriteLine("utf16:" + utf16Adjustment);
+                    // Console.WriteLine("utf16:" + utf16Adjustment);
                     Console.WriteLine("___________________________________________________");
 
 
