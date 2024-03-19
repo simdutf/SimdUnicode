@@ -188,14 +188,32 @@ namespace SimdUnicodeBenchmarks
         }
 
         [Benchmark]
+        // [BenchmarkCategory("scalar")]
+        // public unsafe void Utf8ValidationRealDataScalar()
+        // {
+        //     if (allLinesUtf8 != null)
+        //     {
+        //         RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+        //     }
+        // }
+
         [BenchmarkCategory("scalar")]
         public unsafe void Utf8ValidationRealDataScalar()
         {
             if (allLinesUtf8 != null)
             {
-                RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+                // Assuming allLinesUtf8 is a byte* and its length is provided by another variable, for example, allLinesUtf8Length
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
             }
         }
+
+
         [Benchmark]
         [BenchmarkCategory("arm64")]
         public unsafe void SIMDUtf8ValidationRealDataArm64()

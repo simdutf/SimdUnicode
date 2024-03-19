@@ -33,13 +33,17 @@ namespace SimdUnicode
 
             // Now buf points to the start of a UTF-8 sequence or the start of the buffer.
             // Validate from this new start point with the adjusted length.
-            byte* invalidByte = GetPointerToFirstInvalidByteScalar(buf, len + extraLen);
+            byte* invalidByte = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
 
             return invalidByte;
         }
 
-        public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength)
+        public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
+
+
+            int TempUtf16CodeUnitCountAdjustment= 0 ;
+            int TempScalarCountAdjustment = 0;
 
             int pos = 0;
             int nextPos;
@@ -49,25 +53,50 @@ namespace SimdUnicode
                 byte firstByte = pInputBuffer[pos];
                 while (firstByte < 0b10000000)
                 {
-                    if (++pos == inputLength) { return pInputBuffer + inputLength; }
+                    if (++pos == inputLength) { 
+
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + inputLength; }
                     firstByte = pInputBuffer[pos];
+                    TempUtf16CodeUnitCountAdjustment -= 2;
                 }
 
                 if ((firstByte & 0b11100000) == 0b11000000)
                 {
                     nextPos = pos + 2;
-                    if (nextPos > inputLength) { return pInputBuffer + pos; } // Too short
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; } // Too short
+                    if (nextPos > inputLength) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; } // Too short
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; } // Too short
                     // range check
                     codePoint = (uint)(firstByte & 0b00011111) << 6 | (uint)(pInputBuffer[pos + 1] & 0b00111111);
-                    if ((codePoint < 0x80) || (0x7ff < codePoint)) { return pInputBuffer + pos; } // Overlong
+                    if ((codePoint < 0x80) || (0x7ff < codePoint)) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; } // Overlong
+                    TempUtf16CodeUnitCountAdjustment -= 2;
                 }
                 else if ((firstByte & 0b11110000) == 0b11100000)
                 {
                     nextPos = pos + 3;
-                    if (nextPos > inputLength) { return pInputBuffer + pos; } // Too short
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; } // Too short
-                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; } // Too short
+                    if (nextPos > inputLength) { 
+                        
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; } // Too short
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; } // Too short
+                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; } // Too short
                     // range check
                     codePoint = (uint)(firstByte & 0b00001111) << 12 |
                                  (uint)(pInputBuffer[pos + 1] & 0b00111111) << 6 |
@@ -76,29 +105,54 @@ namespace SimdUnicode
                     if ((codePoint < 0x800) || (0xffff < codePoint) ||
                         (0xd7ff < codePoint && codePoint < 0xe000))
                     {
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + pos;
                     }
+                    TempUtf16CodeUnitCountAdjustment -= 2;
                 }
                 else if ((firstByte & 0b11111000) == 0b11110000)
                 { // 0b11110000
                     nextPos = pos + 4;
-                    if (nextPos > inputLength) { return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 3] & 0b11000000) != 0b10000000) { return pInputBuffer + pos; }
+                    if (nextPos > inputLength) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;return pInputBuffer + pos; }
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; }
+                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; }
+                    if ((pInputBuffer[pos + 3] & 0b11000000) != 0b10000000) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; }
                     // range check
                     codePoint =
                         (uint)(firstByte & 0b00000111) << 18 | (uint)(pInputBuffer[pos + 1] & 0b00111111) << 12 |
                         (uint)(pInputBuffer[pos + 2] & 0b00111111) << 6 | (uint)(pInputBuffer[pos + 3] & 0b00111111);
-                    if (codePoint <= 0xffff || 0x10ffff < codePoint) { return pInputBuffer + pos; }
+                    if (codePoint <= 0xffff || 0x10ffff < codePoint) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; }
+                    TempUtf16CodeUnitCountAdjustment -= 2;
+                    TempScalarCountAdjustment = -1;
+
+
                 }
                 else
                 {
                     // we may have a continuation
+                    utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                    scalarCountAdjustment = TempScalarCountAdjustment;
                     return pInputBuffer + pos;
                 }
                 pos = nextPos;
             }
+            utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+            scalarCountAdjustment = TempScalarCountAdjustment;
             return pInputBuffer + inputLength;
         }
 
