@@ -59,7 +59,7 @@ namespace SimdUnicode
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + inputLength; }
                     firstByte = pInputBuffer[pos];
-                    TempUtf16CodeUnitCountAdjustment -= 1;
+                    // TempUtf16CodeUnitCountAdjustment -= 1;
                 }
 
                 if ((firstByte & 0b11100000) == 0b11000000)
@@ -89,14 +89,6 @@ namespace SimdUnicode
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + pos; } // Too short
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { 
-                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
-                        scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; } // Too short
-                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { 
-                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
-                        scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; } // Too short
                     // range check
                     codePoint = (uint)(firstByte & 0b00001111) << 12 |
                                  (uint)(pInputBuffer[pos + 1] & 0b00111111) << 6 |
@@ -109,11 +101,23 @@ namespace SimdUnicode
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + pos;
                     }
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; } // Too short
+                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { 
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos; } // Too short
+                    // if (pInputBuffer[pos + 3] < 0b10000000) { 
+                    //     TempUtf16CodeUnitCountAdjustment -= 1;
+                    // } else {
+                    //     TempUtf16CodeUnitCountAdjustment -= 2;
+                    // }
                     TempUtf16CodeUnitCountAdjustment -= 2;
                 }
                 else if ((firstByte & 0b11111000) == 0b11110000)
                 { // 0b11110000
-                    TempScalarCountAdjustment = -1;
 
                     nextPos = pos + 4;
                     if (nextPos > inputLength) { 
@@ -140,6 +144,8 @@ namespace SimdUnicode
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + pos; }
                     TempUtf16CodeUnitCountAdjustment -= 2;
+                    TempScalarCountAdjustment -= 1;
+
 
 
                 }

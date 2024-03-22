@@ -816,25 +816,20 @@ public class Utf8SIMDValidationTests
                     SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
 
 
-                    // Since we are generating presumably valid 2-byte sequences, and depending on the specifics
-                    // of the generator and Utf8Utility implementation, we need to assert expectations for adjustments.
-                    // These assertions need to match your understanding of how utf16CodeUnitCountAdjustment and
-                    // scalarCountAdjustment are supposed to be calculated based on the input data.
+                    Console.WriteLine("Lenght:" + utf8.Length);
 
-                    // Example: For simple 2-byte characters that map 1:1 from UTF-8 to UTF-16,
-                    // utf16CodeUnitCountAdjustment might be 0 if the utility directly translates byte count.
-                    // Assert.Equal(DotnetUtf16Adjustment, SimdUnicodeUtf16Adjustment); // Placeholder, adjust based on actual logic.
-                    // Assert.Equal(DotnetScalarCountAdjustment, SimdUnicodeScalarCountAdjustment); // Placeholder, adjust based on actual logic.
+                    Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
+                    Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
+
+                    Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
+                    Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
+                    Console.WriteLine("___________________________________________________");
+
+
                     Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
                     Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
 
 
-                    Console.WriteLine("Lenght:" + utf8.Length);
-
-                    // Console.WriteLine("Scalar:" + scalarCountAdjustment);
-
-                    // Console.WriteLine("utf16:" + utf16Adjustment);
-                    Console.WriteLine("___________________________________________________");
 
 
                     // If your generator creates specific patterns or the utility calculates these adjustments differently,
