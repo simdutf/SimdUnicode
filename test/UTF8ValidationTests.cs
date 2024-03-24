@@ -862,6 +862,8 @@ public delegate byte* ValidationFunction(byte* utf8, int length);
         }
     }
 
+    
+
         // Helper method to calculate the actual offset and length from a Range
     private (int offset, int length) GetOffsetAndLength(int totalLength, Range range)
     {
