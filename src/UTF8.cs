@@ -330,12 +330,16 @@ namespace SimdUnicode
         }
 
 
-        public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength)
+        public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
             int processedLength = 0;
+            int TempUtf16CodeUnitCountAdjustment= 0 ;
+            int TempScalarCountAdjustment = 0;
 
             if (pInputBuffer == null || inputLength <= 0)
             {
+                utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                scalarCountAdjustment = TempScalarCountAdjustment;
                 return pInputBuffer;
             }
             if (inputLength > 128)
@@ -445,6 +449,10 @@ namespace SimdUnicode
                             // we need to check if the previous block was incomplete.
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
+
+                                utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                                scalarCountAdjustment = TempScalarCountAdjustment;
+
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
                             }
@@ -471,6 +479,10 @@ namespace SimdUnicode
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
                             if (!Avx2.TestZ(error, error))
                             {
+
+                                utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                                scalarCountAdjustment = TempScalarCountAdjustment;
+
                                 int off = processedLength >= 32 ? processedLength - 32 : processedLength;
                                 return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
                             }
@@ -508,10 +520,16 @@ namespace SimdUnicode
                 byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
+                    utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;
+                    scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
+
                     // An invalid byte was found by the scalar function
                     return invalidBytePointer;
                 }
             }
+
+            utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+            scalarCountAdjustment = TempScalarCountAdjustment;
 
             return pInputBuffer + inputLength;
         }
@@ -664,13 +682,21 @@ namespace SimdUnicode
         }
         public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
         {
+
+            int TailScalarCodeUnitCountAdjustment = 0;
+            int TailUtf16CodeUnitCountAdjustment = 0;
+
+            
+            int SIMDScalarCodeUnitCountAdjustment = 0; // I know this is a horrible variable Iwill try to change it later
+            int SIMDUtf16CodeUnitCountAdjustment = 0;
+
             if (AdvSimd.Arm64.IsSupported)
             {
                 return GetPointerToFirstInvalidByteArm64(pInputBuffer, inputLength);
             }
             if (Avx2.IsSupported)
             {
-                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength);
+                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength,out SIMDUtf16CodeUnitCountAdjustment,out SIMDScalarCodeUnitCountAdjustment);
             }
             /*if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
             {
@@ -682,8 +708,6 @@ namespace SimdUnicode
             }
             // return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
 
-            int TailScalarCodeUnitCountAdjustment = 0;
-            int TailUtf16CodeUnitCountAdjustment = 0;
             return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
 
         }
