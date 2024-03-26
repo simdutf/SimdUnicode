@@ -355,6 +355,66 @@ namespace SimdUnicode
                     {
                         break;
                     }
+
+                    // // 4byte utf 8 character 
+                    // Vector256<byte> Counts = Avx2.SubtractSaturate(block1, fourByte);
+                    // int mask = Avx2.MoveMask(Counts);
+                    // // Assuming PopCount is a function that counts set bits.
+                    // TempScalarCountAdjustment -= PopCount(mask);
+
+                    // // 3byte or 4 utf 8 character 
+                    // Counts = Avx2.SubtractSaturate(block1, threeorfourByte);
+                    // mask = Avx2.MoveMask(Counts);
+                    // TempUtf16CodeUnitCountAdjustment -= PopCount(mask) * 2;
+
+                    // // 3byte or 4 utf 8 character 
+                    // Counts = Avx2.SubtractSaturate(block1, threeorfourByte);
+                    // mask = Avx2.MoveMask(Counts);
+                    // TempUtf16CodeUnitCountAdjustment -= PopCount(mask);
+                 // Assuming 'block1' contains the current block of UTF-8 data you're processing.
+
+// int popCountResult = Popcnt.IsSupported ? Popcnt.PopCount((uint)mask) : FallbackPopCount(mask);
+
+
+                // Vector to identify bytes right before the start of a 4-byte sequence in UTF-8.
+                Vector256<byte> beforeFourByteMarker = Vector256.Create((byte)(0xF0 - 1));
+                // Vector to identify bytes right before the start of a 3-byte sequence in UTF-8.
+                Vector256<byte> beforeThreeByteMarker = Vector256.Create((byte)(0xE0 - 1));
+                // Vector to identify bytes right before the start of a 2-byte sequence in UTF-8.
+                Vector256<byte> beforeTwoByteMarker = Vector256.Create((byte)(0xC0 - 1));
+
+                // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
+
+                // Identify start of 4-byte sequences.
+                Vector256<byte> isFourByteStart = Avx2.SubtractSaturate(block1, beforeFourByteMarker);
+                int fourByteMask = Avx2.MoveMask(isFourByteStart);
+                uint fourByteCount = Popcnt.PopCount((uint)fourByteMask);
+
+                // Identify start of 3-byte and 4-byte sequences.
+                Vector256<byte> isThreeOrFourByteStart = Avx2.SubtractSaturate(block1, beforeThreeByteMarker);
+                int threeOrFourByteMask = Avx2.MoveMask(isThreeOrFourByteStart);
+                uint threeOrFourByteCount = Popcnt.PopCount((uint)threeOrFourByteMask);
+
+                // Calculate only 3-byte sequence count by excluding 4-byte sequences.
+                uint threeByteCount = threeOrFourByteCount - fourByteCount;
+
+                // Identify start of 2-byte sequences.
+                Vector256<byte> isTwoByteStart = Avx2.SubtractSaturate(block1, beforeTwoByteMarker);
+                int twoByteMask = Avx2.MoveMask(isTwoByteStart);
+                uint twoByteCount = Popcnt.PopCount((uint)twoByteMask);
+
+                // Calculate only 2-byte sequence count by excluding 3-byte and 4-byte sequences.
+                uint pureTwoByteCount = twoByteCount - threeOrFourByteCount;
+
+                // Adjustments
+                TempUtf16CodeUnitCountAdjustment += fourByteCount * 2; // Two UTF-16 code units for each 4-byte sequence.
+                TempUtf16CodeUnitCountAdjustment += pureTwoByteCount; // One UTF-16 code unit for each 2-byte sequence.
+                TempScalarCountAdjustment += fourByteCount; // One scalar for each 4-byte sequence.
+                TempScalarCountAdjustment += threeByteCount; // One scalar for each 3-byte sequence.
+                TempScalarCountAdjustment += pureTwoByteCount; // One scalar for each 2-byte sequence.
+
+
+
                 }
                 processedLength = asciirun;
 
