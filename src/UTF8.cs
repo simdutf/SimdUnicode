@@ -38,6 +38,67 @@ namespace SimdUnicode
             return invalidByte;
         }
 
+    public unsafe static void AdjustForSkippedBytes(byte* pInputBuffer, int skippedBytes, ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
+    {
+        for (int i = 0; i < skippedBytes; i++)
+        {
+            byte currentByte = *(pInputBuffer + i);
+            if (currentByte >= 0xC0 && currentByte < 0xE0)
+            {
+                // 2-byte sequence
+                utf16CodeUnitCountAdjustment -= 1;
+            }
+            else if (currentByte >= 0xE0 && currentByte < 0xF0)
+            {
+                // 3-byte sequence
+                utf16CodeUnitCountAdjustment -= 2;
+            }
+            else if (currentByte >= 0xF0)
+            {
+                // 4-byte sequence
+                utf16CodeUnitCountAdjustment -= 2; // or any other logic specific to 4-byte sequences
+                scalarCountAdjustment -= 1;
+            }
+            // Adjust for other conditions as necessary
+        }
+    }
+
+
+        public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment, int skippedBytes = 0)
+        {
+            utf16CodeUnitCountAdjustment = 0;
+            scalarCountAdjustment = 0;
+
+            // Call the original function first. Assuming GetPointerToFirstInvalidByteOriginal exists and does the primary checking.
+            byte* result = GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+
+            // If the adjustments are still 0 and there are skipped bytes to consider,
+            // loop through the skipped bytes and adjust the counts as needed.
+            if (utf16CodeUnitCountAdjustment == 0 && scalarCountAdjustment == 0 && skippedBytes > 0)
+            {
+                for (int i = 0; i < skippedBytes; i++)
+                {
+                    byte currentByte = *(pInputBuffer + i);
+                    if (currentByte >= 0xC0 && currentByte < 0xE0)
+                    {
+                        // 2-byte sequence
+                        utf16CodeUnitCountAdjustment -= 1; // Adjust according to your logic
+                        scalarCountAdjustment -= 1;
+                    }
+                    else if ((currentByte >= 0xE0 && currentByte < 0xF0) || (currentByte >= 0xF0))
+                    {
+                        // 3-byte or 4-byte sequence
+                        utf16CodeUnitCountAdjustment -= 1; // This might need to be adjusted based on your specific logic for 3-byte and 4-byte sequences
+                        scalarCountAdjustment -= 1;
+                    }
+                    // Adjust for other conditions as necessary
+                }
+            }
+
+            return result; // Return the pointer from the original check
+        }
+
+
         public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
 
