@@ -38,65 +38,73 @@ namespace SimdUnicode
             return invalidByte;
         }
 
-    public unsafe static void AdjustForSkippedBytes(byte* pInputBuffer, int skippedBytes, ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
-    {
-        for (int i = 0; i < skippedBytes; i++)
+        public unsafe static void AdjustForSkippedBytes(byte* pInputBuffer,// int skippedBytes,
+                                                        ref int utf16CodeUnitCountAdjustment,
+                                                        ref int scalarCountAdjustment,
+                                                        bool shouldAdd = false)
         {
-            byte currentByte = *(pInputBuffer + i);
-            if (currentByte >= 0xC0 && currentByte < 0xE0)
-            {
-                // 2-byte sequence
-                utf16CodeUnitCountAdjustment -= 1;
-            }
-            else if (currentByte >= 0xE0 && currentByte < 0xF0)
-            {
-                // 3-byte sequence
-                utf16CodeUnitCountAdjustment -= 2;
-            }
-            else if (currentByte >= 0xF0)
-            {
-                // 4-byte sequence
-                utf16CodeUnitCountAdjustment -= 2; // or any other logic specific to 4-byte sequences
-                scalarCountAdjustment -= 1;
-            }
-            // Adjust for other conditions as necessary
-        }
-    }
+            int adjustmentFactor = shouldAdd ? 1 : -1;
 
-
-        public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment, int skippedBytes = 0)
-        {
-            utf16CodeUnitCountAdjustment = 0;
-            scalarCountAdjustment = 0;
-
-            // Call the original function first. Assuming GetPointerToFirstInvalidByteOriginal exists and does the primary checking.
-            byte* result = GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
-
-            // If the adjustments are still 0 and there are skipped bytes to consider,
-            // loop through the skipped bytes and adjust the counts as needed.
-            if (utf16CodeUnitCountAdjustment == 0 && scalarCountAdjustment == 0 && skippedBytes > 0)
+            // for (int i = 0; i < skippedBytes; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (int i = 0; i < skippedBytes; i++)
+                byte currentByte = *(pInputBuffer + i);
+                if (currentByte >= 0xC0 && currentByte < 0xE0)
                 {
-                    byte currentByte = *(pInputBuffer + i);
-                    if (currentByte >= 0xC0 && currentByte < 0xE0)
-                    {
-                        // 2-byte sequence
-                        utf16CodeUnitCountAdjustment -= 1; // Adjust according to your logic
-                        scalarCountAdjustment -= 1;
-                    }
-                    else if ((currentByte >= 0xE0 && currentByte < 0xF0) || (currentByte >= 0xF0))
-                    {
-                        // 3-byte or 4-byte sequence
-                        utf16CodeUnitCountAdjustment -= 1; // This might need to be adjusted based on your specific logic for 3-byte and 4-byte sequences
-                        scalarCountAdjustment -= 1;
-                    }
-                    // Adjust for other conditions as necessary
+                    // 2-byte sequence
+                    utf16CodeUnitCountAdjustment += 1 * adjustmentFactor;
                 }
+                else if (currentByte >= 0xE0 && currentByte < 0xF0)
+                {
+                    // 3-byte sequence
+                    utf16CodeUnitCountAdjustment += 2 * adjustmentFactor;
+                    scalarCountAdjustment += 1 * adjustmentFactor; // Assuming each 3-byte sequence translates to one scalar.
+                }
+                else if (currentByte >= 0xF0)
+                {
+                    // 4-byte sequence
+                    utf16CodeUnitCountAdjustment += 2 * adjustmentFactor; // Two UTF-16 code units for each 4-byte sequence.
+                    scalarCountAdjustment += 1 * adjustmentFactor; // One scalar for each 4-byte sequence.
+                }
+                // Adjust for other conditions as necessary
             }
-
-            return result; // Return the pointer from the original check
         }
+
+
+
+        // public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment, int skippedBytes = 0)
+        // {
+        //     utf16CodeUnitCountAdjustment = 0;
+        //     scalarCountAdjustment = 0;
+
+        //     // Call the original function first. Assuming GetPointerToFirstInvalidByteOriginal exists and does the primary checking.
+        //     byte* result = GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+
+        //     // If the adjustments are still 0 and there are skipped bytes to consider,
+        //     // loop through the skipped bytes and adjust the counts as needed.
+        //     if (utf16CodeUnitCountAdjustment == 0 && scalarCountAdjustment == 0 && skippedBytes > 0)
+        //     {
+        //         for (int i = 0; i < skippedBytes; i++)
+        //         {
+        //             byte currentByte = *(pInputBuffer + i);
+        //             if (currentByte >= 0xC0 && currentByte < 0xE0)
+        //             {
+        //                 // 2-byte sequence
+        //                 utf16CodeUnitCountAdjustment -= 1; // Adjust according to your logic
+        //                 scalarCountAdjustment -= 1;
+        //             }
+        //             else if ((currentByte >= 0xE0 && currentByte < 0xF0) || (currentByte >= 0xF0))
+        //             {
+        //                 // 3-byte or 4-byte sequence
+        //                 utf16CodeUnitCountAdjustment -= 1; // This might need to be adjusted based on your specific logic for 3-byte and 4-byte sequences
+        //                 scalarCountAdjustment -= 1;
+        //             }
+        //             // Adjust for other conditions as necessary
+        //         }
+        //     }
+
+        //     return result; // Return the pointer from the original check
+        // }
 
 
         public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
@@ -419,26 +427,6 @@ namespace SimdUnicode
                         break;
                     }
 
-                    // // 4byte utf 8 character 
-                    // Vector256<byte> Counts = Avx2.SubtractSaturate(block1, fourByte);
-                    // int mask = Avx2.MoveMask(Counts);
-                    // // Assuming PopCount is a function that counts set bits.
-                    // TempScalarCountAdjustment -= PopCount(mask);
-
-                    // // 3byte or 4 utf 8 character 
-                    // Counts = Avx2.SubtractSaturate(block1, threeorfourByte);
-                    // mask = Avx2.MoveMask(Counts);
-                    // TempUtf16CodeUnitCountAdjustment -= PopCount(mask) * 2;
-
-                    // // 3byte or 4 utf 8 character 
-                    // Counts = Avx2.SubtractSaturate(block1, threeorfourByte);
-                    // mask = Avx2.MoveMask(Counts);
-                    // TempUtf16CodeUnitCountAdjustment -= PopCount(mask);
-                 // Assuming 'block1' contains the current block of UTF-8 data you're processing.
-
-// int popCountResult = Popcnt.IsSupported ? Popcnt.PopCount((uint)mask) : FallbackPopCount(mask);
-
-
                 }
                 processedLength = asciirun;
 
@@ -521,6 +509,24 @@ namespace SimdUnicode
                     Vector256<byte> thirdByte = Vector256.Create((byte)(0b11100000u - 0x80));
                     Vector256<byte> fourthByte = Vector256.Create((byte)(0b11110000u - 0x80));
 
+                    // // Mask for the lower and upper parts of the vector
+                    // Vector128<byte> lowerMask = Vector128.Create(
+                    //     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                    //     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF).AsByte();
+
+                    // Vector128<byte> upperMask = Vector128.Create(
+                    //     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                    //     0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00).AsByte();
+
+                    // // Combine lower and upper masks into a Vector256<byte>
+                    // Vector256<byte> mask = Vector256.Create(lowerMask, upperMask);
+
+                    // // Apply the mask to zero out the last 3 bytes of each vector
+                    // Vector256<byte> secondByteMasked = Avx2.And(secondByte, mask);
+                    // Vector256<byte> thirdByteMasked = Avx2.And(thirdByte, mask);
+                    // Vector256<byte> fourthByteMasked = Avx2.And(fourthByte, mask);
+
+
                     Vector256<byte> v0f = Vector256.Create((byte)0x0F);
                     Vector256<byte> v80 = Vector256.Create((byte)0x80);
 
@@ -563,12 +569,12 @@ namespace SimdUnicode
                                 uint fourByteCount = Popcnt.PopCount((uint)fourByteMask);
 
                                 // Identify start of 3-byte and 4-byte sequences.
-                                Vector256<byte> isThreeOrFourByteStart = Avx2.SubtractSaturate(currentBlock, thirdByte);
-                                int threeOrFourByteMask = Avx2.MoveMask(isThreeOrFourByteStart);
-                                uint threeOrFourByteCount = Popcnt.PopCount((uint)threeOrFourByteMask);
+                                Vector256<byte> isThreeByteStart = Avx2.SubtractSaturate(currentBlock, thirdByte);
+                                int threeByteMask = Avx2.MoveMask(isThreeByteStart);
+                                uint threeByteCount = Popcnt.PopCount((uint)threeByteMask);
 
                                 // Calculate only 3-byte sequence count by excluding 4-byte sequences.
-                                uint threeByteCount = threeOrFourByteCount - fourByteCount;
+                                // uint threeByteCount = threeOrFourByteCount - fourByteCount;
 
                                 // Identify start of 2-byte sequences.
                                 Vector256<byte> isTwoByteStart = Avx2.SubtractSaturate(currentBlock, secondByte);
@@ -581,10 +587,10 @@ namespace SimdUnicode
                                 // Console.WriteLine("2byte count:" + twoByteCount);
 
                                 // Adjustments
-                                TempUtf16CodeUnitCountAdjustment -= (int)fourByteCount * 2; // Two UTF-16 code units for each 4-byte sequence.
-                                TempUtf16CodeUnitCountAdjustment -= (int)twoByteCount; // One UTF-16 code unit for each 2-byte sequence.
-                                TempUtf16CodeUnitCountAdjustment -= (int)threeByteCount *2; // One UTF-16 code unit for each 2-byte sequence.
-                                TempScalarCountAdjustment -= (int)fourByteCount; // One scalar for each 4-byte sequence.
+                                TempUtf16CodeUnitCountAdjustment -= (int)fourByteCount * 2; 
+                                TempUtf16CodeUnitCountAdjustment -= (int)twoByteCount; 
+                                TempUtf16CodeUnitCountAdjustment -= (int)threeByteCount *2; 
+                                TempScalarCountAdjustment -= (int)fourByteCount; 
 
                             Vector256<byte> shuffled = Avx2.Permute2x128(prevInputBlock, currentBlock, 0x21);
                             prevInputBlock = currentBlock;
@@ -621,11 +627,31 @@ namespace SimdUnicode
                         processedLength -= 3;
                         for(int k = 0; k < 3; k++)
                         {
+                            
+                            int candidateByte = pInputBuffer[processedLength + k];
                             if ((pInputBuffer[processedLength + k] & 0b11000000) == 0b11000000)
                             {
+                                if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
+                                {
+                                    TempUtf16CodeUnitCountAdjustment += 1; // Still adjusts for a single UTF-16 unit
+                                }
+                                if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
+                                {
+                                    TempUtf16CodeUnitCountAdjustment += 1; // Adjusts for two UTF-16 units (surrogate pair)
+                                    TempScalarCountAdjustment += 1; // Adjust for one scalar value
+                                }
+                                if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+                                {
+                                    TempUtf16CodeUnitCountAdjustment += 1; // Adjust for a single UTF-16 unit
+                                }
+
                                 processedLength += k;
                                 break;
+
                             }
+
+
+
                         }
                     }
                 }
