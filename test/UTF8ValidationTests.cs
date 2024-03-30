@@ -19,95 +19,8 @@ public unsafe class Utf8SIMDValidationTests
     // int[] outputLengths = { 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472, 1536, 1600, 1664, 1728, 1792, 1856, 1920, 1984, 2048, 2112, 2176, 2240, 2304, 2368, 2432, 2496, 2560, 2624, 2688, 2752, 2816, 2880, 2944, 3008, 3072, 3136, 3200, 3264, 3328, 3392, 3456, 3520, 3584, 3648, 3712, 3776, 3840, 3904, 3968, 4032, 4096, 4160, 4224, 4288, 4352, 4416, 4480, 4544, 4608, 4672, 4736, 4800, 4864, 4928, 4992, 5056, 5120, 5184, 5248, 5312, 5376, 5440, 5504, 5568, 5632, 5696, 5760, 5824, 5888, 5952, 6016, 6080, 6144, 6208, 6272, 6336, 6400, 6464, 6528, 6592, 6656, 6720, 6784, 6848, 6912, 6976, 7040, 7104, 7168, 7232, 7296, 7360, 7424, 7488, 7552, 7616, 7680, 7744, 7808, 7872, 7936, 8000, 8064, 8128, 8192, 8256, 8320, 8384, 8448, 8512, 8576, 8640, 8704, 8768, 8832, 8896, 8960, 9024, 9088, 9152, 9216, 9280, 9344, 9408, 9472, 9536, 9600, 9664, 9728, 9792, 9856, 9920, 9984, 10000 };
     static int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
 
-    // private static readonly delegate*<byte*, int, byte*> ValidateFunc;
-
-    // static Utf8Validation()
-    // {
-    //     if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-    //     {
-    //         // ARM64-specific SIMD method
-    //         ValidateFunc = &Utf8ValidateArm64;
-    //     }
-    //     else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
-    //     {
-    //         if (Vector512.IsHardwareAccelerated && Avx512Vbmi.IsSupported)
-    //         {
-    //             // AVX-512 specific SIMD method
-    //             ValidateFunc = &Utf8ValidateAvx512;
-    //         }
-    //         else if (Avx2.IsSupported)
-    //         {
-    //             // AVX2 specific SIMD method
-    //             ValidateFunc = &Utf8ValidateAvx2;
-    //         }
-    //         else if (Sse2.IsSupported)
-    //         {
-    //             // SSE2 specific SIMD method
-    //             ValidateFunc = &Utf8ValidateSse2;
-    //         }
-    //         else
-    //         {
-    //             // Fallback to scalar method
-    //             ValidateFunc = &Utf8ValidateScalar;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         // Fallback for other architectures to scalar method
-    //         ValidateFunc = &Utf8ValidateScalar;
-    //     }
-    // }
-
-    // public static unsafe byte* Validate(byte* utf8, int length) => ValidateFunc(utf8, length);
-
-    // // Method implementations...
-    // private static unsafe byte* Utf8ValidateArm64(byte* utf8, int length) => /* ARM64 specific validation */;
-    // private static unsafe byte* Utf8ValidateAvx512(byte* utf8, int length) => /* AVX-512 specific validation */;
-    // private static unsafe byte* Utf8ValidateAvx2(byte* utf8, int length) => /* AVX2 specific validation */;
-    // private static unsafe byte* Utf8ValidateSse2(byte* utf8, int length) => /* SSE2 specific validation */;
-    // private static unsafe byte* Utf8ValidateScalar(byte* utf8, int length) => /* Scalar validation */;
-
-
-
-
-
-// // Declare the delegate at the class level
-// public delegate byte* ValidationFunction(byte* utf8, int length);
-
-// // public static class FunctionSelector
-// // {
-//     public static IEnumerable<object[]> SupportedValidationFunctions()
-//     {
-//         var supportedFunctions = new List<object[]>();
-
-//         // Example check for architecture and SIMD support
-//         if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-//         {
-//             supportedFunctions.Add(new object[] { new ValidationFunction(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64) });
-//         }
-//         else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
-//         {
-
-            
-//             if (Avx2.IsSupported)
-//             {
-//                 supportedFunctions.Add(new object[] { new ValidationFunction(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2) });
-//             }
-//             if (Sse2.IsSupported)
-//             {
-//                 supportedFunctions.Add(new object[] { new ValidationFunction(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse) });
-//             }
-//             // Add other conditions and functions as needed
-//         }
-
-//         return supportedFunctions;
-//     }
-// // }
-
-
-
-    [Fact]
-    public void TestGoodSequences()
+    
+    public void TestGoodSequences(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         string[] goodSequences = {
         "a",
@@ -120,6 +33,9 @@ public unsafe class Utf8SIMDValidationTests
         "\xEF\xBB\xBF"
     };
 
+    int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+
+
         foreach (var seq in goodSequences)
         {
             byte[] input = System.Text.Encoding.UTF8.GetBytes(seq);
@@ -129,11 +45,11 @@ public unsafe class Utf8SIMDValidationTests
                 {
                     int TailScalarCodeUnitCountAdjustment = 0;
                     int TailUtf16CodeUnitCountAdjustment = 0;
-                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+                    byte* scalarResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
                                 $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                    byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    byte* SIMDResult = utf8ValidationDelegate(pInput, input.Length);
                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
                                 $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");
                 }
@@ -834,6 +750,8 @@ public unsafe class Utf8SIMDValidationTests
 
     private bool ValidateUtf8(byte[] utf8, Range range = default)
     {
+
+
         // Adjusted check for default Range
         var isDefaultRange = range.Equals(default(Range));
         var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
@@ -842,25 +760,46 @@ public unsafe class Utf8SIMDValidationTests
         {
             fixed (byte* pInput = utf8)
             {
+                int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
+                int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+
+
                 byte* startPtr = pInput + offset;
-                int TailScalarCodeUnitCountAdjustment =0;
-                int TailUtf16CodeUnitCountAdjustment = 0;
-                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(startPtr, length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
-                if (scalarResult != startPtr + length)
+                byte* DotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(startPtr, length,out DotnetUtf16Adjustment,out DotnetScalarCountAdjustment);
+                if (DotnetResult != startPtr + length)
                 {
-                    return false;
+                    PrintDebugInfo(DotnetResult, startPtr, utf8, "DotnetRuntime  fails to return the correct invalid position");
                 }
 
-                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(startPtr, length);
+                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(startPtr, length, out SimdUnicodeUtf16Adjustment,out SimdUnicodeScalarCountAdjustment);
                 if (simdResult != startPtr + length)
                 {
-                    return false;
+                    PrintDebugInfo(DotnetResult, startPtr, utf8, "Our result Fails to return the correct invalid position");
                 }
+                
 
                 return true;
             }
         }
     }
+
+    void PrintDebugInfo(byte* failedByte, byte* startPtr, byte[] utf8, string source)
+{
+    int failedIndex = (int)(failedByte - startPtr);
+    byte failedByteValue = *failedByte;
+    Console.WriteLine($"Failure in {source}: Index {failedIndex}, Byte {failedByteValue:X2}");
+
+    // Print surrounding sequence, assuming 5 bytes context around the failure point
+    int contextRadius = 5;
+    int startContext = Math.Max(0, failedIndex - contextRadius);
+    int endContext = Math.Min(utf8.Length, failedIndex + contextRadius + 1); // Include the failed byte and some after
+    Console.Write("Sequence around failure point: ");
+    for (int i = startContext; i < endContext; i++)
+    {
+        Console.Write($"{utf8[i]:X2} ");
+    }
+    Console.WriteLine();
+}
 
     
 
@@ -877,18 +816,15 @@ public unsafe class Utf8SIMDValidationTests
 // Define a delegate that matches the signature of the methods you want to test
     public unsafe delegate byte* Utf8ValidationDelegate(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
 
-    [Fact]
-    [Trait("Category", "Scalar")]
-    public void ScalarUTF16CountTest()
-    {
-        UTF16CountTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
-    }
+
+
+    
         public void UTF16CountTest(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         // int[] outputLengths = { 10, 15, 11,12 ,15,15,1, 3, 5, 8, 10, 12, 15, 18 };
+
         int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
         int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
-
 
         foreach (int outputLength in outputLengths)
         {
@@ -914,14 +850,14 @@ public unsafe class Utf8SIMDValidationTests
                     utf8ValidationDelegate(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
 
 
-                    // Console.WriteLine("Lenght:" + utf8.Length);
 
                     // Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
                     // Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
 
+                    Console.WriteLine("Lenght:" + utf8.Length);
                     // Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
                     // Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
-                    // Console.WriteLine("___________________________________________________");
+                    Console.WriteLine("___________________________________________________");
 
 
                     Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
@@ -935,6 +871,13 @@ public unsafe class Utf8SIMDValidationTests
                 }
             }
         }
+    }
+
+    [Fact]
+    [Trait("Category", "Scalar")]
+    public void ScalarUTF16CountTest()
+    {
+        UTF16CountTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
     [Fact]

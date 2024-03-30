@@ -564,22 +564,38 @@ namespace SimdUnicode
                                 // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
 
                                 // Identify start of 4-byte sequences.
-                                Vector256<byte> isFourByteStart = Avx2.SubtractSaturate(currentBlock, fourthByte);
-                                int fourByteMask = Avx2.MoveMask(isFourByteStart);
-                                uint fourByteCount = Popcnt.PopCount((uint)fourByteMask);
+                                // Vector256<byte> isFourByteStart = Avx2.SubtractSaturate(currentBlock, fourthByte);
+                                // int fourByteMask = Avx2.MoveMask(isFourByteStart);
+                                // uint fourByteCount = Popcnt.PopCount((uint)fourByteMask);
 
-                                // Identify start of 3-byte and 4-byte sequences.
-                                Vector256<byte> isThreeByteStart = Avx2.SubtractSaturate(currentBlock, thirdByte);
-                                int threeByteMask = Avx2.MoveMask(isThreeByteStart);
-                                uint threeByteCount = Popcnt.PopCount((uint)threeByteMask);
+                                // // Identify start of 3-byte and 4-byte sequences.
+                                // Vector256<byte> isThreeByteStart = Avx2.SubtractSaturate(currentBlock, thirdByte);
+                                // int threeByteMask = Avx2.MoveMask(isThreeByteStart);
+                                // uint threeByteCount = Popcnt.PopCount((uint)threeByteMask);
 
-                                // Calculate only 3-byte sequence count by excluding 4-byte sequences.
-                                // uint threeByteCount = threeOrFourByteCount - fourByteCount;
+                                // // Calculate only 3-byte sequence count by excluding 4-byte sequences.
+                                // // uint threeByteCount = threeOrFourByteCount - fourByteCount;
 
-                                // Identify start of 2-byte sequences.
-                                Vector256<byte> isTwoByteStart = Avx2.SubtractSaturate(currentBlock, secondByte);
-                                int twoByteMask = Avx2.MoveMask(isTwoByteStart);
-                                uint twoByteCount = Popcnt.PopCount((uint)twoByteMask);
+                                // // Identify start of 2-byte,3 or 4 bytes sequences.
+                                // Vector256<byte> isTwoByteStart = Avx2.SubtractSaturate(currentBlock, secondByte);
+                                // int twoByteMask = Avx2.MoveMask(isTwoByteStart);
+                                // uint twoByteCount = Popcnt.PopCount((uint)twoByteMask);
+
+                                // Detect start of 4-byte sequences.
+                                Vector256<byte> isStartOf4ByteSequence = Avx2.SubtractSaturate(currentBlock, fourthByte);
+                                uint fourByteCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf4ByteSequence));
+
+                                // Detect start of 3-byte sequences (including those that start 4-byte sequences).
+                                Vector256<byte> isStartOf3OrMoreByteSequence = Avx2.SubtractSaturate(currentBlock, thirdByte);
+                                uint threeBytePlusCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf3OrMoreByteSequence));
+
+                                // Detect start of 2-byte sequences (including those that start 3-byte and 4-byte sequences).
+                                Vector256<byte> isStartOf2OrMoreByteSequence = Avx2.SubtractSaturate(currentBlock, secondByte);
+                                uint twoBytePlusCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf2OrMoreByteSequence));
+
+                                // Calculate counts by isolating each type.
+                                uint threeByteCount = threeBytePlusCount - fourByteCount; // Isolate 3-byte starts by subtracting 4-byte starts.
+                                uint twoByteCount = twoBytePlusCount - threeBytePlusCount; // Isolate 2-byte starts by subtracting 3-byte and 4-byte starts.
 
                                 // Calculate only 2-byte sequence count by excluding 3-byte and 4-byte sequences.
                                 // uint pureTwoByteCount = twoByteCount - threeOrFourByteCount;
@@ -830,35 +846,28 @@ namespace SimdUnicode
 
             return pInputBuffer + inputLength;
         }
-        public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength)
+        public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength,out int Utf16CodeUnitCountAdjustment,out int ScalarCodeUnitCountAdjustment)
         {
 
-            int TailScalarCodeUnitCountAdjustment = 0;
-            int TailUtf16CodeUnitCountAdjustment = 0;
-
-            
-            int SIMDScalarCodeUnitCountAdjustment = 0; // I know this is a horrible variable Iwill try to change it later
-            int SIMDUtf16CodeUnitCountAdjustment = 0;
-
-            if (AdvSimd.Arm64.IsSupported)
-            {
-                return GetPointerToFirstInvalidByteArm64(pInputBuffer, inputLength);
-            }
+            // if (AdvSimd.Arm64.IsSupported)
+            // {
+            //     return GetPointerToFirstInvalidByteArm64(pInputBuffer, inputLength);
+            // }
             if (Avx2.IsSupported)
             {
-                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength,out SIMDUtf16CodeUnitCountAdjustment,out SIMDScalarCodeUnitCountAdjustment);
+                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength,out Utf16CodeUnitCountAdjustment,out ScalarCodeUnitCountAdjustment);
             }
             /*if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
             {
                 return GetPointerToFirstInvalidByteAvx512(pInputBuffer, inputLength);
             }*/
-            if (Ssse3.IsSupported)
-            {
-                return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength);
-            }
+            // if (Ssse3.IsSupported)
+            // {
+            //     return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength);
+            // }
             // return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
 
-            return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+            return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength,out Utf16CodeUnitCountAdjustment,out ScalarCodeUnitCountAdjustment);
 
         }
 
