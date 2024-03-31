@@ -302,10 +302,9 @@ public unsafe class Utf8SIMDValidationTests
     }
 
 
-//  This might seems redundant with but it actually failed PR #17.
-//  The issue is fixed in PR#18 but I thought it a good idea to formally cover it as further changes are possible.
-    // [Fact]
-    public void TooShortTest2(Utf8ValidationDelegate utf8ValidationDelegate)
+
+
+    public void TooShortTest(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
@@ -314,188 +313,49 @@ public unsafe class Utf8SIMDValidationTests
                 // List<byte> oneUTFunit = generator.Generate( howManyUnits:1 ,byteCountInUnit: 2);            
                 byte[] utf8 = generator.Generate(outputLength,byteCountInUnit: 1).ToArray();        
                 
-                        unsafe
-                        {
-                            fixed (byte* pInput = utf8)
+                unsafe
+                {
+                    fixed (byte* pInput = utf8)
+                    {
+
+                        for (int i = 0; i < utf8.Length; i++)
                             {
+                            // int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
+                                int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+                                byte currentByte = utf8[i];
+                                int offset = 0;
 
-                                for (int i = 0; i < utf8.Length; i++)
-                                    {
-                                    // int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
-                                        int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
-                                        byte currentByte = utf8[i];
-                                        int offset = 0,length = 0;
-
-                                    if ((currentByte & 0b11100000) == 0b11000000) { // This is a header byte of a 2-byte sequence
-                                      
-                                    } 
-                                    if ((currentByte & 0b11110000) == 0b11100000) {
-                                        // This is a header byte of a 3-byte sequence
-                                    } 
-                                    if ((currentByte & 0b11111000) == 0b11110000) {
-                                        // This is a header byte of a 4-byte sequence
-                                    }
-
-                                    byte* ThisResult = utf8ValidationDelegate(pInput, i + offset, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
-                                    Assert.True(ThisResult == pInput + offset);
-
-                                // byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(startPtr, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
-
-                                // if (dotnetResult != startPtr + length)
-                                // {
-                                //     // PrintDebugInfo(dotnetResult, startPtr, utf8, "DotnetRuntime fails to return the correct invalid position");
-                                //     return false;
-                                // }
-
-                                byte* simdResult = utf8ValidationDelegate(startPtr, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
-                                if (simdResult != startPtr + length)
-                                {
-                                    // PrintDebugInfo(simdResult, startPtr, utf8, "Our result fails to return the correct invalid position");
-                                    return false;
-                                }
-
-                                return true;
+                            if ((currentByte & 0b11100000) == 0b11000000) { // This is a header byte of a 2-byte sequence
+                                offset = 0;
+                            } 
+                            if ((currentByte & 0b11110000) == 0b11100000) {
+                                // This is a header byte of a 3-byte sequence
+                    
+                                offset = rand.Next(0, 3);
+                            } 
+                            if ((currentByte & 0b11111000) == 0b11110000) {
+                                // This is a header byte of a 4-byte sequence
+                                offset = rand.Next(0, 4);
                             }
 
-                        }    
+                            byte* ThisResult = utf8ValidationDelegate(pInput, i + offset, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+                            Assert.True(ThisResult == pInput + i + offset);
 
+                            byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, i + offset, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+                            Assert.True(dotnetResult == pInput + i + offset);
+                            }
 
-                        //     if ((utf8[i] & 0b11000000) == 0b10000000) // Only process continuation bytes
-                        //     {
-                        //         byte oldByte = utf8[outputLength - 1];
-                        //         utf8[outputLength -1] = oneUTFunit[0];//0b11000000; // Forcing a too short error at the very end
-                        //         // PrintHexAndBinary(utf8);
-                        //         Assert.False(ValidateUtf8(utf8));
-                        //         utf8[outputLength -1] = oldByte; // Restore the original byte
-                            
-                        }
+                    }    
+                }
             }
         }
     }
 
-    // public static IEnumerable<object[]> TestData()
-    // {
-    //     // var utf8CharacterLengths = new[] {  2, 3, 4 }; // UTF-8 characters can be 1-4 bytes.
-    //     return outputLengths.SelectMany(
-    //         outputLength => Enumerable.Range(1, outputLength),
-    //         (outputLength, position) => new object[] { outputLength, position });
-    // }
-
-    // public byte[] PrependAndTake(byte[] first, byte[] second, int takeCount)
-    // {
-    //     // Concatenate 'first' array at the beginning of 'second' array
-    //     var combined = first.Concat(second).ToArray();
-
-    //     // Take the first 'takeCount' elements from the combined array
-    //     return combined.Take(takeCount).ToArray();
-    // }
-
-
-    // [Theory]
-    // [MemberData(nameof(TestData))]
-    // public void TooShortTestEnd(int outputLength, int position)
-    // {
-    //     // ( know this is slow ... but I think for a first pass, it might be ok?)
-    //     byte[] utf8 = generator.Generate(outputLength).ToArray();
-    //     byte[] filler = generator.Generate(howManyUnits: position, byteCountInUnit: 1).ToArray();
-
-
-    //     // Assuming 'prepend' and 'take' logic needs to be applied here as per the pseudocode
-    //     byte[] result = PrependAndTake(filler, utf8, position);
-
-
-    //     if (result[^1] >= 0b11000000)// non-ASCII bytes will provide an error as we're truncating a perfectly good array
-    //     {
-    //         Assert.False(ValidateUtf8(utf8)); // Test the condition
-    //         Assert.True(InvalidateUtf8(utf8,position));
-    //     } 
-
-    //     Assert.True(ValidateUtf8(utf8)); // Test the condition
-
-    // }
-
-    // public List<byte> PrependAndTake(List<byte> first, List<byte> second, int takeCount)
-    // {
-    //     // Concatenate 'first' list at the beginning of 'second' list
-    //     List<byte> combined = new List<byte>(first);
-    //     combined.AddRange(second);
-
-    //     // Take the first 'takeCount' elements from the combined list
-    //     // Ensure we don't exceed the combined list's count
-    //     takeCount = Math.Min(takeCount, combined.Count);
-        
-    //     return combined.GetRange(0, takeCount);
-    // }
-
-
-
-    // // [Theory]
-    // // [MemberData(nameof(TestData))]
-    // [Fact]
-    // public void TooShortTestEnd()
-    // {
-    //     foreach (int outputLength in outputLengths)
-    //     {
-    //         // for (int trial = 0; trial < NumTrials; trial++)
-    //         // {
-    //             List<byte> utf8 = generator.Generate(outputLength);
-
-    //             for (int i = 0; i < utf8.Count; i++)
-    //             {
-    //                 List<byte> filler = generator.Generate(howManyUnits: i, byteCountInUnit: 1);
-
-    //                 // Assuming 'prepend' and 'take' logic needs to be applied here as per the pseudocode
-    //                 byte[] result = PrependAndTake(filler, utf8, i).ToArray();
-
-
-    //                 if (result[^1] >= 0b11000000)// non-ASCII bytes will provide an error as we're truncating a perfectly good array
-    //                 {
-    //                     Assert.False(ValidateUtf8(result)); // Test the condition
-    //                     Assert.True(InvalidateUtf8(result,result.Length));
-    //                 } 
-    //             }
-    //         // }
-    //     }
-
-    //     [Fact]
-    // public void TooLongErrorTestEnd()
-    // {
-    //     foreach (int outputLength in outputLengths)
-    //     {
-    //         for (int trial = 0; trial < NumTrials; trial++)
-    //         {
-    //             byte[] utf8 = generator.Generate(outputLength);
-
-    //             for (int i = 0; i < utf8.Length; i++)
-    //             {
-    //                 if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
-    //                 {
-    //                     byte oldByte = utf8[i];
-    //                     utf8[i] = 0b10000000; // Forcing a too long error
-    //                     Assert.False(ValidateUtf8(utf8));
-    //                     Assert.True(InvalidateUtf8(utf8, i));
-    //                     utf8[i] = oldByte; // Restore the original byte
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    // public static IEnumerable<object[]> InvalidTestData()
-    // {
-    //     var random = new Random();
-    //     foreach (var length in outputLengths)
-    //     {
-    //         for (int trial = 0; trial < NumTrials; trial++)
-    //         {
-    //             int position = random.Next(length  - 3); // Choose a random position
-    //             byte invalidByte = (byte)random.Next(0xF5, 0x100); // Generate a random invalid byte
-
-    //             yield return new object[] { length, position, invalidByte };
-    //         }
-    //     }
-    // }
-
+    [Fact]
+    public void TooShortTestAvx2()
+    {
+        TooShortTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
     public static IEnumerable<object[]> InvalidTestData()
 {
 
@@ -754,32 +614,6 @@ public unsafe class Utf8SIMDValidationTests
             }
         }
     }
-
-    // check that all methods agree that the result is valid
-    // private bool ValidateUtf8(byte[] utf8)
-    // {
-    //     unsafe
-    //     {
-    //         fixed (byte* pInput = utf8)
-    //         {
-    //             byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length);
-    //             if (scalarResult != pInput + utf8.Length)
-    //             {
-    //                 return false;
-    //             }
-
-    //             byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
-    //             if (simdResult != pInput + utf8.Length)
-    //             {
-    //                 return false;
-    //             }
-
-    //             return true;
-    //         }
-    //     }
-    // }
-
-
     private bool ValidateUtf8(byte[] utf8, Range range = default)
     {
 
