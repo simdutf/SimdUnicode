@@ -43,15 +43,16 @@ public unsafe class Utf8SIMDValidationTests
             {
                 fixed (byte* pInput = input)
                 {
-                    int TailScalarCodeUnitCountAdjustment = 0;
-                    int TailUtf16CodeUnitCountAdjustment = 0;
-                    byte* scalarResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
-                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
-                                $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                    // int TailScalarCodeUnitCountAdjustment = 0;
+                    // int TailUtf16CodeUnitCountAdjustment = 0;
+                    // byte* scalarResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, input.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+                    // Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
+                    //             $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                    byte* SIMDResult = utf8ValidationDelegate(pInput, input.Length);
-                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
-                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                    // byte* SIMDResult = utf8ValidationDelegate(pInput, input.Length);
+                    // Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
+                    //             $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                    ValidateUtf8(input);
                 }
             }
         }
@@ -99,15 +100,16 @@ public unsafe class Utf8SIMDValidationTests
             {
                 fixed (byte* pInput = input)
                 {
-                    int TailScalarCodeUnitCountAdjustment = 0;
-                    int TailUtf16CodeUnitCountAdjustment = 0;
-                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
-                                        Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
-                                $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                    // int TailScalarCodeUnitCountAdjustment = 0;
+                    // int TailUtf16CodeUnitCountAdjustment = 0;
+                    // byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+                    //                     Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
+                    //             $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                    byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
-                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                    // byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    // Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
+                    //             $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                    ValidateUtf8(input);
 
                 }
             }
@@ -702,11 +704,13 @@ public unsafe class Utf8SIMDValidationTests
             {
                 int TailScalarCodeUnitCountAdjustment = 0;
                 int TailUtf16CodeUnitCountAdjustment = 0;
+                int SIMDUtf16CodeUnitCountAdjustment, SIMDScalarCountAdjustment;
 
                 byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                 int scalarOffset = (int)(scalarResult - pInput);
-                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
+                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length,out SIMDUtf16CodeUnitCountAdjustment,out SIMDScalarCountAdjustment);
                 int simdOffset = (int)(simdResult - pInput);
+
                 int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
                 byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
                 int dotnetOffset = (int)(dotnetResult - pInput);
@@ -763,23 +767,36 @@ public unsafe class Utf8SIMDValidationTests
                 int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
                 int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
 
-
                 byte* startPtr = pInput + offset;
-                byte* DotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(startPtr, length,out DotnetUtf16Adjustment,out DotnetScalarCountAdjustment);
-                if (DotnetResult != startPtr + length)
+                byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(startPtr, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
+
+                if (dotnetResult != startPtr + length)
                 {
-                    PrintDebugInfo(DotnetResult, startPtr, utf8, "DotnetRuntime  fails to return the correct invalid position");
+                    PrintDebugInfo(dotnetResult, startPtr, utf8, "DotnetRuntime fails to return the correct invalid position");
                 }
 
-                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(startPtr, length, out SimdUnicodeUtf16Adjustment,out SimdUnicodeScalarCountAdjustment);
+                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(startPtr, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
                 if (simdResult != startPtr + length)
                 {
-                    PrintDebugInfo(DotnetResult, startPtr, utf8, "Our result Fails to return the correct invalid position");
+                    PrintDebugInfo(simdResult, startPtr, utf8, "Our result fails to return the correct invalid position");
                 }
-                
 
-                return true;
+                bool utf16AdjustmentsMatch = DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment;
+                bool scalarCountAdjustmentsMatch = DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment;
+
+                if (!utf16AdjustmentsMatch)
+                {
+                    Console.WriteLine($"UTF16 Adjustment mismatch: Expected {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
+                }
+
+                if (!scalarCountAdjustmentsMatch)
+                {
+                    Console.WriteLine($"Scalar Count Adjustment mismatch: Expected {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
+                }
+
+                return utf16AdjustmentsMatch && scalarCountAdjustmentsMatch;
             }
+
         }
     }
 
