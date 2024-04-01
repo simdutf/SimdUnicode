@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 using System.Runtime.Intrinsics.Arm;
-
+using BenchmarkDotNet.Disassemblers;
 
 public unsafe class Utf8SIMDValidationTests
 {
@@ -18,6 +18,89 @@ public unsafe class Utf8SIMDValidationTests
 
     // int[] outputLengths = { 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472, 1536, 1600, 1664, 1728, 1792, 1856, 1920, 1984, 2048, 2112, 2176, 2240, 2304, 2368, 2432, 2496, 2560, 2624, 2688, 2752, 2816, 2880, 2944, 3008, 3072, 3136, 3200, 3264, 3328, 3392, 3456, 3520, 3584, 3648, 3712, 3776, 3840, 3904, 3968, 4032, 4096, 4160, 4224, 4288, 4352, 4416, 4480, 4544, 4608, 4672, 4736, 4800, 4864, 4928, 4992, 5056, 5120, 5184, 5248, 5312, 5376, 5440, 5504, 5568, 5632, 5696, 5760, 5824, 5888, 5952, 6016, 6080, 6144, 6208, 6272, 6336, 6400, 6464, 6528, 6592, 6656, 6720, 6784, 6848, 6912, 6976, 7040, 7104, 7168, 7232, 7296, 7360, 7424, 7488, 7552, 7616, 7680, 7744, 7808, 7872, 7936, 8000, 8064, 8128, 8192, 8256, 8320, 8384, 8448, 8512, 8576, 8640, 8704, 8768, 8832, 8896, 8960, 9024, 9088, 9152, 9216, 9280, 9344, 9408, 9472, 9536, 9600, 9664, 9728, 9792, 9856, 9920, 9984, 10000 };
     static int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
+
+//     public class FactOnArchitectureAttribute : FactAttribute
+// {
+//     public FactOnArchitectureAttribute(System.Runtime.InteropServices.Architecture architecture)
+//     {
+//         if (System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture != architecture)
+//         {
+//             Skip = $"Test is skipped because it runs only on {architecture} architecture";
+//         }
+//     }
+// }
+
+[Flags]
+public enum TestSystemRequirements
+{
+    None = 0,
+    Arm64 = 1,
+    X64Avx512 = 2,
+    X64Avx2 = 4,
+    X64Sse = 8,
+    // Add more as needed
+}
+
+public class FactOnSystemRequirementAttribute : FactAttribute
+{
+    private TestSystemRequirements RequiredSystems;
+
+    public FactOnSystemRequirementAttribute(TestSystemRequirements requiredSystems)
+    {
+        RequiredSystems = requiredSystems;
+
+        if (!IsSystemSupported(requiredSystems))
+        {
+            Skip = "Test is skipped due to not meeting system requirements.";
+        }
+    }
+
+    private bool IsSystemSupported(TestSystemRequirements requiredSystems)
+    {
+        var currentArchitecture = RuntimeInformation.ProcessArchitecture;
+        bool isSupported = false;
+
+        if (currentArchitecture == Architecture.Arm64 && requiredSystems.HasFlag(TestSystemRequirements.Arm64))
+        {
+            isSupported = true;
+        }
+        else if (currentArchitecture == Architecture.X64)
+        {
+            if (requiredSystems.HasFlag(TestSystemRequirements.X64Avx512) && Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512F.IsSupported)
+            {
+                isSupported = true;
+            }
+            else if (requiredSystems.HasFlag(TestSystemRequirements.X64Avx2) && System.Runtime.Intrinsics.X86.Avx2.IsSupported)
+            {
+                isSupported = true;
+            }
+            else if (requiredSystems.HasFlag(TestSystemRequirements.X64Sse) && System.Runtime.Intrinsics.X86.Sse.IsSupported)
+            {
+                isSupported = true;
+            }
+        }
+
+        // Implement other architecture checks as needed
+
+        return isSupported;
+    }
+}
+
+
+    public class TestIfCondition : FactAttribute
+    {
+        public TestIfCondition(Func<bool> condition, string skipReason)
+        {
+            // if (condition == null) throw new ArgumentNullException(nameof(condition));
+
+            // Only set the Skip property if the condition evaluates to false
+            if (!condition.Invoke())
+            {
+                Skip = skipReason;
+            }
+        }
+    }
+
 
     
     public void TestGoodSequences(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -186,19 +269,38 @@ public unsafe class Utf8SIMDValidationTests
         
     }
 
-     [Fact]
+    // [FactOnArchitecture(System.Runtime.InteropServices.Architecture.X64)]
+    // [TestIfCondition(RuntimeInformation.ProcessArchitecture == Architecture.X64,"a reason")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
     [Trait("Category", "scalar")]
     public void TooShortErrorTestScalar()
     {
         TooShortErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
-    // Uncomment when SSE is updated
+    // TODO:Uncomment when SSE is updated
+    // [FactOnArchitecture(System.Runtime.InteropServices.Architecture.X64)]
     // [Fact]
     // [Trait("Category", "sse")]
     // public void TooShortErrorTestSse()
     // {
     //     TooShortErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [Fact]
+    // [Trait("Category", "avx512")]
+    // public void TooShortErrorTestSse()
+    // {
+    //     TooShortErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnArchitecture(System.Runtime.InteropServices.Architecture.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void TooShortErrorTestArm64()
+    // {
+    //     TooShortErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     // }
 
     [Fact]
