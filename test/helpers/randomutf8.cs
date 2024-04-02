@@ -135,12 +135,6 @@ public class RandomUtf8
 
     public void ReplaceEndOfArray(byte[] original, byte[] replacement)//, int startIndex)
     {
-        // // Check if the startIndex is within the bounds of the original array
-        // if (startIndex < 0 || startIndex > original.Length)
-        // {
-        //     throw new ArgumentOutOfRangeException(nameof(startIndex), "Start index is out of the range of the original array.");
-        // }
-
                 // Calculate the start index for replacement
         int startIndex = original.Length - replacement.Length;
 
