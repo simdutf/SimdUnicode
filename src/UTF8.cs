@@ -17,7 +17,7 @@ namespace SimdUnicode
             for (int i = 0; i <= howFarBack; i++)
             {
                 byte b = buf[0 - i];
-                foundLeadingBytes = ((b & 0b11000000) != 0b10000000);
+                foundLeadingBytes = (b & 0b11000000) != 0b10000000;
                 if (foundLeadingBytes)
                 {
                     buf -= i;
@@ -647,22 +647,23 @@ namespace SimdUnicode
                             int candidateByte = pInputBuffer[processedLength + k];
                             if ((pInputBuffer[processedLength + k] & 0b11000000) == 0b11000000)
                             {
+                                if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+                                {
+                                    TempUtf16CodeUnitCountAdjustment += 1; 
+                                }
                                 if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
                                 {
-                                    TempUtf16CodeUnitCountAdjustment += 1; // Still adjusts for a single UTF-16 unit
+                                    TempUtf16CodeUnitCountAdjustment += 2; 
                                 }
                                 if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
                                 {
-                                    TempUtf16CodeUnitCountAdjustment += 1; // Adjusts for two UTF-16 units (surrogate pair)
-                                    TempScalarCountAdjustment += 1; // Adjust for one scalar value
-                                }
-                                if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
-                                {
-                                    TempUtf16CodeUnitCountAdjustment += 1; // Adjust for a single UTF-16 unit
+                                    TempUtf16CodeUnitCountAdjustment += 2;
+                                    TempScalarCountAdjustment += 1;
                                 }
 
+
                                 processedLength += k;
-                                break;
+                                // break;
 
                             }
 
@@ -677,7 +678,7 @@ namespace SimdUnicode
             // Process the remaining bytes with the scalar function
             if (processedLength < inputLength)
             {
-                // We need to possibly backtrack to the start of the last code point
+                // // We need to possibly backtrack to the start of the last code point
                 while (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
                 {
                     processedLength -= 1;
