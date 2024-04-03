@@ -9,8 +9,12 @@ namespace SimdUnicode
     public static class UTF8
     {
 
-        public unsafe static byte* RewindAndValidateWithErrors(int priorBytes, byte* buf, int len)
+        public unsafe static byte* RewindAndValidateWithErrors(int priorBytes, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
         {
+
+            int TempUtf16CodeUnitCountAdjustment = 0;
+            int TempScalarCountAdjustment = 0;
+
             int howFarBack = priorBytes;
             int extraLen = 0;
             bool foundLeadingBytes = false;
@@ -27,13 +31,20 @@ namespace SimdUnicode
             }
             if (!foundLeadingBytes)
             {
+                utf16CodeUnitCountAdjustment += TempUtf16CodeUnitCountAdjustment;
+                scalarCountAdjustment += TempScalarCountAdjustment;
                 return buf - howFarBack;
             }
+
+            // TODO : fix Count handling here
 
 
             // Now buf points to the start of a UTF-8 sequence or the start of the buffer.
             // Validate from this new start point with the adjusted length.
-            byte* invalidByte = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
+            byte* invalidByte = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out TempUtf16CodeUnitCountAdjustment, out TempScalarCountAdjustment);
+
+            utf16CodeUnitCountAdjustment += TempUtf16CodeUnitCountAdjustment;
+            scalarCountAdjustment += TempScalarCountAdjustment;
 
             return invalidByte;
         }
@@ -516,7 +527,7 @@ namespace SimdUnicode
                             {
 
                             // TODO/think about : this path iss not explicitly tested
-                            Console.WriteLine("----Checkpoint 1:All ASCII need rewind");
+                            // Console.WriteLine("----Checkpoint 1:All ASCII need rewind");
                                 utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TempScalarCountAdjustment;
 
@@ -636,7 +647,7 @@ namespace SimdUnicode
                     if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                     {
 
-                        Console.WriteLine("----Checkpoint 2:SIMD rewind");
+                        // Console.WriteLine("----Checkpoint 2:SIMD rewind");
                         // We have an unterminated sequence.
                         processedLength -= 3;
                         for(int k = 0; k < 3; k++)
@@ -669,7 +680,7 @@ namespace SimdUnicode
             if (processedLength < inputLength)
             {
 
-                Console.WriteLine("----Process remaining Scalar");
+                // Console.WriteLine("----Process remaining Scalar");
                 int overlapCount = 0;
 
                 // // We need to possibly backtrack to the start of the last code point
