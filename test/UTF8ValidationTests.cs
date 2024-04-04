@@ -871,13 +871,7 @@ public unsafe class Utf8SIMDValidationTests
 
     [Fact]
     [Trait("Category", "avx")]
-    public void TooLargeErrorAVX()
-    {
-        TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
-    }
-
-    [Fact]
-    public void TooLargeErrorAvx2()
+    public void TooLargeErrorAvx()
     {
         TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
@@ -1298,6 +1292,62 @@ public unsafe class Utf8SIMDValidationTests
             }
         // }
     }
+
+    [Fact]
+    [Trait("Category", "Scalar")]
+    public void DotnetUTF16Count()
+    {
+        int[] outputLengths = { 10, 15, 11,12 ,15,15,1, 3, 5, 8, 10, 12, 15, 18 };
+        int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
+        int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+
+
+        foreach (int outputLength in outputLengths)
+        {
+            // Generate a UTF-8 sequence with 3 units, each 2 bytes long, presumed to be valid.
+            // byte[] utf8 = generator.Generate(howManyUnits: 11, byteCountInUnit: 3).ToArray();
+            byte[] utf8 = generator.Generate(howManyUnits: outputLength).ToArray();
+            PrintHexAndBinary(utf8);
+            var (offset, length) = (0, utf8.Length);
+
+            unsafe
+            {
+                fixed (byte* pInput = utf8)
+                {
+                    byte* startPtr = pInput + offset;
+                    // Invoke the method under test.
+
+                    DotnetUtf16Adjustment= 0; 
+                    DotnetScalarCountAdjustment= 0;
+                    DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
+
+                    SimdUnicodeUtf16Adjustment= 0; 
+                    SimdUnicodeScalarCountAdjustment= 0;
+                    SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+
+                    Console.WriteLine("Lenght:" + utf8.Length);
+
+                    Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
+                    Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
+
+                    Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
+                    Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
+                    Console.WriteLine("___________________________________________________");
+
+
+                    Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
+                    Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
+
+
+
+
+                    // If your generator creates specific patterns or the utility calculates these adjustments differently,
+                    // you'll need to adjust the expected values accordingly.
+                }
+            }
+        }
+    }
+
 
 }
 
