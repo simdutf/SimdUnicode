@@ -28,7 +28,6 @@ namespace SimdUnicode
                 if (foundLeadingBytes)
                 {
  
-                    
                     if ((b & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
                     {
                         TempUtf16CodeUnitCountAdjustment += 1; 
@@ -42,7 +41,6 @@ namespace SimdUnicode
                         TempUtf16CodeUnitCountAdjustment += 2;
                         TempScalarCountAdjustment += 1;
                     }
-                    
                     
                     buf -= i;
                     extraLen = i;
@@ -66,8 +64,8 @@ namespace SimdUnicode
             // Validate from this new start point with the adjusted length.
             byte* invalidByte = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out TailUtf16CodeUnitCountAdjustment, out TailScalarCountAdjustment);
 
-            utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
-            scalarCountAdjustment += TailScalarCountAdjustment;
+            utf16CodeUnitCountAdjustment = TailUtf16CodeUnitCountAdjustment;
+            scalarCountAdjustment = TailScalarCountAdjustment;
 
             return invalidByte;
         }
