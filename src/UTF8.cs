@@ -9,22 +9,21 @@ namespace SimdUnicode
     public static class UTF8
     {
 
-        public unsafe static byte* RewindAndValidateWithErrors(int offset, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
+        public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
         {
 
             int TempUtf16CodeUnitCountAdjustment = 0;
             int TempScalarCountAdjustment = 0;
 
-            int howFarBack = offset;
             int extraLen = 0;
             bool foundLeadingBytes = false;
-            for (int i = 0; i <= howFarBack; i++)
+
+            for (int i = 0; i < howFarBack; i++)
             {
                 byte candidateByte = buf[0 - i];
                 foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
                 if (foundLeadingBytes)
                 {
- 
                     // adjustment to avoid double counting 
                     if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
                     {
@@ -39,7 +38,17 @@ namespace SimdUnicode
                         TempUtf16CodeUnitCountAdjustment += 2;
                         TempScalarCountAdjustment += 1;
                     }
-                    
+                    break;
+                }
+            }
+
+
+            for (int i = 0; i <= howFarBack; i++)
+            {
+                byte candidateByte = buf[0 - i];
+                foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
+                if (foundLeadingBytes)
+                {         
                     buf -= i;
                     extraLen = i;
                     break;
@@ -64,6 +73,9 @@ namespace SimdUnicode
 
             utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
             scalarCountAdjustment += TailScalarCountAdjustment;
+
+            Console.WriteLine("utf16count after rewint:" + utf16CodeUnitCountAdjustment);
+            Console.WriteLine("scalarcount after rewint:" + scalarCountAdjustment);
 
             return invalidBytePointer;
         }
@@ -651,6 +663,8 @@ namespace SimdUnicode
 
                                 utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment +TailUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
+
+
  
                                 return invalidBytePointer;
 
