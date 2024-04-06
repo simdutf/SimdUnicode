@@ -798,16 +798,55 @@ public unsafe class Utf8SIMDValidationTests
     }
 
             // Prints both hexadecimal and binary representations of a byte array
-    static void PrintHexAndBinary(byte[] bytes)
-    {
-        // Convert to hexadecimal
-        string hexRepresentation = BitConverter.ToString(bytes).Replace("-", " ");
-        Console.WriteLine($"Hex: {hexRepresentation}");
+    // static void PrintHexAndBinary(byte[] bytes)
+    // {
+    //     // Convert to hexadecimal
+    //     string hexRepresentation = BitConverter.ToString(bytes).Replace("-", " ");
+    //     Console.WriteLine($"Hex: {hexRepresentation}");
 
-        // Convert to binary
-        string binaryRepresentation = string.Join(" ", Array.ConvertAll(bytes, byteValue => Convert.ToString(byteValue, 2).PadLeft(8, '0')));
-        Console.WriteLine($"Binary: {binaryRepresentation}");
+    //     // Convert to binary
+    //     string binaryRepresentation = string.Join(" ", Array.ConvertAll(bytes, byteValue => Convert.ToString(byteValue, 2).PadLeft(8, '0')));
+    //     Console.WriteLine($"Binary: {binaryRepresentation}");
+    // }
+
+    static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
+{
+    // Convert to hexadecimal
+    Console.Write("Hex: ");
+    for (int i = 0; i < bytes.Length; i++)
+    {
+        if (i == highlightIndex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{bytes[i]:X2} ");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.Write($"{bytes[i]:X2} ");
+        }
     }
+    Console.WriteLine(); // New line for readability
+
+    // Convert to binary
+    Console.Write("Binary: ");
+    for (int i = 0; i < bytes.Length; i++)
+    {
+        string binaryString = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
+        if (i == highlightIndex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{binaryString} ");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.Write($"{binaryString} ");
+        }
+    }
+    Console.WriteLine(); // New line for readability
+}
+
 
 
     public void TooLargeError(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -1255,43 +1294,85 @@ public unsafe class Utf8SIMDValidationTests
 
 
     
-        public void ValidateCount(byte[] utf8,Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+    //     public void ValidateCount(byte[] utf8,Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+    // {
+    //     int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
+    //     int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+
+    //         var isDefaultRange = range.Equals(default(Range));
+    //         var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
+
+    //         unsafe
+    //         {
+    //             fixed (byte* pInput = utf8)
+    //             {
+    //                 byte* startPtr = pInput + offset;
+    //                 // Invoke the method under test.
+
+    //                 DotnetUtf16Adjustment= 0; 
+    //                 DotnetScalarCountAdjustment= 0;
+    //                 DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
+
+    //                 SimdUnicodeUtf16Adjustment= 0; 
+    //                 SimdUnicodeScalarCountAdjustment= 0;
+    //                 utf8ValidationDelegate(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+
+    //                 // Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
+    //                 // Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
+
+    //                 // Console.WriteLine("Lenght:" + utf8.Length);
+    //                 // Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
+    //                 // Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
+    //                 // Console.WriteLine("___________________________________________________");
+
+    //                 Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
+    //                 Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
+    //             }
+    //         }
+    //     // }
+    // }
+
+    public void ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+{
+    int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
+    int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+
+    var isDefaultRange = range.Equals(default(Range));
+    var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
+
+    unsafe
     {
-        int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
-        int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+        fixed (byte* pInput = utf8)
+        {
+            byte* startPtr = pInput + offset;
 
-            var isDefaultRange = range.Equals(default(Range));
-            var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
+            DotnetUtf16Adjustment = 0;
+            DotnetScalarCountAdjustment = 0;
+            DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
 
-            unsafe
+            SimdUnicodeUtf16Adjustment = 0;
+            SimdUnicodeScalarCountAdjustment = 0;
+            byte* simdResult = utf8ValidationDelegate(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+
+            // Determine the index of the invalid byte if simdResult doesn't point to the end.
+            int failureIndex = simdResult != pInput + length ? (int)(simdResult - pInput) : -1;
+
+            try
             {
-                fixed (byte* pInput = utf8)
-                {
-                    byte* startPtr = pInput + offset;
-                    // Invoke the method under test.
-
-                    DotnetUtf16Adjustment= 0; 
-                    DotnetScalarCountAdjustment= 0;
-                    DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
-
-                    SimdUnicodeUtf16Adjustment= 0; 
-                    SimdUnicodeScalarCountAdjustment= 0;
-                    utf8ValidationDelegate(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
-
-                    // Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
-                    // Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
-
-                    // Console.WriteLine("Lenght:" + utf8.Length);
-                    // Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
-                    // Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
-                    // Console.WriteLine("___________________________________________________");
-
-                    Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
-                    Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
-                }
+                Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
+                Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
             }
-        // }
+            catch (Exception)
+            {
+                // Upon failure, print the utf8 array for inspection
+                Console.WriteLine("Assertion failed. Inspecting utf8 array:");
+                PrintHexAndBinary(utf8,failureIndex); 
+                throw; // Re-throw the exception to preserve the failure state
+            }
+        }
     }
+}
+
 
     [Fact]
     [Trait("Category", "Scalar")]
