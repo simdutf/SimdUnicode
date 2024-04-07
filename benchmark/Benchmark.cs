@@ -183,7 +183,7 @@ namespace SimdUnicodeBenchmarks
         {
             if (allLinesUtf8 != null)
             {
-                RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByte);
+                // RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByte);
             }
         }
 
@@ -223,15 +223,15 @@ namespace SimdUnicodeBenchmarks
                 RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
             }
         }
-        [Benchmark]
-        [BenchmarkCategory("avx")]
-        public unsafe void SIMDUtf8ValidationRealDataAvx2()
-        {
-            if (allLinesUtf8 != null)
-            {
-                RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
-            }
-        }
+        // [Benchmark]
+        // [BenchmarkCategory("avx")]
+        // public unsafe void SIMDUtf8ValidationRealDataAvx2()
+        // {
+        //     if (allLinesUtf8 != null)
+        //     {
+        //         RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+        //     }
+        // }
         [Benchmark]
         [BenchmarkCategory("sse")]
         public unsafe void SIMDUtf8ValidationRealDataSse()

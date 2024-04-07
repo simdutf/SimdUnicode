@@ -18,23 +18,28 @@ namespace SimdUnicode
             int extraLen = 0;
             bool foundLeadingBytes = false;
 
-            for (int i = 0; i < howFarBack; i++)
+            for (int i = 0; i <= howFarBack; i++)
             {
                 byte candidateByte = buf[0 - i];
                 foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
                 if (foundLeadingBytes)
                 {
+                    if (i == 0) {break;}
+                    Console.WriteLine("Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
                     // adjustment to avoid double counting 
                     if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
                     {
+                        Console.WriteLine("Found 2 byte");
                         TempUtf16CodeUnitCountAdjustment += 1; 
                     }
                     if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
                     {
+                        Console.WriteLine("Found 3 byte");
                         TempUtf16CodeUnitCountAdjustment += 2; 
                     }
                     if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
                     {
+                        Console.WriteLine("Found 4 byte");
                         TempUtf16CodeUnitCountAdjustment += 2;
                         TempScalarCountAdjustment += 1;
                     }
@@ -74,8 +79,11 @@ namespace SimdUnicode
             utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
             scalarCountAdjustment += TailScalarCountAdjustment;
 
-            Console.WriteLine("utf16count after rewint:" + utf16CodeUnitCountAdjustment);
-            Console.WriteLine("scalarcount after rewint:" + scalarCountAdjustment);
+            Console.WriteLine("utf16count after rewint(Temp):" + TempUtf16CodeUnitCountAdjustment);
+            Console.WriteLine("scalarcount after rewint:" + TempScalarCountAdjustment);
+
+            Console.WriteLine("utf16count after rewint(Scalar):" + TailUtf16CodeUnitCountAdjustment);
+            Console.WriteLine("scalarcount after rewint:" + TailScalarCountAdjustment);
 
             return invalidBytePointer;
         }
@@ -620,11 +628,7 @@ namespace SimdUnicode
                                 uint threeByteCount = threeBytePlusCount - fourByteCount; // Isolate 3-byte starts by subtracting 4-byte starts.
                                 uint twoByteCount = twoBytePlusCount - threeBytePlusCount; // Isolate 2-byte starts by subtracting 3-byte and 4-byte starts.
 
-                                // Adjustments
-                                TempUtf16CodeUnitCountAdjustment -= (int)fourByteCount * 2; 
-                                TempUtf16CodeUnitCountAdjustment -= (int)twoByteCount; 
-                                TempUtf16CodeUnitCountAdjustment -= (int)threeByteCount *2; 
-                                TempScalarCountAdjustment -= (int)fourByteCount; 
+
 
                             Vector256<byte> shuffled = Avx2.Permute2x128(prevInputBlock, currentBlock, 0x21);
                             prevInputBlock = currentBlock;
@@ -649,17 +653,19 @@ namespace SimdUnicode
                                 TailUtf16CodeUnitCountAdjustment =0;
 
 
-                                int off = processedLength >= 32 ? processedLength - 32 : 0;//processedLength;
-                                // Console.WriteLine(off);
+                                int off = processedLength >= 32 ? processedLength : 0;//processedLength;
+
+                                Console.WriteLine("This is off :" + off);
                                 // return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
                                 // byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
                                 byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
 
+                                // byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer,processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                                 // Adjustments not to double count
-                                TempUtf16CodeUnitCountAdjustment += (int)fourByteCount * 2; 
-                                TempUtf16CodeUnitCountAdjustment += (int)twoByteCount; 
-                                TempUtf16CodeUnitCountAdjustment += (int)threeByteCount *2; 
-                                TempScalarCountAdjustment += (int)fourByteCount; 
+                                // TempUtf16CodeUnitCountAdjustment += (int)fourByteCount * 2; 
+                                // TempUtf16CodeUnitCountAdjustment += (int)twoByteCount; 
+                                // TempUtf16CodeUnitCountAdjustment += (int)threeByteCount *2; 
+                                // TempScalarCountAdjustment += (int)fourByteCount; 
 
                                 utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment +TailUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
@@ -669,6 +675,12 @@ namespace SimdUnicode
                                 return invalidBytePointer;
 
                             }
+                                // Adjustments
+                                TempUtf16CodeUnitCountAdjustment -= (int)fourByteCount * 2; 
+                                TempUtf16CodeUnitCountAdjustment -= (int)twoByteCount; 
+                                TempUtf16CodeUnitCountAdjustment -= (int)threeByteCount *2; 
+                                TempScalarCountAdjustment -= (int)fourByteCount; 
+
                             prevIncomplete = Avx2.SubtractSaturate(currentBlock, maxValue);
                         }
                     }

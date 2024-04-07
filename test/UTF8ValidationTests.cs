@@ -387,6 +387,7 @@ public unsafe class Utf8SIMDValidationTests
     {
         BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
+    
 
     // TODO:Uncomment when SSE is updated
     // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
@@ -487,7 +488,9 @@ public unsafe class Utf8SIMDValidationTests
     public void TooLongError(Utf8ValidationDelegate utf8ValidationDelegate)
     {
 
-        int[] outputLengths = { 128, 256, 512, 1024 }; // Example lengths
+        // int[] outputLengths = { 128, 256, 512, 1024 }; // Example lengths
+//  int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
+
 
         foreach (int outputLength in outputLengths)
         {
@@ -809,12 +812,55 @@ public unsafe class Utf8SIMDValidationTests
     //     Console.WriteLine($"Binary: {binaryRepresentation}");
     // }
 
-    static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
+//     static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
+// {
+//     // Convert to hexadecimal
+//     Console.Write("Hex: ");
+//     for (int i = 0; i < bytes.Length; i++)
+//     {
+//         if (i == highlightIndex)
+//         {
+//             Console.ForegroundColor = ConsoleColor.Red;
+//             Console.Write($"{bytes[i]:X2} ");
+//             Console.ResetColor();
+//         }
+//         else
+//         {
+//             Console.Write($"{bytes[i]:X2} ");
+//         }
+//     }
+//     Console.WriteLine(); // New line for readability
+
+//     // Convert to binary
+//     Console.Write("Binary: ");
+//     for (int i = 0; i < bytes.Length; i++)
+//     {
+//         string binaryString = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
+//         if (i == highlightIndex)
+//         {
+//             Console.ForegroundColor = ConsoleColor.Red;
+//             Console.Write($"{binaryString} ");
+//             Console.ResetColor();
+//         }
+//         else
+//         {
+//             Console.Write($"{binaryString} ");
+//         }
+//     }
+//     Console.WriteLine(); // New line for readability
+// }
+
+static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 {
-    // Convert to hexadecimal
+    int chunkSize = 16; // 128 bits = 16 bytes
+
+    // Process each chunk for hexadecimal
     Console.Write("Hex: ");
     for (int i = 0; i < bytes.Length; i++)
     {
+        if (i > 0 && i % chunkSize == 0)
+            Console.WriteLine(); // New line after every 16 bytes
+        
         if (i == highlightIndex)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -825,13 +871,18 @@ public unsafe class Utf8SIMDValidationTests
         {
             Console.Write($"{bytes[i]:X2} ");
         }
-    }
-    Console.WriteLine(); // New line for readability
 
-    // Convert to binary
+        if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
+    }
+    Console.WriteLine("\n"); // New line for readability and to separate hex from binary
+
+    // Process each chunk for binary
     Console.Write("Binary: ");
     for (int i = 0; i < bytes.Length; i++)
     {
+        if (i > 0 && i % chunkSize == 0)
+            Console.WriteLine(); // New line after every 16 bytes
+
         string binaryString = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
         if (i == highlightIndex)
         {
@@ -843,10 +894,11 @@ public unsafe class Utf8SIMDValidationTests
         {
             Console.Write($"{binaryString} ");
         }
+
+        if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
     }
     Console.WriteLine(); // New line for readability
 }
-
 
 
     public void TooLargeError(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -854,8 +906,11 @@ public unsafe class Utf8SIMDValidationTests
         foreach (int outputLength in outputLengths)
         {
 
+
+       Console.WriteLine("Outputlength:" + outputLength);
             for (int trial = 0; trial < NumTrials; trial++)
             {
+                Console.WriteLine("trial:",trial);
 
                 byte[] utf8 = generator.Generate(outputLength).ToArray();
 
