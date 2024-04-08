@@ -25,21 +25,21 @@ namespace SimdUnicode
                 if (foundLeadingBytes)
                 {
                     if (i == 0) {break;}
-                    Console.WriteLine("Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
+                    // Console.WriteLine("Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
                     // adjustment to avoid double counting 
                     if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
                     {
-                        Console.WriteLine("Found 2 byte");
+                        // Console.WriteLine("Found 2 byte");
                         TempUtf16CodeUnitCountAdjustment += 1; 
                     }
                     if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
                     {
-                        Console.WriteLine("Found 3 byte");
+                        // Console.WriteLine("Found 3 byte");
                         TempUtf16CodeUnitCountAdjustment += 2; 
                     }
                     if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
                     {
-                        Console.WriteLine("Found 4 byte");
+                        // Console.WriteLine("Found 4 byte");
                         TempUtf16CodeUnitCountAdjustment += 2;
                         TempScalarCountAdjustment += 1;
                     }
@@ -79,11 +79,11 @@ namespace SimdUnicode
             utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
             scalarCountAdjustment += TailScalarCountAdjustment;
 
-            Console.WriteLine("utf16count after rewint(Temp):" + TempUtf16CodeUnitCountAdjustment);
-            Console.WriteLine("scalarcount after rewint:" + TempScalarCountAdjustment);
+            // Console.WriteLine("utf16count after rewint(Temp):" + TempUtf16CodeUnitCountAdjustment);
+            // Console.WriteLine("scalarcount after rewint:" + TempScalarCountAdjustment);
 
-            Console.WriteLine("utf16count after rewint(Scalar):" + TailUtf16CodeUnitCountAdjustment);
-            Console.WriteLine("scalarcount after rewint:" + TailScalarCountAdjustment);
+            // Console.WriteLine("utf16count after rewint(Scalar):" + TailUtf16CodeUnitCountAdjustment);
+            // Console.WriteLine("scalarcount after rewint:" + TailScalarCountAdjustment);
 
             return invalidBytePointer;
         }
@@ -415,7 +415,7 @@ namespace SimdUnicode
 
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-            Console.WriteLine("--------------------------Calling function----------------------------------");
+            // Console.WriteLine("--------------------------Calling function----------------------------------");
             int processedLength = 0;
             int TempUtf16CodeUnitCountAdjustment= 0 ;
             int TempScalarCountAdjustment = 0;
@@ -568,7 +568,7 @@ namespace SimdUnicode
                             {
 
                             // TODO/think about : this path iss not explicitly tested
-                            Console.WriteLine("----Checkpoint 1:All ASCII need rewind");
+                            // Console.WriteLine("----Checkpoint 1:All ASCII need rewind");
                                 utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TempScalarCountAdjustment;
 
@@ -648,17 +648,17 @@ namespace SimdUnicode
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
                             if (!Avx2.TestZ(error, error)) //context: we are dealing with a 32 bit 
                             {
-                                Console.WriteLine("-----Error path!!");
+                                // Console.WriteLine("-----Error path!!");
                                 TailScalarCodeUnitCountAdjustment =0;
                                 TailUtf16CodeUnitCountAdjustment =0;
 
 
-                                int off = processedLength >= 32 ? processedLength : 0;//processedLength;
+                                int off = processedLength >= 32 ? processedLength : processedLength;
 
-                                Console.WriteLine("This is off :" + off);
+                                // Console.WriteLine("This is off :" + off);
                                 // return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
                                 // byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
-                                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
+                                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
 
                                 // byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer,processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
                                 // Adjustments not to double count
@@ -688,7 +688,7 @@ namespace SimdUnicode
                     if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                     {
 
-                        Console.WriteLine("----Checkpoint 2:SIMD rewind");
+                        // Console.WriteLine("----Checkpoint 2:SIMD rewind");
                         // We have an unterminated sequence.
                         processedLength -= 3;
                         for(int k = 0; k < 3; k++)
@@ -721,7 +721,7 @@ namespace SimdUnicode
             if (processedLength < inputLength)
             {
 
-                Console.WriteLine("----Process remaining Scalar");
+                // Console.WriteLine("----Process remaining Scalar");
                 int overlapCount = 0;
 
                 // // We need to possibly backtrack to the start of the last code point
