@@ -641,6 +641,38 @@ namespace SimdUnicode
                             TempScalarCountAdjustment -= (int)fourByteCount; 
 
                             prevIncomplete = Avx2.SubtractSaturate(currentBlock, maxValue);
+
+                            if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
+                            {
+                                // We have an unterminated sequence.
+                                processedLength -= 3;
+                                for(int k = 0; k < 3; k++)
+                                {
+                                    int candidateByte = pInputBuffer[processedLength + k];
+                                    if ((candidateByte & 0b11000000) == 0b11000000)
+                                    {
+                                        // if (k != 0)
+                                        if (true)
+                                        {
+                                            if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+                                            {
+                                                TempUtf16CodeUnitCountAdjustment += 1; 
+                                            }
+                                            if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
+                                            {
+                                                TempUtf16CodeUnitCountAdjustment += 2; 
+                                            }
+                                            if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
+                                            {
+                                                TempUtf16CodeUnitCountAdjustment += 2;
+                                                TempScalarCountAdjustment += 1;
+                                            }
+                                        }
+                                        processedLength += k;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
