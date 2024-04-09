@@ -435,9 +435,19 @@ public unsafe class Utf8SIMDValidationTests
                     {
                         byte oldByte = utf8[i];
                         utf8[i] = 0b11100000; // Forcing a too short error
+                    try
+                    {
                         Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
                         Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
-                        ValidateCount(utf8,utf8ValidationDelegate);
+                        ValidateCount(utf8,utf8ValidationDelegate); // Ensure you want to call this here, it seems unrelated to exception handling.
+                    }
+                    catch (Xunit.Sdk.XunitException)
+                    {
+                        Console.WriteLine($"Assertion failed at index: {i}");
+                        PrintHexAndBinary(utf8, i);
+                        utf8[i] = oldByte; // Restore the original byte
+                        throw; // Rethrow the exception to fail the test.
+                    }
                         utf8[i] = oldByte; // Restore the original byte
                     }
                 }
@@ -800,56 +810,6 @@ public unsafe class Utf8SIMDValidationTests
         Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
-            // Prints both hexadecimal and binary representations of a byte array
-    // static void PrintHexAndBinary(byte[] bytes)
-    // {
-    //     // Convert to hexadecimal
-    //     string hexRepresentation = BitConverter.ToString(bytes).Replace("-", " ");
-    //     Console.WriteLine($"Hex: {hexRepresentation}");
-
-    //     // Convert to binary
-    //     string binaryRepresentation = string.Join(" ", Array.ConvertAll(bytes, byteValue => Convert.ToString(byteValue, 2).PadLeft(8, '0')));
-    //     Console.WriteLine($"Binary: {binaryRepresentation}");
-    // }
-
-//     static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
-// {
-//     // Convert to hexadecimal
-//     Console.Write("Hex: ");
-//     for (int i = 0; i < bytes.Length; i++)
-//     {
-//         if (i == highlightIndex)
-//         {
-//             Console.ForegroundColor = ConsoleColor.Red;
-//             Console.Write($"{bytes[i]:X2} ");
-//             Console.ResetColor();
-//         }
-//         else
-//         {
-//             Console.Write($"{bytes[i]:X2} ");
-//         }
-//     }
-//     Console.WriteLine(); // New line for readability
-
-//     // Convert to binary
-//     Console.Write("Binary: ");
-//     for (int i = 0; i < bytes.Length; i++)
-//     {
-//         string binaryString = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
-//         if (i == highlightIndex)
-//         {
-//             Console.ForegroundColor = ConsoleColor.Red;
-//             Console.Write($"{binaryString} ");
-//             Console.ResetColor();
-//         }
-//         else
-//         {
-//             Console.Write($"{binaryString} ");
-//         }
-//     }
-//     Console.WriteLine(); // New line for readability
-// }
-
 static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 {
     int chunkSize = 16; // 128 bits = 16 bytes
@@ -905,13 +865,8 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
     {
         foreach (int outputLength in outputLengths)
         {
-
-
-       Console.WriteLine("Outputlength:" + outputLength);
             for (int trial = 0; trial < NumTrials; trial++)
             {
-                Console.WriteLine("trial:",trial);
-
                 byte[] utf8 = generator.Generate(outputLength).ToArray();
 
                 for (int i = 0; i < utf8.Length; i++)

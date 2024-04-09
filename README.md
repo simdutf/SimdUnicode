@@ -43,8 +43,16 @@ To run specific tests, it is helpful to use the filter parameter:
 
 
 ```
-dotnet test --filter Ascii
+dotnet test --filter TooShortErrorAVX
 ```
+
+Or to target specific categories:
+
+```
+dotnet test --filter "Category=scalar"
+```
+
+
 
 ## Running Benchmarks
 

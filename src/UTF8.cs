@@ -190,16 +190,10 @@ namespace SimdUnicode
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + pos; } // Too short
-                    // if (pInputBuffer[pos + 3] < 0b10000000) { 
-                    //     TempUtf16CodeUnitCountAdjustment -= 1;
-                    // } else {
-                    //     TempUtf16CodeUnitCountAdjustment -= 2;
-                    // }
                     TempUtf16CodeUnitCountAdjustment -= 2;
                 }
                 else if ((firstByte & 0b11111000) == 0b11110000)
-                { // 0b11110000
-
+                { 
                     nextPos = pos + 4;
                     if (nextPos > inputLength) { 
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
@@ -226,9 +220,6 @@ namespace SimdUnicode
                         return pInputBuffer + pos; }
                     TempUtf16CodeUnitCountAdjustment -= 2;
                     TempScalarCountAdjustment -= 1;
-
-
-
                 }
                 else
                 {
@@ -525,35 +516,8 @@ namespace SimdUnicode
                     Vector256<byte> thirdByte = Vector256.Create((byte)(0b11100000u - 0x80));
                     Vector256<byte> fourthByte = Vector256.Create((byte)(0b11110000u - 0x80));
 
-                    // // Mask for the lower and upper parts of the vector
-                    // Vector128<byte> lowerMask = Vector128.Create(
-                    //     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-                    //     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF).AsByte();
-
-                    // Vector128<byte> upperMask = Vector128.Create(
-                    //     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-                    //     0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00).AsByte();
-
-                    // // Combine lower and upper masks into a Vector256<byte>
-                    // Vector256<byte> mask = Vector256.Create(lowerMask, upperMask);
-
-                    // // Apply the mask to zero out the last 3 bytes of each vector
-                    // Vector256<byte> secondByteMasked = Avx2.And(secondByte, mask);
-                    // Vector256<byte> thirdByteMasked = Avx2.And(thirdByte, mask);
-                    // Vector256<byte> fourthByteMasked = Avx2.And(fourthByte, mask);
-
-
                     Vector256<byte> v0f = Vector256.Create((byte)0x0F);
                     Vector256<byte> v80 = Vector256.Create((byte)0x80);
-
-                                                                    // Vector to identify bytes right before the start of a 4-byte sequence in UTF-8.
-                        // Vector256<byte> beforeFourByteMarker = Vector256.Create((byte)(0xF0 - 1));
-                        // // Vector to identify bytes right before the start of a 3-byte sequence in UTF-8.
-                        // Vector256<byte> beforeThreeByteMarker = Vector256.Create((byte)(0xE0 - 1));
-                        // // Vector to identify bytes right before the start of a 2-byte sequence in UTF-8.
-                        // Vector256<byte> beforeTwoByteMarker = Vector256.Create((byte)(0xC0 - 1));
-
-
 
                     for (; processedLength + 32 <= inputLength; processedLength += 32)
                     {
@@ -601,34 +565,26 @@ namespace SimdUnicode
                                         }
                                     }
                                 }
-                                // else{ off = processedLength;}
 
-                                // return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
                                 return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
                             }
                             prevIncomplete = Vector256<byte>.Zero;
                         }
                         else // Contains non-ASCII characters, we need to do non-trivial processing
                         {
-                                // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
+                            // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
 
-                                // Detect start of 4-byte sequences.
-                                Vector256<byte> isStartOf4ByteSequence = Avx2.SubtractSaturate(currentBlock, fourthByte);
-                                uint fourByteCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf4ByteSequence));
+                            Vector256<byte> isStartOf4ByteSequence = Avx2.SubtractSaturate(currentBlock, fourthByte);
+                            Vector256<byte> isStartOf3OrMoreByteSequence = Avx2.SubtractSaturate(currentBlock, thirdByte);
+                            Vector256<byte> isStartOf2OrMoreByteSequence = Avx2.SubtractSaturate(currentBlock, secondByte);
 
-                                // Detect start of 3-byte sequences (including those that start 4-byte sequences).
-                                Vector256<byte> isStartOf3OrMoreByteSequence = Avx2.SubtractSaturate(currentBlock, thirdByte);
-                                uint threeBytePlusCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf3OrMoreByteSequence));
+                            uint twoBytePlusCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf2OrMoreByteSequence));
+                            uint threeBytePlusCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf3OrMoreByteSequence));
+                            uint fourByteCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf4ByteSequence));
 
-                                // Detect start of 2-byte sequences (including those that start 3-byte and 4-byte sequences).
-                                Vector256<byte> isStartOf2OrMoreByteSequence = Avx2.SubtractSaturate(currentBlock, secondByte);
-                                uint twoBytePlusCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf2OrMoreByteSequence));
-
-                                // Calculate counts by isolating each type.
-                                uint threeByteCount = threeBytePlusCount - fourByteCount; // Isolate 3-byte starts by subtracting 4-byte starts.
-                                uint twoByteCount = twoBytePlusCount - threeBytePlusCount; // Isolate 2-byte starts by subtracting 3-byte and 4-byte starts.
-
-
+                            // Calculate counts by isolating each type.
+                            uint threeByteCount = threeBytePlusCount - fourByteCount; // Isolate 3-byte starts by subtracting 4-byte starts.
+                            uint twoByteCount = twoBytePlusCount - threeBytePlusCount; // Isolate 2-byte starts by subtracting 3-byte and 4-byte starts.
 
                             Vector256<byte> shuffled = Avx2.Permute2x128(prevInputBlock, currentBlock, 0x21);
                             prevInputBlock = currentBlock;
@@ -652,65 +608,22 @@ namespace SimdUnicode
                                 TailScalarCodeUnitCountAdjustment =0;
                                 TailUtf16CodeUnitCountAdjustment =0;
 
-
-                                int off = processedLength >= 32 ? processedLength : processedLength;
-
-                                // Console.WriteLine("This is off :" + off);
-                                // return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off);
-                                // byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
-                                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
-
-                                // byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer,processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
-                                // Adjustments not to double count
-                                // TempUtf16CodeUnitCountAdjustment += (int)fourByteCount * 2; 
-                                // TempUtf16CodeUnitCountAdjustment += (int)twoByteCount; 
-                                // TempUtf16CodeUnitCountAdjustment += (int)threeByteCount *2; 
-                                // TempScalarCountAdjustment += (int)fourByteCount; 
+                                int off = processedLength >= 32 ? processedLength: processedLength;
+                                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
 
                                 utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment +TailUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
 
-
- 
                                 return invalidBytePointer;
 
                             }
-                                // Adjustments
-                                TempUtf16CodeUnitCountAdjustment -= (int)fourByteCount * 2; 
-                                TempUtf16CodeUnitCountAdjustment -= (int)twoByteCount; 
-                                TempUtf16CodeUnitCountAdjustment -= (int)threeByteCount *2; 
-                                TempScalarCountAdjustment -= (int)fourByteCount; 
+                            // Adjustments
+                            TempUtf16CodeUnitCountAdjustment -= (int)fourByteCount * 2; 
+                            TempUtf16CodeUnitCountAdjustment -= (int)twoByteCount; 
+                            TempUtf16CodeUnitCountAdjustment -= (int)threeByteCount *2; 
+                            TempScalarCountAdjustment -= (int)fourByteCount; 
 
                             prevIncomplete = Avx2.SubtractSaturate(currentBlock, maxValue);
-                        }
-                    }
-
-                    if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
-                    {
-
-                        // Console.WriteLine("----Checkpoint 2:SIMD rewind");
-                        // We have an unterminated sequence.
-                        processedLength -= 3;
-                        for(int k = 0; k < 3; k++)
-                        {
-                            
-                            int candidateByte = pInputBuffer[processedLength + k];
-                            if ((candidateByte & 0b11000000) == 0b11000000)
-                            {
-                                if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
-                                {
-                                    TempUtf16CodeUnitCountAdjustment += 1; 
-                                }
-                                if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
-                                {
-                                    TempUtf16CodeUnitCountAdjustment += 2; 
-                                }
-                                if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
-                                {
-                                    TempUtf16CodeUnitCountAdjustment += 2;
-                                    TempScalarCountAdjustment += 1;
-                                }
-                            }
                         }
                     }
                 }
@@ -750,8 +663,6 @@ namespace SimdUnicode
                             TempUtf16CodeUnitCountAdjustment += 2;
                             TempScalarCountAdjustment += 1;
                         }
-
-                        // processedLength += k;
                         break;
                     }
                 }
