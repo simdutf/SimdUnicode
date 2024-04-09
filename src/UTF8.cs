@@ -130,8 +130,25 @@ namespace SimdUnicode
             int pos = 0;
             int nextPos;
             uint codePoint = 0;
+
             while (pos < inputLength)
             {
+                // If the next  16 bytes are ascii, we can skip them.
+                nextPos = pos + 16;
+                if (nextPos <= inputLength)
+                { // if it is safe to read 16 more bytes, check that they are ascii
+                    ulong v1 = *(ulong*)pInputBuffer;
+                    ulong v2 = *(ulong*)(pInputBuffer + 8);
+                    ulong v = v1 | v2;
+
+                    if ((v & 0x8080808080808080) == 0)
+                    {
+                        pos = nextPos;
+                        continue;
+                    }
+
+                }
+
                 byte firstByte = pInputBuffer[pos];
                 while (firstByte < 0b10000000)
                 {
@@ -631,6 +648,8 @@ namespace SimdUnicode
 
             // We have processed all the blocks using SIMD, we need to process the remaining bytes.
             // Process the remaining bytes with the scalar function
+            // worst possible case is 4 bytes, where we need to backtrack 3 bytes
+            // 11110xxxx 10xxxxxx 10xxxxxx 10xxxxxx <== we might be pointing at the last byte
             if (processedLength < inputLength)
             {
 
