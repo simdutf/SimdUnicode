@@ -133,21 +133,7 @@ namespace SimdUnicode
 
             while (pos < inputLength)
             {
-                // If the next  16 bytes are ascii, we can skip them.
-                nextPos = pos + 16;
-                if (nextPos <= inputLength)
-                { // if it is safe to read 16 more bytes, check that they are ascii
-                    ulong v1 = *(ulong*)pInputBuffer;
-                    ulong v2 = *(ulong*)(pInputBuffer + 8);
-                    ulong v = v1 | v2;
 
-                    if ((v & 0x8080808080808080) == 0)
-                    {
-                        pos = nextPos;
-                        continue;
-                    }
-
-                }
 
                 byte firstByte = pInputBuffer[pos];
                 while (firstByte < 0b10000000)
@@ -651,8 +637,8 @@ namespace SimdUnicode
                                     int candidateByte = pInputBuffer[processedLength + k];
                                     if ((candidateByte & 0b11000000) == 0b11000000)
                                     {
-                                        // if (k != 0)
-                                        if (true)
+                                        if (k != 0)
+                                        // if (true)
                                         {
                                             if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
                                             {

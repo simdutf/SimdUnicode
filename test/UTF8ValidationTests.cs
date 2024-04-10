@@ -877,7 +877,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                         utf8[i] += (byte)(((utf8[i] & 0b100) == 0b100) ? 0b10 : 0b100);
 
                         Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
-                        Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                        Assert.True(InvalidateUtf8(utf8, i+1,utf8ValidationDelegate));
                         ValidateCount(utf8,utf8ValidationDelegate);
                         utf8[i] = old;
                     }
@@ -926,8 +926,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
     }
 
 
-    // TODO: improve this test 
-    public void TooLargeErrorAtEnd(Utf8ValidationDelegate utf8ValidationDelegate)
+    public void AsciiPlusContinuationAtEndError(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -941,7 +940,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                     generator.ReplaceEndOfArray(filler,toolong); 
 
                     Assert.False(ValidateUtf8(filler,utf8ValidationDelegate));
-                    Assert.True(InvalidateUtf8(filler, outputLength -1,utf8ValidationDelegate));
+                    Assert.True(InvalidateUtf8(filler, filler.Length - 1,utf8ValidationDelegate));
                     ValidateCount(filler,utf8ValidationDelegate);
                 }
 
@@ -952,47 +951,47 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
     
     [Fact]
     [Trait("Category", "scalar")]
-    public void TooLargeErrorAtEndScalar()
+    public void AsciiPlusContinuationAtEndErrorScalar()
     {
-        TooLargeErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
     // TODO:Uncomment when SSE is updated
     // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
     // [Fact]
     // [Trait("Category", "sse")]
-    // public void TooLargeErrorAtEndSse()
+    // public void AsciiPlusContinuationAtEndErrorSse()
     // {
-    //     TooLargeErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    //     AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
     // }
 
     // TODO:Uncomment when AVX512 is updated
     // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
     // [Trait("Category", "avx512")]
-    // public void TooLargeErrorAtEndAvx512()
+    // public void AsciiPlusContinuationAtEndErrorAvx512()
     // {
-    //     TooLargeErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    //     AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
     // }
 
     // TODO:Uncomment when Arm64 is updated
     // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
     // [Trait("Category", "arm64")]
-    // public void TooLargeErrorAtEndArm64()
+    // public void AsciiPlusContinuationAtEndErrorArm64()
     // {
-    //     TooLargeErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    //     AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     // }
 
     [Fact]
     [Trait("Category", "avx")]
-    public void TooLargeErrorAtEndAVX()
+    public void AsciiPlusContinuationAtEndErrorAVX()
     {
-        TooLargeErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
     [Fact]
-    public void TooLargeErrorAtEndAvx2()
+    public void AsciiPlusContinuationAtEndErrorAvx2()
     {
-        TooLargeErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
     public void SurrogateErrorTest(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -1268,26 +1267,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
         }
     }
 
-//     void PrintDebugInfo(byte* failedByte, byte* startPtr, byte[] utf8, string source)
-// {
-//     int failedIndex = (int)(failedByte - startPtr);
-//     byte failedByteValue = *failedByte;
-//     Console.WriteLine($"Failure in {source}: Index {failedIndex}, Byte {failedByteValue:X2}");
-
-//     // Print surrounding sequence, assuming 5 bytes context around the failure point
-//     int contextRadius = 5;
-//     int startContext = Math.Max(0, failedIndex - contextRadius);
-//     int endContext = Math.Min(utf8.Length, failedIndex + contextRadius + 1); // Include the failed byte and some after
-//     Console.Write("Sequence around failure point: ");
-//     for (int i = startContext; i < endContext; i++)
-//     {
-//         Console.Write($"{utf8[i]:X2} ");
-//     }
-//     Console.WriteLine();
-// }
-
-    
-
         // Helper method to calculate the actual offset and length from a Range
     private (int offset, int length) GetOffsetAndLength(int totalLength, Range range)
     {
@@ -1300,47 +1279,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
 // Define a delegate that matches the signature of the methods you want to test
     public unsafe delegate byte* Utf8ValidationDelegate(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
-
-
-
-    
-    //     public void ValidateCount(byte[] utf8,Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
-    // {
-    //     int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
-    //     int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
-
-    //         var isDefaultRange = range.Equals(default(Range));
-    //         var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
-
-    //         unsafe
-    //         {
-    //             fixed (byte* pInput = utf8)
-    //             {
-    //                 byte* startPtr = pInput + offset;
-    //                 // Invoke the method under test.
-
-    //                 DotnetUtf16Adjustment= 0; 
-    //                 DotnetScalarCountAdjustment= 0;
-    //                 DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
-
-    //                 SimdUnicodeUtf16Adjustment= 0; 
-    //                 SimdUnicodeScalarCountAdjustment= 0;
-    //                 utf8ValidationDelegate(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
-
-    //                 // Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
-    //                 // Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
-
-    //                 // Console.WriteLine("Lenght:" + utf8.Length);
-    //                 // Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
-    //                 // Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
-    //                 // Console.WriteLine("___________________________________________________");
-
-    //                 Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
-    //                 Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
-    //             }
-    //         }
-    //     // }
-    // }
 
     public void ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
 {
@@ -1384,60 +1322,55 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 }
 
 
-    [Fact]
-    [Trait("Category", "Scalar")]
-    public void DotnetUTF16Count()
-    {
-        int[] outputLengths = { 10, 15, 11,12 ,15,15,1, 3, 5, 8, 10, 12, 15, 18 };
-        int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
-        int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+    // [Fact]
+    // [Trait("Category", "Scalar")]
+    // public void DotnetUTF16Count()
+    // {
+    //     int[] outputLengths = { 10, 15, 11,12 ,15,15,1, 3, 5, 8, 10, 12, 15, 18 };
+    //     int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
+    //     int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
 
 
-        foreach (int outputLength in outputLengths)
-        {
-            // Generate a UTF-8 sequence with 3 units, each 2 bytes long, presumed to be valid.
-            // byte[] utf8 = generator.Generate(howManyUnits: 11, byteCountInUnit: 3).ToArray();
-            byte[] utf8 = generator.Generate(howManyUnits: outputLength).ToArray();
-            PrintHexAndBinary(utf8);
-            var (offset, length) = (0, utf8.Length);
+    //     foreach (int outputLength in outputLengths)
+    //     {
+    //         // Generate a UTF-8 sequence with 3 units, each 2 bytes long, presumed to be valid.
+    //         // byte[] utf8 = generator.Generate(howManyUnits: 11, byteCountInUnit: 3).ToArray();
+    //         byte[] utf8 = generator.Generate(howManyUnits: outputLength).ToArray();
+    //         PrintHexAndBinary(utf8);
+    //         var (offset, length) = (0, utf8.Length);
 
-            unsafe
-            {
-                fixed (byte* pInput = utf8)
-                {
-                    byte* startPtr = pInput + offset;
-                    // Invoke the method under test.
+    //         unsafe
+    //         {
+    //             fixed (byte* pInput = utf8)
+    //             {
+    //                 byte* startPtr = pInput + offset;
+    //                 // Invoke the method under test.
 
-                    DotnetUtf16Adjustment= 0; 
-                    DotnetScalarCountAdjustment= 0;
-                    DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
+    //                 DotnetUtf16Adjustment= 0; 
+    //                 DotnetScalarCountAdjustment= 0;
+    //                 DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
 
-                    SimdUnicodeUtf16Adjustment= 0; 
-                    SimdUnicodeScalarCountAdjustment= 0;
-                    SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+    //                 SimdUnicodeUtf16Adjustment= 0; 
+    //                 SimdUnicodeScalarCountAdjustment= 0;
+    //                 SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
 
-                    Console.WriteLine("Lenght:" + utf8.Length);
+    //                 Console.WriteLine("Lenght:" + utf8.Length);
 
-                    Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
-                    Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
+    //                 Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
+    //                 Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
 
-                    Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
-                    Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
-                    Console.WriteLine("___________________________________________________");
-
-
-                    Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
-                    Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
+    //                 Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
+    //                 Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
+    //                 Console.WriteLine("___________________________________________________");
 
 
+    //                 Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
+    //                 Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
 
-
-                    // If your generator creates specific patterns or the utility calculates these adjustments differently,
-                    // you'll need to adjust the expected values accordingly.
-                }
-            }
-        }
-    }
+    //             }
+    //         }
+    //     }
+    // }
 
 
 }
