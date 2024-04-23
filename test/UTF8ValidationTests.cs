@@ -921,6 +921,12 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             Console.Write($"{bytes[i]:X2} ");
             Console.ResetColor();
         }
+        else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{bytes[i]:X2} ");
+            Console.ResetColor();
+        }
         else
         {
             Console.Write($"{bytes[i]:X2} ");
@@ -1408,7 +1414,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             try
             {
                 Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
-                // Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
+                Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
             }
             catch (Exception)
             {
