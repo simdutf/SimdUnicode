@@ -24,42 +24,43 @@ namespace SimdUnicode
             int extraLen = 0;
             bool foundLeadingBytes = false;
 
+            // this is the generic function called when there is an error:  
             // TODO: adjust for double counting iff there is an error eg invalidpointerbyte != length
             // Even with no errors, it sometime double counts, why.. ? because it goes back even further
             // even though the scalar doesnt thread 
             // adjust for  double counting
             // for (int i = 0; i <= howFarBack; i++) 
-            for (int i = 0; i <= howFarBack; i++) 
-            {
-                if (i==0){continue;};// we dont want to miss out on counting the current byte, only to avoid double counting what may have been counted prior
-                byte candidateByte = buf[0 - i];
-                foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
-                if (foundLeadingBytes)
-                {
+            // {
+            //     if (i==0){continue;};// we dont want to miss out on counting the current byte, only to avoid double counting what may have been counted prior
+            //     // TODO: written like this for readability, I know its ugly so this needs to be rewritten 
+            //     byte candidateByte = buf[0 - i];
+            //     foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
+            //     if (foundLeadingBytes)
+            //     {
 
-                    // Console.WriteLine("Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
-                    Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
+            //         Console.WriteLine("Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
+            //         // Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
 
-                    // adjustment to avoid double counting 
-                    if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
-                    {
-                        // Console.WriteLine("Found 2 byte");
-                        TempUtf16CodeUnitCountAdjustment += 1; 
-                    }
-                    if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
-                    {
-                        // Console.WriteLine("Found 3 byte");
-                        TempUtf16CodeUnitCountAdjustment += 2; 
-                    }
-                    if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
-                    {
-                        // Console.WriteLine("Found 4 byte");
-                        TempUtf16CodeUnitCountAdjustment += 2;
-                        TempScalarCountAdjustment += 1;
-                    }
-                    break;
-                }
-            }
+            //         // adjustment to avoid double counting 
+            //         if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+            //         {
+            //             // Console.WriteLine("Found 2 byte");
+            //             TempUtf16CodeUnitCountAdjustment += 1; 
+            //         }
+            //         if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
+            //         {
+            //             // Console.WriteLine("Found 3 byte");
+            //             TempUtf16CodeUnitCountAdjustment += 2; 
+            //         }
+            //         if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
+            //         {
+            //             // Console.WriteLine("Found 4 byte");
+            //             TempUtf16CodeUnitCountAdjustment += 2;
+            //             TempScalarCountAdjustment += 1;
+            //         }
+            //         break;
+            //     }
+            // }
 
             for (int i = 0; i <= howFarBack; i++)
             {
@@ -72,7 +73,6 @@ namespace SimdUnicode
                     extraLen = i;
                     Console.WriteLine(howFarBack);
                     Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
-
 
                     // Console.WriteLine("Backed up " + extraLen + 1 + " bytes");
                     break;
@@ -108,6 +108,101 @@ namespace SimdUnicode
 
             return invalidBytePointer;
         }
+
+        // I seperate this function as for the tail, we know that there has been no error thus far: but remember the SIMD
+        // function calculates 
+        public unsafe static byte* RewindAndValidateWithErrorsRemaining(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
+        {
+            Console.WriteLine("--Rewind Validate with Errors Remaining");
+            Console.WriteLine("current Byte:" + Convert.ToString(buf[0], 2).PadLeft(8, '0'));
+
+            int TempUtf16CodeUnitCountAdjustment = 0;
+            int TempScalarCountAdjustment = 0;
+
+            int extraLen = 0;
+            bool foundLeadingBytes = false;
+
+            for (int i = 0; i <= 3; i++) 
+            {
+                if (i==0){continue;};// we dont want to miss out on counting the current byte, only to avoid double counting what may have been counted prior
+                // TODO: written like this for readability, I know its ugly so this needs to be rewritten 
+                byte candidateByte = buf[0 - i];
+                Console.WriteLine("Checking Byte:" + candidateByte.ToString("X2"));
+
+                foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
+                if (foundLeadingBytes)
+                {
+                    Console.WriteLine("Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
+                    // Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
+
+                    // adjustment to avoid double counting 
+                    if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+                    {
+                        Console.WriteLine("Found 2 byte");
+                        TempUtf16CodeUnitCountAdjustment -= 1; 
+                    }
+                    if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
+                    {
+                        Console.WriteLine("Found 3 byte");
+                        TempUtf16CodeUnitCountAdjustment -= 2; 
+                    }
+                    if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
+                    {
+                        Console.WriteLine("Found 4 byte");
+                        TempUtf16CodeUnitCountAdjustment -= 2;
+                        TempScalarCountAdjustment -= 1;
+                    }
+                    break;
+                }
+            }
+
+            for (int i = 0; i <= howFarBack; i++)
+            {
+                Console.WriteLine("backup stat:" + i);
+                byte candidateByte = buf[0 - i];
+                foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
+                if (foundLeadingBytes)
+                {         
+                    buf -= i;
+                    extraLen = i;
+                    Console.WriteLine(howFarBack);
+                    Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
+
+                    // Console.WriteLine("Backed up " + extraLen + 1 + " bytes");
+                    break;
+                }
+            }
+
+
+            if (!foundLeadingBytes)
+            {
+                return buf - howFarBack;
+            }
+
+            utf16CodeUnitCountAdjustment += TempUtf16CodeUnitCountAdjustment;
+            scalarCountAdjustment += TempScalarCountAdjustment;
+
+            int TailUtf16CodeUnitCountAdjustment = 0;
+            int TailScalarCountAdjustment = 0;
+
+            // Now buf points to the start of a UTF-8 sequence or the start of the buffer.
+            // Validate from this new start point with the adjusted length.
+
+            // TODO:figure out why calling SIMD here breaks the tests filter.This just breaks stuff?!?!?!
+            byte* invalidBytePointer = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out TailUtf16CodeUnitCountAdjustment, out TailScalarCountAdjustment);
+
+            utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
+            scalarCountAdjustment += TailScalarCountAdjustment;
+
+            Console.WriteLine("rewind utf16 Doublecount adjustment(Temp):" + TempUtf16CodeUnitCountAdjustment);
+            Console.WriteLine("scalarcount adjstment after rewind:" + TempScalarCountAdjustment);
+            Console.WriteLine(" ");
+            Console.WriteLine("rewinds utf16 count(done by GetPointerToFirstInvalidByteScalar):" + TailUtf16CodeUnitCountAdjustment);
+            Console.WriteLine("scalarcount after rewind(ditto):" + TailScalarCountAdjustment);
+
+            return invalidBytePointer;
+        }
+
 
         public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
@@ -511,8 +606,18 @@ namespace SimdUnicode
                     Vector256<byte> v0f = Vector256.Create((byte)0x0F);
                     Vector256<byte> v80 = Vector256.Create((byte)0x80);
 
+                    bool prevWasSimd = false;
+
                     for (; processedLength + 32 <= inputLength; processedLength += 32)
                     {
+
+
+
+                    // TODO: there is a problem with the fastpath : namely that if it is followed by a vector with all ascii,
+                    // there is a gap where 
+                    // this is because  
+                    // Now we have 2 choices : either still use prev3 to count dutf and check if there is a gap here OR
+                    //  
                         Vector256<byte> currentBlock = Avx.LoadVector256(pInputBuffer + processedLength);
 
                         int mask = Avx2.MoveMask(currentBlock);
@@ -520,6 +625,38 @@ namespace SimdUnicode
                         {
                             // We have an ASCII block, no need to process it, but
                             // we need to check if the previous block was incomplete.
+
+                            if (prevWasSimd){ // recall that the non ascii simd checks counts the adjustment on prev3, hence we need to backtrack in case the 
+                            // it was called
+                                    Console.WriteLine("--prev was simd!");
+                                    for(int k = 1; k <= 3 ; k++) // we dont want to double count the current byte
+                                    {
+                                        int candidateByte = pInputBuffer[processedLength - k];
+                                        if ((candidateByte & 0b11000000) == 0b11000000)
+                                        {
+                                            {
+                                                if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+                                                {
+                                                    TempUtf16CodeUnitCountAdjustment -= 1; 
+                                                }
+                                                if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
+                                                {
+                                                    TempUtf16CodeUnitCountAdjustment -= 2; 
+                                                }
+                                                if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
+                                                {
+                                                    Console.WriteLine("Found 4-byte");
+                                                    TempUtf16CodeUnitCountAdjustment -= 2;
+                                                    TempScalarCountAdjustment -= 1;
+                                                }
+                                                // break;
+
+                                            }
+                                        }
+                                    }
+
+                            }
+
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
 
@@ -562,14 +699,15 @@ namespace SimdUnicode
                                 // }
 
                                 
-                            // TODO this needs S
                                 return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
                             }
                             prevIncomplete = Vector256<byte>.Zero;
+                            prevWasSimd = false;
                         }
                         else // Contains non-ASCII characters, we need to do non-trivial processing
                         {
                             Console.WriteLine("--Found non-ascii:triggering SIMD routine at " + processedLength + "bytes");
+                            prevWasSimd = true;
 
                             // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
                             // TODO:integrate this better with the rest of the code
@@ -616,6 +754,7 @@ namespace SimdUnicode
                             Vector256<byte> must23 = Avx2.Or(isThirdByte, isFourthByte);
                             Vector256<byte> must23As80 = Avx2.And(must23, v80);
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
+
                             if (!Avx2.TestZ(error, error)) //context: we are dealing with a 32 bit 
                             {
                                 Console.WriteLine("-----Error path!!");
@@ -676,9 +815,9 @@ namespace SimdUnicode
 
                                 for(int k = 0; k < 3; k++)
                                 {
-                                    int candidateByte = pInputBuffer[processedLength + k];
+                                    int candidateByte = pInputBuffer[processedLength + 32 + k];
                                     Console.WriteLine("Backing up " + k +" bytes");
-                                    Console.WriteLine("CurrentByte after backing up:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
+                                    Console.WriteLine("Byte after backing up:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
 
                                     backedup = 3-k +1;
                                     // TODO: 
@@ -743,21 +882,21 @@ namespace SimdUnicode
             if (processedLength < inputLength)
             {
 
-                Console.WriteLine("----Process remaining Scalar");
-                Console.WriteLine("processed length before:" + processedLength);
+                Console.WriteLine("----Process remaining Scalar @ "  + processedLength + "bytes");
+                // Console.WriteLine("processed length before:" + processedLength);
                 int overlapCount = 0;
 
                 // // We need to possibly backtrack to the start of the last code point
-                while (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
-                {
-                    processedLength -= 1;
-                    overlapCount +=1;
-                }                
+                // while (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
+                // {
+                //     processedLength -= 1;
+                //     overlapCount +=1;
+                // }                
                 
                 Console.WriteLine("processed length after backtrack:" + processedLength);
 
 
-                // TOCHECK:See if rewind is better here
+                // PERFORMANCE TOCHECK:See if rewind is better here
                 // for(int k = 0; k < overlapCount; k++)
                 // {
                 // // There is no error here hence the loop is straigthforward and we avoid double counting every byte                     
@@ -785,8 +924,8 @@ namespace SimdUnicode
                 Console.WriteLine("TempScalar '' '' '':"+ TempScalarCountAdjustment);
 
 
-                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
-                // byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(3,pInputBuffer + processedLength, inputLength - processedLength,ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
+                // byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrorsRemaining(32,pInputBuffer + processedLength, inputLength - processedLength,ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;

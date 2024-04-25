@@ -9,7 +9,9 @@ using System.Runtime.Intrinsics.Arm;
 using BenchmarkDotNet.Disassemblers;
 using Iced.Intel;
 
-// TODO: add test for unterminated sequeqce happeqiqg at SIMD transition
+// TODO: refine test for unterminated sequeqce happening at SIMD transition
+// TODO: The various tests do not formally take into account the scenario where vector is all ASCII  
+
 public unsafe class Utf8SIMDValidationTests
 {
 
