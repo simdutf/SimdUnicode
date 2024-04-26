@@ -500,6 +500,9 @@ namespace SimdUnicode
             int TailScalarCodeUnitCountAdjustment = 0;
             int TailUtf16CodeUnitCountAdjustment = 0;
 
+            bool prevWasSimd = false;
+
+
             if (pInputBuffer == null || inputLength <= 0)
             {
                 utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
@@ -606,7 +609,6 @@ namespace SimdUnicode
                     Vector256<byte> v0f = Vector256.Create((byte)0x0F);
                     Vector256<byte> v80 = Vector256.Create((byte)0x80);
 
-                    bool prevWasSimd = false;
 
                     for (; processedLength + 32 <= inputLength; processedLength += 32)
                     {
@@ -938,6 +940,29 @@ namespace SimdUnicode
                 Console.WriteLine("TempUTF16 after tail remaining check:"+ TempUtf16CodeUnitCountAdjustment);
                 Console.WriteLine("TempScalar '' '' '':"+ TempScalarCountAdjustment);
 
+            } else if (processedLength == inputLength && prevWasSimd){
+                for(int k = 0; k < 3; k++)
+                {
+                // There is no error here hence the loop is straigthforward and we avoid double counting every byte                     
+                    int candidateByte = pInputBuffer[processedLength - k];
+                    if ((candidateByte & 0b11000000) == 0b11000000)
+                    {
+                        if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+                        {
+                            TempUtf16CodeUnitCountAdjustment -= 1; 
+                        }
+                        if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
+                        {
+                            TempUtf16CodeUnitCountAdjustment -= 2; 
+                        }
+                        if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
+                        {
+                            TempUtf16CodeUnitCountAdjustment -= 2;
+                            TempScalarCountAdjustment -= 1;
+                        }
+                        break;
+                    }
+                }
             }
 
             utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;

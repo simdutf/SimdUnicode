@@ -325,8 +325,17 @@ public unsafe class Utf8SIMDValidationTests
             {
                 byte[] utf8 = generator.Generate(outputLength, byteLength).ToArray();
                 bool isValidUtf8 = ValidateUtf8(utf8,utf8ValidationDelegate);
-                Assert.True(isValidUtf8, $"Failure for {byteLength}-byte UTF8 of length {outputLength} in trial {trial}");
-                ValidateCount(utf8,utf8ValidationDelegate);
+                try
+                {
+                    Assert.True(isValidUtf8, $"Failure NoErrorTest. ");
+                    ValidateCount(utf8,utf8ValidationDelegate);
+                }
+                catch (Xunit.Sdk.XunitException)
+                {
+                    Console.WriteLine($"Test failed for {byteLength}-byte unit ");
+                    PrintHexAndBinary(utf8);
+                    throw; // Rethrow the exception to fail the test.
+                }
             }
         }
     }
