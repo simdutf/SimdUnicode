@@ -13,7 +13,7 @@ namespace SimdUnicode
         static Func<byte, string> byteToBinaryString = b => Convert.ToString(b, 2).PadLeft(8, '0');
 
 
-        public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
+        public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment,bool prevWasSimd=false)
         {
             Console.WriteLine("--Rewind Validate with Errors");
             Console.WriteLine("current Byte:" + Convert.ToString(buf[0], 2).PadLeft(8, '0'));
@@ -23,12 +23,50 @@ namespace SimdUnicode
 
             int extraLen = 0;
             bool foundLeadingBytes = false;
+            // Console.WriteLine(prevWasSimd);
 
-            // this is the generic function called when there is an error:  
-            // TODO: adjust for double counting iff there is an error eg invalidpointerbyte != length
-            // Even with no errors, it sometime double counts, why.. ? because it goes back even further
-            // even though the scalar doesnt thread 
-            // adjust for  double counting
+            // adjust for filling in gap
+            // If an error is found, since we start counting tho adjustments on prev3, a gap is left that needs to be counted in case the previous operation was using SIMD
+            if (prevWasSimd)
+            {
+                // Console.WriteLine("Triggering Negative adjustment!");
+                // for (int i = 0; i <= 3; i++) 
+                // {
+                //     if (i == 0){continue;}; // we dont want to dbouble count current byte
+                //     byte candidateByte = buf[0 - i];
+                //     foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
+                //     // if (i==0 & foundLeadingBytes){break;};// We dont want to 
+                //     // TODO: written like this for readability, I know its ugly so this needs to be rewritten 
+                    
+                //     if (foundLeadingBytes)
+                //     {
+
+                //     Console.WriteLine("Negative adjstment:Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
+                //         // Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
+
+                //         // adjustment to avoid double counting 
+                //         if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+                //         {
+                //             // Console.WriteLine("Found 2 byte");
+                //             TempUtf16CodeUnitCountAdjustment -= 1; 
+                //         }
+                //         if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
+                //         {
+                //             // Console.WriteLine("Found 3 byte");
+                //             TempUtf16CodeUnitCountAdjustment -= 2; 
+                //         }
+                //         if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
+                //         {
+                //             // Console.WriteLine("Found 4 byte");
+                //             TempUtf16CodeUnitCountAdjustment -= 2;
+                //             TempScalarCountAdjustment -= 1;
+                //         }
+                //         // break;
+                //     }
+                // }
+            }
+
+
             // for (int i = 0; i <= howFarBack; i++) 
             // {
             //     if (i==0){continue;};// we dont want to miss out on counting the current byte, only to avoid double counting what may have been counted prior
@@ -713,7 +751,7 @@ namespace SimdUnicode
                         else // Contains non-ASCII characters, we need to do non-trivial processing
                         {
                             Console.WriteLine("--Found non-ascii:triggering SIMD routine at " + processedLength + "bytes");
-                            prevWasSimd = true;
+                            prevWasSimd = true; // consider moving this somewhere else
 
                             // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
                             // TODO:integrate this better with the rest of the code
@@ -766,11 +804,19 @@ namespace SimdUnicode
                                 Console.WriteLine("-----Error path!!");
                                 TailScalarCodeUnitCountAdjustment =0;
                                 TailUtf16CodeUnitCountAdjustment =0;
+                                int off= 32;
+
+                                // if (processedLength <32) // not enough bytes to load into SIMD! 
+                                // {
+                                //     // off = 0;
+                                //     prevWasSimd = false; // there was no previous op at all, let alone SIMD one
+                                // }
                                 
-                            // TODO     :I cant remember why I pu an off that does the same thing here but look intit
-                                // int off = processedLength >= 32 ? processedLength: processedLength;
+
+                                // int off = processedLength >= 32 ? processedLength: 0; // we check if there 
+                                //  without this there is an overflow if 
                                 // byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
-                                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(3, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
+                                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(3, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment,prevWasSimd);
 
                                 utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment +TailUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;

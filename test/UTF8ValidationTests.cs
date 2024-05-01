@@ -11,6 +11,7 @@ using Iced.Intel;
 
 // TODO: refine test for unterminated sequeqce happening at SIMD transition
 // TODO: The various tests do not formally take into account the scenario where vector is all ASCII  
+// TODO?: Test if the error is in the first vector?
 
 public unsafe class Utf8SIMDValidationTests
 {
@@ -475,9 +476,23 @@ public unsafe class Utf8SIMDValidationTests
                     {
                         byte oldByte = utf8[i];
                         utf8[i] = 0b11111000; // Forcing a header bits error
-                        Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
-                        Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
-                        ValidateCount(utf8,utf8ValidationDelegate);
+                        // Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                        // Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                        // ValidateCount(utf8,utf8ValidationDelegate);
+                        try
+                        {
+                            Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                            Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                            ValidateCount(utf8,utf8ValidationDelegate); // Ensure you want to call this here, it seems unrelated to exception handling.
+                        }
+                        catch (Xunit.Sdk.XunitException)
+                        {
+                            Console.WriteLine($"Assertion failed at index: {i}");
+                            PrintHexAndBinary(utf8, i);
+                            utf8[i] = oldByte; // Restore the original byte
+                            throw; // Rethrow the exception to fail the test.
+                        }
+
                         utf8[i] = oldByte; // Restore the original byte
                     }
                 }
