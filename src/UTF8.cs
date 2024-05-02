@@ -264,6 +264,7 @@ namespace SimdUnicode
                     int asciibytes = 0; // number of ascii bytes in the block (could also be called n1)
                     int contbytes = 0; // number of continuation bytes in the block
                     int n4 = 0; // number of 4-byte sequences that start in this block
+                    int totalbyte, n3, n2;
  
                     for (; processedLength + 16 <= inputLength; processedLength += 16)
                     {
@@ -278,15 +279,15 @@ namespace SimdUnicode
                             if (Sse2.MoveMask(prevIncomplete) != 0)
                             {
                                 // The block goes from start_point to processedLength.
-                                int totalbyte = processedLength - start_point;
+                                totalbyte = processedLength - start_point;
                                 // We need to adjust the length so that it would include
                                 // a complete character. Because if we fail right away,
                                 // it is unsafe to call adjustmentFactor.
                                 if(totalbyte > 0) {
                                     totalbyte += adjustmentFactor(pInputBuffer + processedLength);
                                 }
-                                int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
-                                int n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
+                                n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
+                                n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
                                 /***
                                 * So we have that n2 is the number of 2-byte sequences that begins in the
                                 * block,
@@ -320,15 +321,15 @@ namespace SimdUnicode
                             if (Sse2.MoveMask(error) != 0)
                             {
                                 // The block goes from start_point to processedLength.
-                                int totalbyte = processedLength - start_point;
+                                totalbyte = processedLength - start_point;
                                 // We need to adjust the length so that it would include
                                 // a complete character. Because if we fail right away,
                                 // it is unsafe to call adjustmentFactor.
                                 if(totalbyte > 0) {
                                     totalbyte += adjustmentFactor(pInputBuffer + processedLength);
                                 }
-                                int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
-                                int n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
+                                n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
+                                n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
                                 /***
                                 * So we have that n2 is the number of 2-byte sequences that begins in the
                                 * block,
@@ -352,15 +353,15 @@ namespace SimdUnicode
                         // and no expensive operation:
                         asciibytes += 16 - mask; // count the number of ascii bytes
                     }
-                    int totalbyte = processedLength - start_point;
+                    totalbyte = processedLength - start_point;
                     // We need to adjust the length so that it would include
                     // a complete character. Because if we fail right away,
                     // it is unsafe to call adjustmentFactor.
                     if(totalbyte > 0) {
                         totalbyte += adjustmentFactor(pInputBuffer + processedLength);
                     }
-                    int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
-                    int n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
+                    n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
+                    n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
                     /***
                      * So we have that n2 is the number of 2-byte sequences that begins in the
                      * block,
