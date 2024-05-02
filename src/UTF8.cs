@@ -128,6 +128,36 @@ namespace SimdUnicode
         const byte OVERLONG_4 = 1 << 6;
         const byte CARRY = TOO_SHORT | TOO_LONG | TWO_CONTS;
 
+        // Assuming that a valid UTF-8 sequence ends at pInputBuffer,
+        // computes how many bytes are needed to complete the last character.
+        // This will return 1, 2, 3. If the whole byte sequence is valid UTF-8,
+        // and this function returns returnedvalue>0, then the bytes at pInputBuffer[0], 
+        // ... pInputBuffer[returnedvalue - 1] should be continuation bytes.
+        // Note that this function is unsafe, and it is the caller's responsibility
+        // to ensure that we can read at least 4 bytes before pInputBuffer.
+        public unsafe static int adjustmentFactor(byte* pInputBuffer) {
+            // Find the first non-continuation byte, working backward.
+            int i = 1;
+            for (; i <= 4; i++)
+            {
+                if ((pInputBuffer[-i] & 0b11000000) != 0b10000000)
+                {
+                    break;
+                }
+            }
+            if ((pInputBuffer[-i] & 0b10000000) == 0) {
+                return 0; // We must have that i == 1
+            }
+            if ((pInputBuffer[-i] & 0b11100000) == 0b11000000) {
+                return 2 - i; // We have that i == 1 or i == 2, if i == 1, we are missing one byte.
+            }
+            if ((pInputBuffer[-i] & 0b11110000) == 0b11100000) {
+                return 3 - i; // We have that i == 1 or i == 2 or i == 3, if i == 1, we are missing two bytes, if i == 2, we are missing one byte.
+            }
+            // We must have that (pInputBuffer[-i] & 0b11111000) == 0b11110000
+            return 4 - i; // We have that i == 1 or i == 2 or i == 3 or i == 4, if i == 1, we are missing three bytes, if i == 2, we are missing two bytes, if i == 3, we are missing one byte.
+        }
+
         public unsafe static byte* GetPointerToFirstInvalidByteSse(byte* pInputBuffer, int inputLength)
         {
 
@@ -207,7 +237,8 @@ namespace SimdUnicode
                     * the number of 4-byte sequences, 3-byte sequences, and
                     * the number of 2-byte sequences.
                     * We can do it indirectly. We know how many bytes in total
-                    * we have (length).
+                    * we have (length). Let us assume that the length covers
+                    * only complete sequences (we need to adjust otherwise).
                     * We have that
                     *   length = 4 * n4 + 3 * n3 + 2 * n2 + n1
                     * where n1 is the number of 1-byte sequences (ASCII),
@@ -248,6 +279,12 @@ namespace SimdUnicode
                             {
                                 // The block goes from start_point to processedLength.
                                 int totalbyte = processedLength - start_point;
+                                // We need to adjust the length so that it would include
+                                // a complete character. Because if we fail right away,
+                                // it is unsafe to call adjustmentFactor.
+                                if(totalbyte > 0) {
+                                    totalbyte += adjustmentFactor(pInputBuffer + processedLength);
+                                }
                                 int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
                                 int n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
                                 /***
@@ -284,6 +321,12 @@ namespace SimdUnicode
                             {
                                 // The block goes from start_point to processedLength.
                                 int totalbyte = processedLength - start_point;
+                                // We need to adjust the length so that it would include
+                                // a complete character. Because if we fail right away,
+                                // it is unsafe to call adjustmentFactor.
+                                if(totalbyte > 0) {
+                                    totalbyte += adjustmentFactor(pInputBuffer + processedLength);
+                                }
                                 int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
                                 int n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
                                 /***
@@ -310,6 +353,12 @@ namespace SimdUnicode
                         asciibytes += 16 - mask; // count the number of ascii bytes
                     }
                     int totalbyte = processedLength - start_point;
+                    // We need to adjust the length so that it would include
+                    // a complete character. Because if we fail right away,
+                    // it is unsafe to call adjustmentFactor.
+                    if(totalbyte > 0) {
+                        totalbyte += adjustmentFactor(pInputBuffer + processedLength);
+                    }
                     int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
                     int n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
                     /***
