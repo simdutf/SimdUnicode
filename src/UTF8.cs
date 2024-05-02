@@ -132,7 +132,6 @@ namespace SimdUnicode
         {
 
             int processedLength = 0;
-
             if (pInputBuffer == null || inputLength <= 0)
             {
                 return pInputBuffer;
@@ -203,24 +202,47 @@ namespace SimdUnicode
                     Vector128<byte> fourthByte = Vector128.Create((byte)(0b11110000u - 0x80));
                     Vector128<byte> v0f = Vector128.Create((byte)0x0F);
                     Vector128<byte> v80 = Vector128.Create((byte)0x80);
-
+                    /****
+                    * So we want to count the number of 4-byte sequences,
+                    * the number of 4-byte sequences, 3-byte sequences, and
+                    * the number of 2-byte sequences.
+                    * We can do it indirectly. We know how many bytes in total
+                    * we have (inputLength).
+                    * We have that
+                    *   inputLength = 4 * n4 + 3 * n3 + 2 * n2 + n1
+                    * where n1 is the number of 1-byte sequences (ASCII),
+                    * n2 is the number of 2-byte sequences, n3 is the number
+                    * of 3-byte sequences, and n4 is the number of 4-byte sequences.
+                    *
+                    * Let ncon be the number of continuation bytes, then we have
+                    *  inputLength =  n4 + n3 + n2 + ncon + n1
+                    *
+                    * We can solve for n2 and n3 in terms of the other variables:
+                    * n3 = n1 - 2 * n4 + 2 * ncon - inputLength
+                    * n2 = -2 * n1 + n4 - 4 * ncon + 2 * inputLength
+                    * Thus we only need to count the number of continuation bytes,
+                    * the number of ASCII bytes and the number of 4-byte sequences.
+                    */
+                    int totalbyte = (inputLength - processedLength)/16;
+                    // The block goes from processedLength to processedLength/16*16.
+                    int asciibytes = 0; // number of ascii bytes in the block
+                    int contbytes = 0; // number of continuation bytes in the block
+                    int n4 = 0; // number of 4-byte sequences that start in this block
                     for (; processedLength + 16 <= inputLength; processedLength += 16)
                     {
 
                         Vector128<byte> currentBlock = Sse2.LoadVector128(pInputBuffer + processedLength);
 
                         int mask = Sse2.MoveMask(currentBlock);
+                        // We count the number of ascii bytes in the block using just some simple arithmetic
+                        // and no expensive operation:
+                        asciibytes += 16 - mask; // count the number of ascii bytes
                         if (mask == 0)
                         {
-                                // Console.WriteLine("ascii");
-
                             // We have an ASCII block, no need to process it, but
                             // we need to check if the previous block was incomplete.
                             if (Sse2.MoveMask(prevIncomplete) != 0)
                             {
-                               // return pInputBuffer + processedLength;
-
-                              //  Console.WriteLine("not ascii");
                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength);
                             }
                             prevIncomplete = Vector128<byte>.Zero;
@@ -231,7 +253,10 @@ namespace SimdUnicode
                             Vector128<byte> prev1 = Ssse3.AlignRight(currentBlock, prevInputBlock, (byte)(16 - 1));
                             Vector128<byte> byte_1_high = Ssse3.Shuffle(shuf1, Sse2.ShiftRightLogical(prev1.AsUInt16(), 4).AsByte() & v0f);
                             Vector128<byte> byte_1_low = Ssse3.Shuffle(shuf2, (prev1 & v0f));
-                            Vector128<byte> byte_2_high = Ssse3.Shuffle(shuf3, Sse2.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f);
+                            Vector128<byte> lower = Sse2.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f;
+                            // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
+                            n4 += Sse2.MoveMask(Sse2.SubtractSaturate(currentBlock, fourthByte));
+                            Vector128<byte> byte_2_high = Ssse3.Shuffle(shuf3, lower);
                             Vector128<byte> sc = Sse2.And(Sse2.And(byte_1_high, byte_1_low), byte_2_high);
                             Vector128<byte> prev2 = Ssse3.AlignRight (currentBlock, prevInputBlock, (byte)(16 - 2));
                             Vector128<byte> prev3 = Ssse3.AlignRight (currentBlock, prevInputBlock, (byte)(16 - 3));
@@ -240,6 +265,8 @@ namespace SimdUnicode
                             Vector128<byte> isFourthByte = Sse2.SubtractSaturate(prev3, fourthByte);
                             Vector128<byte> must23 = Sse2.Or(isThirdByte, isFourthByte);
                             Vector128<byte> must23As80 = Sse2.And(must23, v80);
+                            // We use one instruction (MoveMask) to update ncon, plus one arithmetic operation.
+                            contbytes += Sse2.MoveMask(sc);
                             Vector128<byte> error = Sse2.Xor(must23As80, sc);
                             if (Sse2.MoveMask(error) != 0)
                             {
@@ -248,6 +275,16 @@ namespace SimdUnicode
                             prevIncomplete = Sse2.SubtractSaturate(currentBlock, maxValue);
                         }
                     }
+                    int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
+                    int n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
+                    /***
+                     * So we have that n2 is the number of 2-byte sequences that begins in the
+                     * block,
+                     * n3 is the number of 3-byte sequences that begins in the block,
+                     * n4 is the number of 4-byte sequences that begins in the block,
+                     * asciibytes is the number of ascii bytes. We have totalbyte bytes
+                     * in total over the loop that we just processed.
+                     */
                 }
             }
             // We have processed all the blocks using SIMD, we need to process the remaining bytes.
