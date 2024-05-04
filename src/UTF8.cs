@@ -25,48 +25,6 @@ namespace SimdUnicode
             bool foundLeadingBytes = false;
             // Console.WriteLine(prevWasSimd);
 
-            // adjust for filling in gap
-            // If an error is found, since we start counting tho adjustments on prev3, a gap is left that needs to be counted in case the previous operation was using SIMD
-            if (prevWasSimd)
-            {
-                // Console.WriteLine("Triggering Negative adjustment!");
-                // for (int i = 0; i <= 3; i++) 
-                // {
-                //     if (i == 0){continue;}; // we dont want to dbouble count current byte
-                //     byte candidateByte = buf[0 - i];
-                //     foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
-                //     // if (i==0 & foundLeadingBytes){break;};// We dont want to 
-                //     // TODO: written like this for readability, I know its ugly so this needs to be rewritten 
-                    
-                //     if (foundLeadingBytes)
-                //     {
-
-                //     Console.WriteLine("Negative adjstment:Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
-                //         // Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
-
-                //         // adjustment to avoid double counting 
-                //         if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
-                //         {
-                //             // Console.WriteLine("Found 2 byte");
-                //             TempUtf16CodeUnitCountAdjustment -= 1; 
-                //         }
-                //         if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
-                //         {
-                //             // Console.WriteLine("Found 3 byte");
-                //             TempUtf16CodeUnitCountAdjustment -= 2; 
-                //         }
-                //         if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
-                //         {
-                //             // Console.WriteLine("Found 4 byte");
-                //             TempUtf16CodeUnitCountAdjustment -= 2;
-                //             TempScalarCountAdjustment -= 1;
-                //         }
-                //         // break;
-                //     }
-                // }
-            }
-
-
             // for (int i = 0; i <= howFarBack; i++) 
             // {
             //     if (i==0){continue;};// we dont want to miss out on counting the current byte, only to avoid double counting what may have been counted prior
@@ -102,13 +60,13 @@ namespace SimdUnicode
 
             for (int i = 0; i <= howFarBack; i++)
             {
-                Console.WriteLine("backup stat:" + i);
+                Console.WriteLine("Activiting main backup:" + i);
                 byte candidateByte = buf[0 - i];
                 foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
                 if (foundLeadingBytes)
                 {         
                     buf -= i;
-                    extraLen = i;
+                    extraLen = i; // a measure of how far we've backed up
                     Console.WriteLine(howFarBack);
                     Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
 
@@ -116,6 +74,49 @@ namespace SimdUnicode
                     break;
                 }
             }
+
+                        // adjust for filling in gap
+            // If an error is found, since we start counting tho adjustments on prev3, a gap is left that needs to be counted in case the previous operation was using SIMD
+            // if (prevWasSimd)
+            // {
+            //     Console.WriteLine("Triggering Negative adjustment!");
+            //     for (int i = extraLen + 1; i <= extraLen + 3; i++) 
+            //     {
+            //         // if (i == 0){continue;}; // we dont want to double count current byte
+            //         byte candidateByte = buf[0 - i];
+            //         foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
+            //         // Console.WriteLine("Exmining byte...:" + candidateByte.ToString("X2"));
+
+            //         // if (i==0 & foundLeadingBytes){break;};// We dont want to 
+            //         // TODO: written like this for readability, I know its ugly so this needs to be rewritten 
+                    
+            //         if (foundLeadingBytes)
+            //         {
+
+            //         Console.WriteLine("Negative adjstment:Found leading byte at:" + i + ",Byte:" + candidateByte.ToString("X2"));
+            //             // Console.WriteLine("Found leading byte at:" + i + ",Byte:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
+
+            //             // adjustment to avoid double counting 
+            //             if ((candidateByte & 0b11100000) == 0b11000000) // Start of a 2-byte sequence
+            //             {
+            //                 // Console.WriteLine("Found 2 byte");
+            //                 TempUtf16CodeUnitCountAdjustment -= 1; 
+            //             }
+            //             if ((candidateByte & 0b11110000) == 0b11100000) // Start of a 3-byte sequence
+            //             {
+            //                 // Console.WriteLine("Found 3 byte");
+            //                 TempUtf16CodeUnitCountAdjustment -= 2; 
+            //             }
+            //             if ((candidateByte & 0b11111000) == 0b11110000) // Start of a 4-byte sequence
+            //             {
+            //                 // Console.WriteLine("Found 4 byte");
+            //                 TempUtf16CodeUnitCountAdjustment -= 2;
+            //                 TempScalarCountAdjustment -= 1;
+            //             }
+            //             // break;
+            //         }
+            //     }
+            // }
 
 
             if (!foundLeadingBytes)
@@ -804,14 +805,13 @@ namespace SimdUnicode
                                 Console.WriteLine("-----Error path!!");
                                 TailScalarCodeUnitCountAdjustment =0;
                                 TailUtf16CodeUnitCountAdjustment =0;
-                                int off= 32;
+                                // int off= 32;
 
-                                // if (processedLength <32) // not enough bytes to load into SIMD! 
+                                // if (processedLength <32) //
                                 // {
                                 //     // off = 0;
-                                //     prevWasSimd = false; // there was no previous op at all, let alone SIMD one
+                                //     prevWasSimd = false; //  not enough bytes to load into SIMD!  there was no previous op at all, let alone SIMD one
                                 // }
-                                
 
                                 // int off = processedLength >= 32 ? processedLength: 0; // we check if there 
                                 //  without this there is an overflow if 

@@ -12,6 +12,7 @@ using Iced.Intel;
 // TODO: refine test for unterminated sequeqce happening at SIMD transition
 // TODO: The various tests do not formally take into account the scenario where vector is all ASCII  
 // TODO?: Test if the error is in the first vector?
+// TODO:fix NoError,Ingomplete (some of the tests are wrong)
 
 public unsafe class Utf8SIMDValidationTests
 {
