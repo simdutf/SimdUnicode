@@ -566,7 +566,10 @@ namespace SimdUnicode
                             Vector128<byte> must23 = AdvSimd.Or(isThirdByte, isFourthByte);
                             Vector128<byte> must23As80 = AdvSimd.And(must23, v80);
                             Vector128<byte> error = AdvSimd.Xor(must23As80, sc);
-                            if (AdvSimd.Arm64.MaxAcross(error).ToScalar() != 0)
+                            // AdvSimd.Arm64.MaxAcross(error) works, but it might be slower
+                            // than AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(error)) on some
+                            // hardware:
+                            if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(error)).ToScalar() != 0)
                             {
                                 return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength);
                             }

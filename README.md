@@ -23,7 +23,6 @@ We recommend you install .NET 8: https://dotnet.microsoft.com/en-us/download/dot
 ## Running tests
 
 ```
-cd test
 dotnet test
 ```
 
