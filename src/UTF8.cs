@@ -200,7 +200,7 @@ namespace SimdUnicode
         // Note that this function is unsafe, and it is the caller's responsibility
         // to ensure that we can read at least 4 bytes before pInputBuffer.
         // (Nick Nuon added 7th may) there is an addenum labeled important in the mock PR however I think we can treat unterminated as 
-        public unsafe static (int totalbyteadjustment,int i,int ascii,int n2,int n4) adjustmentFactor(byte* pInputBuffer) {
+        public unsafe static (int totalbyteadjustment,int backedupByHowMuch,int ascii,int n2,int n4) adjustmentFactor(byte* pInputBuffer) {
             // Find the first non-continuation byte, working backward.
             int i = 1;
             for (; i <= 4; i++)
@@ -223,27 +223,41 @@ namespace SimdUnicode
             return (4 - i,i,0,0,-1); // We have that i == 1 or i == 2 or i == 3 or i == 4, if i == 1, we are missing three bytes, if i == 2, we are missing two bytes, if i == 3, we are missing one byte.
         }
 
-        public unsafe static (int utfadjust, int scalaradjust) calculatefinaladjust(int start_point, int processedLength, byte* pInputBuffer, int asciibytes, int n4, int contbytes)
+        public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
+        {
+            // Calculate n3 based on the provided formula
+            int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
+
+            // Calculate n2 based on the provided formula
+            int n2 = -2 * asciibytes + n4 - 3 * contbytes + 2 * totalbyte;
+
+            // Calculate utfadjust by adding them all up
+            int utfadjust = -2 * n4 - 2 * n3 - n2;
+
+            // Calculate scalaradjust based on n4
+            int scalaradjust = -n4;
+
+            // Return the calculated utfadjust and scalaradjust
+            return (utfadjust, scalaradjust);
+        }
+
+
+
+        
+
+        public unsafe static (int utfadjust, int scalaradjust) calculateErrorPathadjust(int start_point, int processedLength, byte* pInputBuffer, int asciibytes, int n4, int n2, int contbytes)
         {
             // Calculate the total bytes from start_point to processedLength
             int totalbyte = processedLength - start_point;
+            int adjusttotalbyte = 0, backedupByHowMuch = 0, adjustascii = 0, adjustn2 = 0, adjustn4 = 0;
 
             // Adjust the length to include a complete character, if necessary
             if (totalbyte > 0)
             {
-                var (temptotalbyte,i ,tempascii, tempn2, tempn4) = adjustmentFactor(pInputBuffer + processedLength);
+                (adjusttotalbyte, backedupByHowMuch ,adjustascii, adjustn2, adjustn4) = adjustmentFactor(pInputBuffer + processedLength);
             }
 
-            // Calculate n3 based on provided formula
-            int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
-
-            // Calculate n2 based on provided formula
-            int n2 = -2 * asciibytes + n4 - 4 * contbytes + 2 * totalbyte;
-
-            // TODO add them all up
-
-            int utfadjust = -2 * n4 - 2* n3 - n2;
-            int scalaradjust = n4;
+            var (utfadjust,scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes + adjustascii, n4 + adjustn4, contbytes + adjustn2, totalbyte + adjusttotalbyte);
 
             // Return the calculated n2 and n3
             return (utfadjust, scalaradjust);
@@ -405,7 +419,7 @@ namespace SimdUnicode
 
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-            // Console.WriteLine("--------------------------Calling function----------------------------------");
+            Console.WriteLine("--------------------------Calling function----------------------------------");
             // Console.WriteLine("Length: " + inputLength);
             int processedLength = 0;
             int TempUtf16CodeUnitCountAdjustment= 0 ;
@@ -546,7 +560,9 @@ namespace SimdUnicode
                     int asciibytes = 0; // number of ascii bytes in the block (could also be called n1)
                     int contbytes = 0; // number of continuation bytes in the block
                     int n4 = 0; // number of 4-byte sequences that start in this block
-                    int totalbyte, n3, n2;
+                    // int totalbyte = 0, n3 = 0, n2 = 0;
+
+
 
                     for (; processedLength + 32 <= inputLength; processedLength += 32)
                     {
@@ -560,21 +576,18 @@ namespace SimdUnicode
                             // we need to check if the previous block was incomplete.
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
-
-                            // TODO/think about : this path iss not explicitly tested
-                            // Console.WriteLine("----All ASCII need rewind");
+                            // TODO? : this path iss not explicitly tested
                                 utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TempScalarCountAdjustment;
 
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
-                                // int off = processedLength;
                                 return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
                             }
                             prevIncomplete = Vector256<byte>.Zero;
                         }
                         else // Contains non-ASCII characters, we need to do non-trivial processing
                         {
-                            // Console.WriteLine("--Found non-ascii:triggering SIMD routine at " + processedLength + "bytes"); //debug
+                            Console.WriteLine("--Found non-ascii:triggering SIMD routine at " + processedLength + "bytes"); //debug
                             // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
                             Vector256<byte> shuffled = Avx2.Permute2x128(prevInputBlock, currentBlock, 0x21);
                             prevInputBlock = currentBlock;
@@ -594,7 +607,7 @@ namespace SimdUnicode
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
                             if (!Avx2.TestZ(error, error))
                             {
-                                // Console.WriteLine("-----Error path!!");
+                                Console.WriteLine("-----Error path!!");
                                 TailScalarCodeUnitCountAdjustment =0;
                                 TailUtf16CodeUnitCountAdjustment =0;
 
@@ -610,11 +623,6 @@ namespace SimdUnicode
 
                                 return invalidBytePointer;
                             }
-                            // Adjustments :TODO:
-                            // TempUtf16CodeUnitCountAdjustment -= (int)fourByteCount * 2; 
-                            // TempUtf16CodeUnitCountAdjustment -= (int)twoByteCount; 
-                            // TempUtf16CodeUnitCountAdjustment -= (int)threeByteCount *2; 
-                            // TempScalarCountAdjustment -= (int)fourByteCount; 
 
                             // Console.WriteLine("Doublecount(Temp) after SIMD processing:" + TempUtf16CodeUnitCountAdjustment); debug
                             // Console.WriteLine("Scalarcount after SIMD processing:" + TempScalarCountAdjustment);
@@ -623,7 +631,7 @@ namespace SimdUnicode
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
                                 // We have an unterminated sequence.
-                                // Console.WriteLine("---Unterminated seq--- at " + processedLength + "bytes");
+                                Console.WriteLine("---Unterminated seq--- at " + processedLength + "bytes");
                                 // processedLength -= 3;
 
                                 // Console.WriteLine("incomplete utf16 count", incompleteUtf16CodeUnitPreventDoubleCounting);
@@ -634,24 +642,10 @@ namespace SimdUnicode
 
                                 var (totalbyteadjustment, i,tempascii, tempn2, tempn4) = adjustmentFactor(pInputBuffer + processedLength + 32);
                                 processedLength -= i;
-                                
-
-                            //     for(int k = 0; k < 3; k++)
-                            //     {
-                            //         // TODO:I do not remember why I put +32 here but the compiler complains if I remeve it
-                            //         int candidateByte = pInputBuffer[processedLength + 32 + k];
-                            //         // Console.WriteLine("Backing up " + k +" bytes");
-                            //         // Console.WriteLine("Byte after backing up:" + Convert.ToString(candidateByte, 2).PadLeft(8, '0'));
-
-                            //         // backedup = 3-k +1;
-
-                            //         if ((candidateByte & 0b11000000) == 0b11000000)
-                            //         {
-                            //             // Whatever you do, do not delete this
-                            //             processedLength += k;
-                            //             break;
-                            //         }
-                            //     }
+                                // totalbyte -= totalbyteadjustment;
+                                asciibytes +=tempascii;
+                                n4 += tempn4;
+                                contbytes +=tempn2;
 
                             //     // Console.WriteLine("Backed up " + backedup +" bytes");
                             //     // Console.WriteLine("TempUTF16:"+ TempUtf16CodeUnitCountAdjustment);
@@ -659,18 +653,37 @@ namespace SimdUnicode
                             //     // Console.WriteLine("-----------------");
 
                             }
+
+                                                        // We use one instruction (MoveMask) to update ncon, plus one arithmetic operation.
+                            contbytes += Avx2.MoveMask(sc);
+
+                            // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
+                            n4 += Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte));
                         }
                     }
+                    // There are 2 possible scenarios here : either  
+                    //  A)  it arrives flush en the border. eg it doesnt need to be processed further
+                    //  B)  There is some bytes remaining in which case we need to call the scalar functien
+                    // Either way we need to calculate n2,n3 and update the utf16adjust and scalar adjust
+                    int totalbyte = processedLength - start_point;
+                    var (utf16adjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes,  n4,  contbytes, totalbyte);
+
+                    utf16CodeUnitCountAdjustment = utf16adjust;
+                    scalarCountAdjustment = scalaradjust;
                 }
+
+
             }
             // Console.WriteLine("-Done with SIMD part!"); //debug
             // We have processed all the blocks using SIMD, we need to process the remaining bytes.
             // Process the remaining bytes with the scalar function
+
+
             // worst possible case is 4 bytes, where we need to backtrack 3 bytes
             // 11110xxxx 10xxxxxx 10xxxxxx 10xxxxxx <== we might be pointing at the last byte
             if (processedLength < inputLength)
             {
-                // Console.WriteLine("----Process remaining Scalar @ "  + processedLength + "bytes");
+                Console.WriteLine("----Process remaining Scalar @ "  + processedLength + "bytes");
                 // int overlapCount = 0;
                 // Console.WriteLine("processed length after backtrack:" + processedLength);
                 // Console.WriteLine("TempUTF16 before tail remaining check:"+ TempUtf16CodeUnitCountAdjustment);
