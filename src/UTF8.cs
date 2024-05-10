@@ -225,6 +225,8 @@ namespace SimdUnicode
 
         public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
         {
+
+            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);
             // Calculate n3 based on the provided formula
             int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
 
@@ -236,6 +238,9 @@ namespace SimdUnicode
 
             // Calculate scalaradjust based on n4
             int scalaradjust = -n4;
+
+
+
 
             // Return the calculated utfadjust and scalaradjust
             return (utfadjust, scalaradjust);
@@ -576,9 +581,15 @@ namespace SimdUnicode
                             // we need to check if the previous block was incomplete.
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
-                            // TODO? : this path iss not explicitly tested
-                                utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
-                                scalarCountAdjustment = TempScalarCountAdjustment;
+                            // TODO? : this path is not explicitly tested
+                            Console.WriteLine("---------All ascii need rewind");
+                            
+
+                                int totalbyteasciierror = processedLength - start_point;                                
+                                var (utfadjustasciierror, scalaradjustasciierror) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4,  contbytes,  totalbyteasciierror);
+
+                                utf16CodeUnitCountAdjustment = utfadjustasciierror;
+                                scalarCountAdjustment = scalaradjustasciierror;
 
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
@@ -608,18 +619,28 @@ namespace SimdUnicode
                             if (!Avx2.TestZ(error, error))
                             {
                                 Console.WriteLine("-----Error path!!");
+
+                                int totalbyteasciierror = processedLength - start_point;                                
+                                var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes, contbytes);
+
+                                Console.WriteLine("calculateErrorPathadjust utf16 adjustment:"+ utfadjustasciierror);
+                                Console.WriteLine("calculateErrorPathadjust scalar adjustment:"+ scalaradjustasciierror);
+
+                                utf16CodeUnitCountAdjustment = utfadjustasciierror;
+                                scalarCountAdjustment = scalaradjustasciierror;
+
                                 TailScalarCodeUnitCountAdjustment =0;
                                 TailUtf16CodeUnitCountAdjustment =0;
 
                                 int off = processedLength >= 32 ? processedLength - 32 : processedLength;
                                 byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
 
-                                utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment +TailUtf16CodeUnitCountAdjustment;
-                                scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
+                                utf16CodeUnitCountAdjustment +=  TailUtf16CodeUnitCountAdjustment;
+                                scalarCountAdjustment += TailScalarCodeUnitCountAdjustment;
 
                                 // Console.WriteLine("--------"); //debug
-                                // Console.WriteLine("TempUTF16 after error rewind:"+ utf16CodeUnitCountAdjustment);
-                                // Console.WriteLine("TempScalar '' '' '':"+ scalarCountAdjustment);
+                                Console.WriteLine("TempUTF16 after error rewind:"+ utf16CodeUnitCountAdjustment);
+                                Console.WriteLine("TempScalar '' '' '':"+ scalarCountAdjustment);
 
                                 return invalidBytePointer;
                             }
@@ -632,35 +653,34 @@ namespace SimdUnicode
                             {
                                 // We have an unterminated sequence.
                                 Console.WriteLine("---Unterminated seq--- at " + processedLength + "bytes");
-                                // processedLength -= 3;
-
-                                // Console.WriteLine("incomplete utf16 count", incompleteUtf16CodeUnitPreventDoubleCounting);
-                                // int backedup= 0;
-
-                                // int currentByte = pInputBuffer[processedLength];
-                                // Console.WriteLine("CurrentByte:" + Convert.ToString(currentByte, 2).PadLeft(8, '0'));
 
                                 var (totalbyteadjustment, i,tempascii, tempn2, tempn4) = adjustmentFactor(pInputBuffer + processedLength + 32);
                                 processedLength -= i;
-                                // totalbyte -= totalbyteadjustment;
-                                asciibytes +=tempascii;
                                 n4 += tempn4;
                                 contbytes +=tempn2;
 
-                            //     // Console.WriteLine("Backed up " + backedup +" bytes");
                             //     // Console.WriteLine("TempUTF16:"+ TempUtf16CodeUnitCountAdjustment);
                             //     // Console.WriteLine("TempScalar:"+ TempScalarCountAdjustment);
-                            //     // Console.WriteLine("-----------------");
 
                             }
 
-                                                        // We use one instruction (MoveMask) to update ncon, plus one arithmetic operation.
-                            contbytes += Avx2.MoveMask(sc);
+                            // No errors! Updating the variables we keep track of
+                            // We use one instruction (MoveMask) to update ncon, plus one arithmetic operation.
+                            contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(sc));
+                            Console.WriteLine("this is contbytes" + contbytes)  ;
 
                             // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
-                            n4 += Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte));
+                            n4 += (int)Popcnt.PopCount((uint)Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte)));
                         }
+                        asciibytes += (int)(32 - Popcnt.PopCount((uint)mask));// TODO(Nick Nuon): simplify this expression
+
                     }
+
+                    // important: we just update asciibytes if there was no error.
+                    // We count the number of ascii bytes in the block using just some simple arithmetic
+                    // and no expensive operation:
+
+                    
                     // There are 2 possible scenarios here : either  
                     //  A)  it arrives flush en the border. eg it doesnt need to be processed further
                     //  B)  There is some bytes remaining in which case we need to call the scalar functien
