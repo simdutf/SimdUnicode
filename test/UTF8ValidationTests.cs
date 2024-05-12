@@ -9,10 +9,7 @@ using System.Runtime.Intrinsics.Arm;
 using BenchmarkDotNet.Disassemblers;
 using Iced.Intel;
 
-// TODO: refine test for unterminated sequeqce happening at SIMD transition
 // TODO: The various tests do not formally take into account the scenario where vector is all ASCII  
-// TODO?: Test if the error is in the first vector?
-// TODO:fix NoError,Ingomplete (some of the tests are wrong)
 
 public unsafe class Utf8SIMDValidationTests
 {
@@ -258,7 +255,7 @@ public unsafe class Utf8SIMDValidationTests
                 try
                 {
                     Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
-                    Assert.True(InvalidateUtf8(utf8, outputLength,utf8ValidationDelegate));
+                    Assert.True(InvalidateUtf8(utf8, utf8.Length,utf8ValidationDelegate));
                     ValidateCount(utf8,utf8ValidationDelegate);
                 }
                 catch (Xunit.Sdk.XunitException)
@@ -398,11 +395,10 @@ public unsafe class Utf8SIMDValidationTests
                 List<byte> secondbyte = generator.Generate(1,secondcodeLength);
                 singlebytes.AddRange(secondbyte);
                 
-                int incompleteLocation = 127 - rand.Next(1,firstcodeLength + secondcodeLength);
+                int incompleteLocation = 127 - rand.Next(1,firstcodeLength + secondcodeLength - 1);
                 allAscii.InsertRange(incompleteLocation,singlebytes);
 
                 var utf8 = allAscii.ToArray();
-                Console.WriteLine("---------------New trial");
                 // PrintHexAndBinary(utf8,incompleteLocation);
 
                 bool isValidUtf8 = ValidateUtf8(utf8,utf8ValidationDelegate);
@@ -410,7 +406,7 @@ public unsafe class Utf8SIMDValidationTests
                 try
                 {
                     Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
-                    Assert.True(InvalidateUtf8(utf8, outputLength,utf8ValidationDelegate));
+                    Assert.True(InvalidateUtf8(utf8, utf8.Length,utf8ValidationDelegate));
                     ValidateCount(utf8,utf8ValidationDelegate);
                 }
                 catch (Xunit.Sdk.XunitException)
