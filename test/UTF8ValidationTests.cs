@@ -260,7 +260,6 @@ public unsafe class Utf8SIMDValidationTests
                 }
                 catch (Xunit.Sdk.XunitException)
                 {
-                    // Console.WriteLine($"Assertion failed at index: ");
                     PrintHexAndBinary(utf8);
                     throw; // Rethrow the exception to fail the test.
                 }
@@ -390,16 +389,11 @@ public unsafe class Utf8SIMDValidationTests
                 // var allAscii = generator.Generate(outputLength,1);
                 var allAscii = new List<byte>(Enumerable.Repeat((byte)0, 256));
                 int firstcodeLength = rand.Next(2,5);
-                int secondcodeLength = rand.Next(2,5);
                 List<byte> singlebytes = generator.Generate(1,firstcodeLength);//recall:generate a utf8 code between 2 and 4 bytes
-                List<byte> secondbyte = generator.Generate(1,secondcodeLength);
-                singlebytes.AddRange(secondbyte);
-                
-                int incompleteLocation = 127 - rand.Next(1,firstcodeLength + secondcodeLength - 1);
+                int incompleteLocation = 128 - rand.Next(1,firstcodeLength - 1);
                 allAscii.InsertRange(incompleteLocation,singlebytes);
 
                 var utf8 = allAscii.ToArray();
-                // PrintHexAndBinary(utf8,incompleteLocation);
 
                 bool isValidUtf8 = ValidateUtf8(utf8,utf8ValidationDelegate);
                 string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
@@ -411,7 +405,6 @@ public unsafe class Utf8SIMDValidationTests
                 }
                 catch (Xunit.Sdk.XunitException)
                 {
-                    // Console.WriteLine($"Assertion failed at index: ");
                     PrintHexAndBinary(utf8,incompleteLocation);
                     throw; // Rethrow the exception to fail the test.
                 }
@@ -473,9 +466,6 @@ public unsafe class Utf8SIMDValidationTests
                     {
                         byte oldByte = utf8[i];
                         utf8[i] = 0b11111000; // Forcing a header bits error
-                        // Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
-                        // Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
-                        // ValidateCount(utf8,utf8ValidationDelegate);
                         try
                         {
                             Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
@@ -614,10 +604,6 @@ public unsafe class Utf8SIMDValidationTests
 
     public void TooLongError(Utf8ValidationDelegate utf8ValidationDelegate)
     {
-
-        // int[] outputLengths = { 128, 256, 512, 1024 }; // Example lengths
-//  int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
-
 
         foreach (int outputLength in outputLengths)
         {
@@ -769,7 +755,6 @@ public unsafe class Utf8SIMDValidationTests
         {
             foreach (int outputLength in outputLengths)
             {
-                // List<byte> oneUTFunit = generator.Generate( howManyUnits:1 ,byteCountInUnit: 2);            
                 byte[] utf8 = generator.Generate(outputLength,byteCountInUnit: 1).ToArray();        
                 
                 unsafe
@@ -779,7 +764,6 @@ public unsafe class Utf8SIMDValidationTests
 
                         for (int i = 0; i < utf8.Length; i++)
                             {
-                            // int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
                                 int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
                                 byte currentByte = utf8[i];
                                 int offset = 0;
@@ -789,7 +773,6 @@ public unsafe class Utf8SIMDValidationTests
                             } 
                             if ((currentByte & 0b11110000) == 0b11100000) {
                                 // This is a header byte of a 3-byte sequence
-                    
                                 offset = rand.Next(0, 3);
                             } 
                             if ((currentByte & 0b11111000) == 0b11110000) {
@@ -872,8 +855,6 @@ public unsafe class Utf8SIMDValidationTests
                 foreach (var invalidByte in invalidBytes)
                 {
                     utf8[position] = invalidByte;
-                    // PrintHexAndBinary(utf8);
-
                     Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate)); // Expect the validation to fail due to the invalid byte
                     Assert.True(InvalidateUtf8(utf8,position,utf8ValidationDelegate));
                     ValidateCount(utf8,utf8ValidationDelegate);
@@ -927,6 +908,7 @@ public unsafe class Utf8SIMDValidationTests
         Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+// helper function for debugging: it prints a green byte every 32 bytes and a red byte at a given index 
 static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 {
     int chunkSize = 16; // 128 bits = 16 bytes
@@ -1441,7 +1423,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             }
             catch (Exception)
             {
-                // Upon failure, print the utf8 array for inspection
                 Console.WriteLine("ValidateCount Assertion failed. Inspecting utf8 array:");
                 // PrintHexAndBinary(utf8,failureIndex); 
                 throw; // Re-throw the exception to preserve the failure state
@@ -1449,58 +1430,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
         }
     }
 }
-
-
-    // [Fact]
-    // [Trait("Category", "Scalar")]
-    // public void DotnetUTF16Count()
-    // {
-    //     int[] outputLengths = { 10, 15, 11,12 ,15,15,1, 3, 5, 8, 10, 12, 15, 18 };
-    //     int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
-    //     int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
-
-
-    //     foreach (int outputLength in outputLengths)
-    //     {
-    //         // Generate a UTF-8 sequence with 3 units, each 2 bytes long, presumed to be valid.
-    //         // byte[] utf8 = generator.Generate(howManyUnits: 11, byteCountInUnit: 3).ToArray();
-    //         byte[] utf8 = generator.Generate(howManyUnits: outputLength).ToArray();
-    //         PrintHexAndBinary(utf8);
-    //         var (offset, length) = (0, utf8.Length);
-
-    //         unsafe
-    //         {
-    //             fixed (byte* pInput = utf8)
-    //             {
-    //                 byte* startPtr = pInput + offset;
-    //                 // Invoke the method under test.
-
-    //                 DotnetUtf16Adjustment= 0; 
-    //                 DotnetScalarCountAdjustment= 0;
-    //                 DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
-
-    //                 SimdUnicodeUtf16Adjustment= 0; 
-    //                 SimdUnicodeScalarCountAdjustment= 0;
-    //                 SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
-
-    //                 Console.WriteLine("Lenght:" + utf8.Length);
-
-    //                 Console.WriteLine("DotnetScalar:" + DotnetScalarCountAdjustment);
-    //                 Console.WriteLine("OurScalar:" + SimdUnicodeScalarCountAdjustment);
-
-    //                 Console.WriteLine("Dotnetutf16:" + DotnetUtf16Adjustment);
-    //                 Console.WriteLine("Ourutf16:" + SimdUnicodeUtf16Adjustment);
-    //                 Console.WriteLine("___________________________________________________");
-
-
-    //                 Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
-    //                 Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
-
-    //             }
-    //         }
-    //     }
-    // }
-
 
 }
 
