@@ -544,7 +544,7 @@ namespace SimdUnicode
                             // 
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
-                            // TODO? : this path is not explicitly tested, write tests
+                            // TODO : this path is not explicitly tested, write tests
                                 int totalbyteasciierror = processedLength - start_point;                                
                                 var (utfadjustasciierror, scalaradjustasciierror) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4,  contbytes,  totalbyteasciierror);
 
@@ -605,7 +605,6 @@ namespace SimdUnicode
                                 processedLength -= i;
                                 n4 += tempn4;
                                 contbytes +=tempcont;
-
                             }
 
                             // No errors! Updating the variables we keep track of
