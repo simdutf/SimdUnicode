@@ -398,19 +398,6 @@ namespace SimdUnicode
 
             int TailScalarCodeUnitCountAdjustment = 0;
             int TailUtf16CodeUnitCountAdjustment = 0;
-            bool lastSIMDisIncomplete = false;  
-            // This is to solve a specific problem, where we have an unterminated SIMD vector followed by a call to the scaral rewind function:
-            // as an example say I have this sequence of byte where every line represents 16 bytes:
-            // 00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000 
-            // 00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  11101100  10001001  10011000  11001011 <=== This SIMD vector is unterminated,thus it has to backup 
-            // 10100100  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000 
-            // 00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000  00000000 
-            // By default , if there is an unterminated SIMD vector, it assumes that the next vector is SIMD, 
-            // dont count the backed up bytes(in this case the "11101100  10001001  10011000")
-            // however in case there isnt enough bytes to fill in, a gap is created as (??????) 
-            // A call to the adjustment vector has to be made and this is the value that holds whether this call is made or not.
-            // It is somewhat questionable to create one extra variable just for that but I felt that I needed to separate what worked and what was tacked on later as clearly as possible
-
 
             if (pInputBuffer == null || inputLength <= 0)
             {
@@ -432,7 +419,6 @@ namespace SimdUnicode
                         break;
                     }
                 }
-                // Console.WriteLine("asciirun bytes: ", asciirun); // debugging
                 processedLength = asciirun;
 
                 if (processedLength + 32 < inputLength)
