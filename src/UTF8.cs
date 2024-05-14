@@ -23,7 +23,6 @@ namespace SimdUnicode
 
             for (int i = 0; i <= howFarBack; i++)
             {
-                // Console.WriteLine("Activiting main backup:" + i);
                 byte candidateByte = buf[0 - i];
                 foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
                 if (foundLeadingBytes)
@@ -200,7 +199,7 @@ namespace SimdUnicode
                 return (0,i,-1,0,0); // We must have that i == 1
             }
             if ((pInputBuffer[-i] & 0b11100000) == 0b11000000) {
-                return (2 - i,i,0,-1,0); // We have that i == 1 or i == 2, if i == 1, we are missing one byte.
+                return (2 - i,i,0,0,0); // We have that i == 1 or i == 2, if i == 1, we are missing one byte.
             }
             if ((pInputBuffer[-i] & 0b11110000) == 0b11100000) {
                 return (3 - i,i,0,0,0); // We have that i == 1 or i == 2 or i == 3, if i == 1, we are missing two bytes, if i == 2, we are missing one byte.
@@ -211,11 +210,15 @@ namespace SimdUnicode
 
         public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
         {
-            // Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);
+            Console.WriteLine("---------");
+            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);
             int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
             int n2 = -2 * asciibytes + n4 - 3 * contbytes + 2 * totalbyte;
             int utfadjust = -2 * n4 - 2 * n3 - n2;
             int scalaradjust = -n4;
+
+            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);
+            
 
             return (utfadjust, scalaradjust);
         }
@@ -392,6 +395,7 @@ namespace SimdUnicode
 
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
+            Console.WriteLine("-------------------------------------");
             int processedLength = 0;
             int TempUtf16CodeUnitCountAdjustment= 0 ;
             int TempScalarCountAdjustment = 0;
@@ -544,7 +548,7 @@ namespace SimdUnicode
                             // 
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
-                            // TODO : this path is not explicitly tested, write tests
+                                // TODO : this path is not explicitly tested, write tests
                                 int totalbyteasciierror = processedLength - start_point;                                
                                 var (utfadjustasciierror, scalaradjustasciierror) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4,  contbytes,  totalbyteasciierror);
 
@@ -577,6 +581,7 @@ namespace SimdUnicode
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
                             if (!Avx2.TestZ(error, error))
                             {
+                                Console.WriteLine("--Error!");
                                 int totalbyteasciierror = processedLength - start_point;                                
                                 var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes);
 
@@ -605,6 +610,8 @@ namespace SimdUnicode
                                 processedLength -= i;
                                 n4 += tempn4;
                                 contbytes +=tempcont;
+                                Console.WriteLine($"Unterminated! Backing up by {i}");
+
                             }
 
                             // No errors! Updating the variables we keep track of
@@ -631,7 +638,6 @@ namespace SimdUnicode
 
                     utf16CodeUnitCountAdjustment = utf16adjust;
                     scalarCountAdjustment = scalaradjust;
-                    
                 }
 
 
