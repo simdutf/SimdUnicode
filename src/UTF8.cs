@@ -10,6 +10,70 @@ namespace SimdUnicode
     public static class UTF8
     {
 
+        // helper function for debugging: it prints a green byte every 32 bytes and a red byte at a given index 
+static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
+{
+    int chunkSize = 16; // 128 bits = 16 bytes
+
+    // Process each chunk for hexadecimal
+    Console.Write("Hex: ");
+    for (int i = 0; i < bytes.Length; i++)
+    {
+        if (i > 0 && i % chunkSize == 0)
+            Console.WriteLine(); // New line after every 16 bytes
+        
+        if (i == highlightIndex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{bytes[i]:X2} ");
+            Console.ResetColor();
+        }
+        else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{bytes[i]:X2} ");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.Write($"{bytes[i]:X2} ");
+        }
+
+        if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
+    }
+    Console.WriteLine("\n"); // New line for readability and to separate hex from binary
+
+    // Process each chunk for binary
+    Console.Write("Binary: ");
+    for (int i = 0; i < bytes.Length; i++)
+    {
+        if (i > 0 && i % chunkSize == 0)
+            Console.WriteLine(); // New line after every 16 bytes
+
+        string binaryString = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
+        if (i == highlightIndex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{binaryString} ");
+            Console.ResetColor();
+        }
+        else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{binaryString} ");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.Write($"{binaryString} ");
+        }
+
+        if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
+    }
+    Console.WriteLine(); // New line for readability
+}
+
+
         static Func<byte, string> byteToBinaryString = b => Convert.ToString(b, 2).PadLeft(8, '0');//for debugging
 
         public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
@@ -188,38 +252,40 @@ namespace SimdUnicode
         public unsafe static (int totalbyteadjustment,int backedupByHowMuch,int ascii,int contbyte,int n4) adjustmentFactor(byte* pInputBuffer) {
             // Find the first non-continuation byte, working backward.
             int i = 1;
+            int contbyteadjust = 0;
             for (; i <= 4; i++)
             {
                 if ((pInputBuffer[-i] & 0b11000000) != 0b10000000)
                 {
                     break;
                 }
+                contbyteadjust -= 1;
+
             }
             if ((pInputBuffer[-i] & 0b10000000) == 0) {
-                return (0,i,-1,0,0); // We must have that i == 1
+                return (0,i,-1,contbyteadjust,0); // We must have that i == 1
             }
             if ((pInputBuffer[-i] & 0b11100000) == 0b11000000) {
-                return (2 - i,i,0,0,0); // We have that i == 1 or i == 2, if i == 1, we are missing one byte.
+                return (2 - i,i,0,contbyteadjust,0); // We have that i == 1 or i == 2, if i == 1, we are missing one byte.
             }
             if ((pInputBuffer[-i] & 0b11110000) == 0b11100000) {
-                return (3 - i,i,0,0,0); // We have that i == 1 or i == 2 or i == 3, if i == 1, we are missing two bytes, if i == 2, we are missing one byte.
+                return (3 - i,i,0,contbyteadjust,0); // We have that i == 1 or i == 2 or i == 3, if i == 1, we are missing two bytes, if i == 2, we are missing one byte.
             }
             // We must have that (pInputBuffer[-i] & 0b11111000) == 0b11110000
-            return (4 - i,i,0,0,-1); // We have that i == 1 or i == 2 or i == 3 or i == 4, if i == 1, we are missing three bytes, if i == 2, we are missing two bytes, if i == 3, we are missing one byte.
+            return (4 - i,i,0,contbyteadjust,-1); // We have that i == 1 or i == 2 or i == 3 or i == 4, if i == 1, we are missing three bytes, if i == 2, we are missing two bytes, if i == 3, we are missing one byte.
         }
 
         public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
         {
-            Console.WriteLine("---------");
-            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);
+            Console.WriteLine("---------"); //debug
+            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);//debug
             int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
             int n2 = -2 * asciibytes + n4 - 3 * contbytes + 2 * totalbyte;
             int utfadjust = -2 * n4 - 2 * n3 - n2;
             int scalaradjust = -n4;
 
-            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);
+            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);//debug
             
-
             return (utfadjust, scalaradjust);
         }
 
@@ -395,7 +461,10 @@ namespace SimdUnicode
 
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-            Console.WriteLine("-------------------------------------");
+            Console.ForegroundColor = ConsoleColor.Blue;            //debug
+            Console.WriteLine("-------------------------------------");//debug
+            Console.ResetColor();//debug
+
             int processedLength = 0;
             int TempUtf16CodeUnitCountAdjustment= 0 ;
             int TempScalarCountAdjustment = 0;
@@ -568,10 +637,17 @@ namespace SimdUnicode
                             Vector256<byte> prev1 = Avx2.AlignRight(prevInputBlock, shuffled, (byte)(16 - 1));
                             // Vector256.Shuffle vs Avx2.Shuffle
                             // https://github.com/dotnet/runtime/blob/1400c1e7a888ea1e710e5c08d55c800e0b04bf8a/docs/coding-guidelines/vectorization-guidelines.md#vector256shuffle-vs-avx2shuffle
-                            Vector256<byte> byte_1_high = Avx2.Shuffle(shuf1, Avx2.ShiftRightLogical(prev1.AsUInt16(), 4).AsByte() & v0f);
-                            Vector256<byte> byte_1_low = Avx2.Shuffle(shuf2, (prev1 & v0f));
-                            Vector256<byte> byte_2_high = Avx2.Shuffle(shuf3, Avx2.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f);
+                            Vector256<byte> byte_1_high = Avx2.Shuffle(shuf1, Avx2.ShiftRightLogical(prev1.AsUInt16(), 4).AsByte() & v0f);// takes the XXXX 0000 part of the previous byte
+                            Vector256<byte> byte_1_low = Avx2.Shuffle(shuf2, (prev1 & v0f)); // takes the 0000 XXXX part of the previous part
+                            Vector256<byte> byte_2_high = Avx2.Shuffle(shuf3, Avx2.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f); // takes the XXXX 0000 part of the current byte
                             Vector256<byte> sc = Avx2.And(Avx2.And(byte_1_high, byte_1_low), byte_2_high);
+
+                                    // Create a span from the Vector256<byte>
+                                // Console.WriteLine("");
+                                // Span<byte> byteSpan = MemoryMarshal.Cast<Vector256<byte>, byte>(MemoryMarshal.CreateSpan(ref sc, 1));
+                                // byte[] scbytes = byteSpan.ToArray();
+                                // PrintHexAndBinary(scbytes);55555555555555555
+                            
                             Vector256<byte> prev2 = Avx2.AlignRight(prevInputBlock, shuffled, (byte)(16 - 2));
                             Vector256<byte> prev3 = Avx2.AlignRight(prevInputBlock, shuffled, (byte)(16 - 3));
                             Vector256<byte> isThirdByte = Avx2.SubtractSaturate(prev2, thirdByte);
@@ -581,7 +657,7 @@ namespace SimdUnicode
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
                             if (!Avx2.TestZ(error, error))
                             {
-                                Console.WriteLine("--Error!");
+                                Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
                                 int totalbyteasciierror = processedLength - start_point;                                
                                 var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes);
 
@@ -608,25 +684,53 @@ namespace SimdUnicode
                                 var (totalbyteadjustment, i,tempascii, tempcont, tempn4) = adjustmentFactor(pInputBuffer + processedLength + 32);
 
                                 processedLength -= i;
-                                n4 += tempn4;
+                                n4 += tempn4;// this is + because the adjustment function returns something negative already
                                 contbytes +=tempcont;
-                                Console.WriteLine($"Unterminated! Backing up by {i}");
-
+                                Console.WriteLine($"Unterminated! @ {processedLength} Backing up by {i}"); //debug
                             }
+
+
+                              
+                              
+                              
+                            // Vector256<byte> contbyto = Vector256.Create((byte)(0b11000000u - 0x80));
+                            // Vector256<byte> isStartOf4ByteSequence = Avx2.SubtractSaturate(currentBlock, fourthByte);
+                            // Vector256<byte> isStartOf3OrMoreByteSequence = Avx2.SubtractSaturate(currentBlock, thirdByte);
+                            // Vector256<byte> isStartOf2OrMoreByteSequence = Avx2.SubtractSaturate(currentBlock, secondByte);
+
+                            // uint twoBytePlusCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf2OrMoreByteSequence));
+                            // uint threeBytePlusCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf3OrMoreByteSequence));
+                            // uint fourByteCount = Popcnt.PopCount((uint)Avx2.MoveMask(isStartOf4ByteSequence));
+
 
                             // No errors! Updating the variables we keep track of
                             // We use one instruction (MoveMask) to update ncon, plus one arithmetic operation.
-                            contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(sc));
+                            
+                            // contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(sc)); // this actually counts the number of 2 consecutive continuous bytes
+                            // Placeholder until andether way to do with contbyte is found
+                            
+                            Vector256<byte> top2bits = Vector256.Create((byte)0b11000000); // Mask to isolate the two most significant bits
+                            Vector256<byte> contbytemask = Vector256.Create((byte)0b10000000);        // The expected pattern for continuation bytes: 10xxxxxx
 
+                            // Apply the mask and compare
+                            Vector256<byte> maskedData = Avx2.And(currentBlock, top2bits);
+                            Vector256<byte> compareResult = Avx2.CompareEqual(maskedData, contbytemask);
+                            // Move mask to get integer representation
+                            contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(compareResult));
+
+
+                            
                             // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
                             n4 += (int)Popcnt.PopCount((uint)Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte)));
                         }
+
+                        // important: we just update asciibytes if there was no error.
+                        // We count the number of ascii bytes in the block using just some simple arithmetic
+                        // and no expensive operation:
                         asciibytes += (int)(32 - Popcnt.PopCount((uint)mask));
                     }
 
-                    // important: we just update asciibytes if there was no error.
-                    // We count the number of ascii bytes in the block using just some simple arithmetic
-                    // and no expensive operation:
+
 
                     
                     // There are 2 possible scenarios here : either  
