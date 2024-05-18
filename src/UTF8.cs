@@ -257,10 +257,12 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 if ((pInputBuffer[-i] & 0b11000000) != 0b10000000)
                 {
+                    string binaryString = Convert.ToString(pInputBuffer[-i], 2).PadLeft(8, '0');
+                    // Console.WriteLine($"Stopping at byte {binaryString}"); //debug
                     break;
                 }
                 contbyteadjust -= 1;
-
+                
             }
             if ((pInputBuffer[-i] & 0b10000000) == 0) {
                 return (0,i,-1,contbyteadjust,0); // We must have that i == 1
@@ -277,14 +279,14 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
         {
-            Console.WriteLine("---------"); //debug
-            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);//debug
+            // Console.WriteLine("---------"); //debug
+            // Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);//debug
             int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
             int n2 = -2 * asciibytes + n4 - 3 * contbytes + 2 * totalbyte;
             int utfadjust = -2 * n4 - 2 * n3 - n2;
             int scalaradjust = -n4;
 
-            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);//debug
+            // Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);//debug
             
             return (utfadjust, scalaradjust);
         }
@@ -301,7 +303,9 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                 (adjusttotalbyte, backedupByHowMuch ,adjustascii, adjustcont, adjustn4) = adjustmentFactor(pInputBuffer + processedLength);
             }
 
-            var (utfadjust,scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes + adjustascii, n4 + adjustn4, contbytes + adjustcont, totalbyte + adjusttotalbyte);
+            // var (utfadjust,scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes + adjustascii, n4 + adjustn4, contbytes + adjustcont, totalbyte + adjusttotalbyte);
+            var (utfadjust,scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes, n4 , contbytes , totalbyte + adjusttotalbyte);
+
 
             return (utfadjust, scalaradjust);
         }
@@ -461,9 +465,9 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;            //debug
-            Console.WriteLine("-------------------------------------");//debug
-            Console.ResetColor();//debug
+            // Console.ForegroundColor = ConsoleColor.Blue;            //debug
+            // Console.WriteLine("-------------------------------------");//debug
+            // Console.ResetColor();//debug
 
             int processedLength = 0;
             int TempUtf16CodeUnitCountAdjustment= 0 ;
@@ -657,7 +661,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
                             if (!Avx2.TestZ(error, error))
                             {
-                                Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
+                                // Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
                                 int totalbyteasciierror = processedLength - start_point;                                
                                 var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes);
 
@@ -686,7 +690,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                                 processedLength -= i;
                                 n4 += tempn4;// this is + because the adjustment function returns something negative already
                                 contbytes +=tempcont;
-                                Console.WriteLine($"Unterminated! @ {processedLength} Backing up by {i}"); //debug
+                                // Console.WriteLine($"Unterminated! @ {processedLength} Backing up by {i}"); //debug
                             }
 
 
@@ -740,8 +744,8 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                     int totalbyte = processedLength - start_point;
                     var (utf16adjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes,  n4,  contbytes, totalbyte);
 
-                    utf16CodeUnitCountAdjustment = utf16adjust;
-                    scalarCountAdjustment = scalaradjust;
+                    TempUtf16CodeUnitCountAdjustment = utf16adjust;
+                    TempScalarCountAdjustment = scalaradjust;
                 }
 
 
