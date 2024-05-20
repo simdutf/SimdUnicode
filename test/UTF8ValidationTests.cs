@@ -332,8 +332,8 @@ public class Utf8SIMDValidationTests
     [Fact]
     public void BruteForceTest()
     {
-        // Random rand = new Random(); // Random instance for test
-
+#pragma warning disable CA5394
+        Random rand = new Random(); // Random instance for test
         for (int i = 0; i < NumTrials; i++)
         {
             // Generate random UTF-8 sequence

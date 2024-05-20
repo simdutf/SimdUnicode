@@ -57,8 +57,8 @@ namespace SimdUnicodeBenchmarks
     [Config(typeof(Config))]
     public class RealDataBenchmark
     {
-
-        private class Config : ManualConfig
+#pragma warning disable CA1812
+        private sealed class Config : ManualConfig
         {
             public Config()
             {
