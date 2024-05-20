@@ -615,10 +615,6 @@ public unsafe class Utf8SIMDValidationTests
                     {
                         byte oldByte = utf8[i];
                         utf8[i] = 0b10000000; // Forcing a too long error
-                        // Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
-                        // Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
-                        // ValidateCount(utf8,utf8ValidationDelegate);
-                        // utf8[i] = oldByte; // Restore the original byte
                         try
                         {
                             Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
@@ -1221,7 +1217,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                     // Validate the modified sequence with both methods
                     bool isValidPrimary = ValidateUtf8(modifiedUtf8,utf8ValidationDelegate);
                     bool isValidFuschia = ValidateUtf8Fuschia(modifiedUtf8);
-                    ValidateCount(modifiedUtf8,utf8ValidationDelegate);
+                    ValidateCount(modifiedUtf8,utf8ValidationDelegate,default,byteIndex);
 
                     // Ensure both methods agree on the validation result
                     try{ Assert.Equal(isValidPrimary, isValidFuschia);}
@@ -1409,7 +1405,8 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 // Define a delegate that matches the signature of the methods you want to test
     public unsafe delegate byte* Utf8ValidationDelegate(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
 
-    public void ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+    // public void ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+    public void ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default, int? index = null)
 {
     int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
     int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
@@ -1432,7 +1429,8 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             byte* simdResult = utf8ValidationDelegate(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
 
             // Determine the index of the invalid byte if simdResult doesn't point to the end.
-            int failureIndex = simdResult != pInput + length ? (int)(simdResult - pInput) : -1;
+            // int failureIndex = simdResult != pInput + length ? (int)(simdResult - pInput) : -1;
+            
 
             try
             {
@@ -1443,6 +1441,14 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 Console.WriteLine("ValidateCount Assertion failed. Inspecting utf8 array:");
                 // PrintHexAndBinary(utf8); 
+                if (index.HasValue)
+                {
+                    PrintHexAndBinary(utf8, index.Value);
+                }
+                else
+                {
+                    PrintHexAndBinary(utf8);
+                }
                 throw; // Re-throw the exception to preserve the failure state
             }
         }
