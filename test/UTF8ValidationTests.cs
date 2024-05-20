@@ -476,7 +476,6 @@ public unsafe class Utf8SIMDValidationTests
                         {
                             Console.WriteLine($"Assertion failed at index: {i}");
                             PrintHexAndBinary(utf8, i);
-                            utf8[i] = oldByte; // Restore the original byte
                             throw; // Rethrow the exception to fail the test.
                         }
 
@@ -552,7 +551,6 @@ public unsafe class Utf8SIMDValidationTests
                     {
                         Console.WriteLine($"Assertion failed at index: {i}");
                         PrintHexAndBinary(utf8, i);
-                        utf8[i] = oldByte; // Restore the original byte
                         throw; // Rethrow the exception to fail the test.
                     }
                         utf8[i] = oldByte; // Restore the original byte
@@ -617,10 +615,23 @@ public unsafe class Utf8SIMDValidationTests
                     {
                         byte oldByte = utf8[i];
                         utf8[i] = 0b10000000; // Forcing a too long error
-                        Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
-                        Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
-                        ValidateCount(utf8,utf8ValidationDelegate);
-                        utf8[i] = oldByte; // Restore the original byte
+                        // Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                        // Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                        // ValidateCount(utf8,utf8ValidationDelegate);
+                        // utf8[i] = oldByte; // Restore the original byte
+                        try
+                        {
+                            Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                            Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                            ValidateCount(utf8,utf8ValidationDelegate); // Ensure you want to call this here, it seems unrelated to exception handling.
+                            utf8[i] = oldByte; // Restore the original byte
+                        }
+                        catch (Xunit.Sdk.XunitException)
+                        {
+                            Console.WriteLine($"Assertion failed at index: {i}");
+                            PrintHexAndBinary(utf8, i);
+                            throw; // Rethrow the exception to fail the test.
+                        }
                     }
                 }
             }
@@ -1213,7 +1224,14 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                     ValidateCount(modifiedUtf8,utf8ValidationDelegate);
 
                     // Ensure both methods agree on the validation result
-                    Assert.Equal(isValidPrimary, isValidFuschia);
+                    try{ Assert.Equal(isValidPrimary, isValidFuschia);}
+                        catch (Xunit.Sdk.XunitException)
+                        {
+                            Console.WriteLine($"Assertion failed at index: {byteIndex}");
+                            PrintHexAndBinary(utf8, byteIndex);
+                            throw; // Rethrow the exception to fail the test.
+                        }
+                    
                 }
             }
         }
@@ -1424,7 +1442,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             catch (Exception)
             {
                 Console.WriteLine("ValidateCount Assertion failed. Inspecting utf8 array:");
-                // PrintHexAndBinary(utf8,failureIndex); 
+                // PrintHexAndBinary(utf8); 
                 throw; // Re-throw the exception to preserve the failure state
             }
         }

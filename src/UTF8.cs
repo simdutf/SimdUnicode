@@ -10,7 +10,7 @@ namespace SimdUnicode
     public static class UTF8
     {
 
-        // helper function for debugging: it prints a green byte every 32 bytes and a red byte at a given index 
+        //debug helper function for debugging: it prints a green byte every 32 bytes and a red byte at a given index 
 static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 {
     int chunkSize = 16; // 128 bits = 16 bytes
@@ -78,10 +78,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
         {
-
-            int TempUtf16CodeUnitCountAdjustment = 0;
-            int TempScalarCountAdjustment = 0;
-
+            // Console.WriteLine("CALLING REWIND");
             int extraLen = 0;
             bool foundLeadingBytes = false;
 
@@ -89,8 +86,12 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 byte candidateByte = buf[0 - i];
                 foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
+                Console.WriteLine($"Rewinding byte to offset {-i}: {candidateByte:X2}");
+                Console.WriteLine(foundLeadingBytes);
+
                 if (foundLeadingBytes)
-                {         
+                {  
+                    Console.WriteLine("Found leading byte");       
                     buf -= i;
                     break;
                 }
@@ -101,13 +102,12 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                 return buf - howFarBack;
             }
 
-            utf16CodeUnitCountAdjustment += TempUtf16CodeUnitCountAdjustment;
-            scalarCountAdjustment += TempScalarCountAdjustment;
-
             int TailUtf16CodeUnitCountAdjustment = 0;
             int TailScalarCountAdjustment = 0;
 
             byte* invalidBytePointer = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out TailUtf16CodeUnitCountAdjustment, out TailScalarCountAdjustment);
+            // Console.WriteLine($"RewindScalarValidation's function utf16adjust:{TailUtf16CodeUnitCountAdjustment}, scalaradjust:{TailScalarCountAdjustment}");
+
 
             utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
             scalarCountAdjustment += TailScalarCountAdjustment;
@@ -219,7 +219,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                 }
                 else
                 {
-                    // we may have a continuation
+                    // we may have a continuation/too long error
                     utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                     scalarCountAdjustment = TempScalarCountAdjustment;
                     return pInputBuffer + pos;
@@ -257,12 +257,11 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 if ((pInputBuffer[-i] & 0b11000000) != 0b10000000)
                 {
-                    string binaryString = Convert.ToString(pInputBuffer[-i], 2).PadLeft(8, '0');
-                    // Console.WriteLine($"Stopping at byte {binaryString}"); //debug
+                    string binaryString = Convert.ToString(pInputBuffer[-i], 2).PadLeft(8, '0');//debug
+                    Console.WriteLine($"Stopping at byte {binaryString}"); //debug
                     break;
                 }
                 contbyteadjust -= 1;
-                
             }
             if ((pInputBuffer[-i] & 0b10000000) == 0) {
                 return (0,i,-1,contbyteadjust,0); // We must have that i == 1
@@ -279,19 +278,41 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
         {
-            // Console.WriteLine("---------"); //debug
-            // Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);//debug
+            Console.WriteLine("---------"); //debug
+            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);//debug
             int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
             int n2 = -2 * asciibytes + n4 - 3 * contbytes + 2 * totalbyte;
             int utfadjust = -2 * n4 - 2 * n3 - n2;
             int scalaradjust = -n4;
 
-            // Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);//debug
+            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);//debug
             
             return (utfadjust, scalaradjust);
         }
 
-        public unsafe static (int utfadjust, int scalaradjust) calculateErrorPathadjust(int start_point, int processedLength, byte* pInputBuffer, int asciibytes, int n4, int contbytes)
+        // public unsafe static (int utfadjust, int scalaradjust) calculateErrorPathadjust(int start_point, int processedLength, byte* pInputBuffer, int asciibytes, int n4, int contbytes) //todo: add an extra bool parameter 'TooLongErroronEdge' which defaults to false
+        // {
+        //     // Calculate the total bytes from start_point to processedLength
+        //     int totalbyte = processedLength - start_point;
+        //     int adjusttotalbyte = 0, backedupByHowMuch = 0, adjustascii = 0, adjustcont = 0, adjustn4 = 0;
+
+        //     // Adjust the length to include a complete character, if necessary
+        //     if (totalbyte > 0)
+        //     {
+        //         (adjusttotalbyte, backedupByHowMuch ,adjustascii, adjustcont, adjustn4) = adjustmentFactor(pInputBuffer + processedLength);
+        //     }
+
+        //     // Pseudocode:
+        //     // if 'TooLongErroronEdge' bool is true then 
+        //     // then substract (remove) adjustascii, adjustcont, adjustn4 from their respective counterpart in the following function:
+
+        //     var (utfadjust,scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes, n4 , contbytes , totalbyte + adjusttotalbyte);
+
+
+        //     return (utfadjust, scalaradjust);
+        // }
+
+        public unsafe static (int utfadjust, int scalaradjust) calculateErrorPathadjust(int start_point, int processedLength, byte* pInputBuffer, int asciibytes, int n4, int contbytes, bool TooLongErroronEdge = false)
         {
             // Calculate the total bytes from start_point to processedLength
             int totalbyte = processedLength - start_point;
@@ -300,15 +321,23 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             // Adjust the length to include a complete character, if necessary
             if (totalbyte > 0)
             {
-                (adjusttotalbyte, backedupByHowMuch ,adjustascii, adjustcont, adjustn4) = adjustmentFactor(pInputBuffer + processedLength);
+                (adjusttotalbyte, backedupByHowMuch, adjustascii, adjustcont, adjustn4) = adjustmentFactor(pInputBuffer + processedLength);
             }
 
-            // var (utfadjust,scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes + adjustascii, n4 + adjustn4, contbytes + adjustcont, totalbyte + adjusttotalbyte);
-            var (utfadjust,scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes, n4 , contbytes , totalbyte + adjusttotalbyte);
+            // Adjust the counters if 'TooLongErroronEdge' is true
+            if (TooLongErroronEdge)
+            {
+                // If you can figure out why this makes a difference,youre golden
+                asciibytes += adjustascii;
+                contbytes += adjustcont;
+                n4 += adjustn4;
+            }
 
+            var (utfadjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, totalbyte + adjusttotalbyte);
 
             return (utfadjust, scalaradjust);
         }
+
 
 
         public unsafe static byte* GetPointerToFirstInvalidByteSse(byte* pInputBuffer, int inputLength)
@@ -465,9 +494,9 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-            // Console.ForegroundColor = ConsoleColor.Blue;            //debug
-            // Console.WriteLine("-------------------------------------");//debug
-            // Console.ResetColor();//debug
+            Console.ForegroundColor = ConsoleColor.Blue;            //debug
+            Console.WriteLine("-------------------------------------");//debug
+            Console.ResetColor();//debug
 
             int processedLength = 0;
             int TempUtf16CodeUnitCountAdjustment= 0 ;
@@ -659,23 +688,100 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                             Vector256<byte> must23 = Avx2.Or(isThirdByte, isFourthByte);
                             Vector256<byte> must23As80 = Avx2.And(must23, v80);
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
+                            // if (!Avx2.TestZ(error, error))
+                            // {
+                            //     Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
+
+                            //     int off = processedLength >= 32 ? processedLength - 32 : processedLength;
+                            //     byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
+
+                            //     utf16CodeUnitCountAdjustment =  TailUtf16CodeUnitCountAdjustment;
+                            //     scalarCountAdjustment = TailScalarCodeUnitCountAdjustment;
+
+                            //     // We need to take care of eg
+                            //     // 11011110  10101101  11110000  10101101  10101111  10011111  11010111  10101000  11001101  10111001  11010100  10000111  11101111  10010000  10000000  11110011 
+                            //     // 10110100  10101100  10100111  11100100  10101011  10011111  11101111  10100010  10110010  11011100  10100000  00100010  11110000  10011001  10101011  10000011 
+                            //     // 10000000  10100010  11101110  10010101  10101001  11010100  10100111  11110000  10101001  10011101  10011011  11100100  10101011  10010111  11100110  10011001 <= Too long error @ 32 byte edge 
+                            //     // 10010000  11101111  10111111  10010110  11001010  10000000  11000111  10100010  11110010  10111100  10111011  10010100  11101001  10001011  10000110  11110100 
+                            //     // In this edge case, the 11110000 byte is erroneously double counted: the SIMD procedure counts it once, then it is counted again by the scalar function
+                            //     // Normally , if there is an error, this does not cause an issue: most erronous utf-8 unit will not be counted
+                            //     // but it is in the case of too long as if you take for example (1111---- 10----- 10----- 10-----) 10-----  
+                            //     // the part between parentheses will be counted as valid and thus scalaradjust will be incremented once too much
+                            //     // If this error arrive at the edge of 2 simd vector, that is where problem abound: the rewind scalar function will backup
+
+                            //     // so in short , we want to solve this error while at the same time not disturbing anything else
+                            //     // we  know that there is a continuation on the edge eg at the 64 byte, we need te check that
+                            //     // *TODO:Fill code here *
+                            //     // Peudocode for now
+                            //     // if invalidbyte is of typo 10XX XXXX & invalidbyto pointer % 32 byte == 0 then
+                            //     // pass on true to the 
+
+
+                            //     int totalbyteasciierror = processedLength - start_point;                                
+                            //     var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes);
+
+                            //     utf16CodeUnitCountAdjustment += utfadjustasciierror;
+                            //     scalarCountAdjustment += scalaradjustasciierror;
+
+                            //     TailScalarCodeUnitCountAdjustment =0;
+                            //     TailUtf16CodeUnitCountAdjustment =0;
+
+
+
+                            //     return invalidBytePointer;
+                            // }
+
                             if (!Avx2.TestZ(error, error))
                             {
-                                // Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
-                                int totalbyteasciierror = processedLength - start_point;                                
-                                var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes);
-
-                                utf16CodeUnitCountAdjustment = utfadjustasciierror;
-                                scalarCountAdjustment = scalaradjustasciierror;
-
-                                TailScalarCodeUnitCountAdjustment =0;
-                                TailUtf16CodeUnitCountAdjustment =0;
+                                Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
 
                                 int off = processedLength >= 32 ? processedLength - 32 : processedLength;
                                 byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
+                                bool TooLongErroronEdge = false;
 
-                                utf16CodeUnitCountAdjustment +=  TailUtf16CodeUnitCountAdjustment;
-                                scalarCountAdjustment += TailScalarCodeUnitCountAdjustment;
+                                utf16CodeUnitCountAdjustment =  TailUtf16CodeUnitCountAdjustment;
+                                scalarCountAdjustment = TailScalarCodeUnitCountAdjustment;
+
+                                Console.WriteLine($"RewindScalarValidation's function utf16adjust:{TailUtf16CodeUnitCountAdjustment}, scalaradjust:{TailScalarCodeUnitCountAdjustment}");
+
+                                // We need to take care of eg
+                                // 11011110  10101101  11110000  10101101  10101111  10011111  11010111  10101000  11001101  10111001  11010100  10000111  11101111  10010000  10000000  11110011 
+                                // 10110100  10101100  10100111  11100100  10101011  10011111  11101111  10100010  10110010  11011100  10100000  00100010  11110000  10011001  10101011  10000011 
+                                // 10000000  10100010  11101110  10010101  10101001  11010100  10100111  11110000  10101001  10011101  10011011  11100100  10101011  10010111  11100110  10011001 <= Too long error @ 32 byte edge 
+                                // 10010000  11101111  10111111  10010110  11001010  10000000  11000111  10100010  11110010  10111100  10111011  10010100  11101001  10001011  10000110  11110100 
+                                // In this edge case, the 11110000 byte is erroneously double counted: the SIMD procedure counts it once, then it is counted again by the scalar function
+                                // Normally , if there is an error, this does not cause an issue: most erronous utf-8 unit will not be counted
+                                // but it is in the case of too long as if you take for example (1111---- 10----- 10----- 10-----) 10-----  
+                                // the part between parentheses will be counted as valid and thus scalaradjust will be incremented once too much
+                                // If this error arrive at the edge of 2 simd vector, that is where problem abound: the rewind scalar function will backup
+
+                                // so in short , we want to solve this error while at the same time not disturbing anything else
+                                // we  know that there is a continuation on the edge eg at the 64 byte, we need te check that
+                                // *TODO:Fill code here *
+                                // Peudocode for now
+                                // if invalidbyte is of typo 10XX XXXX & invalidbyto pointer % 32 byte == 0 then
+                                // pass on true to the 
+
+                                    // Calculate the offset of the invalid byte pointer from the start of the input buffer
+                                ulong offsetFromStart = (ulong)(invalidBytePointer - pInputBuffer);
+
+                                // Debugging output
+                                bool isContinuationByte = (invalidBytePointer[0] & 0xC0) == 0x80;
+                                bool isOneByteAfterProcessedLength = (invalidBytePointer == pInputBuffer + processedLength);
+
+                                // if (isContinuationByte && isAtBoundary && isOneByteAfterProcessedLength)// this alone creates false positives
+                                if (isContinuationByte && isOneByteAfterProcessedLength)
+                                {
+                                    Console.WriteLine("Triggering TooLongErrorOnEdge adjustment");
+                                    TooLongErroronEdge = true; 
+                                }
+
+
+                                int totalbyteasciierror = processedLength - start_point;                                
+                                var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes,TooLongErroronEdge);
+
+                                utf16CodeUnitCountAdjustment += utfadjustasciierror;
+                                scalarCountAdjustment += scalaradjustasciierror;
 
                                 return invalidBytePointer;
                             }
@@ -690,7 +796,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                                 processedLength -= i;
                                 n4 += tempn4;// this is + because the adjustment function returns something negative already
                                 contbytes +=tempcont;
-                                // Console.WriteLine($"Unterminated! @ {processedLength} Backing up by {i}"); //debug
+                                Console.WriteLine($"Unterminated! @ {processedLength} Backing up by {i}"); //debug
                             }
 
 
@@ -763,6 +869,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                 {
                     utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;
                     scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
+
                     // An invalid byte was found by the scalar function
                     return invalidBytePointer;
                 }
