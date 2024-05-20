@@ -7,5 +7,12 @@
     <!-- This is required for SIMD, sse c# - How to run unsafe code in "visual studio code"? - Stack Overflow https://stackoverflow.com/questions/50636693/how-to-run-unsafe-code-in-visual-studio-code -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks> 
   </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference 
+      Include="StyleCop.Analyzers" 
+      Version="1.2.0-beta.354"
+      PrivateAssets="all" 
+      Condition="$(MSBuildProjectExtension) == '.csproj'" 
+    />
+  </ItemGroup>
 </Project>
