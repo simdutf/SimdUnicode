@@ -10,7 +10,7 @@ namespace SimdUnicode
     public static class UTF8
     {
 
-        //debug helper function for debugging: it prints a green byte every 32 bytes and a red byte at a given index 
+//         //debug helper function for debugging: it prints a green byte every 32 bytes and a red byte at a given index 
 static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 {
     int chunkSize = 16; // 128 bits = 16 bytes
@@ -78,7 +78,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
         {
-            // Console.WriteLine("CALLING REWIND");
+//             // Console.WriteLine("CALLING REWIND");//debug
             int extraLen = 0;
             bool foundLeadingBytes = false;
 
@@ -86,12 +86,12 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 byte candidateByte = buf[0 - i];
                 foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
-                Console.WriteLine($"Rewinding byte to offset {-i}: {candidateByte:X2}");
-                Console.WriteLine(foundLeadingBytes);
+//                 Console.WriteLine($"Rewinding byte to offset {-i}: {candidateByte:X2}");//debug
+//                 Console.WriteLine(foundLeadingBytes);//debug
 
                 if (foundLeadingBytes)
                 {  
-                    Console.WriteLine("Found leading byte");       
+//                     Console.WriteLine("Found leading byte");//debug       
                     buf -= i;
                     break;
                 }
@@ -257,8 +257,8 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 if ((pInputBuffer[-i] & 0b11000000) != 0b10000000)
                 {
-                    string binaryString = Convert.ToString(pInputBuffer[-i], 2).PadLeft(8, '0');//debug
-                    Console.WriteLine($"Stopping at byte {binaryString}"); //debug
+//                     string binaryString = Convert.ToString(pInputBuffer[-i], 2).PadLeft(8, '0');//debug
+//                     Console.WriteLine($"Stopping at byte {binaryString}"); //debug
                     break;
                 }
                 contbyteadjust -= 1;
@@ -278,14 +278,14 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
         {
-            Console.WriteLine("---------"); //debug
-            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);//debug
+//             Console.WriteLine("---------"); //debug
+//             Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's input debug. This is ascii count:" + asciibytes + " n4: " + n4 + " contbytes:" + contbytes + " totalbytes:" + totalbyte);//debug
             int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
             int n2 = -2 * asciibytes + n4 - 3 * contbytes + 2 * totalbyte;
             int utfadjust = -2 * n4 - 2 * n3 - n2;
             int scalaradjust = -n4;
 
-            Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);//debug
+//             Console.WriteLine("CalculateN2N3FinalSIMDAdjustments's output debug. This is n3 count:" + n3 + " n2: " + n2  + " utfadjust:" + utfadjust + " scalaradjust:" + scalaradjust);//debug
             
             return (utfadjust, scalaradjust);
         }
@@ -494,9 +494,9 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;            //debug
-            Console.WriteLine("-------------------------------------");//debug
-            Console.ResetColor();//debug
+//             Console.ForegroundColor = ConsoleColor.Blue;            //debug
+//             Console.WriteLine("-------------------------------------");//debug
+//             Console.ResetColor();//debug
 
             int processedLength = 0;
             int TempUtf16CodeUnitCountAdjustment= 0 ;
@@ -690,7 +690,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                             Vector256<byte> error = Avx2.Xor(must23As80, sc);
                             // if (!Avx2.TestZ(error, error))
                             // {
-                            //     Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
+//                                 Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
 
                             //     int off = processedLength >= 32 ? processedLength - 32 : processedLength;
                             //     byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
@@ -733,16 +733,19 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
                             if (!Avx2.TestZ(error, error))
                             {
-                                Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
+//                                 Console.WriteLine($"--Error! @ {processedLength} bytes");//debug
 
-                                int off = processedLength >= 32 ? processedLength - 32 : processedLength;
+                                int off = processedLength > 32 ? processedLength - 32 : processedLength;// this does not backup ff processedlength = 32
+                                // int off = processedLength >= 32 ? processedLength - 32 : processedLength; original/main algorithm working
+
+//                                 Console.WriteLine($"Offset backup by: {off}");//debug
                                 byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
                                 bool TooLongErroronEdge = false;
 
                                 utf16CodeUnitCountAdjustment =  TailUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TailScalarCodeUnitCountAdjustment;
 
-                                Console.WriteLine($"RewindScalarValidation's function utf16adjust:{TailUtf16CodeUnitCountAdjustment}, scalaradjust:{TailScalarCodeUnitCountAdjustment}");
+//                                 Console.WriteLine($"RewindScalarValidation's function utf16adjust:{TailUtf16CodeUnitCountAdjustment}, scalaradjust:{TailScalarCodeUnitCountAdjustment}");//debug
 
                                 // We need to take care of eg
                                 // 11011110  10101101  11110000  10101101  10101111  10011111  11010111  10101000  11001101  10111001  11010100  10000111  11101111  10010000  10000000  11110011 
@@ -772,7 +775,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                                 // if (isContinuationByte && isAtBoundary && isOneByteAfterProcessedLength)// this alone creates false positives
                                 if (isContinuationByte && isOneByteAfterProcessedLength)
                                 {
-                                    Console.WriteLine("Triggering TooLongErrorOnEdge adjustment");
+//                                     Console.WriteLine("Triggering TooLongErrorOnEdge adjustment");//debug
                                     TooLongErroronEdge = true; 
                                 }
 
@@ -796,7 +799,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                                 processedLength -= i;
                                 n4 += tempn4;// this is + because the adjustment function returns something negative already
                                 contbytes +=tempcont;
-                                Console.WriteLine($"Unterminated! @ {processedLength} Backing up by {i}"); //debug
+//                                 Console.WriteLine($"Unterminated! @ {processedLength} Backing up by {i}"); //debug
                             }
 
 
