@@ -4,11 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks> 
-
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,15 +26,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\SimdUnicode.csproj" />
-    <!-- <ProjectReference Include="..\test\randomutf8.csproj" /> -->
-
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference 
-      Include="StyleCop.Analyzers" 
-      Version="1.2.0-beta.354"
-      PrivateAssets="all" 
-      Condition="$(MSBuildProjectExtension) == '.csproj'" 
-    />
   </ItemGroup>
 </Project>
