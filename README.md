@@ -1,7 +1,7 @@
 # SimdUnicode
 [![.NET](https://github.com/simdutf/SimdUnicode/actions/workflows/dotnet.yml/badge.svg)](https://github.com/simdutf/SimdUnicode/actions/workflows/dotnet.yml)
 
-This is a fast C# library to process unicode strings.
+This is a fast C# library to validate UTF-8 strings.
 
 
 ## Motivation
@@ -10,9 +10,11 @@ We seek to speed up the `Utf8Utility.GetPointerToFirstInvalidByte` function. Usi
 
 - John Keiser, Daniel Lemire, [Validating UTF-8 In Less Than One Instruction Per Byte](https://arxiv.org/abs/2010.03090), Software: Practice and Experience 51 (5), 2021
 
-The function is private in the Runtime, but we can expose it manually.
+The algorithm in question is part of popular JavaScript runtimes such as Node.js and Bun, [by PHP](https://github.com/php/php-src/blob/90e0ce7f0db99767c58dc21e4213c0f8763f657a/ext/mbstring/mbstring.c#L5270), by  Oracle GraalVM and many important systems. 
 
-https://github.com/dotnet/runtime/blob/4d709cd12269fcbb3d0fccfb2515541944475954/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Validation.cs
+[The function is private in the Microsoft Runtime](https://github.com/dotnet/runtime/blob/4d709cd12269fcbb3d0fccfb2515541944475954/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Validation.cs), but we can expose it manually.
+
+
 
 
 ## Requirements
@@ -101,11 +103,7 @@ You can print the content of a vector register like so:
 
 ## More reading 
 
-
-https://github.com/dotnet/coreclr/pull/21948/files#diff-2a22774bd6bff8e217ecbb3a41afad033ce0ca0f33645e9d8f5bdf7c9e3ac248
-
-https://github.com/dotnet/runtime/issues/41699
-
-https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/
-
-https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
+- https://github.com/dotnet/coreclr/pull/21948/files#diff-2a22774bd6bff8e217ecbb3a41afad033ce0ca0f33645e9d8f5bdf7c9e3ac248
+- https://github.com/dotnet/runtime/issues/41699
+- https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
