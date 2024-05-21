@@ -76,11 +76,43 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         static Func<byte, string> byteToBinaryString = b => Convert.ToString(b, 2).PadLeft(8, '0');//for debugging
 
+// prevents double counting in case there is a toolong error on the edge
+    public static (int utfAdjust, int scalarAdjust) GetFinalScalarUtfAdjustments(byte headerByte)
+    {
+        // Check if the header byte belongs to a 2-byte UTF-8 character
+        if ((headerByte & 0b11100000) == 0b11000000)
+        {
+            return (1, 0);
+        }
+        // Check if the header byte belongs to a 3-byte UTF-8 character
+        else if ((headerByte & 0b11110000) == 0b11100000)
+        {
+            return (2, 0);
+        }
+        // Check if the header byte belongs to a 4-byte UTF-8 character
+        else if ((headerByte & 0b11111000) == 0b11110000)
+        {
+
+            return (2, 1);
+        }
+        // Otherwise, it's a 1-byte character or continuation byte
+        return (0, 0);
+    }
+
+
         public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
         {
 
             int extraLen = 0;
             bool foundLeadingBytes = false;
+
+                // Print the byte value at the buf pointer
+                byte* PinputPlusProcessedlength = buf;
+
+
+
+            int TooLongErroronEdgeUtfadjust = 0;
+            int TooLongErroronEdgeScalaradjust = 0;
 
             for (int i = 0; i <= howFarBack; i++)
             {
@@ -91,6 +123,8 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
                 if (foundLeadingBytes)
                 {  
+
+                    (TooLongErroronEdgeUtfadjust,TooLongErroronEdgeScalaradjust) = GetFinalScalarUtfAdjustments(candidateByte);  
 
                     buf -= i;
                     break;
@@ -107,6 +141,24 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
             byte* invalidBytePointer = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out TailUtf16CodeUnitCountAdjustment, out TailScalarCountAdjustment);
             // Console.WriteLine($"RewindScalarValidation's function utf16adjust:{TailUtf16CodeUnitCountAdjustment}, scalaradjust:{TailScalarCountAdjustment}");
+
+            bool isContinuationByte = (invalidBytePointer[0] & 0xC0) == 0x80;
+            bool isOneByteAfterProcessedLength = (invalidBytePointer == PinputPlusProcessedlength);
+
+
+
+    // // Print the byte value at the invalidBytePointer
+
+
+
+
+            if (isContinuationByte && isOneByteAfterProcessedLength)
+            {
+
+                utf16CodeUnitCountAdjustment += TooLongErroronEdgeUtfadjust;
+                scalarCountAdjustment += TooLongErroronEdgeScalaradjust;
+
+            }
 
 
             utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
@@ -302,12 +354,12 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                 (adjusttotalbyte, backedupByHowMuch, adjustascii, adjustcont, adjustn4) = adjustmentFactor(pInputBuffer + processedLength);
             }
 
-            if (TooLongErroronEdge)
-            {
-                asciibytes += adjustascii;
-                contbytes += adjustcont;
-                n4 += adjustn4;
-            }
+            // if (TooLongErroronEdge)
+            // {
+            //     asciibytes += adjustascii;
+            //     contbytes += adjustcont;
+            //     n4 += adjustn4;
+            // }
 
             var (utfadjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, totalbyte + adjusttotalbyte);
 
@@ -698,7 +750,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                                 if (isContinuationByte && isOneByteAfterProcessedLength)
                                 {
 
-                                    TooLongErroronEdge = true; 
+                                    // TooLongErroronEdge = true; 
                                 }
 
 
