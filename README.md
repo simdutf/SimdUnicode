@@ -30,12 +30,6 @@ dotnet test
 To get a list of available tests, enter the command:
 
 ```
-dotnet test --list-tests | cut -d '(' -f 1 |  uniq
-```
-
-For a far more verbose output:
-
-```
 dotnet test --list-tests
 ```
 

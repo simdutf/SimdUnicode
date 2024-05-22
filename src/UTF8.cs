@@ -10,72 +10,6 @@ namespace SimdUnicode
     public static class UTF8
     {
 
-
-static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
-{
-    int chunkSize = 16; // 128 bits = 16 bytes
-
-    // Process each chunk for hexadecimal
-    Console.Write("Hex: ");
-    for (int i = 0; i < bytes.Length; i++)
-    {
-        if (i > 0 && i % chunkSize == 0)
-            Console.WriteLine(); // New line after every 16 bytes
-        
-        if (i == highlightIndex)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"{bytes[i]:X2} ");
-            Console.ResetColor();
-        }
-        else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"{bytes[i]:X2} ");
-            Console.ResetColor();
-        }
-        else
-        {
-            Console.Write($"{bytes[i]:X2} ");
-        }
-
-        if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
-    }
-    Console.WriteLine("\n"); // New line for readability and to separate hex from binary
-
-    // Process each chunk for binary
-    Console.Write("Binary: ");
-    for (int i = 0; i < bytes.Length; i++)
-    {
-        if (i > 0 && i % chunkSize == 0)
-            Console.WriteLine(); // New line after every 16 bytes
-
-        string binaryString = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
-        if (i == highlightIndex)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"{binaryString} ");
-            Console.ResetColor();
-        }
-        else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"{binaryString} ");
-            Console.ResetColor();
-        }
-        else
-        {
-            Console.Write($"{binaryString} ");
-        }
-
-        if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
-    }
-    Console.WriteLine(); // New line for readability
-}
-
-
-        static Func<byte, string> byteToBinaryString = b => Convert.ToString(b, 2).PadLeft(8, '0');//for debugging
-
 // prevents double counting in case there is a toolong error on the edge
     public static (int utfAdjust, int scalarAdjust) GetFinalScalarUtfAdjustments(byte headerByte)
     {
@@ -92,7 +26,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
         // Check if the header byte belongs to a 4-byte UTF-8 character
         else if ((headerByte & 0b11111000) == 0b11110000)
         {
-
             return (2, 1);
         }
         // Otherwise, it's a 1-byte character or continuation byte
@@ -107,10 +40,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             bool foundLeadingBytes = false;
 
                 // Print the byte value at the buf pointer
-                byte* PinputPlusProcessedlength = buf;
-
-
-
+            byte* PinputPlusProcessedlength = buf;
             int TooLongErroronEdgeUtfadjust = 0;
             int TooLongErroronEdgeScalaradjust = 0;
 
@@ -118,8 +48,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 byte candidateByte = buf[0 - i];
                 foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
-
-
 
                 if (foundLeadingBytes)
                 {  
@@ -140,26 +68,25 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             int TailScalarCountAdjustment = 0;
 
             byte* invalidBytePointer = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out TailUtf16CodeUnitCountAdjustment, out TailScalarCountAdjustment);
-            // Console.WriteLine($"RewindScalarValidation's function utf16adjust:{TailUtf16CodeUnitCountAdjustment}, scalaradjust:{TailScalarCountAdjustment}");
+
+            // We need to take care of eg
+            // 11011110  10101101  11110000  10101101  10101111  10011111  11010111  10101000  11001101  10111001  11010100  10000111  11101111  10010000  10000000  11110011 
+            // 10110100  10101100  10100111  11100100  10101011  10011111  11101111  10100010  10110010  11011100  10100000  00100010  *11110000*  10011001  10101011  10000011 
+            // 10000000  10100010  11101110  10010101  10101001  11010100  10100111  11110000  10101001  10011101  10011011  11100100  10101011  10010111  11100110  10011001 <= Too long error @ 32 byte edge 
+            // 10010000  11101111  10111111  10010110  11001010  10000000  11000111  10100010  11110010  10111100  10111011  10010100  11101001  10001011  10000110  11110100 
+            // Without the following check, the 11110000 byte is erroneously double counted: the SIMD procedure counts it once, then it is counted again by the scalar function
+            // Normally , if there is an error, this does not cause an issue: most erronous utf-8 unit will not be counted
+            // but it is in the case of too long as if you take for example (1111---- 10----- 10----- 10-----) 10-----  
+            // the part between parentheses will be counted as valid and thus scalaradjust/utfadjust will be incremented once too much
 
             bool isContinuationByte = (invalidBytePointer[0] & 0xC0) == 0x80;
-            bool isOneByteAfterProcessedLength = (invalidBytePointer == PinputPlusProcessedlength);
+            bool isOnEdge = (invalidBytePointer == PinputPlusProcessedlength);
 
-
-
-    // // Print the byte value at the invalidBytePointer
-
-
-
-
-            if (isContinuationByte && isOneByteAfterProcessedLength)
+            if (isContinuationByte && isOnEdge)
             {
-
                 utf16CodeUnitCountAdjustment += TooLongErroronEdgeUtfadjust;
                 scalarCountAdjustment += TooLongErroronEdgeScalaradjust;
-
             }
-
 
             utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
             scalarCountAdjustment += TailScalarCountAdjustment;
@@ -295,7 +222,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
         const byte CARRY = TOO_SHORT | TOO_LONG | TWO_CONTS;
 
         // Assuming that a valid UTF-8 sequence ends at pInputBuffer,
-        // computes how many bytes are needed (eg what type of byte) to complete the last character. also counts the number of n4, n2 and ascii affected
+        // computes how many bytes are needed  to complete the last character. also counts the number of n4, n2 and ascii affected
         // This will return 1, 2, 3. If the whole byte sequence is valid UTF-8,
         // and this function returns returnedvalue>0, then the bytes at pInputBuffer[0], 
         // ... pInputBuffer[returnedvalue - 1] should be continuation bytes.
@@ -309,8 +236,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 if ((pInputBuffer[-i] & 0b11000000) != 0b10000000)
                 {
-
-
                     break;
                 }
                 contbyteadjust -= 1;
@@ -330,19 +255,15 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
         {
-
-
             int n3 = asciibytes - 2 * n4 + 2 * contbytes - totalbyte;
             int n2 = -2 * asciibytes + n4 - 3 * contbytes + 2 * totalbyte;
             int utfadjust = -2 * n4 - 2 * n3 - n2;
             int scalaradjust = -n4;
 
-
-            
             return (utfadjust, scalaradjust);
         }
 
-        public unsafe static (int utfadjust, int scalaradjust) calculateErrorPathadjust(int start_point, int processedLength, byte* pInputBuffer, int asciibytes, int n4, int contbytes, bool TooLongErroronEdge = false)
+        public unsafe static (int utfadjust, int scalaradjust) calculateErrorPathadjust(int start_point, int processedLength, byte* pInputBuffer, int asciibytes, int n4, int contbytes)
         {
             // Calculate the total bytes from start_point to processedLength
             int totalbyte = processedLength - start_point;
@@ -353,20 +274,9 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
             {
                 (adjusttotalbyte, backedupByHowMuch, adjustascii, adjustcont, adjustn4) = adjustmentFactor(pInputBuffer + processedLength);
             }
-
-            // if (TooLongErroronEdge)
-            // {
-            //     asciibytes += adjustascii;
-            //     contbytes += adjustcont;
-            //     n4 += adjustn4;
-            // }
-
             var (utfadjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, totalbyte + adjusttotalbyte);
-
             return (utfadjust, scalaradjust);
         }
-
-
 
         public unsafe static byte* GetPointerToFirstInvalidByteSse(byte* pInputBuffer, int inputLength)
         {
@@ -522,10 +432,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-
-
-
-
             int processedLength = 0;
             int TempUtf16CodeUnitCountAdjustment= 0 ;
             int TempScalarCountAdjustment = 0;
@@ -678,7 +584,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                             // 
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
-                                // TODO : this path is not explicitly tested, write tests
+                                // Note/todo : this path is not yet explicitly tested
                                 int totalbyteasciierror = processedLength - start_point;                                
                                 var (utfadjustasciierror, scalaradjustasciierror) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4,  contbytes,  totalbyteasciierror);
 
@@ -713,49 +619,13 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
                             if (!Avx2.TestZ(error, error))
                             {
-
-
                                 int off = processedLength > 32 ? processedLength - 32 : processedLength;// this does not backup ff processedlength = 32
-
-
                                 byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
-                                bool TooLongErroronEdge = false;
-
                                 utf16CodeUnitCountAdjustment =  TailUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TailScalarCodeUnitCountAdjustment;
 
-
-
-                                // We need to take care of eg
-                                // 11011110  10101101  11110000  10101101  10101111  10011111  11010111  10101000  11001101  10111001  11010100  10000111  11101111  10010000  10000000  11110011 
-                                // 10110100  10101100  10100111  11100100  10101011  10011111  11101111  10100010  10110010  11011100  10100000  00100010  11110000  10011001  10101011  10000011 
-                                // 10000000  10100010  11101110  10010101  10101001  11010100  10100111  11110000  10101001  10011101  10011011  11100100  10101011  10010111  11100110  10011001 <= Too long error @ 32 byte edge 
-                                // 10010000  11101111  10111111  10010110  11001010  10000000  11000111  10100010  11110010  10111100  10111011  10010100  11101001  10001011  10000110  11110100 
-                                // In this edge case, the 11110000 byte is erroneously double counted: the SIMD procedure counts it once, then it is counted again by the scalar function
-                                // Normally , if there is an error, this does not cause an issue: most erronous utf-8 unit will not be counted
-                                // but it is in the case of too long as if you take for example (1111---- 10----- 10----- 10-----) 10-----  
-                                // the part between parentheses will be counted as valid and thus scalaradjust will be incremented once too much
-                                // If this error arrive at the edge of 2 simd vector, that is where problem abound
-
-                                    // Calculate the offset of the invalid byte pointer from the start of the input buffer
-                                ulong offsetFromStart = (ulong)(invalidBytePointer - pInputBuffer);
-
-                                // Debugging output
-
-                                bool isContinuationByte = (invalidBytePointer[0] & 0xC0) == 0x80;
-
-                                bool isOneByteAfterProcessedLength = (invalidBytePointer == pInputBuffer + processedLength);
-
-
-                                if (isContinuationByte && isOneByteAfterProcessedLength)
-                                {
-
-                                    // TooLongErroronEdge = true; 
-                                }
-
-
                                 int totalbyteasciierror = processedLength - start_point;                                
-                                var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes,TooLongErroronEdge);
+                                var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes);
 
                                 utf16CodeUnitCountAdjustment += utfadjustasciierror;
                                 scalarCountAdjustment += scalaradjustasciierror;
@@ -769,12 +639,16 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                             {
                                 // We have an unterminated sequence.
                                 var (totalbyteadjustment, i,tempascii, tempcont, tempn4) = adjustmentFactor(pInputBuffer + processedLength + 32);
-
                                 processedLength -= i;
                                 n4 += tempn4;
                                 contbytes +=tempcont;
-
                             }
+
+                            // (Nick Nuon)The counts for continuous bytes can probably be optimized:
+                            // The draft had something like this line: 
+                            // contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(sc)); 
+                            // this actually counts the number of 2 consecutive continuous bytes
+                            // I put something that was bound to be working regardless as a slow but temporary fix:
 
                             Vector256<byte> top2bits = Vector256.Create((byte)0b11000000); // Mask to isolate the two most significant bits
                             Vector256<byte> contbytemask = Vector256.Create((byte)0b10000000);        // The expected pattern for continuation bytes: 10xxxxxx
@@ -797,10 +671,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                         asciibytes += (int)(32 - Popcnt.PopCount((uint)mask));
                     }
 
-                    // There are 2 possible scenarios here : either  
-                    //  A)  it arrives flush en the border. eg it doesnt need to be processed further
-                    //  B)  There is some bytes remaining in which case we need to call the scalar functien
-                    // Either way we need to calculate n2,n3 and update the utf16adjust and scalar adjust
                     int totalbyte = processedLength - start_point;
                     var (utf16adjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes,  n4,  contbytes, totalbyte);
 
