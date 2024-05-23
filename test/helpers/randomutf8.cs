@@ -31,7 +31,7 @@ public class RandomUtf8
     //     return result.ToArray();
     // }
 
-        public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
+    public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
     {
         var result = new List<byte>();
         while (result.Count < howManyUnits)
@@ -127,22 +127,22 @@ public class RandomUtf8
         }
     }
 
-    public List<byte> AppendContinuationByte(List<byte> utf8Bytes) => 
-                            utf8Bytes.Concat(new byte[] {(byte)gen.Next(0x80, 0xBF + 1)}).ToList();
+    public List<byte> AppendContinuationByte(List<byte> utf8Bytes) =>
+                            utf8Bytes.Concat(new byte[] { (byte)gen.Next(0x80, 0xBF + 1) }).ToList();
 
 
 
 
     public void ReplaceEndOfArray(byte[] original, byte[] replacement)//, int startIndex)
     {
-                // Calculate the start index for replacement
+        // Calculate the start index for replacement
         int startIndex = original.Length - replacement.Length;
 
         // Copy the replacement array into the original starting at startIndex
         Array.Copy(replacement, 0, original, startIndex, Math.Min(replacement.Length, original.Length - startIndex));
     }
 
-    
+
 
 
     private int PickRandomByteCount()

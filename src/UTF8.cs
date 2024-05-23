@@ -10,36 +10,36 @@ namespace SimdUnicode
     public static class UTF8
     {
 
-// prevents double counting in case there is a toolong error on the edge
-    public static (int utfAdjust, int scalarAdjust) GetFinalScalarUtfAdjustments(byte headerByte)
-    {
-        // Check if the header byte belongs to a 2-byte UTF-8 character
-        if ((headerByte & 0b11100000) == 0b11000000)
+        // prevents double counting in case there is a toolong error on the edge
+        public static (int utfAdjust, int scalarAdjust) GetFinalScalarUtfAdjustments(byte headerByte)
         {
-            return (1, 0);
+            // Check if the header byte belongs to a 2-byte UTF-8 character
+            if ((headerByte & 0b11100000) == 0b11000000)
+            {
+                return (1, 0);
+            }
+            // Check if the header byte belongs to a 3-byte UTF-8 character
+            else if ((headerByte & 0b11110000) == 0b11100000)
+            {
+                return (2, 0);
+            }
+            // Check if the header byte belongs to a 4-byte UTF-8 character
+            else if ((headerByte & 0b11111000) == 0b11110000)
+            {
+                return (2, 1);
+            }
+            // Otherwise, it's a 1-byte character or continuation byte
+            return (0, 0);
         }
-        // Check if the header byte belongs to a 3-byte UTF-8 character
-        else if ((headerByte & 0b11110000) == 0b11100000)
-        {
-            return (2, 0);
-        }
-        // Check if the header byte belongs to a 4-byte UTF-8 character
-        else if ((headerByte & 0b11111000) == 0b11110000)
-        {
-            return (2, 1);
-        }
-        // Otherwise, it's a 1-byte character or continuation byte
-        return (0, 0);
-    }
 
 
-        public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len,ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
+        public unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len, ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
         {
 
             int extraLen = 0;
             bool foundLeadingBytes = false;
 
-                // Print the byte value at the buf pointer
+            // Print the byte value at the buf pointer
             byte* PinputPlusProcessedlength = buf;
             int TooLongErroronEdgeUtfadjust = 0;
             int TooLongErroronEdgeScalaradjust = 0;
@@ -50,9 +50,9 @@ namespace SimdUnicode
                 foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
 
                 if (foundLeadingBytes)
-                {  
+                {
 
-                    (TooLongErroronEdgeUtfadjust,TooLongErroronEdgeScalaradjust) = GetFinalScalarUtfAdjustments(candidateByte);  
+                    (TooLongErroronEdgeUtfadjust, TooLongErroronEdgeScalaradjust) = GetFinalScalarUtfAdjustments(candidateByte);
 
                     buf -= i;
                     break;
@@ -67,7 +67,7 @@ namespace SimdUnicode
             int TailUtf16CodeUnitCountAdjustment = 0;
             int TailScalarCountAdjustment = 0;
 
-            byte* invalidBytePointer = GetPointerToFirstInvalidByteScalar(buf, len + extraLen,out TailUtf16CodeUnitCountAdjustment, out TailScalarCountAdjustment);
+            byte* invalidBytePointer = GetPointerToFirstInvalidByteScalar(buf, len + extraLen, out TailUtf16CodeUnitCountAdjustment, out TailScalarCountAdjustment);
 
             // We need to take care of eg
             // 11011110  10101101  11110000  10101101  10101111  10011111  11010111  10101000  11001101  10111001  11010100  10000111  11101111  10010000  10000000  11110011 
@@ -94,10 +94,10 @@ namespace SimdUnicode
             return invalidBytePointer;
         }
 
-        public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
+        public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
 
-            int TempUtf16CodeUnitCountAdjustment= 0 ;
+            int TempUtf16CodeUnitCountAdjustment = 0;
             int TempScalarCountAdjustment = 0;
 
             int pos = 0;
@@ -110,41 +110,51 @@ namespace SimdUnicode
                 byte firstByte = pInputBuffer[pos];
                 while (firstByte < 0b10000000)
                 {
-                    if (++pos == inputLength) { 
+                    if (++pos == inputLength)
+                    {
 
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + inputLength; }
+                        return pInputBuffer + inputLength;
+                    }
                     firstByte = pInputBuffer[pos];
                 }
 
                 if ((firstByte & 0b11100000) == 0b11000000)
                 {
                     nextPos = pos + 2;
-                    if (nextPos > inputLength) { 
+                    if (nextPos > inputLength)
+                    {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; } // Too short
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { 
+                        return pInputBuffer + pos;
+                    } // Too short
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000)
+                    {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; } // Too short
+                        return pInputBuffer + pos;
+                    } // Too short
                     // range check
                     codePoint = (uint)(firstByte & 0b00011111) << 6 | (uint)(pInputBuffer[pos + 1] & 0b00111111);
-                    if ((codePoint < 0x80) || (0x7ff < codePoint)) { 
+                    if ((codePoint < 0x80) || (0x7ff < codePoint))
+                    {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; } // Overlong
+                        return pInputBuffer + pos;
+                    } // Overlong
                     TempUtf16CodeUnitCountAdjustment -= 1;
                 }
                 else if ((firstByte & 0b11110000) == 0b11100000)
                 {
                     nextPos = pos + 3;
-                    if (nextPos > inputLength) { 
-                        
+                    if (nextPos > inputLength)
+                    {
+
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; } // Too short
+                        return pInputBuffer + pos;
+                    } // Too short
                     // range check
                     codePoint = (uint)(firstByte & 0b00001111) << 12 |
                                  (uint)(pInputBuffer[pos + 1] & 0b00111111) << 6 |
@@ -157,42 +167,56 @@ namespace SimdUnicode
                         scalarCountAdjustment = TempScalarCountAdjustment;
                         return pInputBuffer + pos;
                     }
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { 
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000)
+                    {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; } // Too short
-                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { 
+                        return pInputBuffer + pos;
+                    } // Too short
+                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000)
+                    {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; } // Too short
+                        return pInputBuffer + pos;
+                    } // Too short
                     TempUtf16CodeUnitCountAdjustment -= 2;
                 }
                 else if ((firstByte & 0b11111000) == 0b11110000)
-                { 
+                {
                     nextPos = pos + 4;
-                    if (nextPos > inputLength) { 
+                    if (nextPos > inputLength)
+                    {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
-                        scalarCountAdjustment = TempScalarCountAdjustment;return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000) { 
-                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
-                        scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000) { 
-                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
-                        scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; }
-                    if ((pInputBuffer[pos + 3] & 0b11000000) != 0b10000000) { 
+                        scalarCountAdjustment = TempScalarCountAdjustment; return pInputBuffer + pos;
+                    }
+                    if ((pInputBuffer[pos + 1] & 0b11000000) != 0b10000000)
+                    {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; }
+                        return pInputBuffer + pos;
+                    }
+                    if ((pInputBuffer[pos + 2] & 0b11000000) != 0b10000000)
+                    {
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos;
+                    }
+                    if ((pInputBuffer[pos + 3] & 0b11000000) != 0b10000000)
+                    {
+                        utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
+                        scalarCountAdjustment = TempScalarCountAdjustment;
+                        return pInputBuffer + pos;
+                    }
                     // range check
                     codePoint =
                         (uint)(firstByte & 0b00000111) << 18 | (uint)(pInputBuffer[pos + 1] & 0b00111111) << 12 |
                         (uint)(pInputBuffer[pos + 2] & 0b00111111) << 6 | (uint)(pInputBuffer[pos + 3] & 0b00111111);
-                    if (codePoint <= 0xffff || 0x10ffff < codePoint) { 
+                    if (codePoint <= 0xffff || 0x10ffff < codePoint)
+                    {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
-                        return pInputBuffer + pos; }
+                        return pInputBuffer + pos;
+                    }
                     TempUtf16CodeUnitCountAdjustment -= 2;
                     TempScalarCountAdjustment -= 1;
                 }
@@ -228,7 +252,8 @@ namespace SimdUnicode
         // ... pInputBuffer[returnedvalue - 1] should be continuation bytes.
         // Note that this function is unsafe, and it is the caller's responsibility
         // to ensure that we can read at least 4 bytes before pInputBuffer.
-        public unsafe static (int totalbyteadjustment,int backedupByHowMuch,int ascii,int contbyte,int n4) adjustmentFactor(byte* pInputBuffer) {
+        public unsafe static (int totalbyteadjustment, int backedupByHowMuch, int ascii, int contbyte, int n4) adjustmentFactor(byte* pInputBuffer)
+        {
             // Find the first non-continuation byte, working backward.
             int i = 1;
             int contbyteadjust = 0;
@@ -240,17 +265,20 @@ namespace SimdUnicode
                 }
                 contbyteadjust -= 1;
             }
-            if ((pInputBuffer[-i] & 0b10000000) == 0) {
-                return (0,i,-1,contbyteadjust,0); // We must have that i == 1
+            if ((pInputBuffer[-i] & 0b10000000) == 0)
+            {
+                return (0, i, -1, contbyteadjust, 0); // We must have that i == 1
             }
-            if ((pInputBuffer[-i] & 0b11100000) == 0b11000000) {
-                return (2 - i,i,0,contbyteadjust,0); // We have that i == 1 or i == 2, if i == 1, we are missing one byte.
+            if ((pInputBuffer[-i] & 0b11100000) == 0b11000000)
+            {
+                return (2 - i, i, 0, contbyteadjust, 0); // We have that i == 1 or i == 2, if i == 1, we are missing one byte.
             }
-            if ((pInputBuffer[-i] & 0b11110000) == 0b11100000) {
-                return (3 - i,i,0,contbyteadjust,0); // We have that i == 1 or i == 2 or i == 3, if i == 1, we are missing two bytes, if i == 2, we are missing one byte.
+            if ((pInputBuffer[-i] & 0b11110000) == 0b11100000)
+            {
+                return (3 - i, i, 0, contbyteadjust, 0); // We have that i == 1 or i == 2 or i == 3, if i == 1, we are missing two bytes, if i == 2, we are missing one byte.
             }
             // We must have that (pInputBuffer[-i] & 0b11111000) == 0b11110000
-            return (4 - i,i,0,contbyteadjust,-1); // We have that i == 1 or i == 2 or i == 3 or i == 4, if i == 1, we are missing three bytes, if i == 2, we are missing two bytes, if i == 3, we are missing one byte.
+            return (4 - i, i, 0, contbyteadjust, -1); // We have that i == 1 or i == 2 or i == 3 or i == 4, if i == 1, we are missing three bytes, if i == 2, we are missing two bytes, if i == 3, we are missing one byte.
         }
 
         public static (int utfadjust, int scalaradjust) CalculateN2N3FinalSIMDAdjustments(int asciibytes, int n4, int contbytes, int totalbyte)
@@ -282,7 +310,7 @@ namespace SimdUnicode
         {
 
             int processedLength = 0;
-            int TempUtf16CodeUnitCountAdjustment= 0 ;
+            int TempUtf16CodeUnitCountAdjustment = 0;
             int TempScalarCountAdjustment = 0;
 
             if (pInputBuffer == null || inputLength <= 0)
@@ -293,7 +321,7 @@ namespace SimdUnicode
             {
                 // We skip any ASCII characters at the start of the buffer
                 int asciirun = 0;
-                for(; asciirun + 64 <= inputLength; asciirun += 64)
+                for (; asciirun + 64 <= inputLength; asciirun += 64)
                 {
                     Vector128<byte> block1 = Avx.LoadVector128(pInputBuffer + asciirun);
                     Vector128<byte> block2 = Avx.LoadVector128(pInputBuffer + asciirun + 16);
@@ -367,7 +395,7 @@ namespace SimdUnicode
                             // we need to check if the previous block was incomplete.
                             if (Sse2.MoveMask(prevIncomplete) != 0)
                             {
-                               return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength,ref TempUtf16CodeUnitCountAdjustment,ref TempScalarCountAdjustment);
+                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref TempUtf16CodeUnitCountAdjustment, ref TempScalarCountAdjustment);
                             }
                             prevIncomplete = Vector128<byte>.Zero;
                         }
@@ -379,8 +407,8 @@ namespace SimdUnicode
                             Vector128<byte> byte_1_low = Ssse3.Shuffle(shuf2, (prev1 & v0f));
                             Vector128<byte> byte_2_high = Ssse3.Shuffle(shuf3, Sse2.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f);
                             Vector128<byte> sc = Sse2.And(Sse2.And(byte_1_high, byte_1_low), byte_2_high);
-                            Vector128<byte> prev2 = Ssse3.AlignRight (currentBlock, prevInputBlock, (byte)(16 - 2));
-                            Vector128<byte> prev3 = Ssse3.AlignRight (currentBlock, prevInputBlock, (byte)(16 - 3));
+                            Vector128<byte> prev2 = Ssse3.AlignRight(currentBlock, prevInputBlock, (byte)(16 - 2));
+                            Vector128<byte> prev3 = Ssse3.AlignRight(currentBlock, prevInputBlock, (byte)(16 - 3));
                             prevInputBlock = currentBlock;
                             Vector128<byte> isThirdByte = Sse2.SubtractSaturate(prev2, thirdByte);
                             Vector128<byte> isFourthByte = Sse2.SubtractSaturate(prev3, fourthByte);
@@ -389,7 +417,7 @@ namespace SimdUnicode
                             Vector128<byte> error = Sse2.Xor(must23As80, sc);
                             if (Sse2.MoveMask(error) != 0)
                             {
-                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength,ref TempUtf16CodeUnitCountAdjustment,ref TempScalarCountAdjustment);
+                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref TempUtf16CodeUnitCountAdjustment, ref TempScalarCountAdjustment);
                             }
                             prevIncomplete = Sse2.SubtractSaturate(currentBlock, maxValue);
                         }
@@ -418,7 +446,7 @@ namespace SimdUnicode
                 }
                 int TailScalarCodeUnitCountAdjustment = 0;
                 int TailUtf16CodeUnitCountAdjustment = 0;
-                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out TailUtf16CodeUnitCountAdjustment, out TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     // An invalid byte was found by the scalar function
@@ -430,10 +458,10 @@ namespace SimdUnicode
         }
 
 
-        public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength,out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
+        public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
             int processedLength = 0;
-            int TempUtf16CodeUnitCountAdjustment= 0 ;
+            int TempUtf16CodeUnitCountAdjustment = 0;
             int TempScalarCountAdjustment = 0;
 
             int TailScalarCodeUnitCountAdjustment = 0;
@@ -449,7 +477,7 @@ namespace SimdUnicode
             {
                 // We skip any ASCII characters at the start of the buffer
                 int asciirun = 0;
-                for(; asciirun + 64 <= inputLength; asciirun += 64)
+                for (; asciirun + 64 <= inputLength; asciirun += 64)
                 {
                     Vector256<byte> block1 = Avx.LoadVector256(pInputBuffer + asciirun);
                     Vector256<byte> block2 = Avx.LoadVector256(pInputBuffer + asciirun + 32);
@@ -565,7 +593,7 @@ namespace SimdUnicode
                     // at processedLength/16*16 or when an error occurs.
                     ///////////
                     int start_point = processedLength;
-                    
+
                     // The block goes from processedLength to processedLength/16*16.
                     int asciibytes = 0; // number of ascii bytes in the block (could also be called n1)
                     int contbytes = 0; // number of continuation bytes in the block
@@ -585,14 +613,14 @@ namespace SimdUnicode
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
                                 // Note/todo : this path is not yet explicitly tested
-                                int totalbyteasciierror = processedLength - start_point;                                
-                                var (utfadjustasciierror, scalaradjustasciierror) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4,  contbytes,  totalbyteasciierror);
+                                int totalbyteasciierror = processedLength - start_point;
+                                var (utfadjustasciierror, scalaradjustasciierror) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, totalbyteasciierror);
 
                                 utf16CodeUnitCountAdjustment = utfadjustasciierror;
                                 scalarCountAdjustment = scalaradjustasciierror;
 
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
-                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
+                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + off, inputLength - off, ref utf16CodeUnitCountAdjustment, ref scalarCountAdjustment);
                             }
                             prevIncomplete = Vector256<byte>.Zero;
                         }
@@ -620,11 +648,11 @@ namespace SimdUnicode
                             if (!Avx2.TestZ(error, error))
                             {
                                 int off = processedLength > 32 ? processedLength - 32 : processedLength;// this does not backup ff processedlength = 32
-                                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
-                                utf16CodeUnitCountAdjustment =  TailUtf16CodeUnitCountAdjustment;
+                                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment, ref TailScalarCodeUnitCountAdjustment);
+                                utf16CodeUnitCountAdjustment = TailUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TailScalarCodeUnitCountAdjustment;
 
-                                int totalbyteasciierror = processedLength - start_point;                                
+                                int totalbyteasciierror = processedLength - start_point;
                                 var (utfadjustasciierror, scalaradjustasciierror) = calculateErrorPathadjust(start_point, processedLength, pInputBuffer, asciibytes, n4, contbytes);
 
                                 utf16CodeUnitCountAdjustment += utfadjustasciierror;
@@ -638,10 +666,10 @@ namespace SimdUnicode
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
                                 // We have an unterminated sequence.
-                                var (totalbyteadjustment, i,tempascii, tempcont, tempn4) = adjustmentFactor(pInputBuffer + processedLength + 32);
+                                var (totalbyteadjustment, i, tempascii, tempcont, tempn4) = adjustmentFactor(pInputBuffer + processedLength + 32);
                                 processedLength -= i;
                                 n4 += tempn4;
-                                contbytes +=tempcont;
+                                contbytes += tempcont;
                             }
 
                             // (Nick Nuon)The counts for continuous bytes can probably be optimized:
@@ -660,7 +688,7 @@ namespace SimdUnicode
                             contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(compareResult));
 
 
-                            
+
                             // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
                             n4 += (int)Popcnt.PopCount((uint)Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte)));
                         }
@@ -672,7 +700,7 @@ namespace SimdUnicode
                     }
 
                     int totalbyte = processedLength - start_point;
-                    var (utf16adjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments( asciibytes,  n4,  contbytes, totalbyte);
+                    var (utf16adjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, totalbyte);
 
                     TempUtf16CodeUnitCountAdjustment = utf16adjust;
                     TempScalarCountAdjustment = scalaradjust;
@@ -687,8 +715,8 @@ namespace SimdUnicode
             // 11110xxxx 10xxxxxx 10xxxxxx 10xxxxxx <== we might be pointing at the last byte
             if (processedLength < inputLength)
             {
-                
-                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(32,pInputBuffer + processedLength, inputLength - processedLength,ref TailUtf16CodeUnitCountAdjustment,ref TailScalarCodeUnitCountAdjustment);
+
+                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(32, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment, ref TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;
@@ -697,7 +725,7 @@ namespace SimdUnicode
                     // An invalid byte was found by the scalar function
                     return invalidBytePointer;
                 }
-            }  
+            }
             utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;
             scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
 
@@ -707,10 +735,10 @@ namespace SimdUnicode
         public unsafe static byte* GetPointerToFirstInvalidByteArm64(byte* pInputBuffer, int inputLength)
         {
             int processedLength = 0;
-            int TempUtf16CodeUnitCountAdjustment= 0 ;
+            int TempUtf16CodeUnitCountAdjustment = 0;
             int TempScalarCountAdjustment = 0;
 
-            int utf16CodeUnitCountAdjustment=0, scalarCountAdjustment=0;
+            int utf16CodeUnitCountAdjustment = 0, scalarCountAdjustment = 0;
 
             if (pInputBuffer == null || inputLength <= 0)
             {
@@ -720,7 +748,7 @@ namespace SimdUnicode
             {
                 // We skip any ASCII characters at the start of the buffer
                 int asciirun = 0;
-                for(; asciirun + 64 <= inputLength; asciirun += 64)
+                for (; asciirun + 64 <= inputLength; asciirun += 64)
                 {
                     Vector128<byte> block1 = AdvSimd.LoadVector128(pInputBuffer + asciirun);
                     Vector128<byte> block2 = AdvSimd.LoadVector128(pInputBuffer + asciirun + 16);
@@ -793,7 +821,7 @@ namespace SimdUnicode
                             // we need to check if the previous block was incomplete.
                             if (AdvSimd.Arm64.MaxAcross(prevIncomplete).ToScalar() != 0)
                             {
-                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
+                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref utf16CodeUnitCountAdjustment, ref scalarCountAdjustment);
                             }
                             prevIncomplete = Vector128<byte>.Zero;
                         }
@@ -805,8 +833,8 @@ namespace SimdUnicode
                             Vector128<byte> byte_1_low = Vector128.Shuffle(shuf2, (prev1 & v0f));
                             Vector128<byte> byte_2_high = Vector128.Shuffle(shuf3, AdvSimd.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f);
                             Vector128<byte> sc = AdvSimd.And(AdvSimd.And(byte_1_high, byte_1_low), byte_2_high);
-                            Vector128<byte> prev2 = AdvSimd.ExtractVector128 (prevInputBlock, currentBlock, (byte)(16 - 2));
-                            Vector128<byte> prev3 = AdvSimd.ExtractVector128 (prevInputBlock, currentBlock, (byte)(16 - 3));
+                            Vector128<byte> prev2 = AdvSimd.ExtractVector128(prevInputBlock, currentBlock, (byte)(16 - 2));
+                            Vector128<byte> prev3 = AdvSimd.ExtractVector128(prevInputBlock, currentBlock, (byte)(16 - 3));
                             prevInputBlock = currentBlock;
                             Vector128<byte> isThirdByte = AdvSimd.SubtractSaturate(prev2, thirdByte);
                             Vector128<byte> isFourthByte = AdvSimd.SubtractSaturate(prev3, fourthByte);
@@ -815,7 +843,7 @@ namespace SimdUnicode
                             Vector128<byte> error = AdvSimd.Xor(must23As80, sc);
                             if (AdvSimd.Arm64.MaxAcross(error).ToScalar() != 0)
                             {
-                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength,ref utf16CodeUnitCountAdjustment,ref scalarCountAdjustment);
+                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref utf16CodeUnitCountAdjustment, ref scalarCountAdjustment);
                             }
                             prevIncomplete = AdvSimd.SubtractSaturate(currentBlock, maxValue);
                         }
@@ -844,7 +872,7 @@ namespace SimdUnicode
                 }
                 int TailScalarCodeUnitCountAdjustment = 0;
                 int TailUtf16CodeUnitCountAdjustment = 0;
-                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out TailUtf16CodeUnitCountAdjustment, out TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     // An invalid byte was found by the scalar function
@@ -854,7 +882,7 @@ namespace SimdUnicode
 
             return pInputBuffer + inputLength;
         }
-        public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength,out int Utf16CodeUnitCountAdjustment,out int ScalarCodeUnitCountAdjustment)
+        public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int Utf16CodeUnitCountAdjustment, out int ScalarCodeUnitCountAdjustment)
         {
 
             // if (AdvSimd.Arm64.IsSupported)
@@ -863,7 +891,7 @@ namespace SimdUnicode
             // }
             if (Avx2.IsSupported)
             {
-                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength,out Utf16CodeUnitCountAdjustment,out ScalarCodeUnitCountAdjustment);
+                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
             }
             /*if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
             {
@@ -875,7 +903,7 @@ namespace SimdUnicode
             // }
             // return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
 
-            return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength,out Utf16CodeUnitCountAdjustment,out ScalarCodeUnitCountAdjustment);
+            return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
 
         }
 

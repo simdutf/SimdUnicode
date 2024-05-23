@@ -9,8 +9,6 @@ using System.Runtime.Intrinsics.Arm;
 using BenchmarkDotNet.Disassemblers;
 using Iced.Intel;
 
-// TODO: The various tests do not formally take into account the scenario where vector is all ASCII  
-
 public unsafe class Utf8SIMDValidationTests
 {
 
@@ -20,7 +18,7 @@ public unsafe class Utf8SIMDValidationTests
     private static readonly Random rand = new Random();
 
     // int[] outputLengths = { 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472, 1536, 1600, 1664, 1728, 1792, 1856, 1920, 1984, 2048, 2112, 2176, 2240, 2304, 2368, 2432, 2496, 2560, 2624, 2688, 2752, 2816, 2880, 2944, 3008, 3072, 3136, 3200, 3264, 3328, 3392, 3456, 3520, 3584, 3648, 3712, 3776, 3840, 3904, 3968, 4032, 4096, 4160, 4224, 4288, 4352, 4416, 4480, 4544, 4608, 4672, 4736, 4800, 4864, 4928, 4992, 5056, 5120, 5184, 5248, 5312, 5376, 5440, 5504, 5568, 5632, 5696, 5760, 5824, 5888, 5952, 6016, 6080, 6144, 6208, 6272, 6336, 6400, 6464, 6528, 6592, 6656, 6720, 6784, 6848, 6912, 6976, 7040, 7104, 7168, 7232, 7296, 7360, 7424, 7488, 7552, 7616, 7680, 7744, 7808, 7872, 7936, 8000, 8064, 8128, 8192, 8256, 8320, 8384, 8448, 8512, 8576, 8640, 8704, 8768, 8832, 8896, 8960, 9024, 9088, 9152, 9216, 9280, 9344, 9408, 9472, 9536, 9600, 9664, 9728, 9792, 9856, 9920, 9984, 10000 };
-    static int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; // Example lengths
+    static int[] outputLengths = { 128, 256,345, 512,968, 1024, 1000 }; 
 
     [Flags]
     public enum TestSystemRequirements
@@ -68,8 +66,6 @@ public unsafe class Utf8SIMDValidationTests
     {
         public TestIfCondition(Func<bool> condition, string skipReason)
         {
-            // if (condition == null) throw new ArgumentNullException(nameof(condition));
-
             // Only set the Skip property if the condition evaluates to false
             if (!condition.Invoke())
             {
@@ -376,6 +372,84 @@ public unsafe class Utf8SIMDValidationTests
     {
         NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
+
+public void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDelegate)
+{
+    foreach (int outputLength in outputLengths){
+        for (int trial = 0; trial < NumTrials; trial++)
+        {
+            var allAscii = new List<byte>(Enumerable.Repeat((byte)0, outputLength));
+            int firstCodeLength = rand.Next(2, 5);
+            List<byte> singleBytes = generator.Generate(1, firstCodeLength);
+            
+            int incompleteLocation = 128 - rand.Next(1, firstCodeLength - 1);
+            allAscii.InsertRange(incompleteLocation, singleBytes);
+            
+            var utf8 = allAscii.ToArray();
+            int cutOffLength = 128;//utf8.Length - rand.Next(1, firstCodeLength);
+            cutOffLength = Math.Min(cutOffLength, outputLength); // Ensure it doesn't exceed the length of truncatedUtf8
+            byte[] truncatedUtf8 = new byte[outputLength]; // Initialized to zero
+
+            Array.Copy(utf8, 0, truncatedUtf8, 0, cutOffLength);
+
+            bool isValidUtf8 = ValidateUtf8(truncatedUtf8, utf8ValidationDelegate);
+            // string utf8HexString = BitConverter.ToString(truncatedUtf8).Replace("-", " ");
+            try
+            {
+                Assert.False(isValidUtf8);
+                Assert.True(InvalidateUtf8(truncatedUtf8, truncatedUtf8.Length, utf8ValidationDelegate));
+                Assert.True(ValidateCount(truncatedUtf8, utf8ValidationDelegate));
+            }
+            catch (Xunit.Sdk.XunitException)
+            {
+                PrintHexAndBinary(truncatedUtf8, incompleteLocation);
+                throw;
+            }
+        }
+    }
+}
+
+
+        [Fact]
+    [Trait("Category", "scalar")]
+    public void NoErrorIncompleteThenASCIIScalar()
+    {
+        NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void NoErrorIncompleteThenASCIISse()
+    // {
+    //     NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void NoErrorIncompleteThenASCIIAvx512()
+    // {
+    //     NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void NoErrorIncompleteThenASCIIArm64()
+    // {
+    //     NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Fact]
+    [Trait("Category", "avx")]
+    public void NoErrorIncompleteThenASCIIAVX()
+    {
+        NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+
 
         public void NoErrorIncompleteAt256Vector(Utf8ValidationDelegate utf8ValidationDelegate)
     {
@@ -1224,7 +1298,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                         }
                         catch (Xunit.Sdk.XunitException)
                         {
-                            Console.WriteLine($"Assertion failed at index: {byteIndex}");
+                            Console.WriteLine($"Assertion failed. Byte randomly changed at index: {byteIndex}");
                             PrintHexAndBinary(utf8, byteIndex);
                             throw; // Rethrow the exception to fail the test.
                         }
@@ -1405,56 +1479,6 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
 // Define a delegate that matches the signature of the methods you want to test
     public unsafe delegate byte* Utf8ValidationDelegate(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
-
-    // public void ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
-//     public void ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default, int? index = null)
-// {
-//     int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
-//     int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
-
-//     var isDefaultRange = range.Equals(default(Range));
-//     var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
-
-//     unsafe
-//     {
-//         fixed (byte* pInput = utf8)
-//         {
-//             byte* startPtr = pInput + offset;
-
-//             DotnetUtf16Adjustment = 0;
-//             DotnetScalarCountAdjustment = 0;
-//             DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
-
-//             SimdUnicodeUtf16Adjustment = 0;
-//             SimdUnicodeScalarCountAdjustment = 0;
-//             byte* simdResult = utf8ValidationDelegate(pInput, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
-
-//             // Determine the index of the invalid byte if simdResult doesn't point to the end.
-//             // int failureIndex = simdResult != pInput + length ? (int)(simdResult - pInput) : -1;
-            
-
-//             try
-//             {
-//                 Assert.True(DotnetScalarCountAdjustment == SimdUnicodeScalarCountAdjustment, $"Expected Scalar Count Adjustment: {DotnetScalarCountAdjustment}, but got: {SimdUnicodeScalarCountAdjustment}.");
-//                 Assert.True(DotnetUtf16Adjustment == SimdUnicodeUtf16Adjustment, $"Expected UTF16 Adjustment: {DotnetUtf16Adjustment}, but got: {SimdUnicodeUtf16Adjustment}.");
-//             }
-//             catch (Exception)
-//             {
-//                 Console.WriteLine("ValidateCount Assertion failed. Inspecting utf8 array:");
-//                 // PrintHexAndBinary(utf8); 
-//                 if (index.HasValue)
-//                 {
-//                     PrintHexAndBinary(utf8, index.Value);
-//                 }
-//                 else
-//                 {
-//                     PrintHexAndBinary(utf8);
-//                 }
-//                 throw; // Re-throw the exception to preserve the failure state
-//             }
-//         }
-//     }
-// }
 
 public bool ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
 {
