@@ -137,8 +137,7 @@ public unsafe class Utf8SIMDValidationTests
     //     simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     // }
 
-    [Fact]
-    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void simpleGoodSequencesAVX()
     {
         simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
@@ -225,8 +224,7 @@ public unsafe class Utf8SIMDValidationTests
     //     BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     // }
 
-    [Fact]
-    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void BadSequencesAVX()
     {
         BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
@@ -295,8 +293,7 @@ public unsafe class Utf8SIMDValidationTests
     //     NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     // }
 
-    [Fact]
-    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void NoErrorAVX()
     {
         NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
@@ -366,8 +363,7 @@ public unsafe class Utf8SIMDValidationTests
     //     NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     // }
 
-    [Fact]
-    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void NoErrorSpecificByteCountAVX()
     {
         NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
@@ -909,8 +905,8 @@ public void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDele
     //     TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     // }
 
-    [Fact]
-    [Trait("Category", "avx")]
+
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void TooShortErrorAtEndAVX()
     {
         TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
