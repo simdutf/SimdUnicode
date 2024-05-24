@@ -27,6 +27,12 @@ cd test
 dotnet test
 ```
 
+To see which tests are running, we recommend setting the verbosity level:
+
+```
+dotnet test -v d
+```
+
 To get a list of available tests, enter the command:
 
 ```
