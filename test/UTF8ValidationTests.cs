@@ -2,17 +2,81 @@ namespace tests;
 using System.Text;
 using SimdUnicode;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.X86;
+using System.Runtime.Intrinsics.Arm;
+using BenchmarkDotNet.Disassemblers;
+using Iced.Intel;
 
-public class Utf8SIMDValidationTests
+public unsafe class Utf8SIMDValidationTests
 {
 
 
-    private const int NumTrials = 1000;
-    private readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
+    private const int NumTrials = 100;
+    private static readonly RandomUtf8 generator = new RandomUtf8(1234, 1, 1, 1, 1);
     private static readonly Random rand = new Random();
 
-    [Fact]
-    public void TestGoodSequences()
+    // int[] outputLengths = { 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472, 1536, 1600, 1664, 1728, 1792, 1856, 1920, 1984, 2048, 2112, 2176, 2240, 2304, 2368, 2432, 2496, 2560, 2624, 2688, 2752, 2816, 2880, 2944, 3008, 3072, 3136, 3200, 3264, 3328, 3392, 3456, 3520, 3584, 3648, 3712, 3776, 3840, 3904, 3968, 4032, 4096, 4160, 4224, 4288, 4352, 4416, 4480, 4544, 4608, 4672, 4736, 4800, 4864, 4928, 4992, 5056, 5120, 5184, 5248, 5312, 5376, 5440, 5504, 5568, 5632, 5696, 5760, 5824, 5888, 5952, 6016, 6080, 6144, 6208, 6272, 6336, 6400, 6464, 6528, 6592, 6656, 6720, 6784, 6848, 6912, 6976, 7040, 7104, 7168, 7232, 7296, 7360, 7424, 7488, 7552, 7616, 7680, 7744, 7808, 7872, 7936, 8000, 8064, 8128, 8192, 8256, 8320, 8384, 8448, 8512, 8576, 8640, 8704, 8768, 8832, 8896, 8960, 9024, 9088, 9152, 9216, 9280, 9344, 9408, 9472, 9536, 9600, 9664, 9728, 9792, 9856, 9920, 9984, 10000 };
+    static int[] outputLengths = { 128, 345, 1000 }; 
+
+    [Flags]
+    public enum TestSystemRequirements
+    {
+        None = 0,
+        Arm64 = 1,
+        X64Avx512 = 2,
+        X64Avx2 = 4,
+        X64Sse = 8,
+        // Add more as needed
+    }
+
+    public class FactOnSystemRequirementAttribute : FactAttribute
+    {
+        private TestSystemRequirements RequiredSystems;
+
+        public FactOnSystemRequirementAttribute(TestSystemRequirements requiredSystems)
+        {
+            RequiredSystems = requiredSystems;
+
+            if (!IsSystemSupported(requiredSystems))
+            {
+                Skip = "Test is skipped due to not meeting system requirements.";
+            }
+        }
+
+        private bool IsSystemSupported(TestSystemRequirements requiredSystems)
+        {
+            switch (RuntimeInformation.ProcessArchitecture)
+            {
+                case Architecture.Arm64:
+                    return requiredSystems.HasFlag(TestSystemRequirements.Arm64);
+                case Architecture.X64:
+                    return (requiredSystems.HasFlag(TestSystemRequirements.X64Avx512) && Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512F.IsSupported) ||
+                        (requiredSystems.HasFlag(TestSystemRequirements.X64Avx2) && System.Runtime.Intrinsics.X86.Avx2.IsSupported) ||
+                        (requiredSystems.HasFlag(TestSystemRequirements.X64Sse) && System.Runtime.Intrinsics.X86.Sse.IsSupported);
+                default:
+                    return false; // If architecture is not covered above, the test is not supported.
+            }
+        }
+    }
+
+
+    public class TestIfCondition : FactAttribute
+    {
+        public TestIfCondition(Func<bool> condition, string skipReason)
+        {
+            // Only set the Skip property if the condition evaluates to false
+            if (!condition.Invoke())
+            {
+                Skip = skipReason;
+            }
+        }
+    }
+
+
+    
+    private void simpleGoodSequences(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         string[] goodSequences = {
         "a",
@@ -32,20 +96,56 @@ public class Utf8SIMDValidationTests
             {
                 fixed (byte* pInput = input)
                 {
-                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length);
-                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
-                                $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
+                    Assert.True(ValidateUtf8(input,utf8ValidationDelegate),
+                                    $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-                    byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
-                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
+                    Assert.True(ValidateCount(input,utf8ValidationDelegate));
                 }
             }
         }
     }
 
     [Fact]
-    public void TestBadSequences()
+    [Trait("Category", "scalar")]
+    public void simpleGoodSequencesScalar()
+    {
+        simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void simpleGoodSequencesSse()
+    // {
+    //     simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void simpleGoodSequencesAvx512()
+    // {
+    //     simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void simpleGoodSequencesArm64()
+    // {
+    //     simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void simpleGoodSequencesAVX()
+    {
+        simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+
+    private void BadSequences(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         string[] badSequences = {
         "\xC3\x28",
@@ -86,289 +186,1171 @@ public class Utf8SIMDValidationTests
             {
                 fixed (byte* pInput = input)
                 {
-                    byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, input.Length);
-                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)scalarResult,
-                                $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
-
-                    byte* SIMDResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-                    Assert.True((IntPtr)(pInput + input.Length) == (IntPtr)SIMDResult,
-                                $"Failure in SIMD function: Utf8Utility.GetPointerToFirstInvalidByte.Sequence: {seq}");                // byte* result = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, input.Length);
-
+                    ValidateUtf8(input,utf8ValidationDelegate);
+                    Assert.True(ValidateCount(input,utf8ValidationDelegate));
                 }
             }
         }
     }
 
     [Fact]
-    public void Node48995Test()
+    [Trait("Category", "scalar")]
+    public void BadSequencesScalar()
     {
-        byte[] bad = new byte[] { 0x80 };
-        Assert.False(ValidateUtf8(bad));
+        BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
-    [Fact]
-    public void NoErrorTest()
-    {
-        for (int trial = 0; trial < NumTrials; trial++)
-        {
-            byte[] utf8 = generator.Generate(512);
-            bool isValidUtf8 = ValidateUtf8(utf8);
-            string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
-            Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
-        }
-    }
-
-    [Fact]
-    public void NoErrorTestASCII()
-    {
-        RunTestForByteLength(1);
-    }
-
-    [Fact]
-    public void NoErrorTest1Byte()
-    {
-        RunTestForByteLength(1);
-    }
-
-    [Fact]
-    public void NoErrorTest2Bytes()
-    {
-        RunTestForByteLength(2);
-    }
-
-    [Fact]
-    public void NoErrorTest3Bytes()
-    {
-        RunTestForByteLength(3);
-    }
-
-    [Fact]
-    public void NoErrorTest4Bytes()
-    {
-        RunTestForByteLength(4);
-    }
-
-    // private void RunTestForByteLength(int byteLength)
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void BadSequencesSse()
     // {
-    //     for (int trial = 0; trial < NumTrials; trial++)
-    //     {
-    //         // Console.WriteLine($"Trial run {trial} for byte length {byteLength}");
-    //         byte[] utf8 = generator.Generate(990, byteLength);
-    //         bool isValidUtf8 = ValidateUtf8(utf8);
-    //         // string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
-    //         // Assert.True(isValidUtf8, $"Failure NoErrorTest for {byteLength}-byte UTF8. Sequence: {utf8HexString}");
-    //         Assert.True(isValidUtf8);
-    //     }
+    //     BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
     // }
 
-    private void RunTestForByteLength(int byteLength)
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void BadSequencesAvx512()
+    // {
+    //     BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void BadSequencesArm64()
+    // {
+    //     BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void BadSequencesAVX()
     {
-        int[] outputLengths = { 128, 256, 512, 1024, 1000 }; // Example lengths
+        BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    // this was in the C++ code
+    private void Node48995Test(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        byte[] bad = new byte[] { 0x80 };
+        Assert.False(ValidateUtf8(bad,utf8ValidationDelegate));
+    }
+
+    private void NoError(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
         foreach (int outputLength in outputLengths)
         {
             for (int trial = 0; trial < NumTrials; trial++)
             {
-                byte[] utf8 = generator.Generate(outputLength, byteLength);
-                bool isValidUtf8 = ValidateUtf8(utf8);
-                Assert.True(isValidUtf8, $"Failure for {byteLength}-byte UTF8 of length {outputLength} in trial {trial}");
-            }
-        }
-    }
-
-    [Fact]
-    public void HeaderBitsErrorTest()
-    {
-        for (int trial = 0; trial < NumTrials; trial++)
-        {
-
-            byte[] utf8 = generator.Generate(512);
-            for (int i = 0; i < utf8.Length; i++)
-            {
-                if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
+                bool isValidUtf8 = ValidateUtf8(utf8,utf8ValidationDelegate);
+                string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
+                try
                 {
-                    byte oldByte = utf8[i];
-                    utf8[i] = 0b11111000; // Forcing a header bits error
-                    Assert.False(ValidateUtf8(utf8));
-                    utf8[i] = oldByte; // Restore the original byte
+                    Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
+                    Assert.True(InvalidateUtf8(utf8, utf8.Length,utf8ValidationDelegate));
+                    Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
+                }
+                catch (Xunit.Sdk.XunitException)
+                {
+                    PrintHexAndBinary(utf8);
+                    throw; // Rethrow the exception to fail the test.
                 }
             }
         }
     }
 
     [Fact]
-    public void TooShortErrorTest()
+    [Trait("Category", "scalar")]
+    public void NoErrorScalar()
     {
-        for (int trial = 0; trial < NumTrials; trial++)
-        {
+        NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
 
-            byte[] utf8 = generator.Generate(512);
-            for (int i = 0; i < utf8.Length; i++)
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void NoErrorSse()
+    // {
+    //     NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void NoErrorAvx512()
+    // {
+    //     NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void NoErrorArm64()
+    // {
+    //     NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void NoErrorAVX()
+    {
+        NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    private void NoErrorSpecificByteCount(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        RunTestForByteLength(1,utf8ValidationDelegate);
+        RunTestForByteLength(2,utf8ValidationDelegate);
+        RunTestForByteLength(3,utf8ValidationDelegate);
+        RunTestForByteLength(4,utf8ValidationDelegate);
+    }
+
+    private void RunTestForByteLength(int byteLength,Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        // int[] outputLengths = { 128, 256, 512, 1024, 1000 }; // Example lengths
+        foreach (int outputLength in outputLengths)
+        {
+            for (int trial = 0; trial < NumTrials; trial++)
             {
-                if ((utf8[i] & 0b11000000) == 0b10000000) // Only process continuation bytes
+                byte[] utf8 = generator.Generate(outputLength, byteLength).ToArray();
+                bool isValidUtf8 = ValidateUtf8(utf8,utf8ValidationDelegate);
+                try
                 {
-                    byte oldByte = utf8[i];
-                    utf8[i] = 0b11100000; // Forcing a too short error
-                    Assert.False(ValidateUtf8(utf8));
-                    utf8[i] = oldByte; // Restore the original byte
+                    Assert.True(isValidUtf8, $"Failure NoErrorTest. ");
+                    Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
+                }
+                catch (Xunit.Sdk.XunitException)
+                {
+                    Console.WriteLine($"Test failed for {byteLength}-byte unit ");
+                    PrintHexAndBinary(utf8);
+                    throw; // Rethrow the exception to fail the test.
                 }
             }
         }
     }
 
     [Fact]
-    public void TooLongErrorTest()
+    [Trait("Category", "scalar")]
+    public void NoErrorSpecificByteCountScalar()
     {
+        NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void NoErrorSpecificByteCountSse()
+    // {
+    //     NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void NoErrorSpecificByteCountAvx512()
+    // {
+    //     NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void NoErrorSpecificByteCountArm64()
+    // {
+    //     NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void NoErrorSpecificByteCountAVX()
+    {
+        NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDelegate)
+{
+    foreach (int outputLength in outputLengths){
         for (int trial = 0; trial < NumTrials; trial++)
         {
+            var allAscii = new List<byte>(Enumerable.Repeat((byte)0, outputLength));
+            int firstCodeLength = rand.Next(2, 5);
+            List<byte> singleBytes = generator.Generate(1, firstCodeLength);
+            
+            int incompleteLocation = 128 - rand.Next(1, firstCodeLength - 1);
+            allAscii.InsertRange(incompleteLocation, singleBytes);
+            
+            var utf8 = allAscii.ToArray();
+            int cutOffLength = 128;//utf8.Length - rand.Next(1, firstCodeLength);
+            cutOffLength = Math.Min(cutOffLength, outputLength); // Ensure it doesn't exceed the length of truncatedUtf8
+            byte[] truncatedUtf8 = new byte[outputLength]; // Initialized to zero
 
-            byte[] utf8 = generator.Generate(512);
-            for (int i = 0; i < utf8.Length; i++)
+            Array.Copy(utf8, 0, truncatedUtf8, 0, cutOffLength);
+
+            bool isValidUtf8 = ValidateUtf8(truncatedUtf8, utf8ValidationDelegate);
+            // string utf8HexString = BitConverter.ToString(truncatedUtf8).Replace("-", " ");
+            try
             {
-                if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+                Assert.False(isValidUtf8);
+                Assert.True(InvalidateUtf8(truncatedUtf8, truncatedUtf8.Length, utf8ValidationDelegate));
+                Assert.True(ValidateCount(truncatedUtf8, utf8ValidationDelegate));
+            }
+            catch (Xunit.Sdk.XunitException)
+            {
+                PrintHexAndBinary(truncatedUtf8, incompleteLocation);
+                throw;
+            }
+        }
+    }
+}
+
+
+        [Fact]
+    [Trait("Category", "scalar")]
+    public void NoErrorIncompleteThenASCIIScalar()
+    {
+        NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void NoErrorIncompleteThenASCIISse()
+    // {
+    //     NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void NoErrorIncompleteThenASCIIAvx512()
+    // {
+    //     NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void NoErrorIncompleteThenASCIIArm64()
+    // {
+    //     NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void NoErrorIncompleteThenASCIIAVX()
+    {
+        NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+
+
+    private void NoErrorIncompleteAt256Vector(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        foreach (int outputLength in outputLengths)
+        {
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+
+                
+                // var allAscii = generator.Generate(outputLength,1);
+                var allAscii = new List<byte>(Enumerable.Repeat((byte)0, 256));
+                int firstcodeLength = rand.Next(2,5);
+                List<byte> singlebytes = generator.Generate(1,firstcodeLength);//recall:generate a utf8 code between 2 and 4 bytes
+                int incompleteLocation = 128 - rand.Next(1,firstcodeLength - 1);
+                allAscii.InsertRange(incompleteLocation,singlebytes);
+
+                var utf8 = allAscii.ToArray();
+
+                bool isValidUtf8 = ValidateUtf8(utf8,utf8ValidationDelegate);
+                string utf8HexString = BitConverter.ToString(utf8).Replace("-", " ");
+                try
                 {
-                    byte oldByte = utf8[i];
-                    utf8[i] = 0b10000000; // Forcing a too long error
-                    Assert.False(ValidateUtf8(utf8));
-                    utf8[i] = oldByte; // Restore the original byte
+                    Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
+                    Assert.True(InvalidateUtf8(utf8, utf8.Length,utf8ValidationDelegate));
+                    Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
+                }
+                catch (Xunit.Sdk.XunitException)
+                {
+                    PrintHexAndBinary(utf8,incompleteLocation);
+                    throw; // Rethrow the exception to fail the test.
                 }
             }
         }
     }
 
-    // 
 
     [Fact]
-    public void OverlongErrorTest()
+    [Trait("Category", "scalar")]
+    public void NoErrorIncompleteAt256VectorScalar()
     {
-        for (int trial = 0; trial < NumTrials; trial++)
-        {
+        NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
 
-            byte[] utf8 = generator.Generate(512);
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void NoErrorIncompleteAt256VectorSse()
+    // {
+    //     NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
 
-            for (int i = 0; i < utf8.Length; i++)
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void NoErrorIncompleteAt256VectorAvx512()
+    // {
+    //     NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void NoErrorIncompleteAt256VectorArm64()
+    // {
+    //     NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void NoErrorIncompleteAt256VectorAVX()
+    {
+        NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    private void BadHeaderBits(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        foreach (int outputLength in outputLengths)
             {
-                if (utf8[i] >= 0b11000000) // Only non-ASCII leading bytes can be overlong
-                {
-                    byte old = utf8[i];
-                    byte secondOld = utf8[i + 1];
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
 
-                    if ((old & 0b11100000) == 0b11000000) // two-bytes case, change to a value less or equal than 0x7f
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
+                for (int i = 0; i < utf8.Length; i++)
+                {
+                    if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
                     {
-                        utf8[i] = 0b11000000;
-                    }
-                    else if ((old & 0b11110000) == 0b11100000) // three-bytes case, change to a value less or equal than 0x7ff
-                    {
-                        utf8[i] = 0b11100000;
-                        utf8[i + 1] = (byte)(utf8[i + 1] & 0b11011111);
-                    }
-                    else if ((old & 0b11111000) == 0b11110000) // four-bytes case, change to a value less or equal than 0xffff
-                    {
-                        utf8[i] = 0b11110000;
-                        utf8[i + 1] = (byte)(utf8[i + 1] & 0b11001111);
-                    }
+                        byte oldByte = utf8[i];
+                        utf8[i] = 0b11111000; // Forcing a header bits error
+                        try
+                        {
+                            Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                            Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                            Assert.True(ValidateCount(utf8,utf8ValidationDelegate)); 
+                        }
+                        catch (Xunit.Sdk.XunitException)
+                        {
+                            Console.WriteLine($"Assertion failed at index: {i}");
+                            PrintHexAndBinary(utf8, i);
+                            throw; // Rethrow the exception to fail the test.
+                        }
 
-                    Assert.False(ValidateUtf8(utf8));
+                        utf8[i] = oldByte; // Restore the original byte
+                    }
+                }
+            }
+        }
+    }
 
-                    utf8[i] = old;
-                    utf8[i + 1] = secondOld;
+
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void BadHeaderBitsScalar()
+    {
+        BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+    
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void BadHeaderBitsSse()
+    // {
+    //     BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void BadHeaderBitsAvx512()
+    // {
+    //     BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void NoErrorSpecificByteCountArm64()
+    // {
+    //     NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void BadHeaderBitsAVX()
+    {
+        BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    private void TooShortError(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        foreach (int outputLength in outputLengths)
+        {
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+            byte[] utf8 = generator.Generate(outputLength).ToArray();
+
+                for (int i = 0; i < utf8.Length; i++)
+                {
+                    if ((utf8[i] & 0b11000000) == 0b10000000) // Only process continuation bytes
+                    {
+                        byte oldByte = utf8[i];
+                        utf8[i] = 0b11100000; // Forcing a too short error
+                    try
+                    {
+                        Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                        Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                        Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
+                    }
+                    catch (Xunit.Sdk.XunitException)
+                    {
+                        Console.WriteLine($"Assertion failed at index: {i}");
+                        PrintHexAndBinary(utf8, i);
+                        throw; // Rethrow the exception to fail the test.
+                    }
+                        utf8[i] = oldByte; // Restore the original byte
+                    }
+                }
+            }
+        }
+        
+    }
+
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void TooShortErrorScalar()
+    {
+        TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void TooShortErrorSse()
+    // {
+    //     TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void TooShortErrorAvx512()
+    // {
+    //     TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void TooShortErrorArm64()
+    // {
+    //     TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void TooShortErrorAVX()
+    {
+        TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    private void TooLongError(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+
+        foreach (int outputLength in outputLengths)
+        {
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
+
+                for (int i = 0; i < utf8.Length; i++)
+                {
+                    if ((utf8[i] & 0b11000000) != 0b10000000) // Only process leading bytes
+                    {
+                        byte oldByte = utf8[i];
+                        utf8[i] = 0b10000000; // Forcing a too long error
+                        try
+                        {
+                            Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                            Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                            Assert.True(ValidateCount(utf8,utf8ValidationDelegate)); 
+                        }
+                        catch (Xunit.Sdk.XunitException)
+                        {
+                            Console.WriteLine($"Assertion failed at index: {i}");
+                            PrintHexAndBinary(utf8, i);
+                            throw; // Rethrow the exception to fail the test.
+                        }
+                        utf8[i] = oldByte; // Restore the original byte
+                    }
                 }
             }
         }
     }
 
     [Fact]
-    public void TooLargeErrorTest()
+    [Trait("Category", "scalar")]
+    public void TooLongErrorScalar()
+    {
+        TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void TooLongErrorSse()
+    // {
+    //     TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void TooLongErrorAvx512()
+    // {
+    //     TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void TooLongErrorArm64()
+    // {
+    //     TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void TooLongErrorAVX()
+    {
+        TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    private void OverlongError(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
-
-            byte[] utf8 = generator.Generate(512);
-
-            for (int i = 0; i < utf8.Length; i++)
+            foreach (int outputLength in outputLengths)
             {
-                if ((utf8[i] & 0b11111000) == 0b11110000) // Only in 4-bytes case
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
+
+
+                for (int i = 0; i < utf8.Length; i++)
                 {
-                    byte old = utf8[i];
-                    utf8[i] += (byte)(((utf8[i] & 0b100) == 0b100) ? 0b10 : 0b100);
+                    if (utf8[i] >= 0b11000000) // Only non-ASCII leading bytes can be overlong
+                    {
+                        byte old = utf8[i];
+                        byte secondOld = utf8[i + 1];
 
-                    Assert.False(ValidateUtf8(utf8));
+                        if ((old & 0b11100000) == 0b11000000) // two-bytes case, change to a value less or equal than 0x7f
+                        {
+                            utf8[i] = 0b11000000;
+                        }
+                        else if ((old & 0b11110000) == 0b11100000) // three-bytes case, change to a value less or equal than 0x7ff
+                        {
+                            utf8[i] = 0b11100000;
+                            utf8[i + 1] = (byte)(utf8[i + 1] & 0b11011111);
+                        }
+                        else if ((old & 0b11111000) == 0b11110000) // four-bytes case, change to a value less or equal than 0xffff
+                        {
+                            utf8[i] = 0b11110000;
+                            utf8[i + 1] = (byte)(utf8[i + 1] & 0b11001111);
+                        }
 
-                    utf8[i] = old;
+                        Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                        Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                        Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
+
+                        utf8[i] = old;
+                        utf8[i + 1] = secondOld;
+                    }
                 }
             }
         }
     }
 
     [Fact]
-    public void SurrogateErrorTest()
+    [Trait("Category", "scalar")]
+    public void OverlongErrorScalar()
+    {
+        OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void OverlongErrorSse()
+    // {
+    //     OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void OverlongErrorAvx512()
+    // {
+    //     OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void OverlongErrorArm64()
+    // {
+    //     OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void OverlongErrorAVX()
+    {
+        OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+
+    private void TooShortErrorAtEnd(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
-
-            byte[] utf8 = generator.Generate(512);
-
-            for (int i = 0; i < utf8.Length; i++)
+            foreach (int outputLength in outputLengths)
             {
-                if ((utf8[i] & 0b11110000) == 0b11100000) // Only in 3-bytes case
+                byte[] utf8 = generator.Generate(outputLength,byteCountInUnit: 1).ToArray();        
+                
+                unsafe
                 {
-                    byte old = utf8[i];
-                    byte secondOld = utf8[i + 1];
-
-                    utf8[i] = 0b11101101; // Leading byte for surrogate
-                    for (int s = 0x8; s < 0xf; s++)
+                    fixed (byte* pInput = utf8)
                     {
-                        utf8[i + 1] = (byte)((utf8[i + 1] & 0b11000011) | (s << 2));
 
-                        Assert.False(ValidateUtf8(utf8));
-                    }
+                        for (int i = 0; i < utf8.Length; i++)
+                            {
+                                int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+                                byte currentByte = utf8[i];
+                                int offset = 0;
 
-                    utf8[i] = old;
-                    utf8[i + 1] = secondOld;
+                            if ((currentByte & 0b11100000) == 0b11000000) { // This is a header byte of a 2-byte sequence
+                                offset = 0;
+                            } 
+                            if ((currentByte & 0b11110000) == 0b11100000) {
+                                // This is a header byte of a 3-byte sequence
+                                offset = rand.Next(0, 3);
+                            } 
+                            if ((currentByte & 0b11111000) == 0b11110000) {
+                                // This is a header byte of a 4-byte sequence
+                                offset = rand.Next(0, 4);
+                            }
+
+                            byte* ThisResult = utf8ValidationDelegate(pInput, i + offset, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+                            Assert.True(ThisResult == pInput + i + offset);
+
+                            byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, i + offset, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+                            Assert.True(dotnetResult == pInput + i + offset);
+
+                            Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
+                            }
+
+                    }    
+                }
+            }
+        }
+    }
+
+
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void TooShortErrorAtEndScalar()
+    {
+        TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void TooShortErrorAtEndSse()
+    // {
+    //     TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void TooShortErrorAtEndAvx512()
+    // {
+    //     TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void TooShortErrorAtEndArm64()
+    // {
+    //     TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void TooShortErrorAtEndAVX()
+    {
+        TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void TooShortErrorAtEndAvx2()
+    {
+        TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+
+    //corresponds to condition 5.4.1 in the paper
+    private void Invalid0xf50xff(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+
+        var invalidBytes = Enumerable.Range(0xF5, 0x100 - 0xF5).Select(i => (byte)i).ToArray(); // 0xF5 to 0xFF
+        foreach (var length in outputLengths)
+        {
+            byte[] utf8 = generator.Generate(length).ToArray();
+            for (int position = 0; position < utf8.Length; position++)
+            {
+                foreach (var invalidByte in invalidBytes)
+                {
+                    utf8[position] = invalidByte;
+                    Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate)); // Expect the validation to fail due to the invalid byte
+                    Assert.True(InvalidateUtf8(utf8,position,utf8ValidationDelegate));
+                    Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
                 }
             }
         }
     }
 
     [Fact]
-    public void BruteForceTest()
+    [Trait("Category", "scalar")]
+    public void Invalid0xf50xffScalar()
     {
-        // Random rand = new Random(); // Random instance for test
+        Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
 
-        for (int i = 0; i < NumTrials; i++)
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void Invalid0xf50xffSse()
+    // {
+    //     Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void Invalid0xf50xffAvx512()
+    // {
+    //     Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void Invalid0xf50xffArm64()
+    // {
+    //     Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void Invalid0xf50xffAVX()
+    {
+        Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void Invalid0xf50xffAvx2()
+    {
+        Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+// helper function for debugging: it prints a green byte every 32 bytes and a red byte at a given index 
+static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
+{
+    int chunkSize = 16; // 128 bits = 16 bytes
+
+    // Process each chunk for hexadecimal
+    Console.Write("Hex: ");
+    for (int i = 0; i < bytes.Length; i++)
+    {
+        if (i > 0 && i % chunkSize == 0)
+            Console.WriteLine(); // New line after every 16 bytes
+        
+        if (i == highlightIndex)
         {
-            // Generate random UTF-8 sequence
-            byte[] utf8 = generator.Generate(rand.Next(2000));
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{bytes[i]:X2} ");
+            Console.ResetColor();
+        }
+        else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{bytes[i]:X2} ");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.Write($"{bytes[i]:X2} ");
+        }
 
-            Assert.True(ValidateUtf8(utf8), "Initial UTF-8 validation (primary) failed.");
+        if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
+    }
+    Console.WriteLine("\n"); // New line for readability and to separate hex from binary
 
-            Assert.True(ValidateUtf8Fuschia(utf8), "Initial UTF-8 validation (Fuschia) failed.");
+    // Process each chunk for binary
+    Console.Write("Binary: ");
+    for (int i = 0; i < bytes.Length; i++)
+    {
+        if (i > 0 && i % chunkSize == 0)
+            Console.WriteLine(); // New line after every 16 bytes
 
-            // Perform random bit flips
-            for (int flip = 0; flip < 1000; flip++)
+        string binaryString = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
+        if (i == highlightIndex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{binaryString} ");
+            Console.ResetColor();
+        }
+        else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{binaryString} ");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.Write($"{binaryString} ");
+        }
+
+        if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
+    }
+    Console.WriteLine(); // New line for readability
+}
+
+
+    private void TooLargeError(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        foreach (int outputLength in outputLengths)
+        {
+            for (int trial = 0; trial < NumTrials; trial++)
             {
-                if (utf8.Length == 0)
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
+
+                for (int i = 0; i < utf8.Length; i++)
                 {
-                    break;
+                    if ((utf8[i] & 0b11111000) == 0b11110000) // Only in 4-bytes case
+                    {
+                        byte old = utf8[i];
+                        utf8[i] += (byte)(((utf8[i] & 0b100) == 0b100) ? 0b10 : 0b100);
+
+                        Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                        Assert.True(InvalidateUtf8(utf8, i+1,utf8ValidationDelegate));
+                        Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
+                        utf8[i] = old;
+                    }
                 }
-
-                byte[] modifiedUtf8 = (byte[])utf8.Clone();
-                int byteIndex = rand.Next(modifiedUtf8.Length);
-                int bitFlip = 1 << rand.Next(8);
-                modifiedUtf8[byteIndex] ^= (byte)bitFlip;
-
-                // Validate the modified sequence with both methods
-                bool isValidPrimary = ValidateUtf8(modifiedUtf8);
-                bool isValidFuschia = ValidateUtf8Fuschia(modifiedUtf8);
-
-                // Ensure both methods agree on the validation result
-                Assert.Equal(isValidPrimary, isValidFuschia);
             }
         }
+    }
+
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void TooLargeErrorScalar()
+    {
+        TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void TooLargeErrorSse()
+    // {
+    //     TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void TooLargeErrorAvx512()
+    // {
+    //     TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void TooLargeErrorArm64()
+    // {
+    //     TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void TooLargeErrorAvx()
+    {
+        TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+
+    private void AsciiPlusContinuationAtEndError(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        foreach (int outputLength in outputLengths)
+        {
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+                for (int i = 1; i <= 4; i++)
+                {
+                    byte[] filler = generator.Generate(outputLength,byteCountInUnit:1).ToArray();
+                    byte[] toolong = generator.AppendContinuationByte(generator.Generate(1,i)).ToArray();
+
+                    generator.ReplaceEndOfArray(filler,toolong); 
+
+                    Assert.False(ValidateUtf8(filler,utf8ValidationDelegate));
+                    Assert.True(InvalidateUtf8(filler, filler.Length - 1,utf8ValidationDelegate));
+                    Assert.True(ValidateCount(filler,utf8ValidationDelegate));
+                }
+
+
+            }
+        }
+    }
+    
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void AsciiPlusContinuationAtEndErrorScalar()
+    {
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void AsciiPlusContinuationAtEndErrorSse()
+    // {
+    //     AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void AsciiPlusContinuationAtEndErrorAvx512()
+    // {
+    //     AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void AsciiPlusContinuationAtEndErrorArm64()
+    // {
+    //     AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void AsciiPlusContinuationAtEndErrorAVX()
+    {
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void AsciiPlusContinuationAtEndErrorAvx2()
+    {
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    private void SurrogateErrorTest(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        foreach (int outputLength in outputLengths)
+        {
+            for (int trial = 0; trial < NumTrials; trial++)
+            {
+
+                byte[] utf8 = generator.Generate(outputLength).ToArray();
+
+                for (int i = 0; i < utf8.Length; i++)
+                {
+                    if ((utf8[i] & 0b11110000) == 0b11100000) // Only in 3-bytes case
+                    {
+                        byte old = utf8[i];
+                        byte secondOld = utf8[i + 1];
+
+                        utf8[i] = 0b11101101; // Leading byte for surrogate
+                        for (int s = 0x8; s < 0xf; s++)
+                        {
+                            utf8[i + 1] = (byte)((utf8[i + 1] & 0b11000011) | (s << 2));
+
+                            Assert.False(ValidateUtf8(utf8,utf8ValidationDelegate));
+                            Assert.True(InvalidateUtf8(utf8, i,utf8ValidationDelegate));
+                            Assert.True(ValidateCount(utf8,utf8ValidationDelegate));
+                        }
+
+                        utf8[i] = old;
+                        utf8[i + 1] = secondOld;
+                    }
+                }
+            }
+        }
+    }
+
+
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void SurrogateErrorTestScalar()
+    {
+        SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void SurrogateErrorTestSse()
+    // {
+    //     SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void SurrogateErrorTestAvx512()
+    // {
+    //     SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void SurrogateErrorTestArm64()
+    // {
+    //     SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void SurrogateErrorTestAVX()
+    {
+        SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+
+    private void BruteForceTest(Utf8ValidationDelegate utf8ValidationDelegate)
+    {
+        foreach (int outputLength in outputLengths)
+        {
+            for (int i = 0; i < NumTrials; i++)
+            {
+
+                // Generate random UTF-8 sequence
+                byte[] utf8 = generator.Generate(rand.Next(outputLength)).ToArray();
+
+                Assert.True(ValidateUtf8(utf8,utf8ValidationDelegate), "Initial UTF-8 validation (primary) failed.");
+
+                Assert.True(ValidateUtf8Fuschia(utf8), "Initial UTF-8 validation (Fuschia) failed.");
+
+                // Perform random bit flips
+                for (int flip = 0; flip < 1000; flip++)
+                {
+                    if (utf8.Length == 0)
+                    {
+                        break;
+                    }
+
+                    byte[] modifiedUtf8 = (byte[])utf8.Clone();
+                    int byteIndex = rand.Next(modifiedUtf8.Length);
+                    int bitFlip = 1 << rand.Next(8);
+                    modifiedUtf8[byteIndex] ^= (byte)bitFlip;
+
+                    // Validate the modified sequence with both methods
+                    bool isValidPrimary = ValidateUtf8(modifiedUtf8,utf8ValidationDelegate);
+                    bool isValidFuschia = ValidateUtf8Fuschia(modifiedUtf8);
+
+                    // Ensure both methods agree on the validation result
+                    try{ Assert.Equal(isValidPrimary, isValidFuschia);
+                        Assert.True(ValidateCount(modifiedUtf8,utf8ValidationDelegate));
+                        }
+                        catch (Xunit.Sdk.XunitException)
+                        {
+                            Console.WriteLine($"Assertion failed. Byte randomly changed at index: {byteIndex}");
+                            PrintHexAndBinary(utf8, byteIndex);
+                            throw; // Rethrow the exception to fail the test.
+                        }
+                    
+                }
+            }
+        }
+    }
+
+        [Fact]
+    [Trait("Category", "scalar")]
+    public void BruteForceTestScalar()
+    {
+        BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    // TODO:Uncomment when SSE is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    // [Fact]
+    // [Trait("Category", "sse")]
+    // public void BruteForceTestSse()
+    // {
+    //     BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    // }
+
+    // TODO:Uncomment when AVX512 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    // [Trait("Category", "avx512")]
+    // public void BruteForceTestAvx512()
+    // {
+    //     BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    // }
+
+    // TODO:Uncomment when Arm64 is updated
+    // [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    // [Trait("Category", "arm64")]
+    // public void BruteForceTestArm64()
+    // {
+    //     BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    // }
+
+    [Trait("Category", "avx")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
+    public void BruteForceTestAVX()
+    {
+        BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
 
     // credit: based on code from Google Fuchsia (Apache Licensed)
-
     public static bool ValidateUtf8Fuschia(byte[] data)
     {
         int pos = 0;
@@ -422,27 +1404,135 @@ public class Utf8SIMDValidationTests
         return true;
     }
 
-
-    private bool ValidateUtf8(byte[] utf8)
+    // Check that all functions agree on the result when the input might be invalid.
+    private bool InvalidateUtf8(byte[] utf8, int badindex,Utf8ValidationDelegate utf8ValidationDelegate)
     {
         unsafe
         {
             fixed (byte* pInput = utf8)
             {
-                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length);
-                if (scalarResult != pInput + utf8.Length)
-                {
-                    return false;
-                }
+                int TailScalarCodeUnitCountAdjustment = 0;
+                int TailUtf16CodeUnitCountAdjustment = 0;
+                int SIMDUtf16CodeUnitCountAdjustment, SIMDScalarCountAdjustment;
 
-                byte* simdResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInput, utf8.Length);
-                if (simdResult != pInput + utf8.Length)
-                {
-                    return false;
-                }
+                byte* scalarResult = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInput, utf8.Length,out TailUtf16CodeUnitCountAdjustment,out TailScalarCodeUnitCountAdjustment);
+                int scalarOffset = (int)(scalarResult - pInput);
+                byte* simdResult = utf8ValidationDelegate(pInput, utf8.Length,out SIMDUtf16CodeUnitCountAdjustment,out SIMDScalarCountAdjustment);
+                int simdOffset = (int)(simdResult - pInput);
 
-                return true;
+                int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
+                byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+                int dotnetOffset = (int)(dotnetResult - pInput);
+                if (scalarOffset != simdOffset)
+                {
+                    Console.WriteLine("Suprisingly, scalarResult != simdResult {0} != {1}, badindex = {2}, length = {3}", scalarOffset, simdOffset, badindex, utf8.Length);
+                }
+                if (dotnetOffset != simdOffset)
+                {
+                    Console.WriteLine("Suprisingly, dotnetOffset != simdResult {0} != {1}, badindex = {2}, length = {3}", dotnetOffset, simdOffset, badindex, utf8.Length);
+                }
+                return (scalarResult == simdResult) && (simdResult == dotnetResult);
             }
         }
     }
+    private bool ValidateUtf8(byte[] utf8,Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+    {
+        // Adjusted check for default Range
+        var isDefaultRange = range.Equals(default(Range));
+        var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
+
+        unsafe
+        {
+            fixed (byte* pInput = utf8)
+            {
+                int DotnetUtf16Adjustment, DotnetScalarCountAdjustment;
+                int SimdUnicodeUtf16Adjustment, SimdUnicodeScalarCountAdjustment;
+
+                byte* startPtr = pInput + offset;
+                byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(startPtr, length, out DotnetUtf16Adjustment, out DotnetScalarCountAdjustment);
+
+                if (dotnetResult != startPtr + length)
+                {
+                    // PrintDebugInfo(dotnetResult, startPtr, utf8, "DotnetRuntime fails to return the correct invalid position");
+                    return false;
+                }
+
+                byte* simdResult = utf8ValidationDelegate(startPtr, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
+                if (simdResult != startPtr + length)
+                {
+                    // PrintDebugInfo(simdResult, startPtr, utf8, "Our result fails to return the correct invalid position");
+                    return false;
+                }
+                return true;
+            }
+
+        }
+    }
+
+        // Helper method to calculate the actual offset and length from a Range
+    private (int offset, int length) GetOffsetAndLength(int totalLength, Range range)
+    {
+        var start = range.Start.GetOffset(totalLength);
+        var end = range.End.GetOffset(totalLength);
+        var length = end - start;
+        return (start, length);
+    }
+
+
+// Define a delegate that matches the signature of the methods you want to test
+    public unsafe delegate byte* Utf8ValidationDelegate(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
+
+public bool ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+{
+    int dotnetUtf16Adjustment, dotnetScalarCountAdjustment;
+    int simdUnicodeUtf16Adjustment, simdUnicodeScalarCountAdjustment;
+
+    var isDefaultRange = range.Equals(default(Range));
+    var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);
+
+    unsafe
+    {
+        fixed (byte* pInput = utf8)
+        {
+            byte* startPtr = pInput + offset;
+
+            // Initialize adjustments
+            dotnetUtf16Adjustment = 0;
+            dotnetScalarCountAdjustment = 0;
+            DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, length, out dotnetUtf16Adjustment, out dotnetScalarCountAdjustment);
+
+            simdUnicodeUtf16Adjustment = 0;
+            simdUnicodeScalarCountAdjustment = 0;
+            byte* simdResult = utf8ValidationDelegate(pInput, length, out simdUnicodeUtf16Adjustment, out simdUnicodeScalarCountAdjustment);
+
+            // Check for discrepancies and report them in one combined message
+            bool adjustmentsMatch = true;
+            string errorMessage = "Error: Adjustments mismatch - ";
+
+            if (dotnetScalarCountAdjustment != simdUnicodeScalarCountAdjustment)
+            {
+                errorMessage += $"Expected Scalar Count Adjustment: {dotnetScalarCountAdjustment}, but got: {simdUnicodeScalarCountAdjustment}. ";
+                adjustmentsMatch = false;
+            }
+
+            if (dotnetUtf16Adjustment != simdUnicodeUtf16Adjustment)
+            {
+                errorMessage += $"Expected UTF16 Adjustment: {dotnetUtf16Adjustment}, but got: {simdUnicodeUtf16Adjustment}.";
+                adjustmentsMatch = false;
+            }
+
+            if (!adjustmentsMatch)
+            {
+                Console.WriteLine(errorMessage);
+                return false;
+            }
+
+            return true;
+        }
+    }
 }
+
+
+}
+
+

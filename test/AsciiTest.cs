@@ -101,7 +101,7 @@ public class AsciiTest
 
             for (int i = 0; i < NUM_TRIALS; i++)
             {
-                byte[] sequence = utf8Generator.Generate(length);
+                byte[] sequence = utf8Generator.Generate(length).ToArray();
 
                 if (sequence.All(b => b >= 0x00 && b <= 0x7F))
                 {
@@ -127,7 +127,7 @@ public class AsciiTest
 
         for (int trial = 0; trial < NUM_TRIALS; trial++)
         {
-            byte[] ascii = utf8Generator.Generate(LENGTH);
+            byte[] ascii = utf8Generator.Generate(LENGTH).ToArray();
 
             unsafe
             {
@@ -153,7 +153,7 @@ public class AsciiTest
 
         for (int trial = 0; trial < NUM_TRIALS; trial++)
         {
-            byte[] ascii = utf8Generator.Generate(LENGTH);
+            byte[] ascii = utf8Generator.Generate(LENGTH).ToArray();
 
             for (int i = 0; i < ascii.Length; i++)
             {

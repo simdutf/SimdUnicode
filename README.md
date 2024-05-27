@@ -28,6 +28,12 @@ We recommend you install .NET 8: https://dotnet.microsoft.com/en-us/download/dot
 dotnet test
 ```
 
+To see which tests are running, we recommend setting the verbosity level:
+
+```
+dotnet test -v d
+```
+
 To get a list of available tests, enter the command:
 
 ```
@@ -36,9 +42,18 @@ dotnet test --list-tests
 
 To run specific tests, it is helpful to use the filter parameter:
 
+
 ```
-dotnet test -c Release --filter Ascii
+dotnet test --filter TooShortErrorAVX
 ```
+
+Or to target specific categories:
+
+```
+dotnet test --filter "Category=scalar"
+```
+
+
 
 ## Running Benchmarks
 

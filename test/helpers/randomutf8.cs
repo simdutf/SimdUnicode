@@ -15,22 +15,85 @@ public class RandomUtf8
         probabilities = new double[maxByteLength] { prob_1byte, prob_2bytes, prob_3bytes, prob_4bytes };
     }
 
-    public byte[] Generate(int outputBytes, int? byteCount = null)
+    // public byte[] Generate(int howManyUnits, int? byteCountInUnit = null)
+    // {
+    //     var result = new List<byte>();
+    //     while (result.Count < howManyUnits)
+    //     {
+    //         int count = byteCountInUnit ?? PickRandomByteCount();
+    //         int codePoint = GenerateCodePoint(count);
+    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
+
+    //         result.AddRange(utf8Bytes);
+    //         if (result.Count + utf8Bytes.Length > howManyUnits)
+    //             break;
+    //     }
+    //     return result.ToArray();
+    // }
+
+    public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
     {
         var result = new List<byte>();
-        while (result.Count < outputBytes)
+        while (result.Count < howManyUnits)
         {
-            int count = byteCount ?? PickRandomByteCount();
+            int count = byteCountInUnit ?? PickRandomByteCount();
             int codePoint = GenerateCodePoint(count);
             byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
 
-            if (result.Count + utf8Bytes.Length > outputBytes)
-                break;
             result.AddRange(utf8Bytes);
+            if (result.Count + utf8Bytes.Length > howManyUnits)
+                break;
         }
-        return result.ToArray();
+        return result;
     }
 
+    //     public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
+    // {
+    //     var result = new List<byte>();
+    //     var unitsAdded = 0; // Track the number of characters added.
+
+    //     while (unitsAdded < howManyUnits)
+    //     {
+    //         int count = byteCountInUnit ?? PickRandomByteCount();
+    //         int codePoint = GenerateCodePoint(count);
+    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
+
+    //         // Ensure adding the new character won't exceed the howManyUnits limit.
+    //         if (unitsAdded + 1 > howManyUnits)
+    //             break;
+
+    //         result.AddRange(utf8Bytes);
+    //         unitsAdded++; // Increment the units (characters) count.
+    //     }
+
+    //     return result;
+    // }
+
+
+    //     public object Generate(int howManyUnits, int? byteCountInUnit = null, bool returnAsList = false)
+    // {
+    //     var result = new List<byte>();
+    //     while (result.Count < howManyUnits)
+    //     {
+    //         int count = byteCountInUnit ?? PickRandomByteCount();
+    //         int codePoint = GenerateCodePoint(count);
+    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
+
+    //         if (result.Count + utf8Bytes.Length > howManyUnits)
+    //             break;
+
+    //         result.AddRange(utf8Bytes);
+    //     }
+
+    //     if (returnAsList)
+    //     {
+    //         return result;
+    //     }
+    //     else
+    //     {
+    //         return result.ToArray();
+    //     }
+    // }
 
     private int GenerateCodePoint(int byteCount)
     {
@@ -63,6 +126,24 @@ public class RandomUtf8
                 throw new InvalidOperationException($"Invalid byte count: {byteCount}");
         }
     }
+
+    public List<byte> AppendContinuationByte(List<byte> utf8Bytes) =>
+                            utf8Bytes.Concat(new byte[] { (byte)gen.Next(0x80, 0xBF + 1) }).ToList();
+
+
+
+
+    public void ReplaceEndOfArray(byte[] original, byte[] replacement)//, int startIndex)
+    {
+        // Calculate the start index for replacement
+        int startIndex = original.Length - replacement.Length;
+
+        // Copy the replacement array into the original starting at startIndex
+        Array.Copy(replacement, 0, original, startIndex, Math.Min(replacement.Length, original.Length - startIndex));
+    }
+
+
+
 
     private int PickRandomByteCount()
     {

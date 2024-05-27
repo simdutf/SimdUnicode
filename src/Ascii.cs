@@ -157,7 +157,7 @@ namespace SimdUnicode
 
             }
 
-            return  GetIndexOfFirstNonAsciiByteScalar(pBuffer, bufferLength);
+            return GetIndexOfFirstNonAsciiByteScalar(pBuffer, bufferLength);
         }
 
 
