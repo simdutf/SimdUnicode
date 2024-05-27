@@ -671,22 +671,15 @@ namespace SimdUnicode
                                 contbytes += tempcont;
                             }
 
-                            // (Nick Nuon)The counts for continuous bytes can probably be optimized:
-                            // The draft had something like this line: 
-                            // contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(sc)); 
-                            // this actually counts the number of 2 consecutive continuous bytes
-                            // I put something that was bound to be working regardless as a slow but temporary fix:
+                            // We update the continuation bytes count using just one SIMD instruction (Avx2.CompareGreaterThan).
+                            // Then we need popcount to count the number of continuation bytes and some arithmetic operations.
+                            // We use the fact that as two's complement, -65 is 0b10111111, so we can use CompareGreaterThan 
+                            // to find continuation bytes: any byte greater than -65 is a not continuation byte. E.g., the next one
+                            // is 0b11111110 (-64) and so forth. The smallest possible value is -128, which is 0b10000000.
 
-                            Vector256<byte> top2bits = Vector256.Create((byte)0b11000000); // Mask to isolate the two most significant bits
-                            Vector256<byte> contbytemask = Vector256.Create((byte)0b10000000);        // The expected pattern for continuation bytes: 10xxxxxx
-
-                            // Apply the mask and compare
-                            Vector256<byte> maskedData = Avx2.And(currentBlock, top2bits);
-                            Vector256<byte> compareResult = Avx2.CompareEqual(maskedData, contbytemask);
-                            // Move mask to get integer representation
-                            contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(compareResult));
-
-
+                            Vector256<sbyte> largestcont = Vector256.Create((sbyte)-65); // -65 => 0b10111111
+                            uint noncont = (uint)Avx2.MoveMask(Avx2.CompareGreaterThan(Vector256.AsSByte(currentBlock), largestcont));
+                            contbytes += (int)(32-Popcnt.PopCount(noncont));
 
                             // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
                             n4 += (int)Popcnt.PopCount((uint)Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte)));
