@@ -256,13 +256,8 @@ namespace SimdUnicodeBenchmarks
     }
     public class Program
     {
-        // TODO: adopt BenchmarkSwitcher https://benchmarkdotnet.org/articles/guides/how-to-run.html 
-        /*public static void Main(string[] args)
-        {
-            var config = DefaultConfig.Instance.WithSummaryStyle(SummaryStyle.Default.WithMaxParameterColumnWidth(100));
-            BenchmarkRunner.Run<RealDataBenchmark>(config);
-        }*/
-        static void Main(string[] args) => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
+        static void Main(string[] args) => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, DefaultConfig.Instance
+                .WithSummaryStyle(SummaryStyle.Default.WithMaxParameterColumnWidth(100)));
 
 
     }
