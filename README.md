@@ -44,7 +44,7 @@ To run specific tests, it is helpful to use the filter parameter:
 
 
 ```
-dotnet test --filter TooShortErrorAVX
+dotnet test --filter TooShortErrorAvx2
 ```
 
 Or to target specific categories:

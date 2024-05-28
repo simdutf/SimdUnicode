@@ -687,7 +687,7 @@ namespace SimdUnicode
             if (processedLength < inputLength)
             {
 
-                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(32, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment, ref TailScalarCodeUnitCountAdjustment);
+                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment, ref TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;
@@ -834,7 +834,7 @@ namespace SimdUnicode
                             // hardware:
                             if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(error)).ToScalar() != 0)
                             {
-                                int off = processedLength > 32 ? processedLength - 32 : processedLength;// this does not backup ff processedlength = 32
+                                int off = processedLength > 32 ? processedLength - 32 : processedLength;// this does not backup off processedlength = 32
                                 byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment, ref TailScalarCodeUnitCountAdjustment);
                                 utf16CodeUnitCountAdjustment = TailUtf16CodeUnitCountAdjustment;
                                 scalarCountAdjustment = TailScalarCodeUnitCountAdjustment;
@@ -866,13 +866,12 @@ namespace SimdUnicode
             }
             // We have processed all the blocks using SIMD, we need to process the remaining bytes.
             // Process the remaining bytes with the scalar function
-
             // worst possible case is 4 bytes, where we need to backtrack 3 bytes
             // 11110xxxx 10xxxxxx 10xxxxxx 10xxxxxx <== we might be pointing at the last byte
             if (processedLength < inputLength)
             {
 
-                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(32, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment, ref TailScalarCodeUnitCountAdjustment);
+                byte* invalidBytePointer = SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref TailUtf16CodeUnitCountAdjustment, ref TailScalarCodeUnitCountAdjustment);
                 if (invalidBytePointer != pInputBuffer + inputLength)
                 {
                     utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;

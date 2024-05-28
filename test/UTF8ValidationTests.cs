@@ -114,11 +114,17 @@ public unsafe class Utf8SIMDValidationTests
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void simpleGoodSequencesAVX()
+    public void simpleGoodSequencesAvx2()
     {
         simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void simpleGoodSequencesArm64()
+    {
+        simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    }
 
     private void BadSequences(Utf8ValidationDelegate utf8ValidationDelegate)
     {
@@ -177,9 +183,16 @@ public unsafe class Utf8SIMDValidationTests
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void BadSequencesAVX()
+    public void BadSequencesAvx2()
     {
         BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void BadSequencesArm64()
+    {
+        BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
     // this was in the C++ code
@@ -222,9 +235,16 @@ public unsafe class Utf8SIMDValidationTests
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void NoErrorAVX()
+    public void NoErrorAvx2()
     {
         NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void NoErrorArm64()
+    {
+        NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
     private void NoErrorSpecificByteCount(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -268,11 +288,17 @@ public unsafe class Utf8SIMDValidationTests
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void NoErrorSpecificByteCountAVX()
+    public void NoErrorSpecificByteCountAvx2()
     {
         NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void NoErrorSpecificByteCountArm64()
+    {
+        NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    }
 private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDelegate)
 {
     foreach (int outputLength in outputLengths){
@@ -319,12 +345,18 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void NoErrorIncompleteThenASCIIAVX()
+    public void NoErrorIncompleteThenASCIIAvx2()
     {
         NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
 
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void NoErrorIncompleteThenASCIIArm64()
+    {
+        NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    }
 
     private void NoErrorIncompleteAt256Vector(Utf8ValidationDelegate utf8ValidationDelegate)
     {
@@ -370,9 +402,16 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void NoErrorIncompleteAt256VectorAVX()
+    public void NoErrorIncompleteAt256VectorAvx2()
     {
         NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void NoErrorIncompleteAt256VectorArm64()
+    {
+        NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
     private void BadHeaderBits(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -419,9 +458,16 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void BadHeaderBitsAVX()
+    public void BadHeaderBitsAvx2()
     {
         BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void BadHeaderBitsArm64()
+    {
+        BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
     private void TooShortError(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -467,9 +513,16 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void TooShortErrorAVX()
+    public void TooShortErrorAvx2()
     {
         TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void TooShortErrorArm64()
+    {
+        TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
     private void TooLongError(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -515,9 +568,16 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void TooLongErrorAVX()
+    public void TooLongErrorAvx2()
     {
         TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void TooLongErrorArm64()
+    {
+        TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
     private void OverlongError(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -570,11 +630,11 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
         OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
-    [Trait("Category", "avx")]
-    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void OverlongErrorAVX()
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void OverlongErrorArm64()
     {
-        OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+        OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
 
@@ -632,12 +692,6 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
         TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
-    [Trait("Category", "avx")]
-    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void TooShortErrorAtEndAVX()
-    {
-        TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
-    }
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
@@ -646,6 +700,12 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
         TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void TooShortErrorAtEndArm64()
+    {
+        TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    }
 
     //corresponds to condition 5.4.1 in the paper
     private void Invalid0xf50xff(Utf8ValidationDelegate utf8ValidationDelegate)
@@ -675,18 +735,20 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
         Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
-    [Trait("Category", "avx")]
-    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void Invalid0xf50xffAVX()
-    {
-        Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
-    }
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void Invalid0xf50xffAvx2()
     {
         Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void Invalid0xf50xffArm64()
+    {
+        Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
 // helper function for debugging: it prints a green byte every 32 bytes and a red byte at a given index 
@@ -793,6 +855,13 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
     }
 
 
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void TooLargeErrorArm64()
+    {
+        TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    }
+
     private void AsciiPlusContinuationAtEndError(Utf8ValidationDelegate utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
@@ -823,11 +892,11 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
         AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
-    [Trait("Category", "avx")]
-    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void AsciiPlusContinuationAtEndErrorAVX()
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void AsciiPlusContinuationAtEndErrorArm64()
     {
-        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
     [Trait("Category", "avx")]
@@ -881,11 +950,17 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void SurrogateErrorTestAVX()
+    public void SurrogateErrorTestAvx2()
     {
         SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void SurrogateErrorTestArm64()
+    {
+        SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    }
 
     private void BruteForceTest(Utf8ValidationDelegate utf8ValidationDelegate)
     {
@@ -943,11 +1018,18 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
-    public void BruteForceTestAVX()
+    public void BruteForceTestAvx2()
     {
         BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+
+    [Trait("Category", "arm64")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
+    public void BruteForceTestArm64()
+    {
+        BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+    }
 
     // credit: based on code from Google Fuchsia (Apache Licensed)
     public static bool ValidateUtf8Fuschia(byte[] data)
