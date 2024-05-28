@@ -598,7 +598,6 @@ namespace SimdUnicode
                     int asciibytes = 0; // number of ascii bytes in the block (could also be called n1)
                     int contbytes = 0; // number of continuation bytes in the block
                     int n4 = 0; // number of 4-byte sequences that start in this block        
-
                     for (; processedLength + 32 <= inputLength; processedLength += 32)
                     {
 
@@ -661,16 +660,6 @@ namespace SimdUnicode
                             }
 
                             prevIncomplete = Avx2.SubtractSaturate(currentBlock, maxValue);
-
-                            if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
-                            {
-                                // We have an unterminated sequence.
-                                var (totalbyteadjustment, i, tempascii, tempcont, tempn4) = adjustmentFactor(pInputBuffer + processedLength + 32);
-                                processedLength -= i;
-                                n4 += tempn4;
-                                contbytes += tempcont;
-                            }
-
                             contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(byte_2_high));
                             // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
                             n4 += (int)Popcnt.PopCount((uint)Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte)));
@@ -681,7 +670,6 @@ namespace SimdUnicode
                         // and no expensive operation:
                         asciibytes += (int)(32 - Popcnt.PopCount((uint)mask));
                     }
-
                     int totalbyte = processedLength - start_point;
                     var (utf16adjust, scalaradjust) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, totalbyte);
 
@@ -860,14 +848,6 @@ namespace SimdUnicode
                                 return invalidBytePointer;
                             }
                             prevIncomplete = AdvSimd.SubtractSaturate(currentBlock, maxValue);
-                            if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(prevIncomplete)).ToScalar() != 0)
-                            {
-                                // We have an unterminated sequence.
-                                var (totalbyteadjustment, i, tempascii, tempcont, tempn4) = adjustmentFactor(pInputBuffer + processedLength + 32);
-                                processedLength -= i;
-                                n4 += tempn4;
-                                contbytes += tempcont;
-                            }
                             Vector128<sbyte> largestcont = Vector128.Create((sbyte)-65); // -65 => 0b10111111
                             contbytes += 16 - AdvSimd.Arm64.AddAcross(AdvSimd.CompareGreaterThan(Vector128.AsSByte(currentBlock), largestcont)).ToScalar();
                             Vector128<byte> fourthByteMinusOne = Vector128.Create((byte)(0b11110000u - 1));
