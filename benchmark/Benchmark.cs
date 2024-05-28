@@ -183,20 +183,17 @@ namespace SimdUnicodeBenchmarks
         {
             if (allLinesUtf8 != null)
             {
-                // RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByte);
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
             }
         }
 
         [Benchmark]
-        // [BenchmarkCategory("scalar")]
-        // public unsafe void Utf8ValidationRealDataScalar()
-        // {
-        //     if (allLinesUtf8 != null)
-        //     {
-        //         RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
-        //     }
-        // }
-
         [BenchmarkCategory("scalar")]
         public unsafe void Utf8ValidationRealDataScalar()
         {
@@ -220,18 +217,33 @@ namespace SimdUnicodeBenchmarks
         {
             if (allLinesUtf8 != null)
             {
-                RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
             }
+
         }
-        // [Benchmark]
-        // [BenchmarkCategory("avx")]
-        // public unsafe void SIMDUtf8ValidationRealDataAvx2()
-        // {
-        //     if (allLinesUtf8 != null)
-        //     {
-        //         RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
-        //     }
-        // }
+
+        [Benchmark]
+        [BenchmarkCategory("avx")]
+         public unsafe void SIMDUtf8ValidationRealDataAvx2()
+         {
+             if (allLinesUtf8 != null)
+             {
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
+             }
+        }
+
         [Benchmark]
         [BenchmarkCategory("sse")]
         public unsafe void SIMDUtf8ValidationRealDataSse()
@@ -241,17 +253,6 @@ namespace SimdUnicodeBenchmarks
                 RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
             }
         }
-        /*
-        // TODO: enable this benchmark when the AVX-512 implementation is ready
-        [Benchmark]
-        [BenchmarkCategory("avx512")]
-        public unsafe void SIMDUtf8ValidationRealDataAvx512()
-        {
-            if (allLinesUtf8 != null)
-            {
-                RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
-            }
-        }*/
 
     }
     public class Program
