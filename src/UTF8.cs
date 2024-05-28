@@ -671,23 +671,7 @@ namespace SimdUnicode
                                 contbytes += tempcont;
                             }
 
-                            // (Nick Nuon)The counts for continuous bytes can probably be optimized:
-                            // The draft had something like this line: 
-                            // contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(sc)); 
-                            // this actually counts the number of 2 consecutive continuous bytes
-                            // I put something that was bound to be working regardless as a slow but temporary fix:
-
-                            Vector256<byte> top2bits = Vector256.Create((byte)0b11000000); // Mask to isolate the two most significant bits
-                            Vector256<byte> contbytemask = Vector256.Create((byte)0b10000000);        // The expected pattern for continuation bytes: 10xxxxxx
-
-                            // Apply the mask and compare
-                            Vector256<byte> maskedData = Avx2.And(currentBlock, top2bits);
-                            Vector256<byte> compareResult = Avx2.CompareEqual(maskedData, contbytemask);
-                            // Move mask to get integer representation
-                            contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(compareResult));
-
-
-
+                            contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(byte_2_high));
                             // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
                             n4 += (int)Popcnt.PopCount((uint)Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte)));
                         }
