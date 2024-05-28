@@ -210,7 +210,6 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
-
         [Benchmark]
         [BenchmarkCategory("arm64")]
         public unsafe void SIMDUtf8ValidationRealDataArm64()

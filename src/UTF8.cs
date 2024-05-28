@@ -790,7 +790,6 @@ namespace SimdUnicode
                     int asciibytes = 0; // number of ascii bytes in the block (could also be called n1)
                     int contbytes = 0; // number of continuation bytes in the block
                     int n4 = 0; // number of 4-byte sequences that start in this block
-
                     for (; processedLength + 16 <= inputLength; processedLength += 16)
                     {
 
@@ -817,9 +816,10 @@ namespace SimdUnicode
                         {
                             // Contains non-ASCII characters, we need to do non-trivial processing
                             Vector128<byte> prev1 = AdvSimd.ExtractVector128(prevInputBlock, currentBlock, (byte)(16 - 1));
-                            Vector128<byte> byte_1_high = Vector128.Shuffle(shuf1, AdvSimd.ShiftRightLogical(prev1.AsUInt16(), 4).AsByte() & v0f);
-                            Vector128<byte> byte_1_low = Vector128.Shuffle(shuf2, (prev1 & v0f));
-                            Vector128<byte> byte_2_high = Vector128.Shuffle(shuf3, AdvSimd.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f);
+                            // Vector128.Shuffle vs AdvSimd.Arm64.VectorTableLookup: prefer the latter!!!
+                            Vector128<byte> byte_1_high = AdvSimd.Arm64.VectorTableLookup(shuf1, AdvSimd.ShiftRightLogical(prev1.AsUInt16(), 4).AsByte() & v0f);
+                            Vector128<byte> byte_1_low = AdvSimd.Arm64.VectorTableLookup (shuf2, (prev1 & v0f));
+                            Vector128<byte> byte_2_high = AdvSimd.Arm64.VectorTableLookup (shuf3, AdvSimd.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f);
                             Vector128<byte> sc = AdvSimd.And(AdvSimd.And(byte_1_high, byte_1_low), byte_2_high);
                             Vector128<byte> prev2 = AdvSimd.ExtractVector128(prevInputBlock, currentBlock, (byte)(16 - 2));
                             Vector128<byte> prev3 = AdvSimd.ExtractVector128(prevInputBlock, currentBlock, (byte)(16 - 3));
@@ -849,13 +849,11 @@ namespace SimdUnicode
                             }
                             prevIncomplete = AdvSimd.SubtractSaturate(currentBlock, maxValue);
                             Vector128<sbyte> largestcont = Vector128.Create((sbyte)-65); // -65 => 0b10111111
-                            contbytes += 16 - AdvSimd.Arm64.AddAcross(AdvSimd.CompareGreaterThan(Vector128.AsSByte(currentBlock), largestcont)).ToScalar();
+                            contbytes += -AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThanOrEqual(Vector128.AsSByte(currentBlock), largestcont)).ToScalar();
                             Vector128<byte> fourthByteMinusOne = Vector128.Create((byte)(0b11110000u - 1));
                             n4 += (int)(AdvSimd.Arm64.AddAcross(AdvSimd.SubtractSaturate(currentBlock, fourthByteMinusOne)).ToScalar());
                         }
-
-                        asciibytes -= (int)AdvSimd.Arm64.AddAcross(AdvSimd.CompareGreaterThanOrEqual(currentBlock, v80)).ToScalar();
-
+                        asciibytes -= (sbyte)AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThan(currentBlock, v80)).ToScalar();
                     }
 
                     int totalbyte = processedLength - start_point;
@@ -886,7 +884,6 @@ namespace SimdUnicode
             }
             utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;
             scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
-
             return pInputBuffer + inputLength;
         }
         public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int Utf16CodeUnitCountAdjustment, out int ScalarCodeUnitCountAdjustment)
