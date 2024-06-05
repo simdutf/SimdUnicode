@@ -1105,7 +1105,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                 int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
                 byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
                 int dotnetOffset = (int)(dotnetResult - pInput);
-                var message = "Suprisingly, scalarResult != simdResult {0} != {1}, badindex = {2}, length = {3}";
+                var message = "Suprisingly, scalarResult != simdResult, scalarResult is {0} != simdResult is {1}, badindex = {2}, length = {3}";
                 if (scalarOffset != simdOffset)
                 {
                     Console.WriteLine(message, scalarOffset, simdOffset, badindex, utf8.Length);
