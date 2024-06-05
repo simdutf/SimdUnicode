@@ -1,3 +1,4 @@
+namespace tests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,27 +10,12 @@ public class RandomUtf8
     private double[] probabilities;
     private const int maxByteLength = 4;
 
-    public RandomUtf8(uint seed, int prob_1byte, int prob_2bytes, int prob_3bytes, int prob_4bytes)
+    public RandomUtf8(uint seed, int prob1byte, int prob2bytes, int prob3bytes, int prob4bytes)
     {
         gen = new Random((int)seed);
-        probabilities = new double[maxByteLength] { prob_1byte, prob_2bytes, prob_3bytes, prob_4bytes };
+        probabilities = new double[maxByteLength] { prob1byte, prob2bytes, prob3bytes, prob4bytes };
     }
 
-    // public byte[] Generate(int howManyUnits, int? byteCountInUnit = null)
-    // {
-    //     var result = new List<byte>();
-    //     while (result.Count < howManyUnits)
-    //     {
-    //         int count = byteCountInUnit ?? PickRandomByteCount();
-    //         int codePoint = GenerateCodePoint(count);
-    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
-
-    //         result.AddRange(utf8Bytes);
-    //         if (result.Count + utf8Bytes.Length > howManyUnits)
-    //             break;
-    //     }
-    //     return result.ToArray();
-    // }
 
     public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
     {
@@ -46,54 +32,6 @@ public class RandomUtf8
         }
         return result;
     }
-
-    //     public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
-    // {
-    //     var result = new List<byte>();
-    //     var unitsAdded = 0; // Track the number of characters added.
-
-    //     while (unitsAdded < howManyUnits)
-    //     {
-    //         int count = byteCountInUnit ?? PickRandomByteCount();
-    //         int codePoint = GenerateCodePoint(count);
-    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
-
-    //         // Ensure adding the new character won't exceed the howManyUnits limit.
-    //         if (unitsAdded + 1 > howManyUnits)
-    //             break;
-
-    //         result.AddRange(utf8Bytes);
-    //         unitsAdded++; // Increment the units (characters) count.
-    //     }
-
-    //     return result;
-    // }
-
-
-    //     public object Generate(int howManyUnits, int? byteCountInUnit = null, bool returnAsList = false)
-    // {
-    //     var result = new List<byte>();
-    //     while (result.Count < howManyUnits)
-    //     {
-    //         int count = byteCountInUnit ?? PickRandomByteCount();
-    //         int codePoint = GenerateCodePoint(count);
-    //         byte[] utf8Bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32(codePoint));
-
-    //         if (result.Count + utf8Bytes.Length > howManyUnits)
-    //             break;
-
-    //         result.AddRange(utf8Bytes);
-    //     }
-
-    //     if (returnAsList)
-    //     {
-    //         return result;
-    //     }
-    //     else
-    //     {
-    //         return result.ToArray();
-    //     }
-    // }
 
     private int GenerateCodePoint(int byteCount)
     {

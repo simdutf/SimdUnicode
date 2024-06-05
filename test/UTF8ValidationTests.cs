@@ -31,7 +31,7 @@ public unsafe class Utf8SIMDValidationTests
         // Add more as needed
     }
 
-    public class FactOnSystemRequirementAttribute : FactAttribute
+    private sealed class FactOnSystemRequirementAttribute : FactAttribute
     {
         private TestSystemRequirements RequiredSystems;
 
@@ -62,7 +62,7 @@ public unsafe class Utf8SIMDValidationTests
     }
 
 
-    public class TestIfCondition : FactAttribute
+    public sealed class TestIfCondition : FactAttribute
     {
         public TestIfCondition(Func<bool> condition, string skipReason)
         {
@@ -1034,6 +1034,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
     // credit: based on code from Google Fuchsia (Apache Licensed)
     public static bool ValidateUtf8Fuschia(byte[] data)
     {
+        if(data == null) return false;
         int pos = 0;
         int len = data.Length;
         uint codePoint;
@@ -1104,13 +1105,14 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                 int utf16CodeUnitCountAdjustment, scalarCountAdjustment;
                 byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, utf8.Length, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
                 int dotnetOffset = (int)(dotnetResult - pInput);
+                var message = "Suprisingly, scalarResult != simdResult {0} != {1}, badindex = {2}, length = {3}";
                 if (scalarOffset != simdOffset)
                 {
-                    Console.WriteLine("Suprisingly, scalarResult != simdResult {0} != {1}, badindex = {2}, length = {3}", scalarOffset, simdOffset, badindex, utf8.Length);
+                    Console.WriteLine(message, scalarOffset, simdOffset, badindex, utf8.Length);
                 }
                 if (dotnetOffset != simdOffset)
                 {
-                    Console.WriteLine("Suprisingly, dotnetOffset != simdResult {0} != {1}, badindex = {2}, length = {3}", dotnetOffset, simdOffset, badindex, utf8.Length);
+                    Console.WriteLine(message, dotnetOffset, simdOffset, badindex, utf8.Length);
                 }
                 return (scalarResult == simdResult) && (simdResult == dotnetResult);
             }
@@ -1151,7 +1153,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
     }
 
         // Helper method to calculate the actual offset and length from a Range
-    private (int offset, int length) GetOffsetAndLength(int totalLength, Range range)
+    private static (int offset, int length) GetOffsetAndLength(int totalLength, Range range)
     {
         var start = range.Start.GetOffset(totalLength);
         var end = range.End.GetOffset(totalLength);
@@ -1167,6 +1169,10 @@ public bool ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDele
 {
     int dotnetUtf16Adjustment, dotnetScalarCountAdjustment;
     int simdUnicodeUtf16Adjustment, simdUnicodeScalarCountAdjustment;
+    if(utf8 == null || utf8ValidationDelegate == null)
+    {
+        return false;
+    }
 
     var isDefaultRange = range.Equals(default(Range));
     var (offset, length) = isDefaultRange ? (0, utf8.Length) : GetOffsetAndLength(utf8.Length, range);

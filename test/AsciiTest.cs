@@ -89,7 +89,7 @@ public class AsciiTest
     }
 
     [Fact]
-    public void Test_ASCII_generator()
+    public void TestASCIIGenerator()
     {
         const int NUM_TRIALS = 1000;
         const int MAX_LENGTH = 255;
