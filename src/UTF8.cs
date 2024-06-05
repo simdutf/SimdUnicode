@@ -10,6 +10,40 @@ namespace SimdUnicode
     public static class UTF8
     {
 
+        // Returns &inputBuffer[inputLength] if the input buffer is valid.
+        /// <summary>
+        /// Given an input buffer <paramref name="pInputBuffer"/> of byte length <paramref name="inputLength"/>,
+        /// returns a pointer to where the first invalid data appears in <paramref name="pInputBuffer"/>.
+        /// The parameter <paramref name="Utf16CodeUnitCountAdjustment"/> is set according to the content of the valid UTF-8 characters encountered, counting -1 for each 2-byte character, -2 for each 3-byte character, and -3 for each 4-byte character.
+        /// The parameter <paramref name="ScalarCodeUnitCountAdjustment"/> is set according to the content of the valid UTF-8 characters encountered, counting -1 for each 4-byte character.
+        /// </summary>
+        /// <remarks>
+        /// Returns a pointer to the end of <paramref name="pInputBuffer"/> if the buffer is well-formed.
+        /// </remarks>
+        public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int Utf16CodeUnitCountAdjustment, out int ScalarCodeUnitCountAdjustment)
+        {
+
+            if (AdvSimd.Arm64.IsSupported)
+            {
+                 return GetPointerToFirstInvalidByteArm64(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
+            }
+            if (Avx2.IsSupported)
+            {
+                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
+            }
+            /*if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
+            {
+                return GetPointerToFirstInvalidByteAvx512(pInputBuffer, inputLength);
+            }*/
+            // if (Ssse3.IsSupported)
+            // {
+            //     return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength);
+            // }
+            // return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
+
+            return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
+
+        }
         // prevents double counting in case there is a toolong error on the edge
         public static (int utfAdjust, int scalarAdjust) GetFinalScalarUtfAdjustments(byte headerByte)
         {
@@ -884,30 +918,6 @@ namespace SimdUnicode
             utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment + TailUtf16CodeUnitCountAdjustment;
             scalarCountAdjustment = TempScalarCountAdjustment + TailScalarCodeUnitCountAdjustment;
             return pInputBuffer + inputLength;
-        }
-        public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int Utf16CodeUnitCountAdjustment, out int ScalarCodeUnitCountAdjustment)
-        {
-
-            if (AdvSimd.Arm64.IsSupported)
-            {
-                 return GetPointerToFirstInvalidByteArm64(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
-            }
-            if (Avx2.IsSupported)
-            {
-                return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
-            }
-            /*if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
-            {
-                return GetPointerToFirstInvalidByteAvx512(pInputBuffer, inputLength);
-            }*/
-            // if (Ssse3.IsSupported)
-            // {
-            //     return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength);
-            // }
-            // return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength);
-
-            return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
-
         }
 
     }
