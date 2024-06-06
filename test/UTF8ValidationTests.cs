@@ -69,17 +69,20 @@ public unsafe class Utf8SIMDValidationTests
             // Only set the Skip property if the condition evaluates to false
             if (!condition.Invoke())
             {
+                if(skipReason == null) {
+                    throw new ArgumentNullException(nameof(skipReason), "skipReason cannot be null when condition is false.");
+                }
                 Skip = skipReason;
             }
         }
 
-        public Func<bool> Condition { get; }
-        public string SkipReason { get; }
+        public Func<bool>? Condition { get; }
+        public string? SkipReason { get; }
     }
 
 
 
-    private void simpleGoodSequences(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void simpleGoodSequences(Utf8ValidationFunction utf8ValidationDelegate)
     {
         string[] goodSequences = {
         "a",
@@ -129,7 +132,7 @@ public unsafe class Utf8SIMDValidationTests
         simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void BadSequences(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void BadSequences(Utf8ValidationFunction utf8ValidationDelegate)
     {
         string[] badSequences = {
         "\xC3\x28",
@@ -199,13 +202,13 @@ public unsafe class Utf8SIMDValidationTests
     }
 
     // this was in the C++ code
-    private void Node48995Test(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void Node48995Test(Utf8ValidationFunction utf8ValidationDelegate)
     {
         byte[] bad = new byte[] { 0x80 };
         Assert.False(ValidateUtf8(bad, utf8ValidationDelegate));
     }
 
-    private void NoError(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void NoError(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -250,7 +253,7 @@ public unsafe class Utf8SIMDValidationTests
         NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void NoErrorSpecificByteCount(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void NoErrorSpecificByteCount(Utf8ValidationFunction utf8ValidationDelegate)
     {
         RunTestForByteLength(1, utf8ValidationDelegate);
         RunTestForByteLength(2, utf8ValidationDelegate);
@@ -258,7 +261,7 @@ public unsafe class Utf8SIMDValidationTests
         RunTestForByteLength(4, utf8ValidationDelegate);
     }
 
-    private void RunTestForByteLength(int byteLength, Utf8ValidationDelegate utf8ValidationDelegate)
+    private void RunTestForByteLength(int byteLength, Utf8ValidationFunction utf8ValidationDelegate)
     {
         // int[] outputLengths = { 128, 256, 512, 1024, 1000 }; // Example lengths
         foreach (int outputLength in outputLengths)
@@ -302,7 +305,7 @@ public unsafe class Utf8SIMDValidationTests
     {
         NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
-    private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void NoErrorIncompleteThenASCII(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -363,7 +366,7 @@ public unsafe class Utf8SIMDValidationTests
         NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void NoErrorIncompleteAt256Vector(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void NoErrorIncompleteAt256Vector(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -416,7 +419,7 @@ public unsafe class Utf8SIMDValidationTests
         NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void BadHeaderBits(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void BadHeaderBits(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -472,7 +475,7 @@ public unsafe class Utf8SIMDValidationTests
         BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void TooShortError(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void TooShortError(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -527,7 +530,7 @@ public unsafe class Utf8SIMDValidationTests
         TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void TooLongError(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void TooLongError(Utf8ValidationFunction utf8ValidationDelegate)
     {
 
         foreach (int outputLength in outputLengths)
@@ -582,7 +585,7 @@ public unsafe class Utf8SIMDValidationTests
         TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void OverlongError(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void OverlongError(Utf8ValidationFunction utf8ValidationDelegate)
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
@@ -640,7 +643,7 @@ public unsafe class Utf8SIMDValidationTests
     }
 
 
-    private void TooShortErrorAtEnd(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void TooShortErrorAtEnd(Utf8ValidationFunction utf8ValidationDelegate)
     {
         for (int trial = 0; trial < NumTrials; trial++)
         {
@@ -713,7 +716,7 @@ public unsafe class Utf8SIMDValidationTests
     }
 
     //corresponds to condition 5.4.1 in the paper
-    private void Invalid0xf50xff(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void Invalid0xf50xff(Utf8ValidationFunction utf8ValidationDelegate)
     {
 
         var invalidBytes = Enumerable.Range(0xF5, 0x100 - 0xF5).Select(i => (byte)i).ToArray(); // 0xF5 to 0xFF
@@ -823,7 +826,7 @@ public unsafe class Utf8SIMDValidationTests
     }
 
 
-    private void TooLargeError(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void TooLargeError(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -870,7 +873,7 @@ public unsafe class Utf8SIMDValidationTests
         TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void AsciiPlusContinuationAtEndError(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void AsciiPlusContinuationAtEndError(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -914,7 +917,7 @@ public unsafe class Utf8SIMDValidationTests
         AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
-    private void SurrogateErrorTest(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void SurrogateErrorTest(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -970,7 +973,7 @@ public unsafe class Utf8SIMDValidationTests
         SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    private void BruteForceTest(Utf8ValidationDelegate utf8ValidationDelegate)
+    private void BruteForceTest(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
         {
@@ -1100,7 +1103,7 @@ public unsafe class Utf8SIMDValidationTests
     }
 
     // Check that all functions agree on the result when the input might be invalid.
-    private bool InvalidateUtf8(byte[] utf8, int badindex, Utf8ValidationDelegate utf8ValidationDelegate)
+    private bool InvalidateUtf8(byte[] utf8, int badindex, Utf8ValidationFunction utf8ValidationDelegate)
     {
         unsafe
         {
@@ -1131,7 +1134,7 @@ public unsafe class Utf8SIMDValidationTests
             }
         }
     }
-    private bool ValidateUtf8(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+    private bool ValidateUtf8(byte[] utf8, Utf8ValidationFunction utf8ValidationDelegate, Range range = default)
     {
         // Adjusted check for default Range
         var isDefaultRange = range.Equals(default(Range));
@@ -1174,9 +1177,9 @@ public unsafe class Utf8SIMDValidationTests
 
 
     // Define a delegate that matches the signature of the methods you want to test
-    public unsafe delegate byte* Utf8ValidationDelegate(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
+    public unsafe delegate byte* Utf8ValidationFunction(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
 
-    public bool ValidateCount(byte[] utf8, Utf8ValidationDelegate utf8ValidationDelegate, Range range = default)
+    public bool ValidateCount(byte[] utf8, Utf8ValidationFunction utf8ValidationDelegate, Range range = default)
     {
         int dotnetUtf16Adjustment, dotnetScalarCountAdjustment;
         int simdUnicodeUtf16Adjustment, simdUnicodeScalarCountAdjustment;
