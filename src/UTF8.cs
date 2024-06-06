@@ -1037,13 +1037,13 @@ namespace SimdUnicode
                             prevIncomplete = AdvSimd.SubtractSaturate(currentBlock, maxValue);
                             Vector128<sbyte> largestcont = Vector128.Create((sbyte)-65); // -65 => 0b10111111
                             contbytes += -AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThanOrEqual(Vector128.AsSByte(currentBlock), largestcont)).ToScalar();
-                            Vector128<byte> fourthByteMinusOne = Vector128.Create((byte)(0b11110000u - 1));
 
                             // computing n4 is more expensive than we would like:
-                            var largerthan0f = AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne);
-                            var largerthan0fones = AdvSimd.And(largerthan0f, Vector128.Create((byte)1));
-                            var largerthan0fonescount = AdvSimd.Arm64.AddAcross(largerthan0fones).ToScalar();
-                            n4 += largerthan0fonescount;
+                            Vector128<byte> fourthByteMinusOne = Vector128.Create((byte)(0b11110000u - 1));
+                            Vector128<byte> largerthan0f = AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne);
+                            byte n4add = (byte)AdvSimd.Arm64.AddAcross(largerthan0f).ToScalar();
+                            int negn4add = (int)(byte)-n4add;
+                            n4 += negn4add;
                         }
                         asciibytes -= (sbyte)AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThan(currentBlock, v80)).ToScalar();
                     }
