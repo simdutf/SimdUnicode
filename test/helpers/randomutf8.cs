@@ -16,7 +16,7 @@ public class RandomUtf8
         probabilities = new double[maxByteLength] { prob1byte, prob2bytes, prob3bytes, prob4bytes };
     }
 
-
+#pragma warning disable CA1002
     public List<byte> Generate(int howManyUnits, int? byteCountInUnit = null)
     {
         var result = new List<byte>();
@@ -39,13 +39,16 @@ public class RandomUtf8
         {
             case 1:
                 // Generate a code point for a 1-byte UTF-8 character (ASCII)
+#pragma warning disable CA5394
                 return gen.Next(0x0000, 0x007F + 1);// +1 because gen.Next() excludes the upper bound
             case 2:
                 // Generate a code point for a 2-byte UTF-8 character (Latin)
+#pragma warning disable CA5394
                 return gen.Next(0x0080, 0x07FF + 1);
             case 3:
                 // Generate a code point for a 3-byte UTF-8 character (Asiatic)
                 // Note: This range skips over the surrogate pair range U+D800 to U+DFFF
+#pragma warning disable CA5394
                 if (gen.NextDouble() < 0.5)
                 {
                     // Generate code point in U+0800 to U+D7FF range
@@ -54,24 +57,27 @@ public class RandomUtf8
                 else
                 {
                     // Generate code point in U+E000 to U+FFFF range
+#pragma warning disable CA5394
                     return gen.Next(0xE000, 0xFFFF + 1);
                 }
             case 4:
                 // Generate a code point for a 4-byte UTF-8 character (Supplementary)
                 // The +1 is factored into the ConvertFromUtf32 method
+#pragma warning disable CA5394
                 return gen.Next(0x010000, 0x10FFFF);
             default:
                 throw new InvalidOperationException($"Invalid byte count: {byteCount}");
         }
     }
 
+#pragma warning disable CA1002
     public List<byte> AppendContinuationByte(List<byte> utf8Bytes) =>
                             utf8Bytes.Concat(new byte[] { (byte)gen.Next(0x80, 0xBF + 1) }).ToList();
 
 
 
-
-    public void ReplaceEndOfArray(byte[] original, byte[] replacement)//, int startIndex)
+#pragma warning disable CA1062
+    public static void ReplaceEndOfArray(byte[] original, byte[] replacement)//, int startIndex)
     {
         // Calculate the start index for replacement
         int startIndex = original.Length - replacement.Length;
