@@ -881,12 +881,7 @@ namespace SimdUnicode
             }
             return GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
         }
-        public static void ToString(Vector128<byte> v)
-        {
-            Span<byte> b = stackalloc byte[16];
-            v.CopyTo(b);
-            Console.WriteLine(Convert.ToHexString(b));
-        }
+
         public unsafe static byte* GetPointerToFirstInvalidByteArm64(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
             int processedLength = 0;
@@ -979,7 +974,6 @@ namespace SimdUnicode
                             // we need to check if the previous block was incomplete.
                             if (AdvSimd.Arm64.MaxAcross(prevIncomplete).ToScalar() != 0)
                             {
-                          //      Console.WriteLine("ASCII block, but previous block was incomplete");
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 byte* invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(16 - 3, pInputBuffer + processedLength - 3, inputLength - processedLength + 3);
                                 // So the code is correct up to invalidBytePointer
@@ -1019,19 +1013,6 @@ namespace SimdUnicode
                             // hardware:
                             if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(error)).ToScalar() != 0)
                             {
-                               // Console.WriteLine("Error block detected");
-int slown4 = 0;
-int slowcontbytes = 0;
-int slowasciibytes = 0;
-addCounters(pInputBuffer , pInputBuffer + processedLength, ref slowasciibytes, ref slown4, ref slowcontbytes);
-if(slowasciibytes != asciibytes || slown4 != n4 || slowcontbytes != contbytes)
-{
-    Console.WriteLine("Error in counting");
-    Console.WriteLine($"asciibytes: {asciibytes} {slowasciibytes}");
-    Console.WriteLine($"n4: {n4} {slown4}");
-    Console.WriteLine($"contbytes: {contbytes} {slowcontbytes}");
-}
-
                                 byte* invalidBytePointer;
                                 if (processedLength == 0)
                                 {
@@ -1058,31 +1039,11 @@ if(slowasciibytes != asciibytes || slown4 != n4 || slowcontbytes != contbytes)
                             contbytes += -AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThanOrEqual(Vector128.AsSByte(currentBlock), largestcont)).ToScalar();
                             Vector128<byte> fourthByteMinusOne = Vector128.Create((byte)(0b11110000u - 1));
 
-                            int reallyslown4 = 0;
-                            for(int i = 0; i < 16; i++)
-                            {
-                                if(pInputBuffer[processedLength + i] >= 0xF0)
-                                {
-                                    reallyslown4++;
-                                }
-                            }
+                            // computing n4 is more expensive than we would like:
                             var largerthan0f = AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne);
                             var largerthan0fones = AdvSimd.And(largerthan0f, Vector128.Create((byte)1));
                             var largerthan0fonescount = AdvSimd.Arm64.AddAcross(largerthan0fones).ToScalar();
-                            if(largerthan0fonescount != reallyslown4)
-                            {
-                                Console.WriteLine("***********Error in counting 4-byte sequences");
-                                ToString(currentBlock);
-                                                                ToString(fourthByteMinusOne);
-                                                                ToString(AdvSimd.SubtractSaturate(currentBlock, fourthByteMinusOne));
-                                                                ToString(AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne));
-                                Console.WriteLine(((AdvSimd.Arm64.AddAcross(AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne)).ToScalar()^0xff)+1)&0xff);
-
-                                Console.WriteLine(reallyslown4);
-                            }
                             n4 += largerthan0fonescount;
-
-                            //n4 += (int)(((AdvSimd.Arm64.AddAcross(AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne)).ToScalar()^0xff)+1)&0xff);
                         }
                         asciibytes -= (sbyte)AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThan(currentBlock, v80)).ToScalar();
                     }
@@ -1101,8 +1062,6 @@ if(slowasciibytes != asciibytes || slown4 != n4 || slowcontbytes != contbytes)
                         }
                         if (invalidBytePointer != pInputBuffer + inputLength)
                         {
-                                                           // Console.WriteLine("trailing Error block detected");
-
                             if (invalidBytePointer < pInputBuffer + processedLength)
                             {
                                 removeCounters(invalidBytePointer, pInputBuffer + processedLength, ref asciibytes, ref n4, ref contbytes);
@@ -1120,15 +1079,11 @@ if(slowasciibytes != asciibytes || slown4 != n4 || slowcontbytes != contbytes)
                             addCounters(pInputBuffer + processedLength, invalidBytePointer, ref asciibytes, ref n4, ref contbytes);
                         }
                     }
-                    //Console.WriteLine("trailing simd method");
-
                     int final_total_bytes_processed = inputLength - start_point;
                     (utf16CodeUnitCountAdjustment, scalarCountAdjustment) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, final_total_bytes_processed);
                     return pInputBuffer + inputLength;
                 }
             }
-                                                                    //Console.WriteLine("trailing scalar method");
-
             return GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
         }
 
