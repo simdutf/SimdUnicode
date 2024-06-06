@@ -305,6 +305,7 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
         for (int trial = 0; trial < NumTrials; trial++)
         {
             var allAscii = new List<byte>(Enumerable.Repeat((byte)0, outputLength));
+#pragma warning disable CA5394
             int firstCodeLength = rand.Next(2, 5);
             List<byte> singleBytes = generator.Generate(1, firstCodeLength);
             
@@ -364,12 +365,9 @@ private void NoErrorIncompleteThenASCII(Utf8ValidationDelegate utf8ValidationDel
         {
             for (int trial = 0; trial < NumTrials; trial++)
             {
-
-                
-                // var allAscii = generator.Generate(outputLength,1);
                 var allAscii = new List<byte>(Enumerable.Repeat((byte)0, 256));
                 int firstcodeLength = rand.Next(2,5);
-                List<byte> singlebytes = generator.Generate(1,firstcodeLength);//recall:generate a utf8 code between 2 and 4 bytes
+                List<byte> singlebytes = generator.Generate(1,firstcodeLength); //recall:generate a utf8 code between 2 and 4 bytes
                 int incompleteLocation = 128 - rand.Next(1,firstcodeLength - 1);
                 allAscii.InsertRange(incompleteLocation,singlebytes);
 
@@ -779,7 +777,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
         {
             Console.Write($"{bytes[i]:X2} ");
         }
-
+#pragma warning disable CA1303
         if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
     }
     Console.WriteLine("\n"); // New line for readability and to separate hex from binary
@@ -808,7 +806,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
         {
             Console.Write($"{binaryString} ");
         }
-
+#pragma warning disable CA1303
         if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
     }
     Console.WriteLine(); // New line for readability
@@ -873,7 +871,7 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
                     byte[] filler = generator.Generate(outputLength,byteCountInUnit:1).ToArray();
                     byte[] toolong = generator.AppendContinuationByte(generator.Generate(1,i)).ToArray();
 
-                    generator.ReplaceEndOfArray(filler,toolong); 
+                    RandomUtf8.ReplaceEndOfArray(filler,toolong); 
 
                     Assert.False(ValidateUtf8(filler,utf8ValidationDelegate));
                     Assert.True(InvalidateUtf8(filler, filler.Length - 1,utf8ValidationDelegate));
@@ -1136,14 +1134,12 @@ static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
 
                 if (dotnetResult != startPtr + length)
                 {
-                    // PrintDebugInfo(dotnetResult, startPtr, utf8, "DotnetRuntime fails to return the correct invalid position");
                     return false;
                 }
 
                 byte* simdResult = utf8ValidationDelegate(startPtr, length, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
                 if (simdResult != startPtr + length)
                 {
-                    // PrintDebugInfo(simdResult, startPtr, utf8, "Our result fails to return the correct invalid position");
                     return false;
                 }
                 return true;
