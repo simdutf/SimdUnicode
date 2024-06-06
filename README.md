@@ -31,6 +31,11 @@ dotnet test
 To see which tests are running, we recommend setting the verbosity level:
 
 ```
+dotnet test -v=normal
+```
+
+More details could be useful:
+```
 dotnet test -v d
 ```
 
@@ -89,7 +94,6 @@ dotnet build
 We recommend you use `dotnet format`. E.g.,
 
 ```
-cd test
 dotnet format
 ```
 

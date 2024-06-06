@@ -76,7 +76,7 @@ public class RandomUtf8
 
 
 
-
+#pragma warning disable CA1062
     public static void ReplaceEndOfArray(byte[] original, byte[] replacement)//, int startIndex)
     {
         // Calculate the start index for replacement
