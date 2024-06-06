@@ -16,7 +16,7 @@ drop-in replacement:
 /// <summary>
 /// Given an input buffer <paramref name="pInputBuffer"/> of byte length <paramref name="inputLength"/>,
 /// returns a pointer to where the first invalid data appears in <paramref name="pInputBuffer"/>.
-/// The parameter <paramref name="Utf16CodeUnitCountAdjustment"/> is set according to the content of the valid UTF-8 characters encountered, counting -1 for each 2-byte character, -2 for each 3-byte character, and -3 for each 4-byte character.
+/// The parameter <paramref name="Utf16CodeUnitCountAdjustment"/> is set according to the content of the valid UTF-8 characters encountered, counting -1 for each 2-byte character, -2 for each 3-byte and 4-byte characters.
 /// The parameter <paramref name="ScalarCodeUnitCountAdjustment"/> is set according to the content of the valid UTF-8 characters encountered, counting -1 for each 4-byte character.
 /// </summary>
 /// <remarks>
