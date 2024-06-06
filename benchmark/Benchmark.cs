@@ -50,8 +50,8 @@ namespace SimdUnicodeBenchmarks
         public string ColumnName { get; } = "Speed (GB/s)";
         public bool AlwaysShow { get; } = true;
         public ColumnCategory Category { get; } = ColumnCategory.Custom;
-        public int PriorityInCategory { get; } = 0;
-        public bool IsNumeric { get; } = false;
+        public int PriorityInCategory { get; }
+        public bool IsNumeric { get; }
         public UnitType UnitType { get; } = UnitType.Dimensionless;
         public string Legend { get; } = "The speed in gigabytes per second";
     }
@@ -139,6 +139,7 @@ namespace SimdUnicodeBenchmarks
                 @"data/thai.utf8.txt",
                 @"data/turkish.utf8.txt",
                 @"data/vietnamese.utf8.txt")]
+#pragma warning disable CA1051
         public string? FileName;
         private byte[] allLinesUtf8 = Array.Empty<byte>();
 
@@ -155,7 +156,7 @@ namespace SimdUnicodeBenchmarks
                     var res = validationFunction(pUtf8, data.Length);
                     if (res != pUtf8 + data.Length)
                     {
-                        throw new Exception("Invalid UTF-8: I expected the pointer to be at the end of the buffer.");
+                        throw new ArgumentException("Invalid UTF-8: I expected the pointer to be at the end of the buffer.");
                     }
                 }
             }
