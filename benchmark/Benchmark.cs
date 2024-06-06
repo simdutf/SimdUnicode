@@ -27,13 +27,17 @@ namespace SimdUnicodeBenchmarks
     {
         public string GetValue(Summary summary, BenchmarkCase benchmarkCase)
         {
-            var ourReport = summary.Reports.First(x => x.BenchmarkCase.Equals(benchmarkCase));
-            var fileName = (string)benchmarkCase.Parameters["FileName"];
-            long length = new System.IO.FileInfo(fileName).Length;
-            if (ourReport.ResultStatistics is null)
+            if (summary is null || benchmarkCase is null || benchmarkCase.Parameters is null)
             {
                 return "N/A";
             }
+            var ourReport = summary.Reports.First(x => x.BenchmarkCase.Equals(benchmarkCase));
+            var fileName = (string)benchmarkCase.Parameters["FileName"];
+            if (ourReport is null || ourReport.ResultStatistics is null)
+            {
+                return "N/A";
+            }
+            long length = new System.IO.FileInfo(fileName).Length;
             var mean = ourReport.ResultStatistics.Mean;
             return $"{(length / ourReport.ResultStatistics.Mean):#####.00}";
         }
@@ -46,8 +50,8 @@ namespace SimdUnicodeBenchmarks
         public string ColumnName { get; } = "Speed (GB/s)";
         public bool AlwaysShow { get; } = true;
         public ColumnCategory Category { get; } = ColumnCategory.Custom;
-        public int PriorityInCategory { get; } = 0;
-        public bool IsNumeric { get; } = false;
+        public int PriorityInCategory { get; }
+        public bool IsNumeric { get; }
         public UnitType UnitType { get; } = UnitType.Dimensionless;
         public string Legend { get; } = "The speed in gigabytes per second";
     }
@@ -57,8 +61,8 @@ namespace SimdUnicodeBenchmarks
     [Config(typeof(Config))]
     public class RealDataBenchmark
     {
-
-        private class Config : ManualConfig
+#pragma warning disable CA1812
+        private sealed class Config : ManualConfig
         {
             public Config()
             {
@@ -67,6 +71,7 @@ namespace SimdUnicodeBenchmarks
 
                 if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
                 {
+#pragma warning disable CA1303
                     Console.WriteLine("ARM64 system detected.");
                     AddFilter(new AnyCategoriesFilter(["arm64", "scalar", "runtime"]));
 
@@ -75,21 +80,25 @@ namespace SimdUnicodeBenchmarks
                 {
                     if (Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512Vbmi.IsSupported)
                     {
+#pragma warning disable CA1303
                         Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX-512 support.");
                         AddFilter(new AnyCategoriesFilter(["avx512", "avx", "sse", "scalar", "runtime"]));
                     }
                     else if (Avx2.IsSupported)
                     {
+#pragma warning disable CA1303
                         Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX2 support.");
                         AddFilter(new AnyCategoriesFilter(["avx", "sse", "scalar", "runtime"]));
                     }
                     else if (Ssse3.IsSupported)
                     {
+#pragma warning disable CA1303
                         Console.WriteLine("X64 system detected (Intel, AMD,...) with Sse4.2 support.");
                         AddFilter(new AnyCategoriesFilter(["sse", "scalar", "runtime"]));
                     }
                     else
                     {
+#pragma warning disable CA1303
                         Console.WriteLine("X64 system detected (Intel, AMD,...) without relevant SIMD support.");
                         AddFilter(new AnyCategoriesFilter(["scalar", "runtime"]));
                     }
@@ -130,14 +139,15 @@ namespace SimdUnicodeBenchmarks
                 @"data/thai.utf8.txt",
                 @"data/turkish.utf8.txt",
                 @"data/vietnamese.utf8.txt")]
+#pragma warning disable CA1051
         public string? FileName;
-        public byte[] allLinesUtf8 = new byte[0];
+        private byte[] allLinesUtf8 = Array.Empty<byte>();
 
 
         public unsafe delegate byte* Utf8ValidationFunction(byte* pUtf8, int length);
         public unsafe delegate byte* DotnetRuntimeUtf8ValidationFunction(byte* pUtf8, int length, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment);
 
-        public void RunUtf8ValidationBenchmark(byte[] data, Utf8ValidationFunction validationFunction)
+        private void RunUtf8ValidationBenchmark(byte[] data, Utf8ValidationFunction validationFunction)
         {
             unsafe
             {
@@ -146,13 +156,13 @@ namespace SimdUnicodeBenchmarks
                     var res = validationFunction(pUtf8, data.Length);
                     if (res != pUtf8 + data.Length)
                     {
-                        throw new Exception("Invalid UTF-8: I expected the pointer to be at the end of the buffer.");
+                        throw new ArgumentException("Invalid UTF-8: I expected the pointer to be at the end of the buffer.");
                     }
                 }
             }
         }
 
-        public void RunDotnetRuntimeUtf8ValidationBenchmark(byte[] data, DotnetRuntimeUtf8ValidationFunction validationFunction)
+        private void RunDotnetRuntimeUtf8ValidationBenchmark(byte[] data, DotnetRuntimeUtf8ValidationFunction validationFunction)
         {
             unsafe
             {
@@ -183,20 +193,17 @@ namespace SimdUnicodeBenchmarks
         {
             if (allLinesUtf8 != null)
             {
-                // RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByte);
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByte(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
             }
         }
 
         [Benchmark]
-        // [BenchmarkCategory("scalar")]
-        // public unsafe void Utf8ValidationRealDataScalar()
-        // {
-        //     if (allLinesUtf8 != null)
-        //     {
-        //         RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
-        //     }
-        // }
-
         [BenchmarkCategory("scalar")]
         public unsafe void Utf8ValidationRealDataScalar()
         {
@@ -213,25 +220,39 @@ namespace SimdUnicodeBenchmarks
             }
         }
 
-
         [Benchmark]
         [BenchmarkCategory("arm64")]
         public unsafe void SIMDUtf8ValidationRealDataArm64()
         {
             if (allLinesUtf8 != null)
             {
-                RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
+            }
+
+        }
+
+        [Benchmark]
+        [BenchmarkCategory("avx")]
+        public unsafe void SIMDUtf8ValidationRealDataAvx2()
+        {
+            if (allLinesUtf8 != null)
+            {
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
             }
         }
-        // [Benchmark]
-        // [BenchmarkCategory("avx")]
-        // public unsafe void SIMDUtf8ValidationRealDataAvx2()
-        // {
-        //     if (allLinesUtf8 != null)
-        //     {
-        //         RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
-        //     }
-        // }
+
         [Benchmark]
         [BenchmarkCategory("sse")]
         public unsafe void SIMDUtf8ValidationRealDataSse()
@@ -241,17 +262,6 @@ namespace SimdUnicodeBenchmarks
                 RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
             }
         }
-        /*
-        // TODO: enable this benchmark when the AVX-512 implementation is ready
-        [Benchmark]
-        [BenchmarkCategory("avx512")]
-        public unsafe void SIMDUtf8ValidationRealDataAvx512()
-        {
-            if (allLinesUtf8 != null)
-            {
-                RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
-            }
-        }*/
 
     }
     public class Program

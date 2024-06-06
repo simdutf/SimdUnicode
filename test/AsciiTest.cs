@@ -89,7 +89,7 @@ public class AsciiTest
     }
 
     [Fact]
-    public void Test_ASCII_generator()
+    public void TestASCIIGenerator()
     {
         const int NUM_TRIALS = 1000;
         const int MAX_LENGTH = 255;
@@ -112,7 +112,7 @@ public class AsciiTest
             // Assertion or check to ensure all sequences were valid ASCII
             if (validSequencesCount != NUM_TRIALS)
             {
-                throw new Exception($"Invalid ASCII sequences were generated for {length}-byte sequences!");
+                throw new ArgumentException($"Invalid ASCII sequences were generated for {length}-byte sequences!");
             }
         }
     }
@@ -136,7 +136,7 @@ public class AsciiTest
                     nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
                     if (result != (nuint)ascii.Length)
                     {
-                        throw new Exception($"Unexpected non-ASCII character found at index {result}");
+                        throw new ArgumentException($"Unexpected non-ASCII character found at index {result}");
                     }
                 }
             }
@@ -166,7 +166,7 @@ public class AsciiTest
                         nuint result = SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(pAscii, (nuint)ascii.Length);
                         if (result != (nuint)i)
                         {
-                            throw new Exception($"Expected non-ASCII character at index {i}, but found at index {result}");
+                            throw new ArgumentException($"Expected non-ASCII character at index {i}, but found at index {result}");
                         }
                     }
                 }

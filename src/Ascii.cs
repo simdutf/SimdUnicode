@@ -25,6 +25,7 @@ namespace SimdUnicode
 
         public static bool IsAscii(this string s)
         {
+            if (s == null) return true;
             foreach (var c in s)
             {
                 if (!c.IsAscii()) return false;

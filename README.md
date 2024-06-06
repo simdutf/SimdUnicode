@@ -6,15 +6,31 @@ This is a fast C# library to validate UTF-8 strings.
 
 ## Motivation
 
-We seek to speed up the `Utf8Utility.GetPointerToFirstInvalidByte` function. Using the algorithm used by Node.js, Oracle GraalVM  and other important systems.
-
-- John Keiser, Daniel Lemire, [Validating UTF-8 In Less Than One Instruction Per Byte](https://arxiv.org/abs/2010.03090), Software: Practice and Experience 51 (5), 2021
-
-The algorithm in question is part of popular JavaScript runtimes such as Node.js and Bun, [by PHP](https://github.com/php/php-src/blob/90e0ce7f0db99767c58dc21e4213c0f8763f657a/ext/mbstring/mbstring.c#L5270), by  Oracle GraalVM and many important systems. 
-
+We seek to speed up the `Utf8Utility.GetPointerToFirstInvalidByte` function from the C# runtime library.
 [The function is private in the Microsoft Runtime](https://github.com/dotnet/runtime/blob/4d709cd12269fcbb3d0fccfb2515541944475954/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Validation.cs), but we can expose it manually.
 
+Specifically, we provide the function `SimdUnicode.UTF8.GetPointerToFirstInvalidByte` which is a faster
+drop-in replacement:
+```cs
+// Returns &inputBuffer[inputLength] if the input buffer is valid.
+/// <summary>
+/// Given an input buffer <paramref name="pInputBuffer"/> of byte length <paramref name="inputLength"/>,
+/// returns a pointer to where the first invalid data appears in <paramref name="pInputBuffer"/>.
+/// The parameter <paramref name="Utf16CodeUnitCountAdjustment"/> is set according to the content of the valid UTF-8 characters encountered, counting -1 for each 2-byte character, -2 for each 3-byte and 4-byte characters.
+/// The parameter <paramref name="ScalarCodeUnitCountAdjustment"/> is set according to the content of the valid UTF-8 characters encountered, counting -1 for each 4-byte character.
+/// </summary>
+/// <remarks>
+/// Returns a pointer to the end of <paramref name="pInputBuffer"/> if the buffer is well-formed.
+/// </remarks>
+public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int Utf16CodeUnitCountAdjustment, out int ScalarCodeUnitCountAdjustment);
+```
 
+The function uses advanced instructions (SIMD) on 64-bit ARM and x64 processors, but fallbacks on a
+conventional implementation on other systems. We provide extensive tests and benchmarks.
+
+We apply the algorithm used by Node.js, Bun, Oracle GraalVM, by the PHP interpreter and other important systems. The algorithm has been described in the follow article:
+
+- John Keiser, Daniel Lemire, [Validating UTF-8 In Less Than One Instruction Per Byte](https://arxiv.org/abs/2010.03090), Software: Practice and Experience 51 (5), 2021
 
 
 ## Requirements
@@ -31,6 +47,11 @@ dotnet test
 To see which tests are running, we recommend setting the verbosity level:
 
 ```
+dotnet test -v=normal
+```
+
+More details could be useful:
+```
 dotnet test -v d
 ```
 
@@ -44,7 +65,7 @@ To run specific tests, it is helpful to use the filter parameter:
 
 
 ```
-dotnet test --filter TooShortErrorAVX
+dotnet test --filter TooShortErrorAvx2
 ```
 
 Or to target specific categories:
@@ -89,7 +110,6 @@ dotnet build
 We recommend you use `dotnet format`. E.g.,
 
 ```
-cd test
 dotnet format
 ```
 
@@ -115,6 +135,7 @@ You can print the content of a vector register like so:
 ## Performance tips
 
 - Be careful: `Vector128.Shuffle` is not the same as `Ssse3.Shuffle` nor is  `Vector128.Shuffle` the same as `Avx2.Shuffle`. Prefer the latter.
+- Similarly `Vector128.Shuffle` is not the same as `AdvSimd.Arm64.VectorTableLookup`, use the latter.
 
 ## More reading 
 
