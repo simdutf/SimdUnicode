@@ -774,6 +774,7 @@ namespace SimdUnicode
                             // 
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
+                                Console.WriteLine("=========ASCII block with incomplete previous block");
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 byte* invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(16-3, pInputBuffer + processedLength - 3, inputLength - processedLength + 3);
                                 // So the code is correct up to invalidBytePointer
@@ -811,6 +812,8 @@ namespace SimdUnicode
 
                             if (!Avx2.TestZ(error, error))
                             {
+                                Console.WriteLine("==========error block");
+
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 byte* invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength);
                                 // So the code is correct up to invalidBytePointer
@@ -836,6 +839,8 @@ namespace SimdUnicode
                         asciibytes += (int)(32 - Popcnt.PopCount((uint)mask));
                     }
                     // We may still have an error.
+                                                    Console.WriteLine("==========tail block===");
+
                     if (processedLength < inputLength) {
                         int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                         byte* invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(off, pInputBuffer + processedLength, inputLength - processedLength);
@@ -857,8 +862,11 @@ namespace SimdUnicode
                     return  pInputBuffer + inputLength;
                 }
             }
-            return processedLength + GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+            //Console.WriteLine("==========tail tail tail block {0} {1} ===", processedLength, inputLength);
+            //var sti = GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
+            //Console.WriteLine("==========end at {0} {1} ===",sti - pInputBuffer , inputLength);
 
+            return  GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
         }
 
         public unsafe static byte* GetPointerToFirstInvalidByteArm64(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
