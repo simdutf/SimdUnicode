@@ -483,22 +483,21 @@ namespace SimdUnicode
             if (inputLength > 128)
             {
                 // We skip any ASCII characters at the start of the buffer
-                //TODO: uncomment fast path eventually, this part should be ok
-                // int asciirun = 0;
-                // for (; asciirun + 64 <= inputLength; asciirun += 64)
-                // {
-                //     Vector128<byte> block1 = Avx.LoadVector128(pInputBuffer + asciirun);
-                //     Vector128<byte> block2 = Avx.LoadVector128(pInputBuffer + asciirun + 16);
-                //     Vector128<byte> block3 = Avx.LoadVector128(pInputBuffer + asciirun + 32);
-                //     Vector128<byte> block4 = Avx.LoadVector128(pInputBuffer + asciirun + 48);
+                int asciirun = 0;
+                for (; asciirun + 64 <= inputLength; asciirun += 64)
+                {
+                    Vector128<byte> block1 = Avx.LoadVector128(pInputBuffer + asciirun);
+                    Vector128<byte> block2 = Avx.LoadVector128(pInputBuffer + asciirun + 16);
+                    Vector128<byte> block3 = Avx.LoadVector128(pInputBuffer + asciirun + 32);
+                    Vector128<byte> block4 = Avx.LoadVector128(pInputBuffer + asciirun + 48);
 
-                //     Vector128<byte> or = Sse2.Or(Sse2.Or(block1, block2), Sse2.Or(block3, block4));
-                //     if (Sse2.MoveMask(or) != 0)
-                //     {
-                //         break;
-                //     }
-                // }
-                // processedLength = asciirun;
+                    Vector128<byte> or = Sse2.Or(Sse2.Or(block1, block2), Sse2.Or(block3, block4));
+                    if (Sse2.MoveMask(or) != 0)
+                    {
+                        break;
+                    }
+                }
+                processedLength = asciirun;
 
                 if (processedLength + 16 < inputLength)
                 {
