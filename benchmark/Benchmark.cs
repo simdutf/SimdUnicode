@@ -257,11 +257,7 @@ namespace SimdUnicodeBenchmarks
         [BenchmarkCategory("sse")]
         public unsafe void SIMDUtf8ValidationRealDataSse()
         {
-            // if (allLinesUtf8 != null)
-            // {
-            //     RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
-            // }
-                        if (allLinesUtf8 != null)
+            if (allLinesUtf8 != null)
             {
                 RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
                 {
