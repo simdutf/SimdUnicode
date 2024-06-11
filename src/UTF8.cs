@@ -10,6 +10,13 @@ namespace SimdUnicode
     public static class UTF8
     {
 
+        public static void ToString(Vector128<byte> v)
+        {
+            Span<byte> b = stackalloc byte[16];
+            v.CopyTo(b);
+            // Console.WriteLine(Convert.ToHexString(b));
+        }
+
         // Returns &inputBuffer[inputLength] if the input buffer is valid.
         /// <summary>
         /// Given an input buffer <paramref name="pInputBuffer"/> of byte length <paramref name="inputLength"/>,
@@ -471,48 +478,48 @@ namespace SimdUnicode
             return (utfadjust, scalaradjust);
         }
 
-        public unsafe static byte* GetPointerToFirstInvalidByteSse(byte* pInputBuffer, int inputLength)
+        public unsafe static byte* GetPointerToFirstInvalidByteSse(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-
+            // Console.WriteLine("-------------------Calling function--------------------");
             int processedLength = 0;
-            int TempUtf16CodeUnitCountAdjustment = 0;
-            int TempScalarCountAdjustment = 0;
-
             if (pInputBuffer == null || inputLength <= 0)
             {
+                utf16CodeUnitCountAdjustment = 0;
+                scalarCountAdjustment = 0;
                 return pInputBuffer;
             }
             if (inputLength > 128)
             {
                 // We skip any ASCII characters at the start of the buffer
-                int asciirun = 0;
-                for (; asciirun + 64 <= inputLength; asciirun += 64)
-                {
-                    Vector128<byte> block1 = Avx.LoadVector128(pInputBuffer + asciirun);
-                    Vector128<byte> block2 = Avx.LoadVector128(pInputBuffer + asciirun + 16);
-                    Vector128<byte> block3 = Avx.LoadVector128(pInputBuffer + asciirun + 32);
-                    Vector128<byte> block4 = Avx.LoadVector128(pInputBuffer + asciirun + 48);
+                //TODO: uncomment fast path eventually, this part should be ok
+                // int asciirun = 0;
+                // for (; asciirun + 64 <= inputLength; asciirun += 64)
+                // {
+                //     Vector128<byte> block1 = Avx.LoadVector128(pInputBuffer + asciirun);
+                //     Vector128<byte> block2 = Avx.LoadVector128(pInputBuffer + asciirun + 16);
+                //     Vector128<byte> block3 = Avx.LoadVector128(pInputBuffer + asciirun + 32);
+                //     Vector128<byte> block4 = Avx.LoadVector128(pInputBuffer + asciirun + 48);
 
-                    Vector128<byte> or = Sse2.Or(Sse2.Or(block1, block2), Sse2.Or(block3, block4));
-                    if (Sse2.MoveMask(or) != 0)
-                    {
-                        break;
-                    }
-                }
-                processedLength = asciirun;
+                //     Vector128<byte> or = Sse2.Or(Sse2.Or(block1, block2), Sse2.Or(block3, block4));
+                //     if (Sse2.MoveMask(or) != 0)
+                //     {
+                //         break;
+                //     }
+                // }
+                // processedLength = asciirun;
 
                 if (processedLength + 16 < inputLength)
                 {
-                    // We still have work to do!
+                    // Console.WriteLine("-------SIMD kicking in-------");
                     Vector128<byte> prevInputBlock = Vector128<byte>.Zero;
 
                     Vector128<byte> maxValue = Vector128.Create(
                             255, 255, 255, 255, 255, 255, 255, 255,
                             255, 255, 255, 255, 255, 0b11110000 - 1, 0b11100000 - 1, 0b11000000 - 1);
-                    Vector128<byte> prevIncomplete = Sse2.SubtractSaturate(prevInputBlock, maxValue);
+                    Vector128<byte> prevIncomplete = Sse3.SubtractSaturate(prevInputBlock, maxValue);
 
-
-                    Vector128<byte> shuf1 = Vector128.Create(TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
+                    Vector128<byte> shuf1 = Vector128.Create(
+                            TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
                             TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
                             TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
                             TOO_SHORT | OVERLONG_2,
@@ -520,7 +527,8 @@ namespace SimdUnicode
                             TOO_SHORT | OVERLONG_3 | SURROGATE,
                             TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4);
 
-                    Vector128<byte> shuf2 = Vector128.Create(CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
+                    Vector128<byte> shuf2 = Vector128.Create(
+                            CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
                             CARRY | OVERLONG_2,
                             CARRY,
                             CARRY,
@@ -536,7 +544,8 @@ namespace SimdUnicode
                             CARRY | TOO_LARGE | TOO_LARGE_1000 | SURROGATE,
                             CARRY | TOO_LARGE | TOO_LARGE_1000,
                             CARRY | TOO_LARGE | TOO_LARGE_1000);
-                    Vector128<byte> shuf3 = Vector128.Create(TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
+                    Vector128<byte> shuf3 = Vector128.Create(
+                            TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
                             TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
                             TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE_1000 | OVERLONG_4,
                             TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE,
@@ -548,24 +557,78 @@ namespace SimdUnicode
                     Vector128<byte> fourthByte = Vector128.Create((byte)(0b11110000u - 0x80));
                     Vector128<byte> v0f = Vector128.Create((byte)0x0F);
                     Vector128<byte> v80 = Vector128.Create((byte)0x80);
+                    /****
+                    * So we want to count the number of 4-byte sequences,
+                    * the number of 4-byte sequences, 3-byte sequences, and
+                    * the number of 2-byte sequences.
+                    * We can do it indirectly. We know how many bytes in total
+                    * we have (length). Let us assume that the length covers
+                    * only complete sequences (we need to adjust otherwise).
+                    * We have that
+                    *   length = 4 * n4 + 3 * n3 + 2 * n2 + n1
+                    * where n1 is the number of 1-byte sequences (ASCII),
+                    * n2 is the number of 2-byte sequences, n3 is the number
+                    * of 3-byte sequences, and n4 is the number of 4-byte sequences.
+                    *
+                    * Let ncon be the number of continuation bytes, then we have
+                    *  length =  n4 + n3 + n2 + ncon + n1
+                    *
+                    * We can solve for n2 and n3 in terms of the other variables:
+                    * n3 = n1 - 2 * n4 + 2 * ncon - length
+                    * n2 = -2 * n1 + n4 - 4 * ncon + 2 * length
+                    * Thus we only need to count the number of continuation bytes,
+                    * the number of ASCII bytes and the number of 4-byte sequences.
+                    */
+                    ////////////
+                    // The *block* here is what begins at processedLength and ends
+                    // at processedLength/16*16 or when an error occurs.
+                    ///////////
+                    int start_point = processedLength;
+
+                    // The block goes from processedLength to processedLength/16*16.
+                    int asciibytes = 0; // number of ascii bytes in the block (could also be called n1)
+                    int contbytes = 0; // number of continuation bytes in the block
+                    int n4 = 0; // number of 4-byte sequences that start in this block        
                     for (; processedLength + 16 <= inputLength; processedLength += 16)
                     {
+                        // Console.WriteLine($"Processing {processedLength} bytes", processedLength);
 
-                        Vector128<byte> currentBlock = Sse2.LoadVector128(pInputBuffer + processedLength);
-
-                        int mask = Sse2.MoveMask(currentBlock);
+                        Vector128<byte> currentBlock = Avx.LoadVector128(pInputBuffer + processedLength);
+                        int mask = Sse42.MoveMask(currentBlock.AsDouble());
+                        // ToString(currentBlock);
+                        // Console.WriteLine($"{mask}");
                         if (mask == 0)
                         {
                             // We have an ASCII block, no need to process it, but
                             // we need to check if the previous block was incomplete.
-                            if (Sse2.MoveMask(prevIncomplete) != 0)
+                            // 
+
+                            // Console.WriteLine("Found all ASCII");
+                            // ToString(prevIncomplete);
+                            if (!Sse41.TestZ(prevIncomplete, prevIncomplete))
                             {
-                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref TempUtf16CodeUnitCountAdjustment, ref TempScalarCountAdjustment);
+                                // Console.WriteLine($"Found all-ascii but previous is incomplete.Triggering Rewind");
+                                int off = processedLength >= 3 ? processedLength - 3 : processedLength;
+                                byte* invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(16 - 3, pInputBuffer + processedLength - 3, inputLength - processedLength + 3);
+                                // So the code is correct up to invalidBytePointer
+                                if (invalidBytePointer < pInputBuffer + processedLength)
+                                {
+                                    removeCounters(invalidBytePointer, pInputBuffer + processedLength, ref asciibytes, ref n4, ref contbytes);
+                                }
+                                else
+                                {
+                                    addCounters(pInputBuffer + processedLength, invalidBytePointer, ref asciibytes, ref n4, ref contbytes);
+                                }
+                                int totalbyteasciierror = processedLength - start_point;
+                                (utf16CodeUnitCountAdjustment, scalarCountAdjustment) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, totalbyteasciierror);
+                                return invalidBytePointer;
                             }
                             prevIncomplete = Vector128<byte>.Zero;
                         }
-                        else
+                        else // Contains non-ASCII characters, we need to do non-trivial processing
                         {
+                            // Console.WriteLine("Contains ASCII characters, firing standard SIMD routine");
+                            // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
                             // Contains non-ASCII characters, we need to do non-trivial processing
                             Vector128<byte> prev1 = Ssse3.AlignRight(currentBlock, prevInputBlock, (byte)(16 - 1));
                             Vector128<byte> byte_1_high = Ssse3.Shuffle(shuf1, Sse2.ShiftRightLogical(prev1.AsUInt16(), 4).AsByte() & v0f);
@@ -575,54 +638,97 @@ namespace SimdUnicode
                             Vector128<byte> prev2 = Ssse3.AlignRight(currentBlock, prevInputBlock, (byte)(16 - 2));
                             Vector128<byte> prev3 = Ssse3.AlignRight(currentBlock, prevInputBlock, (byte)(16 - 3));
                             prevInputBlock = currentBlock;
+                            // Console.WriteLine("PrevIncomplete:");
+                            // ToString(prevIncomplete);
+
                             Vector128<byte> isThirdByte = Sse2.SubtractSaturate(prev2, thirdByte);
                             Vector128<byte> isFourthByte = Sse2.SubtractSaturate(prev3, fourthByte);
                             Vector128<byte> must23 = Sse2.Or(isThirdByte, isFourthByte);
                             Vector128<byte> must23As80 = Sse2.And(must23, v80);
                             Vector128<byte> error = Sse2.Xor(must23As80, sc);
-                            if (Sse2.MoveMask(error) != 0)
+
+                            if (!Sse42.TestZ(error, error))
                             {
-                                return SimdUnicode.UTF8.RewindAndValidateWithErrors(processedLength, pInputBuffer + processedLength, inputLength - processedLength, ref TempUtf16CodeUnitCountAdjustment, ref TempScalarCountAdjustment);
+                                // Console.WriteLine($"Found error! rewinding...");
+
+                                byte* invalidBytePointer;
+                                if (processedLength == 0)
+                                {
+                                    invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(0, pInputBuffer + processedLength, inputLength - processedLength);
+                                }
+                                else
+                                {
+                                    invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(processedLength - 3, pInputBuffer + processedLength - 3, inputLength - processedLength + 3);
+                                }
+                                if (invalidBytePointer < pInputBuffer + processedLength)
+                                {
+                                    removeCounters(invalidBytePointer, pInputBuffer + processedLength, ref asciibytes, ref n4, ref contbytes);
+                                }
+                                else
+                                {
+                                    addCounters(pInputBuffer + processedLength, invalidBytePointer, ref asciibytes, ref n4, ref contbytes);
+                                }
+                                int total_bytes_processed = (int)(invalidBytePointer - (pInputBuffer + start_point));
+                                (utf16CodeUnitCountAdjustment, scalarCountAdjustment) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, total_bytes_processed);
+                                return invalidBytePointer;
                             }
-                            prevIncomplete = Sse2.SubtractSaturate(currentBlock, maxValue);
-                        }
-                    }
-                }
-            }
-            // We have processed all the blocks using SIMD, we need to process the remaining bytes.
 
-            // Process the remaining bytes with the scalar function
-            if (processedLength < inputLength)
-            {
-                // We need to possibly backtrack to the start of the last code point
-                // worst possible case is 4 bytes, where we need to backtrack 3 bytes
-                // 11110xxxx 10xxxxxx 10xxxxxx 10xxxxxx <== we might be pointing at the last byte
-                if (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
-                {
-                    processedLength -= 1;
-                    if (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
+                            prevIncomplete = Sse3.SubtractSaturate(currentBlock, maxValue);
+                            
+                            contbytes += (int)Popcnt.PopCount((uint)Sse42.MoveMask(byte_2_high));
+                            // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
+                            n4 += (int)Popcnt.PopCount((uint)Sse42.MoveMask(Sse42.SubtractSaturate(currentBlock, fourthByte)));
+                        }
+
+                        // important: we just update asciibytes if there was no error.
+                        // We count the number of ascii bytes in the block using just some simple arithmetic
+                        // and no expensive operation:
+                        asciibytes += (int)(32 - Popcnt.PopCount((uint)mask));
+                    }
+
+                    // Console.WriteLine($"-----SIMD finished , calling scalar:");
+
+                    // We may still have an error.
+                    if (processedLength < inputLength || !Sse42.TestZ(prevIncomplete, prevIncomplete))
                     {
-                        processedLength -= 1;
-                        if (processedLength > 0 && (sbyte)pInputBuffer[processedLength] <= -65)
+                        byte* invalidBytePointer;
+                        if (processedLength == 0)
                         {
-                            processedLength -= 1;
+                            invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(0, pInputBuffer + processedLength, inputLength - processedLength);
+                        }
+                        else
+                        {
+                            invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(processedLength - 3, pInputBuffer + processedLength - 3, inputLength - processedLength + 3);
+
+                        }
+                        if (invalidBytePointer != pInputBuffer + inputLength)
+                        {
+                            if (invalidBytePointer < pInputBuffer + processedLength)
+                            {
+                                removeCounters(invalidBytePointer, pInputBuffer + processedLength, ref asciibytes, ref n4, ref contbytes);
+                            }
+                            else
+                            {
+                                addCounters(pInputBuffer + processedLength, invalidBytePointer, ref asciibytes, ref n4, ref contbytes);
+                            }
+                            int total_bytes_processed = (int)(invalidBytePointer - (pInputBuffer + start_point));
+                            (utf16CodeUnitCountAdjustment, scalarCountAdjustment) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, total_bytes_processed);
+                            return invalidBytePointer;
+                        }
+                        else
+                        {
+                            addCounters(pInputBuffer + processedLength, invalidBytePointer, ref asciibytes, ref n4, ref contbytes);
                         }
                     }
-                }
-                int TailScalarCodeUnitCountAdjustment = 0;
-                int TailUtf16CodeUnitCountAdjustment = 0;
-                byte* invalidBytePointer = SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out TailUtf16CodeUnitCountAdjustment, out TailScalarCodeUnitCountAdjustment);
-                if (invalidBytePointer != pInputBuffer + inputLength)
-                {
-                    // An invalid byte was found by the scalar function
-                    return invalidBytePointer;
+                    int final_total_bytes_processed = inputLength - start_point;
+                    (utf16CodeUnitCountAdjustment, scalarCountAdjustment) = CalculateN2N3FinalSIMDAdjustments(asciibytes, n4, contbytes, final_total_bytes_processed);
+                    return pInputBuffer + inputLength;
                 }
             }
-
-            return pInputBuffer + inputLength;
+            return GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
         }
 
-
+//
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
             int processedLength = 0;
