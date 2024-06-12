@@ -132,10 +132,18 @@ public unsafe class Utf8SIMDValidationTests
         simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void simpleGoodSequencesSse()
+    {
+        simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    }
+
     private void BadSequences(Utf8ValidationFunction utf8ValidationDelegate)
     {
         string[] badSequences = {
         "\xC3\x28",
+        "\x80",
         "\xA0\xA1",
         "\xE2\x28\xA1",
         "\xE2\x82\x28",
@@ -187,6 +195,13 @@ public unsafe class Utf8SIMDValidationTests
         BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void BadSequencesSse()
+    {
+        BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    }
+
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void BadSequencesAvx2()
@@ -201,12 +216,7 @@ public unsafe class Utf8SIMDValidationTests
         BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
-    // this was in the C++ code
-    private void Node48995Test(Utf8ValidationFunction utf8ValidationDelegate)
-    {
-        byte[] bad = new byte[] { 0x80 };
-        Assert.False(ValidateUtf8(bad, utf8ValidationDelegate));
-    }
+
 
     private void NoError(Utf8ValidationFunction utf8ValidationDelegate)
     {
@@ -237,6 +247,13 @@ public unsafe class Utf8SIMDValidationTests
     public void NoErrorScalar()
     {
         NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void NoErrorSse()
+    {
+        NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
     }
 
     [Trait("Category", "avx")]
@@ -290,6 +307,13 @@ public unsafe class Utf8SIMDValidationTests
     public void NoErrorSpecificByteCountScalar()
     {
         NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void NoErrorSpecificByteCountSse()
+    {
+        NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
     }
 
     [Trait("Category", "avx")]
@@ -351,6 +375,13 @@ public unsafe class Utf8SIMDValidationTests
         NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void NoErrorIncompleteThenASCIISse()
+    {
+        NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    }
+
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void NoErrorIncompleteThenASCIIAvx2()
@@ -403,6 +434,13 @@ public unsafe class Utf8SIMDValidationTests
     public void NoErrorIncompleteAt256VectorScalar()
     {
         NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void NoErrorIncompleteAt256VectorSse()
+    {
+        NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
     }
 
     [Trait("Category", "avx")]
@@ -461,6 +499,13 @@ public unsafe class Utf8SIMDValidationTests
         BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void BadHeaderBitsSse()
+    {
+        BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    }
+
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void BadHeaderBitsAvx2()
@@ -516,6 +561,13 @@ public unsafe class Utf8SIMDValidationTests
         TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void TooShortErrorSse()
+    {
+        TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    }
+
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void TooShortErrorAvx2()
@@ -569,6 +621,13 @@ public unsafe class Utf8SIMDValidationTests
     public void TooLongErrorScalar()
     {
         TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void TooLongErrorSse()
+    {
+        TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
     }
 
     [Trait("Category", "avx")]
@@ -633,6 +692,13 @@ public unsafe class Utf8SIMDValidationTests
     public void OverlongErrorScalar()
     {
         OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
+    }
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void OverlongErrorSse()
+    {
+        OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
     }
 
     [Trait("Category", "arm64")]
@@ -700,6 +766,13 @@ public unsafe class Utf8SIMDValidationTests
         TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void TooShortErrorAtEndSse()
+    {
+        TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    }
+
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
@@ -742,6 +815,13 @@ public unsafe class Utf8SIMDValidationTests
     {
         Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void Invalid0xf50xffSse()
+    {
+        Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    } 
 
 
     [Trait("Category", "avx")]
@@ -858,6 +938,13 @@ public unsafe class Utf8SIMDValidationTests
         TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
 
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void TooLargeErrorSse()
+    {
+        TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    } 
+
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
     public void TooLargeErrorAvx()
@@ -902,6 +989,14 @@ public unsafe class Utf8SIMDValidationTests
     {
         AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void AsciiPlusContinuationAtEndErrorSse()
+    {
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    } 
+
 
     [Trait("Category", "arm64")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
@@ -958,6 +1053,14 @@ public unsafe class Utf8SIMDValidationTests
     {
         SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void SurrogateErrorTestSse()
+    {
+        SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    } 
+
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
@@ -1031,6 +1134,14 @@ public unsafe class Utf8SIMDValidationTests
     {
         BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar);
     }
+
+
+    [Trait("Category", "sse")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Sse)]
+    public void BruteForceTestSse()
+    {
+        BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+    } 
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]

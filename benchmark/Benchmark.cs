@@ -259,7 +259,13 @@ namespace SimdUnicodeBenchmarks
         {
             if (allLinesUtf8 != null)
             {
-                RunUtf8ValidationBenchmark(allLinesUtf8, SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
             }
         }
 
