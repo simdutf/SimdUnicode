@@ -1263,7 +1263,9 @@ namespace SimdUnicode
                             Console.WriteLine($"--Found All ASCII chars!This is prevIncomplete.ExtractMostSignificantBits():{prevIncomplete.ExtractMostSignificantBits()} and this is previncomplete:");
                             // ToString(prevIncomplete.AsByte());
 
-                            if (prevIncomplete.CompareGreaterThan(Vector512<byte>.Zero).ExtractMostSignificantBits() != 0)
+
+
+                            if (Avx512BW.CompareGreaterThan(prevIncomplete,Vector512<byte>.Zero).ExtractMostSignificantBits() != 0)
                             {
                                 Console.WriteLine("Found an incomplete segment!");
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
