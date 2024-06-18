@@ -7,7 +7,9 @@ This is a fast C# library to validate UTF-8 strings.
 ## Motivation
 
 We seek to speed up the `Utf8Utility.GetPointerToFirstInvalidByte` function from the C# runtime library.
-[The function is private in the Microsoft Runtime](https://github.com/dotnet/runtime/blob/4d709cd12269fcbb3d0fccfb2515541944475954/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Validation.cs), but we can expose it manually.
+[The function is private in the Microsoft Runtime](https://github.com/dotnet/runtime/blob/4d709cd12269fcbb3d0fccfb2515541944475954/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Validation.cs), but we can expose it manually. The C# runtime 
+function is well optimized and it makes use of advanced CPU instructions. Nevertheless, we propose
+an alternative that can be several times faster.
 
 Specifically, we provide the function `SimdUnicode.UTF8.GetPointerToFirstInvalidByte` which is a faster
 drop-in replacement:
@@ -35,7 +37,7 @@ We apply the algorithm used by Node.js, Bun, Oracle GraalVM, by the PHP interpre
 
 ## Requirements
 
-We recommend you install .NET 8: https://dotnet.microsoft.com/en-us/download/dotnet/8.0
+We recommend you install .NET 8 or better: https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 
 
 ## Running tests
@@ -74,8 +76,6 @@ Or to target specific categories:
 dotnet test --filter "Category=scalar"
 ```
 
-
-
 ## Running Benchmarks
 
 To run the benchmarks, run the following command:
@@ -97,6 +97,28 @@ If you are under macOS or Linux, you may want to run the benchmarks in privilege
 cd benchmark
 sudo dotnet run -c Release
 ```
+
+## Results (x64)
+
+To be completed.
+
+## Results (ARM)
+
+On an Apple M2 system, our validation function is two to three times
+faster than the standard library.
+
+| data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |
+|:----------------|:-----------|:--------------------------|
+| Arabic-Lipsum   |  6.7       | 3.5                       |
+| Chinese-Lipsum  |  6.7       | 4.8                       |
+| Emoji-Lipsum    |  6.7       | 2.5                       |
+| Hebrew-Lipsum   |  6.7       | 3.5                       |
+| Hindi-Lipsum    |  6.8       | 3.0                       |
+| Japanese-Lipsum |  6.8       | 4.6                       |
+| Korean-Lipsum   |  6.6       | 1.8                       |
+| Latin-Lipsum    |  87        | 38                        |
+| Russian-Lipsum  |  6.7       | 2.6                       |
+
 
 ## Building the library
 
@@ -139,7 +161,7 @@ You can print the content of a vector register like so:
 
 ## More reading 
 
-- https://github.com/dotnet/coreclr/pull/21948/files#diff-2a22774bd6bff8e217ecbb3a41afad033ce0ca0f33645e9d8f5bdf7c9e3ac248
+- [Add optimized UTF-8 validation and transcoding apis, hook them up to UTF8Encoding](https://github.com/dotnet/coreclr/pull/21948/files#diff-2a22774bd6bff8e217ecbb3a41afad033ce0ca0f33645e9d8f5bdf7c9e3ac248)
 - https://github.com/dotnet/runtime/issues/41699
 - https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/
 - https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions

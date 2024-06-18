@@ -24,7 +24,7 @@ namespace SimdUnicode
         public unsafe static byte* GetPointerToFirstInvalidByte(byte* pInputBuffer, int inputLength, out int Utf16CodeUnitCountAdjustment, out int ScalarCodeUnitCountAdjustment)
         {
 
-            if (AdvSimd.Arm64.IsSupported)
+            if (AdvSimd.Arm64.IsSupported && BitConverter.IsLittleEndian)
             {
                 return GetPointerToFirstInvalidByteArm64(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
             }
@@ -707,7 +707,6 @@ namespace SimdUnicode
             return GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
         }
 
-//
         public unsafe static byte* GetPointerToFirstInvalidByteAvx2(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
             int processedLength = 0;
@@ -851,7 +850,6 @@ namespace SimdUnicode
                         {
                             // We have an ASCII block, no need to process it, but
                             // we need to check if the previous block was incomplete.
-                            // 
                             if (!Avx2.TestZ(prevIncomplete, prevIncomplete))
                             {
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;

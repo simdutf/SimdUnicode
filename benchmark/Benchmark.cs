@@ -5,6 +5,7 @@ using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Filters;
+using BenchmarkDotNet.Jobs;
 using System.Text;
 using System.Runtime;
 using System.Runtime.InteropServices;
@@ -272,10 +273,25 @@ namespace SimdUnicodeBenchmarks
     }
     public class Program
     {
-        static void Main(string[] args) => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, DefaultConfig.Instance
-                .WithSummaryStyle(SummaryStyle.Default.WithMaxParameterColumnWidth(100)));
+        static void Main(string[] args)
+        {
+            if (args.Length == 0)
+            {
+                args = new string[] { "--filter", "*" };
+            }
+            var job = Job.Default
+                .WithWarmupCount(1)
+                .WithMinIterationCount(2)
+                .WithMaxIterationCount(10)
+                .AsDefault();
 
-
+            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, DefaultConfig.Instance.AddJob(job).WithSummaryStyle(SummaryStyle.Default.WithMaxParameterColumnWidth(100)));
+        }
     }
+    //        static void Main(string[] args) => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, DefaultConfig.Instance
+    //         .WithSummaryStyle(SummaryStyle.Default.WithMaxParameterColumnWidth(100)));
+
+
+    //  }
 
 }
