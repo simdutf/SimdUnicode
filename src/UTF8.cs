@@ -1044,7 +1044,7 @@ namespace SimdUnicode
 
                 public unsafe static byte* GetPointerToFirstInvalidByteAvx512(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-            Console.WriteLine("------------------------------------------------");
+            // Console.WriteLine("------------------------------------------------");
             int processedLength = 0;
             if (pInputBuffer == null || inputLength <= 0)
             {
@@ -1052,7 +1052,7 @@ namespace SimdUnicode
                 scalarCountAdjustment = 0;
                 return pInputBuffer;
             }
-            Console.WriteLine($"Inputlength{inputLength}");
+            // Console.WriteLine($"Inputlength{inputLength}");
 
             if (inputLength > 256)
             {
@@ -1075,7 +1075,7 @@ namespace SimdUnicode
 
                 if (processedLength + 64 < inputLength)
                 {
-                    Console.WriteLine($"Main SIMD routine engaged!");
+                    // Console.WriteLine($"Main SIMD routine engaged!");
 
                     Vector512<byte> prevInputBlock = Vector512<byte>.Zero;
 
@@ -1260,14 +1260,14 @@ namespace SimdUnicode
                             // we need to check if the previous block was incomplete.
                             // 
 
-                            Console.WriteLine($"--Found All ASCII chars!This is prevIncomplete.ExtractMostSignificantBits():{prevIncomplete.ExtractMostSignificantBits()} and this is previncomplete:");
+                            // Console.WriteLine($"--Found All ASCII chars!This is prevIncomplete.ExtractMostSignificantBits():{prevIncomplete.ExtractMostSignificantBits()} and this is previncomplete:");
                             // ToString(prevIncomplete.AsByte());
 
 
 
                             if (Avx512BW.CompareGreaterThan(prevIncomplete,Vector512<byte>.Zero).ExtractMostSignificantBits() != 0)
                             {
-                                Console.WriteLine("Found an incomplete segment!");
+                                // Console.WriteLine("Found an incomplete segment!");
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 byte* invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(16 - 3, pInputBuffer + processedLength - 3, inputLength - processedLength + 3);
                                 // So the code is correct up to invalidBytePointer
@@ -1323,8 +1323,8 @@ namespace SimdUnicode
                             Vector512<byte> must23As80 = Avx512F.And(must23, v80);
                             Vector512<byte> error = Avx512F.Xor(must23As80, sc);
 
-
-                            if (error.ExtractMostSignificantBits() != 0)
+                            // if (error.ExtractMostSignificantBits() != 0)
+                            if (Avx512BW.CompareGreaterThan(error,Vector512<byte>.Zero).ExtractMostSignificantBits() != 0)
                             {
                                 byte* invalidBytePointer;
                                 if (processedLength == 0)
