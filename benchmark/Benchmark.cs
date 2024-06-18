@@ -288,8 +288,6 @@ namespace SimdUnicodeBenchmarks
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, DefaultConfig.Instance.AddJob(job).WithSummaryStyle(SummaryStyle.Default.WithMaxParameterColumnWidth(100)));
         }
     }
-    //        static void Main(string[] args) => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, DefaultConfig.Instance
-    //         .WithSummaryStyle(SummaryStyle.Default.WithMaxParameterColumnWidth(100)));
 
 
     //  }
