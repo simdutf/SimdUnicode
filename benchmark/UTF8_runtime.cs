@@ -9,22 +9,8 @@ using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.Arm;
 using System.Runtime.Intrinsics.X86;
 
-// Changes made from the Runtime (most of the stuff in the runtime is behind some private/internal class or some such. The path of least resistance was to copy paste.
-// Copy pasted from: https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,ca18aaa87cbdbfe8
-// https://source.dot.net/#System.Text.Encodings.Web/src/libraries/System.Private.CoreLib/src/System/Text/UnicodeUtility.cs,7d9353a7dd29c82b
-// https://source.dot.net/#System.Text.Encodings.Web/src/libraries/System.Private.CoreLib/src/System/Text/UnicodeDebug.cs,ac87f1ec2c614dce
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,0ca89dfb3ec2a5da
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,87a9969a4e35fdde
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,ff5eb1221e0665eb
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,068a221b81a99840
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,74fc59ef51d5afa8
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,7fc454ccbfa2fc31
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,70ca16f03c3cc41b
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,5a3126ae65f71ef2
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,6ee61246657067fb
-// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/Unicode/Utf8Utility.Helpers.cs,706384069881fe22
-// 
-
+// Copy pasted from the System/Text/Unicode/Utf8Utility.Helpers.cs and associated files.
+// Important: copyright belongs to the .NET Foundation.
 namespace DotnetRuntime
 {
 
