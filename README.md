@@ -134,7 +134,7 @@ You can print the content of a vector register like so:
 
 ## Performance tips
 
-- Be careful: `Vector128.Shuffle` is not the same as `Ssse3.Shuffle` nor is  `Vector128.Shuffle` the same as `Avx2.Shuffle`. Prefer the latter.
+- Be careful: `Vector128.Shuffle` is not the same as `Ssse3.Shuffle` nor is  `Vector256.Shuffle` the same as `Avx2.Shuffle`. Prefer the latter.
 - Similarly `Vector128.Shuffle` is not the same as `AdvSimd.Arm64.VectorTableLookup`, use the latter.
 
 ## More reading 
