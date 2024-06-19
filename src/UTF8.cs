@@ -10,82 +10,6 @@ namespace SimdUnicode
     public static class UTF8
     {
 
-        public static void ToString(Vector512<byte> v)
-        {
-            Span<byte> b = stackalloc byte[64];
-            v.CopyTo(b);
-            Console.WriteLine(Convert.ToHexString(b));
-        }
-
-
-            static void PrintHexAndBinary(byte[] bytes, int highlightIndex = -1)
-    {
-        int chunkSize = 16; // 128 bits = 16 bytes
-
-        // Process each chunk for hexadecimal
-#pragma warning disable CA1303
-        Console.Write("Hex: ");
-        for (int i = 0; i < bytes.Length; i++)
-        {
-            if (i > 0 && i % chunkSize == 0)
-                Console.WriteLine(); // New line after every 16 bytes
-
-            if (i == highlightIndex)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write($"{bytes[i]:X2} ");
-                Console.ResetColor();
-            }
-            else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write($"{bytes[i]:X2} ");
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.Write($"{bytes[i]:X2} ");
-            }
-#pragma warning disable CA1303
-            if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
-        }
-#pragma warning disable CA1303
-        Console.WriteLine("\n"); // New line for readability and to separate hex from binary
-
-        // Process each chunk for binary
-#pragma warning disable CA1303
-        Console.Write("Binary: ");
-        for (int i = 0; i < bytes.Length; i++)
-        {
-            if (i > 0 && i % chunkSize == 0)
-                Console.WriteLine(); // New line after every 16 bytes
-
-            string binaryString = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
-            if (i == highlightIndex)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write($"{binaryString} ");
-                Console.ResetColor();
-            }
-            else if (i % (chunkSize * 2) == 0) // print green every 256 bytes
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write($"{binaryString} ");
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.Write($"{binaryString} ");
-            }
-#pragma warning disable CA1303
-            if ((i + 1) % chunkSize != 0) Console.Write(" "); // Add space between bytes but not at the end of the line
-        }
-        Console.WriteLine(); // New line for readability
-    }
-
-
-
-
         // Returns &inputBuffer[inputLength] if the input buffer is valid.
         /// <summary>
         /// Given an input buffer <paramref name="pInputBuffer"/> of byte length <paramref name="inputLength"/>,
@@ -981,7 +905,6 @@ namespace SimdUnicode
 
                 public unsafe static byte* GetPointerToFirstInvalidByteAvx512(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
-            // Console.WriteLine("------------------------------------------------");
             int processedLength = 0;
             if (pInputBuffer == null || inputLength <= 0)
             {
@@ -989,7 +912,6 @@ namespace SimdUnicode
                 scalarCountAdjustment = 0;
                 return pInputBuffer;
             }
-            // Console.WriteLine($"Inputlength{inputLength}");
 
             if (inputLength > 256)
             {
@@ -1012,7 +934,6 @@ namespace SimdUnicode
 
                 if (processedLength + 64 < inputLength)
                 {
-                    // Console.WriteLine($"Main SIMD routine engaged!");
 
                     Vector512<byte> prevInputBlock = Vector512<byte>.Zero;
 
@@ -1189,22 +1110,13 @@ namespace SimdUnicode
                     {
 
                         Vector512<byte> currentBlock = Avx512F.LoadVector512(pInputBuffer + processedLength);
-                        // int mask = Avx512F.MoveMask(currentBlock);
                         ulong mask = currentBlock.ExtractMostSignificantBits();
                         if (mask == 0)
                         {
                             // We have an ASCII block, no need to process it, but
                             // we need to check if the previous block was incomplete.
-                            // 
-
-                            // Console.WriteLine($"--Found All ASCII chars!This is prevIncomplete.ExtractMostSignificantBits():{prevIncomplete.ExtractMostSignificantBits()} and this is previncomplete:");
-                            // ToString(prevIncomplete.AsByte());
-
-
-
                             if (Avx512BW.CompareGreaterThan(prevIncomplete,Vector512<byte>.Zero).ExtractMostSignificantBits() != 0)
                             {
-                                // Console.WriteLine("Found an incomplete segment!");
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 byte* invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(16 - 3, pInputBuffer + processedLength - 3, inputLength - processedLength + 3);
                                 // So the code is correct up to invalidBytePointer
@@ -1227,27 +1139,9 @@ namespace SimdUnicode
                             // Use SubtractSaturate to effectively compare if bytes in block are greater than markers.
                             Vector512<int> movemask = Vector512.Create(28,29,30,31,0,1,2,3,4,5,6,7,8,9,10,11);
                             Vector512<byte> shuffled = Avx512F.PermuteVar16x32x2(currentBlock.AsInt32(), movemask , prevInputBlock.AsInt32()).AsByte();
-
                             prevInputBlock = currentBlock;
-                            // We check the utf8 bytes
-                            // template <int N>
-                            // __m512i prev(__m512i input, __m512i previous) {
-                            //     static_assert(N<=32, "N must be no larger than 32");
-                            //     const __m512i movemask = _mm512_setr_epi32(28,29,30,31,0,1,2,3,4,5,6,7,8,9,10,11);
-                            //     const __m512i rotated = _mm512_permutex2var_epi32(input, movemask, previous);
-                            // #if SIMDUTF_GCC8 || SIMDUTF_GCC9
-                            //     constexpr int shift = 16-N; // workaround for GCC8,9
-                            //     return _mm512_alignr_epi8(input, rotated, shift);
-                            // #else
-                            //     return _mm512_alignr_epi8(input, rotated, 16-N);
-                            // #endif // SIMDUTF_GCC8 || SIMDUTF_GCC9
-                            // }
 
                             Vector512<byte> prev1 = Avx512BW.AlignRight(prevInputBlock, shuffled, (byte)(16 - 1));
-                            // end prev utf8 bytes
-                            // begin check_special_cases
-                            // Vector256.Shuffle vs Avx2.Shuffle
-                            // https://github.com/dotnet/runtime/blob/1400c1e7a888ea1e710e5c08d55c800e0b04bf8a/docs/coding-guidelines/vectorization-guidelines.md#vector256shuffle-vs-avx2shuffle
                             Vector512<byte> byte_1_high = Avx512BW.Shuffle(shuf1, Avx512BW.ShiftRightLogical(prev1.AsUInt16(), 4).AsByte() & v0f);// takes the XXXX 0000 part of the previous byte
                             Vector512<byte> byte_1_low = Avx512BW.Shuffle(shuf2, (prev1 & v0f)); // takes the 0000 XXXX part of the previous part
                             Vector512<byte> byte_2_high = Avx512BW.Shuffle(shuf3, Avx512BW.ShiftRightLogical(currentBlock.AsUInt16(), 4).AsByte() & v0f); // takes the XXXX 0000 part of the current byte
@@ -1260,7 +1154,6 @@ namespace SimdUnicode
                             Vector512<byte> must23As80 = Avx512F.And(must23, v80);
                             Vector512<byte> error = Avx512F.Xor(must23As80, sc);
 
-                            // if (error.ExtractMostSignificantBits() != 0)
                             if (Avx512BW.CompareGreaterThan(error,Vector512<byte>.Zero).ExtractMostSignificantBits() != 0)
                             {
                                 byte* invalidBytePointer;
