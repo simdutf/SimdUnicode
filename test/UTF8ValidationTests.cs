@@ -1317,7 +1317,6 @@ public unsafe class Utf8SIMDValidationTests
                 simdUnicodeUtf16Adjustment = 0;
                 simdUnicodeScalarCountAdjustment = 0;
                 byte* simdResult = utf8ValidationDelegate(pInput, length, out simdUnicodeUtf16Adjustment, out simdUnicodeScalarCountAdjustment);
-
                 // Check for discrepancies and report them in one combined message
                 bool adjustmentsMatch = true;
                 if (Result != simdResult)

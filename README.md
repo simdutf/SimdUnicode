@@ -130,16 +130,16 @@ faster than the standard library.
 
 | data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |
 |:----------------|:-----------|:--------------------------|
-| Twitter.json    |  23        | 14                        |
-| Arabic-Lipsum   |  6.7       | 3.5                       |
-| Chinese-Lipsum  |  6.7       | 4.8                       |
-| Emoji-Lipsum    |  6.7       | 2.5                       |
-| Hebrew-Lipsum   |  6.7       | 3.5                       |
-| Hindi-Lipsum    |  6.8       | 3.0                       |
-| Japanese-Lipsum |  6.8       | 4.6                       |
-| Korean-Lipsum   |  6.6       | 1.8                       |
+| Twitter.json    |  25        | 14                        |
+| Arabic-Lipsum   |  7.4       | 3.5                       |
+| Chinese-Lipsum  |  7.4       | 4.8                       |
+| Emoji-Lipsum    |  7.4       | 2.5                       |
+| Hebrew-Lipsum   |  7.4       | 3.5                       |
+| Hindi-Lipsum    |  7.3       | 3.0                       |
+| Japanese-Lipsum |  7.3       | 4.6                       |
+| Korean-Lipsum   |  7.4       | 1.8                       |
 | Latin-Lipsum    |  87        | 38                        |
-| Russian-Lipsum  |  6.7       | 2.6                       |
+| Russian-Lipsum  |  7.4       | 2.7                       |
 
 
 ## Building the library
