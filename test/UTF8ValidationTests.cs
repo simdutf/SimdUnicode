@@ -105,7 +105,7 @@ public unsafe class Utf8SIMDValidationTests
                     Assert.True(ValidateUtf8(input, utf8ValidationDelegate),
                                     $"Failure in Scalar function: SimdUnicode.UTF8.GetPointerToFirstInvalidByte.Sequence: {seq}");
 
-//                     Assert.True(ValidateCount(input, utf8ValidationDelegate));
+                    Assert.True(ValidateCount(input, utf8ValidationDelegate));
                 }
             }
         }
@@ -190,7 +190,7 @@ public unsafe class Utf8SIMDValidationTests
                 fixed (byte* pInput = input)
                 {
                     ValidateUtf8(input, utf8ValidationDelegate);
-//                     Assert.True(ValidateCount(input, utf8ValidationDelegate));
+                    Assert.True(ValidateCount(input, utf8ValidationDelegate));
                 }
             }
         }
@@ -246,7 +246,7 @@ public unsafe class Utf8SIMDValidationTests
                 {
                     Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
                     Assert.True(InvalidateUtf8(utf8, utf8.Length, utf8ValidationDelegate));
-//                     Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                    Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                 }
                 catch (Xunit.Sdk.XunitException)
                 {
@@ -312,7 +312,7 @@ public unsafe class Utf8SIMDValidationTests
                 try
                 {
                     Assert.True(isValidUtf8, $"Failure NoErrorTest. ");
-//                     Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                    Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                 }
                 catch (Xunit.Sdk.XunitException)
                 {
@@ -373,19 +373,18 @@ public unsafe class Utf8SIMDValidationTests
                 allAscii.InsertRange(incompleteLocation, singleBytes);
 
                 var utf8 = allAscii.ToArray();
-                int cutOffLength = 128;//utf8.Length - rand.Next(1, firstCodeLength);
+                int cutOffLength = 128;
                 cutOffLength = Math.Min(cutOffLength, outputLength); // Ensure it doesn't exceed the length of truncatedUtf8
                 byte[] truncatedUtf8 = new byte[outputLength]; // Initialized to zero
 
                 Array.Copy(utf8, 0, truncatedUtf8, 0, cutOffLength);
 
                 bool isValidUtf8 = ValidateUtf8(truncatedUtf8, utf8ValidationDelegate);
-                // string utf8HexString = BitConverter.ToString(truncatedUtf8).Replace("-", " ");
                 try
                 {
                     Assert.False(isValidUtf8);
                     Assert.True(InvalidateUtf8(truncatedUtf8, truncatedUtf8.Length, utf8ValidationDelegate));
-//                     Assert.True(ValidateCount(truncatedUtf8, utf8ValidationDelegate));
+                    Assert.True(ValidateCount(truncatedUtf8, utf8ValidationDelegate));
                 }
                 catch (Xunit.Sdk.XunitException)
                 {
@@ -441,7 +440,7 @@ public unsafe class Utf8SIMDValidationTests
             {
                 var allAscii = new List<byte>(Enumerable.Repeat((byte)0, 256));
                 int firstcodeLength = rand.Next(2, 5);
-                List<byte> singlebytes = generator.Generate(1, firstcodeLength); //recall:generate a utf8 code between 2 and 4 bytes
+                List<byte> singlebytes = generator.Generate(1, firstcodeLength); //generate a utf8 code between 2 and 4 bytes
                 int incompleteLocation = 128 - rand.Next(1, firstcodeLength - 1);
                 allAscii.InsertRange(incompleteLocation, singlebytes);
 
@@ -453,7 +452,7 @@ public unsafe class Utf8SIMDValidationTests
                 {
                     Assert.True(isValidUtf8, $"Failure NoErrorTest. Sequence: {utf8HexString}");
                     Assert.True(InvalidateUtf8(utf8, utf8.Length, utf8ValidationDelegate));
-//                     Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                    Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                 }
                 catch (Xunit.Sdk.XunitException)
                 {
@@ -518,7 +517,7 @@ public unsafe class Utf8SIMDValidationTests
                         {
                             Assert.False(ValidateUtf8(utf8, utf8ValidationDelegate));
                             Assert.True(InvalidateUtf8(utf8, i, utf8ValidationDelegate));
-//                             Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                            Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                         }
                         catch (Xunit.Sdk.XunitException)
                         {
@@ -588,7 +587,7 @@ public unsafe class Utf8SIMDValidationTests
                         {
                             Assert.False(ValidateUtf8(utf8, utf8ValidationDelegate));
                             Assert.True(InvalidateUtf8(utf8, i, utf8ValidationDelegate));
-//                             Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                            Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                         }
                         catch (Xunit.Sdk.XunitException)
                         {
@@ -658,7 +657,7 @@ public unsafe class Utf8SIMDValidationTests
                         {
                             Assert.False(ValidateUtf8(utf8, utf8ValidationDelegate));
                             Assert.True(InvalidateUtf8(utf8, i, utf8ValidationDelegate));
-//                             Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                            Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                         }
                         catch (Xunit.Sdk.XunitException)
                         {
@@ -742,7 +741,7 @@ public unsafe class Utf8SIMDValidationTests
 
                         Assert.False(ValidateUtf8(utf8, utf8ValidationDelegate));
                         Assert.True(InvalidateUtf8(utf8, i, utf8ValidationDelegate));
-//                         Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                        Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
 
                         utf8[i] = old;
                         utf8[i + 1] = secondOld;
@@ -814,7 +813,7 @@ public unsafe class Utf8SIMDValidationTests
                             byte* dotnetResult = DotnetRuntime.Utf8Utility.GetPointerToFirstInvalidByte(pInput, i + offset, out SimdUnicodeUtf16Adjustment, out SimdUnicodeScalarCountAdjustment);
                             Assert.True(dotnetResult == pInput + i + offset);
 
-//                             Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                            Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                         }
 
                     }
@@ -868,7 +867,7 @@ public unsafe class Utf8SIMDValidationTests
                     utf8[position] = invalidByte;
                     Assert.False(ValidateUtf8(utf8, utf8ValidationDelegate)); // Expect the validation to fail due to the invalid byte
                     Assert.True(InvalidateUtf8(utf8, position, utf8ValidationDelegate));
-//                     Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                    Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                 }
             }
         }
@@ -988,7 +987,7 @@ public unsafe class Utf8SIMDValidationTests
 
                         Assert.False(ValidateUtf8(utf8, utf8ValidationDelegate));
                         Assert.True(InvalidateUtf8(utf8, i + 1, utf8ValidationDelegate));
-//                         Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                        Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                         utf8[i] = old;
                     }
                 }
@@ -1040,7 +1039,7 @@ public unsafe class Utf8SIMDValidationTests
 
                     Assert.False(ValidateUtf8(filler, utf8ValidationDelegate));
                     Assert.True(InvalidateUtf8(filler, filler.Length - 1, utf8ValidationDelegate));
-//                     Assert.True(ValidateCount(filler, utf8ValidationDelegate));
+                    Assert.True(ValidateCount(filler, utf8ValidationDelegate));
                 }
 
 
@@ -1100,7 +1099,7 @@ public unsafe class Utf8SIMDValidationTests
 
                             Assert.False(ValidateUtf8(utf8, utf8ValidationDelegate));
                             Assert.True(InvalidateUtf8(utf8, i, utf8ValidationDelegate));
-//                             Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
+                            Assert.True(ValidateCount(utf8, utf8ValidationDelegate));
                         }
 
                         utf8[i] = old;
@@ -1176,7 +1175,7 @@ public unsafe class Utf8SIMDValidationTests
                     try
                     {
                         Assert.Equal(isValidPrimary, isValidFuschia);
-//                         Assert.True(ValidateCount(modifiedUtf8, utf8ValidationDelegate));
+                        Assert.True(ValidateCount(modifiedUtf8, utf8ValidationDelegate));
                     }
                     catch (Xunit.Sdk.XunitException)
                     {

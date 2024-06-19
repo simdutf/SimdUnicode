@@ -238,6 +238,22 @@ namespace SimdUnicodeBenchmarks
         }
 
         [Benchmark]
+        [BenchmarkCategory("avx512")]
+        public unsafe void SIMDUtf8ValidationRealDataAvx512()
+        {
+            if (allLinesUtf8 != null)
+            {
+                RunUtf8ValidationBenchmark(allLinesUtf8, (byte* pInputBuffer, int inputLength) =>
+                {
+                    int dummyUtf16CodeUnitCountAdjustment, dummyScalarCountAdjustment;
+                    // Call the method with additional out parameters within the lambda.
+                    // You must handle these additional out parameters inside the lambda, as they cannot be passed back through the delegate.
+                    return SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512(pInputBuffer, inputLength, out dummyUtf16CodeUnitCountAdjustment, out dummyScalarCountAdjustment);
+                });
+            }
+        }
+
+        [Benchmark]
         [BenchmarkCategory("avx")]
         public unsafe void SIMDUtf8ValidationRealDataAvx2()
         {

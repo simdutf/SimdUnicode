@@ -107,10 +107,10 @@ namespace SimdUnicode
             {
                 return GetPointerToFirstInvalidByteAvx2(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
             }
-            /*if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
+            if (Vector512.IsHardwareAccelerated && Avx512Vbmi.IsSupported)
             {
-                return GetPointerToFirstInvalidByteAvx512(pInputBuffer, inputLength);
-            }*/
+                return GetPointerToFirstInvalidByteAvx512(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
+            }
             if (Ssse3.IsSupported)
             {
                 return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength,out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
@@ -270,69 +270,6 @@ namespace SimdUnicode
             return buf + len; // no error
         }
 
-
-        // We scan the input from buf to len, possibly going back howFarBack bytes, to find the end of
-        // a valid UTF-8 sequence. We return buf + len if the buffer is valid, otherwise we return the
-        // pointer to the first invalid byte. Also updated the utf16CodeUnitCountAdjustment and scalarCountAdjustment
-        private unsafe static byte* RewindAndValidateWithErrors(int howFarBack, byte* buf, int len, ref int utf16CodeUnitCountAdjustment, ref int scalarCountAdjustment)
-        {
-            int extraLen = 0;
-            bool foundLeadingBytes = false;
-
-            // Print the byte value at the buf pointer
-            byte* PinputPlusProcessedlength = buf;
-            int TooLongErroronEdgeUtfadjust = 0;
-            int TooLongErroronEdgeScalaradjust = 0;
-
-            for (int i = 0; i <= howFarBack; i++)
-            {
-                byte candidateByte = buf[0 - i];
-                foundLeadingBytes = (candidateByte & 0b11000000) != 0b10000000;
-
-                if (foundLeadingBytes)
-                {
-
-                    (TooLongErroronEdgeUtfadjust, TooLongErroronEdgeScalaradjust) = GetFinalScalarUtfAdjustments(candidateByte);
-
-                    buf -= i;
-                    break;
-                }
-            }
-
-            if (!foundLeadingBytes)
-            {
-                return buf - howFarBack;
-            }
-
-            int TailUtf16CodeUnitCountAdjustment = 0;
-            int TailScalarCountAdjustment = 0;
-
-            byte* invalidBytePointer = GetPointerToFirstInvalidByteScalar(buf, len + extraLen, out TailUtf16CodeUnitCountAdjustment, out TailScalarCountAdjustment);
-
-            // We need to take care of eg
-            // 11011110  10101101  11110000  10101101  10101111  10011111  11010111  10101000  11001101  10111001  11010100  10000111  11101111  10010000  10000000  11110011 
-            // 10110100  10101100  10100111  11100100  10101011  10011111  11101111  10100010  10110010  11011100  10100000  00100010  *11110000*  10011001  10101011  10000011 
-            // 10000000  10100010  11101110  10010101  10101001  11010100  10100111  11110000  10101001  10011101  10011011  11100100  10101011  10010111  11100110  10011001 <= Too long error @ 32 byte edge 
-            // 10010000  11101111  10111111  10010110  11001010  10000000  11000111  10100010  11110010  10111100  10111011  10010100  11101001  10001011  10000110  11110100 
-            // Without the following check, the 11110000 byte is erroneously double counted: the SIMD procedure counts it once, then it is counted again by the scalar function
-            // Normally , if there is an error, this does not cause an issue: most erronous utf-8 unit will not be counted
-            // but it is in the case of too long as if you take for example (1111---- 10----- 10----- 10-----) 10-----  
-            // the part between parentheses will be counted as valid and thus scalaradjust/utfadjust will be incremented once too much
-
-            bool isContinuationByte = (invalidBytePointer[0] & 0xC0) == 0x80;
-            bool isOnEdge = (invalidBytePointer == PinputPlusProcessedlength);
-
-            if (isContinuationByte && isOnEdge)
-            {
-                utf16CodeUnitCountAdjustment += TooLongErroronEdgeUtfadjust;
-                scalarCountAdjustment += TooLongErroronEdgeScalaradjust;
-            }
-
-            utf16CodeUnitCountAdjustment += TailUtf16CodeUnitCountAdjustment;
-            scalarCountAdjustment += TailScalarCountAdjustment;
-
-            return invalidBytePointer;
-        }
 
         public unsafe static byte* GetPointerToFirstInvalidByteScalar(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
@@ -1349,15 +1286,15 @@ namespace SimdUnicode
                             }
 
                             prevIncomplete = Avx512BW.SubtractSaturate(currentBlock, maxValue);
-                            contbytes += (int)Popcnt.PopCount((uint)byte_2_high.ExtractMostSignificantBits());
-                            // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
-                            n4 += (int)Popcnt.PopCount((uint)Avx512BW.SubtractSaturate(currentBlock, fourthByte).ExtractMostSignificantBits());
+                            contbytes += (int)Popcnt.X64.PopCount(byte_2_high.ExtractMostSignificantBits());
+                            // We use two instructions (SubtractSaturate and ExtractMostSignificantBits) to update n4, with one arithmetic operation.
+                            n4 += (int)Popcnt.X64.PopCount(Avx512BW.SubtractSaturate(currentBlock, fourthByte).ExtractMostSignificantBits());
                         }
 
                         // important: we just update asciibytes if there was no error.
                         // We count the number of ascii bytes in the block using just some simple arithmetic
                         // and no expensive operation:
-                        asciibytes += (int)(64 - Popcnt.PopCount((uint)mask));
+                        asciibytes += (int)(64 - Popcnt.X64.PopCount(mask));
                     }
                     // We may still have an error.
                     if (processedLength < inputLength || Avx512BW.CompareGreaterThan(prevIncomplete,Vector512<byte>.Zero).ExtractMostSignificantBits() != 0 )
