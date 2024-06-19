@@ -88,6 +88,7 @@ To run just one benchmark, use a filter:
 
 ```
 cd benchmark
+dotnet run --configuration Release --filter "*Twitter*"
 dotnet run --configuration Release --filter "*Arabic-Lipsum*"
 ```
 
@@ -107,14 +108,14 @@ AVX-512 function for the most recent systems (AMD Zen 4, Intel Ice lake, etc.).
 On an Intel Ice Lake system, our validation function is up to several times
 faster than the standard library when using at least the AVX2 routines. Only on pure
 ASCII inputs (Latin-Lipsum) is the standard library seemingly faster, but all functions
-are effectively at "memory speed" so the difference is likely practically not significant.
+are effectively at "memory speed" so the difference is practically not significant.
 A more realistic input is Twitter.json which is mostly ASCII with some Unicode content.
 
 | data set        | SimdUnicode SSE42 (GB/s) | SimdUnicode AVX2 (GB/s) | .NET speed (GB/s) |
 |:----------------|:-------------------------|:------------------------|-------------------|
-| Twitter.json    |  15                      | 24                      | 12                |
-| Arabic-Lipsum   |  4.5                     | 6.2                     | 2.3               |
-| Chinese-Lipsum  |  4.5                     | 8.1                     | 3.9               |
+| Twitter.json    |  16                      | 24                      | 12                |
+| Arabic-Lipsum   |  4.9                     | 9.0                     | 2.3               |
+| Chinese-Lipsum  |  4.9                     | 9.0                     | 3.9               |
 | Emoji-Lipsum    |  4.3                     | 7.1                     | 0.9               |
 | Hebrew-Lipsum   |  4.5                     | 8.0                     | 2.3               |
 | Hindi-Lipsum    |  4.3                     | 8.0                     | 2.1               |
