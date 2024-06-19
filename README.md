@@ -109,6 +109,7 @@ faster than the standard library.
 
 | data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |
 |:----------------|:-----------|:--------------------------|
+| Twitter.json    |  23        | 14                        |
 | Arabic-Lipsum   |  6.7       | 3.5                       |
 | Chinese-Lipsum  |  6.7       | 4.8                       |
 | Emoji-Lipsum    |  6.7       | 2.5                       |
