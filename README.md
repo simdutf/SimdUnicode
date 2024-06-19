@@ -100,7 +100,28 @@ sudo dotnet run -c Release
 
 ## Results (x64)
 
-To be completed.
+On x64 system, we offer several functions: a fallback function for legacy systems,
+a SSE42 function for older CPUs, an AVX2 function for current x64 systems, and an
+AVX-512 function for the most recent systems (AMD Zen 4, Intel Ice lake, etc.).
+
+On an Intel Ice Lake system, our validation function is up to several times
+faster than the standard library when using at least the AVX2 routines. Only on pure
+ASCII inputs (Latin-Lipsum) is the standard library seemingly faster, but all functions
+are effectively at "memory speed" so the difference is likely practically not significant.
+A more realistic input is Twitter.json which is mostly ASCII with some Unicode content.
+
+| data set        | SimdUnicode SSE42 (GB/s) | SimdUnicode AVX2 (GB/s) | .NET speed (GB/s) |
+|:----------------|:-------------------------|:------------------------|-------------------|
+| Twitter.json    |  15                      | 24                      | 12                |
+| Arabic-Lipsum   |  4.5                     | 6.2                     | 2.3               |
+| Chinese-Lipsum  |  4.5                     | 8.1                     | 3.9               |
+| Emoji-Lipsum    |  4.3                     | 7.1                     | 0.9               |
+| Hebrew-Lipsum   |  4.5                     | 8.0                     | 2.3               |
+| Hindi-Lipsum    |  4.3                     | 8.0                     | 2.1               |
+| Japanese-Lipsum |  4.5                     | 8.0                     | 3.5               |
+| Korean-Lipsum   |  4.5                     | 8.0                     | 1.3               |
+| Latin-Lipsum    |  50                      | 76                      | 96                |
+| Russian-Lipsum  |  4.3                     | 8.0                     | 1.2               |
 
 ## Results (ARM)
 

@@ -38,7 +38,7 @@ namespace SimdUnicode
             }*/
             if (Ssse3.IsSupported)
             {
-                return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength,out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
+                return GetPointerToFirstInvalidByteSse(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
             }
 
             return GetPointerToFirstInvalidByteScalar(pInputBuffer, inputLength, out Utf16CodeUnitCountAdjustment, out ScalarCodeUnitCountAdjustment);
@@ -486,10 +486,10 @@ namespace SimdUnicode
                 int asciirun = 0;
                 for (; asciirun + 64 <= inputLength; asciirun += 64)
                 {
-                    Vector128<byte> block1 = Avx.LoadVector128(pInputBuffer + asciirun);
-                    Vector128<byte> block2 = Avx.LoadVector128(pInputBuffer + asciirun + 16);
-                    Vector128<byte> block3 = Avx.LoadVector128(pInputBuffer + asciirun + 32);
-                    Vector128<byte> block4 = Avx.LoadVector128(pInputBuffer + asciirun + 48);
+                    Vector128<byte> block1 = Sse2.LoadVector128(pInputBuffer + asciirun);
+                    Vector128<byte> block2 = Sse2.LoadVector128(pInputBuffer + asciirun + 16);
+                    Vector128<byte> block3 = Sse2.LoadVector128(pInputBuffer + asciirun + 32);
+                    Vector128<byte> block4 = Sse2.LoadVector128(pInputBuffer + asciirun + 48);
 
                     Vector128<byte> or = Sse2.Or(Sse2.Or(block1, block2), Sse2.Or(block3, block4));
                     if (Sse2.MoveMask(or) != 0)
@@ -582,7 +582,7 @@ namespace SimdUnicode
                     for (; processedLength + 16 <= inputLength; processedLength += 16)
                     {
 
-                        Vector128<byte> currentBlock = Avx.LoadVector128(pInputBuffer + processedLength);
+                        Vector128<byte> currentBlock = Sse2.LoadVector128(pInputBuffer + processedLength);
                         int mask = Sse42.MoveMask(currentBlock);
                         if (mask == 0)
                         {
@@ -608,6 +608,27 @@ namespace SimdUnicode
                                 return invalidBytePointer;
                             }
                             prevIncomplete = Vector128<byte>.Zero;
+
+                            // Often, we have a lot of ASCII characters in a row.
+                            int localasciirun = 16;
+                            if (processedLength + localasciirun + 64 <= inputLength)
+                            {
+                                for (; processedLength + localasciirun + 64 <= inputLength; localasciirun += 64)
+                                {
+                                    Vector128<byte> block1 = Sse2.LoadVector128(pInputBuffer + processedLength + localasciirun);
+                                    Vector128<byte> block2 = Sse2.LoadVector128(pInputBuffer + processedLength + localasciirun + 16);
+                                    Vector128<byte> block3 = Sse2.LoadVector128(pInputBuffer + processedLength + localasciirun + 32);
+                                    Vector128<byte> block4 = Sse2.LoadVector128(pInputBuffer + processedLength + localasciirun + 48);
+
+                                    Vector128<byte> or = Sse2.Or(Sse2.Or(block1, block2), Sse2.Or(block3, block4));
+                                    if (Sse2.MoveMask(or) != 0)
+                                    {
+                                        break;
+                                    }
+                                }
+                                processedLength += localasciirun - 16;
+                            }
+                            asciibytes += localasciirun;
                         }
                         else // Contains non-ASCII characters, we need to do non-trivial processing
                         {
@@ -654,16 +675,16 @@ namespace SimdUnicode
                             }
 
                             prevIncomplete = Sse3.SubtractSaturate(currentBlock, maxValue);
-                            
+
                             contbytes += (int)Popcnt.PopCount((uint)Sse42.MoveMask(byte_2_high));
                             // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
                             n4 += (int)Popcnt.PopCount((uint)Sse42.MoveMask(Sse42.SubtractSaturate(currentBlock, fourthByte)));
+                            // important: we just update asciibytes if there was no error.
+                            // We count the number of ascii bytes in the block using just some simple arithmetic
+                            // and no expensive operation:
+                            asciibytes += (int)(16 - Popcnt.PopCount((uint)mask));
                         }
 
-                        // important: we just update asciibytes if there was no error.
-                        // We count the number of ascii bytes in the block using just some simple arithmetic
-                        // and no expensive operation:
-                        asciibytes += (int)(16 - Popcnt.PopCount((uint)mask));
                     }
 
 
@@ -868,6 +889,27 @@ namespace SimdUnicode
                                 return invalidBytePointer;
                             }
                             prevIncomplete = Vector256<byte>.Zero;
+
+                            // Often, we have a lot of ASCII characters in a row.
+                            int localasciirun = 32;
+                            if (processedLength + localasciirun + 64 <= inputLength)
+                            {
+                                for (; processedLength + localasciirun + 64 <= inputLength; localasciirun += 64)
+                                {
+                                    Vector256<byte> block1 = Avx.LoadVector256(pInputBuffer + processedLength + localasciirun);
+                                    Vector256<byte> block2 = Avx.LoadVector256(pInputBuffer + processedLength + localasciirun + 32);
+                                    Vector256<byte> or = Avx2.Or(block1, block2);
+                                    if (Avx2.MoveMask(or) != 0)
+                                    {
+                                        break;
+                                    }
+                                }
+                                processedLength += localasciirun - 32;
+                            }
+                            asciibytes += localasciirun;
+
+                            asciibytes += (int)32;
+
                         }
                         else // Contains non-ASCII characters, we need to do non-trivial processing
                         {
@@ -918,12 +960,11 @@ namespace SimdUnicode
                             contbytes += (int)Popcnt.PopCount((uint)Avx2.MoveMask(byte_2_high));
                             // We use two instructions (SubtractSaturate and MoveMask) to update n4, with one arithmetic operation.
                             n4 += (int)Popcnt.PopCount((uint)Avx2.MoveMask(Avx2.SubtractSaturate(currentBlock, fourthByte)));
+                            // important: we just update asciibytes if there was no error.
+                            // We count the number of ascii bytes in the block using just some simple arithmetic
+                            // and no expensive operation:
+                            asciibytes += (int)(32 - Popcnt.PopCount((uint)mask));
                         }
-
-                        // important: we just update asciibytes if there was no error.
-                        // We count the number of ascii bytes in the block using just some simple arithmetic
-                        // and no expensive operation:
-                        asciibytes += (int)(32 - Popcnt.PopCount((uint)mask));
                     }
                     // We may still have an error.
                     if (processedLength < inputLength || !Avx2.TestZ(prevIncomplete, prevIncomplete))
@@ -1075,7 +1116,8 @@ namespace SimdUnicode
                             prevIncomplete = Vector128<byte>.Zero;
                             // Often, we have a lot of ASCII characters in a row.
                             int localasciirun = 16;
-                            if(processedLength + localasciirun + 64 <= inputLength) {
+                            if (processedLength + localasciirun + 64 <= inputLength)
+                            {
                                 for (; processedLength + localasciirun + 64 <= inputLength; localasciirun += 64)
                                 {
                                     Vector128<byte> block1 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun);

@@ -62,6 +62,8 @@ namespace SimdUnicodeBenchmarks
     [Config(typeof(Config))]
     public class RealDataBenchmark
     {
+        // We only informs the user once about the SIMD support of the system.
+        private static bool printed = false;
 #pragma warning disable CA1812
         private sealed class Config : ManualConfig
         {
@@ -72,8 +74,12 @@ namespace SimdUnicodeBenchmarks
 
                 if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
                 {
+                    if (!printed)
+                    {
 #pragma warning disable CA1303
-                    Console.WriteLine("ARM64 system detected.");
+                        Console.WriteLine("ARM64 system detected.");
+                        printed = true;
+                    }
                     AddFilter(new AnyCategoriesFilter(["arm64", "scalar", "runtime"]));
 
                 }
@@ -81,26 +87,42 @@ namespace SimdUnicodeBenchmarks
                 {
                     if (Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512Vbmi.IsSupported)
                     {
+                        if (!printed)
+                        {
 #pragma warning disable CA1303
-                        Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX-512 support.");
+                            Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX-512 support.");
+                            printed = true;
+                        }
                         AddFilter(new AnyCategoriesFilter(["avx512", "avx", "sse", "scalar", "runtime"]));
                     }
                     else if (Avx2.IsSupported)
                     {
+                        if (!printed)
+                        {
 #pragma warning disable CA1303
-                        Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX2 support.");
+                            Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX2 support.");
+                            printed = true;
+                        }
                         AddFilter(new AnyCategoriesFilter(["avx", "sse", "scalar", "runtime"]));
                     }
                     else if (Ssse3.IsSupported)
                     {
+                        if (!printed)
+                        {
 #pragma warning disable CA1303
-                        Console.WriteLine("X64 system detected (Intel, AMD,...) with Sse4.2 support.");
+                            Console.WriteLine("X64 system detected (Intel, AMD,...) with Sse4.2 support.");
+                            printed = true;
+                        }
                         AddFilter(new AnyCategoriesFilter(["sse", "scalar", "runtime"]));
                     }
                     else
                     {
+                        if (!printed)
+                        {
 #pragma warning disable CA1303
-                        Console.WriteLine("X64 system detected (Intel, AMD,...) without relevant SIMD support.");
+                            Console.WriteLine("X64 system detected (Intel, AMD,...) without relevant SIMD support.");
+                            printed = true;
+                        }
                         AddFilter(new AnyCategoriesFilter(["scalar", "runtime"]));
                     }
                 }
