@@ -1360,7 +1360,7 @@ namespace SimdUnicode
                         asciibytes += (int)(64 - Popcnt.PopCount((uint)mask));
                     }
                     // We may still have an error.
-                    if (processedLength < inputLength || prevIncomplete.ExtractMostSignificantBits() != 0 )
+                    if (processedLength < inputLength || Avx512BW.CompareGreaterThan(prevIncomplete,Vector512<byte>.Zero).ExtractMostSignificantBits() != 0 )
                     {
                         byte* invalidBytePointer;
                         if (processedLength == 0)
