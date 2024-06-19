@@ -71,7 +71,6 @@ namespace SimdUnicodeBenchmarks
             {
                 AddColumn(new Speed());
 
-
                 if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
                 {
                     if (!printed)
@@ -80,8 +79,6 @@ namespace SimdUnicodeBenchmarks
                         Console.WriteLine("ARM64 system detected.");
                         printed = true;
                     }
-                    AddFilter(new AnyCategoriesFilter(["arm64", "scalar", "runtime"]));
-
                 }
                 else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
                 {
@@ -93,7 +90,6 @@ namespace SimdUnicodeBenchmarks
                             Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX-512 support.");
                             printed = true;
                         }
-                        AddFilter(new AnyCategoriesFilter(["avx512", "avx", "sse", "scalar", "runtime"]));
                     }
                     else if (Avx2.IsSupported)
                     {
@@ -103,7 +99,6 @@ namespace SimdUnicodeBenchmarks
                             Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX2 support.");
                             printed = true;
                         }
-                        AddFilter(new AnyCategoriesFilter(["avx", "sse", "scalar", "runtime"]));
                     }
                     else if (Ssse3.IsSupported)
                     {
@@ -113,7 +108,6 @@ namespace SimdUnicodeBenchmarks
                             Console.WriteLine("X64 system detected (Intel, AMD,...) with Sse4.2 support.");
                             printed = true;
                         }
-                        AddFilter(new AnyCategoriesFilter(["sse", "scalar", "runtime"]));
                     }
                     else
                     {
@@ -123,14 +117,9 @@ namespace SimdUnicodeBenchmarks
                             Console.WriteLine("X64 system detected (Intel, AMD,...) without relevant SIMD support.");
                             printed = true;
                         }
-                        AddFilter(new AnyCategoriesFilter(["scalar", "runtime"]));
                     }
                 }
-                else
-                {
-                    AddFilter(new AnyCategoriesFilter(["scalar", "runtime"]));
-
-                }
+                AddFilter(new AnyCategoriesFilter(["default"]));
 
             }
         }
@@ -292,7 +281,6 @@ namespace SimdUnicodeBenchmarks
                 });
             }
         }
-
     }
     public class Program
     {

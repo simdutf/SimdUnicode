@@ -89,7 +89,7 @@ To run just one benchmark, use a filter:
 ```
 cd benchmark
 dotnet run --configuration Release --filter "*Twitter*"
-dotnet run --configuration Release --filter "*Arabic-Lipsum*"
+dotnet run --configuration Release --filter "*Lipsum*"
 ```
 
 If you are under macOS or Linux, you may want to run the benchmarks in privileged mode:
@@ -100,9 +100,6 @@ sudo dotnet run -c Release
 ```
 
 ## Results (x64)
-
-On x64 system, we offer several functions: a fallback function for legacy systems,
-a SSE42 function for older CPUs, and an AVX2 function for current x64 systems.
 
 On an Intel Ice Lake system, our validation function is up to seven times
 faster than the standard library.
@@ -123,6 +120,10 @@ A realistic input is Twitter.json which is mostly ASCII with some Unicode conten
 
 On the pure ASCII inputs (Latin-Lipsum) has a small advantage but both
 functions are extremely fast.
+
+
+On x64 system, we offer several functions: a fallback function for legacy systems,
+a SSE42 function for older CPUs, and an AVX2 function for current x64 systems.
 
 ## Results (ARM)
 
