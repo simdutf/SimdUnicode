@@ -1073,6 +1073,25 @@ namespace SimdUnicode
                                 return invalidBytePointer;
                             }
                             prevIncomplete = Vector128<byte>.Zero;
+                            // Often, we have a lot of ASCII characters in a row.
+                            int localasciirun = 16;
+                            if(processedLength + localasciirun + 64 <= inputLength) {
+                                for (; processedLength + localasciirun + 64 <= inputLength; localasciirun += 64)
+                                {
+                                    Vector128<byte> block1 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun);
+                                    Vector128<byte> block2 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 16);
+                                    Vector128<byte> block3 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 32);
+                                    Vector128<byte> block4 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 48);
+                                    Vector128<byte> or = AdvSimd.Or(AdvSimd.Or(block1, block2), AdvSimd.Or(block3, block4));
+                                    if (AdvSimd.Arm64.MaxAcross(or).ToScalar() > 127)
+                                    {
+                                        break;
+                                    }
+                                }
+                                processedLength += localasciirun - 16;
+                            }
+                            asciibytes -= localasciirun;
+
                         }
                         else
                         {
@@ -1127,8 +1146,8 @@ namespace SimdUnicode
                             byte n4add = (byte)AdvSimd.Arm64.AddAcross(largerthan0f).ToScalar();
                             int negn4add = (int)(byte)-n4add;
                             n4 += negn4add;
+                            asciibytes -= (sbyte)AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThan(currentBlock, v80)).ToScalar();
                         }
-                        asciibytes -= (sbyte)AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThan(currentBlock, v80)).ToScalar();
                     }
 
                     // We may still have an error.

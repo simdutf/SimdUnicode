@@ -113,7 +113,8 @@ namespace SimdUnicodeBenchmarks
             }
         }
         // Parameters and variables for real data
-        [Params(@"data/Arabic-Lipsum.utf8.txt",
+        [Params(@"data/twitter.json",
+                @"data/Arabic-Lipsum.utf8.txt",
                 @"data/Hebrew-Lipsum.utf8.txt",
                 @"data/Korean-Lipsum.utf8.txt",
                 @"data/Chinese-Lipsum.utf8.txt",
