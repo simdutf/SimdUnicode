@@ -88,7 +88,8 @@ To run just one benchmark, use a filter:
 
 ```
 cd benchmark
-dotnet run --configuration Release --filter "*Arabic-Lipsum*"
+dotnet run --configuration Release --filter "*Twitter*"
+dotnet run --configuration Release --filter "*Lipsum*"
 ```
 
 If you are under macOS or Linux, you may want to run the benchmarks in privileged mode:
@@ -98,26 +99,52 @@ cd benchmark
 sudo dotnet run -c Release
 ```
 
+
+--anyCategories sse avx avx512
 ## Results (x64)
 
-To be completed.
+On an Intel Ice Lake system, our validation function is up to 13 times
+faster than the standard library.
+A realistic input is Twitter.json which is mostly ASCII with some Unicode content
+where we are 2.4 times faster.
+
+| data set        | SimdUnicode current AVX2 (GB/s) | .NET speed (GB/s) | speed up |
+|:----------------|:------------------------|:-------------------|:-------------------|
+| Twitter.json    | 29                      | 12                | 2.4 x |
+| Arabic-Lipsum   | 12                    | 2.3               | 5.2 x |
+| Chinese-Lipsum  | 12                    | 3.9               | 3.0 x |
+| Emoji-Lipsum    | 12                     | 0.9               | 13 x |
+| Hebrew-Lipsum   |12                    | 2.3               | 5.2 x |
+| Hindi-Lipsum    | 12                     | 2.1               | 5.7 x |
+| Japanese-Lipsum | 10                     | 3.5               | 2.9 x |
+| Korean-Lipsum   | 10                     | 1.3               | 7.7 x |
+| Latin-Lipsum    | 76                      | 76                | --- |
+| Russian-Lipsum  | 12                    | 1.2               | 10 x |
+
+
+
+On x64 system, we offer several functions: a fallback function for legacy systems,
+a SSE42 function for older CPUs, an AVX2 function for current x64 systems and
+an AVX-512 function for the most recent processors (AMD Zen 4 or better, Intel
+Ice Lake, etc.).
 
 ## Results (ARM)
 
-On an Apple M2 system, our validation function is two to three times
+On an Apple M2 system, our validation function is 1.5 to four times
 faster than the standard library.
 
-| data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |
-|:----------------|:-----------|:--------------------------|
-| Arabic-Lipsum   |  6.7       | 3.5                       |
-| Chinese-Lipsum  |  6.7       | 4.8                       |
-| Emoji-Lipsum    |  6.7       | 2.5                       |
-| Hebrew-Lipsum   |  6.7       | 3.5                       |
-| Hindi-Lipsum    |  6.8       | 3.0                       |
-| Japanese-Lipsum |  6.8       | 4.6                       |
-| Korean-Lipsum   |  6.6       | 1.8                       |
-| Latin-Lipsum    |  87        | 38                        |
-| Russian-Lipsum  |  6.7       | 2.6                       |
+| data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |  speed up |
+|:----------------|:-----------|:--------------------------|:-------------------|
+| Twitter.json    |  25        | 14                        | 1.8 x           |
+| Arabic-Lipsum   |  7.4       | 3.5                       | 2.1 x           |
+| Chinese-Lipsum  |  7.4       | 4.8                       | 1.5 x           |
+| Emoji-Lipsum    |  7.4       | 2.5                       | 3.0 x           |
+| Hebrew-Lipsum   |  7.4       | 3.5                       | 2.1 x           |
+| Hindi-Lipsum    |  7.3       | 3.0                       | 2.4 x           |
+| Japanese-Lipsum |  7.3       | 4.6                       | 1.6 x           |
+| Korean-Lipsum   |  7.4       | 1.8                       | 4.1 x           |
+| Latin-Lipsum    |  87        | 38                        | 2.3 x           |
+| Russian-Lipsum  |  7.4       | 2.7                       | 2.7 x           |
 
 
 ## Building the library

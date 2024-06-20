@@ -62,6 +62,8 @@ namespace SimdUnicodeBenchmarks
     [Config(typeof(Config))]
     public class RealDataBenchmark
     {
+        // We only informs the user once about the SIMD support of the system.
+        private static bool printed;
 #pragma warning disable CA1812
         private sealed class Config : ManualConfig
         {
@@ -69,51 +71,61 @@ namespace SimdUnicodeBenchmarks
             {
                 AddColumn(new Speed());
 
-
                 if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
                 {
+                    if (!printed)
+                    {
 #pragma warning disable CA1303
-                    Console.WriteLine("ARM64 system detected.");
-                    AddFilter(new AnyCategoriesFilter(["arm64", "scalar", "runtime"]));
-
+                        Console.WriteLine("ARM64 system detected.");
+                        printed = true;
+                    }
                 }
                 else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
                 {
                     if (Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512Vbmi.IsSupported)
                     {
+                        if (!printed)
+                        {
 #pragma warning disable CA1303
-                        Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX-512 support.");
-                        AddFilter(new AnyCategoriesFilter(["avx512", "avx", "sse", "scalar", "runtime"]));
+                            Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX-512 support.");
+                            printed = true;
+                        }
                     }
                     else if (Avx2.IsSupported)
                     {
+                        if (!printed)
+                        {
 #pragma warning disable CA1303
-                        Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX2 support.");
-                        AddFilter(new AnyCategoriesFilter(["avx", "sse", "scalar", "runtime"]));
+                            Console.WriteLine("X64 system detected (Intel, AMD,...) with AVX2 support.");
+                            printed = true;
+                        }
                     }
                     else if (Ssse3.IsSupported)
                     {
+                        if (!printed)
+                        {
 #pragma warning disable CA1303
-                        Console.WriteLine("X64 system detected (Intel, AMD,...) with Sse4.2 support.");
-                        AddFilter(new AnyCategoriesFilter(["sse", "scalar", "runtime"]));
+                            Console.WriteLine("X64 system detected (Intel, AMD,...) with Sse4.2 support.");
+                            printed = true;
+                        }
                     }
                     else
                     {
+                        if (!printed)
+                        {
 #pragma warning disable CA1303
-                        Console.WriteLine("X64 system detected (Intel, AMD,...) without relevant SIMD support.");
-                        AddFilter(new AnyCategoriesFilter(["scalar", "runtime"]));
+                            Console.WriteLine("X64 system detected (Intel, AMD,...) without relevant SIMD support.");
+                            printed = true;
+                        }
                     }
                 }
-                else
-                {
-                    AddFilter(new AnyCategoriesFilter(["scalar", "runtime"]));
-
-                }
+                AddFilter(new AnyCategoriesFilter(["default"]));
 
             }
         }
         // Parameters and variables for real data
-        [Params(@"data/Arabic-Lipsum.utf8.txt",
+        [Params(@"data/twitter.json",
+                @"data/Arabic-Lipsum.utf8.txt",
                 @"data/Hebrew-Lipsum.utf8.txt",
                 @"data/Korean-Lipsum.utf8.txt",
                 @"data/Chinese-Lipsum.utf8.txt",
@@ -285,7 +297,6 @@ namespace SimdUnicodeBenchmarks
                 });
             }
         }
-
     }
     public class Program
     {

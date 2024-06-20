@@ -69,7 +69,8 @@ public unsafe class Utf8SIMDValidationTests
             // Only set the Skip property if the condition evaluates to false
             if (!condition.Invoke())
             {
-                if(skipReason == null) {
+                if (skipReason == null)
+                {
                     throw new ArgumentNullException(nameof(skipReason), "skipReason cannot be null when condition is false.");
                 }
                 Skip = skipReason;
@@ -885,7 +886,7 @@ public unsafe class Utf8SIMDValidationTests
     public void Invalid0xf50xffSse()
     {
         Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
-    } 
+    }
 
 
     [Trait("Category", "avx")]
@@ -1007,7 +1008,7 @@ public unsafe class Utf8SIMDValidationTests
     public void TooLargeErrorSse()
     {
         TooLargeError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
-    } 
+    }
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
@@ -1059,7 +1060,7 @@ public unsafe class Utf8SIMDValidationTests
     public void AsciiPlusContinuationAtEndErrorSse()
     {
         AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
-    } 
+    }
 
 
     [Trait("Category", "arm64")]
@@ -1123,7 +1124,7 @@ public unsafe class Utf8SIMDValidationTests
     public void SurrogateErrorTestSse()
     {
         SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
-    } 
+    }
 
 
     [Trait("Category", "avx")]
@@ -1205,7 +1206,7 @@ public unsafe class Utf8SIMDValidationTests
     public void BruteForceTestSse()
     {
         BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
-    } 
+    }
 
     [Trait("Category", "avx")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx2)]
@@ -1380,7 +1381,6 @@ public unsafe class Utf8SIMDValidationTests
                 simdUnicodeUtf16Adjustment = 0;
                 simdUnicodeScalarCountAdjustment = 0;
                 byte* simdResult = utf8ValidationDelegate(pInput, length, out simdUnicodeUtf16Adjustment, out simdUnicodeScalarCountAdjustment);
-
                 // Check for discrepancies and report them in one combined message
                 bool adjustmentsMatch = true;
                 if (Result != simdResult)
