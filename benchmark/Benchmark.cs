@@ -63,7 +63,7 @@ namespace SimdUnicodeBenchmarks
     public class RealDataBenchmark
     {
         // We only informs the user once about the SIMD support of the system.
-        private static bool printed = false;
+        private static bool printed;
 #pragma warning disable CA1812
         private sealed class Config : ManualConfig
         {

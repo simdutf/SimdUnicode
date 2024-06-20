@@ -99,49 +99,52 @@ cd benchmark
 sudo dotnet run -c Release
 ```
 
+
+--anyCategories sse avx avx512
 ## Results (x64)
 
-On an Intel Ice Lake system, our validation function is up to seven times
+On an Intel Ice Lake system, our validation function is up to 13 times
 faster than the standard library.
-A realistic input is Twitter.json which is mostly ASCII with some Unicode content.
+A realistic input is Twitter.json which is mostly ASCII with some Unicode content
+where we are 2.4 times faster.
 
-| data set        | SimdUnicode current AVX2 (GB/s) | .NET speed (GB/s) |
-|:----------------|:------------------------|-------------------|
-| Twitter.json    | 24                      | 12                |
-| Arabic-Lipsum   | 9.0                     | 2.3               |
-| Chinese-Lipsum  | 9.0                     | 3.9               |
-| Emoji-Lipsum    | 7.1                     | 0.9               |
-| Hebrew-Lipsum   | 8.0                     | 2.3               |
-| Hindi-Lipsum    | 8.0                     | 2.1               |
-| Japanese-Lipsum | 8.0                     | 3.5               |
-| Korean-Lipsum   | 8.0                     | 1.3               |
-| Latin-Lipsum    | 76                      | 96                |
-| Russian-Lipsum  | 8.0                     | 1.2               |
+| data set        | SimdUnicode current AVX2 (GB/s) | .NET speed (GB/s) | speed up |
+|:----------------|:------------------------|:-------------------|:-------------------|
+| Twitter.json    | 29                      | 12                | 2.4 x |
+| Arabic-Lipsum   | 12                    | 2.3               | 5.2 x |
+| Chinese-Lipsum  | 12                    | 3.9               | 3.0 x |
+| Emoji-Lipsum    | 12                     | 0.9               | 13 x |
+| Hebrew-Lipsum   |12                    | 2.3               | 5.2 x |
+| Hindi-Lipsum    | 12                     | 2.1               | 5.7 x |
+| Japanese-Lipsum | 10                     | 3.5               | 2.9 x |
+| Korean-Lipsum   | 10                     | 1.3               | 7.7 x |
+| Latin-Lipsum    | 76                      | 76                | --- |
+| Russian-Lipsum  | 12                    | 1.2               | 10 x |
 
-On the pure ASCII inputs (Latin-Lipsum) has a small advantage but both
-functions are extremely fast.
 
 
 On x64 system, we offer several functions: a fallback function for legacy systems,
-a SSE42 function for older CPUs, and an AVX2 function for current x64 systems.
+a SSE42 function for older CPUs, an AVX2 function for current x64 systems and
+an AVX-512 function for the most recent processors (AMD Zen 4 or better, Intel
+Ice Lake, etc.).
 
 ## Results (ARM)
 
-On an Apple M2 system, our validation function is two to three times
+On an Apple M2 system, our validation function is 1.5 to four times
 faster than the standard library.
 
-| data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |
-|:----------------|:-----------|:--------------------------|
-| Twitter.json    |  25        | 14                        |
-| Arabic-Lipsum   |  7.4       | 3.5                       |
-| Chinese-Lipsum  |  7.4       | 4.8                       |
-| Emoji-Lipsum    |  7.4       | 2.5                       |
-| Hebrew-Lipsum   |  7.4       | 3.5                       |
-| Hindi-Lipsum    |  7.3       | 3.0                       |
-| Japanese-Lipsum |  7.3       | 4.6                       |
-| Korean-Lipsum   |  7.4       | 1.8                       |
-| Latin-Lipsum    |  87        | 38                        |
-| Russian-Lipsum  |  7.4       | 2.7                       |
+| data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |  speed up |
+|:----------------|:-----------|:--------------------------|:-------------------|
+| Twitter.json    |  25        | 14                        | 1.8 x           |
+| Arabic-Lipsum   |  7.4       | 3.5                       | 2.1 x           |
+| Chinese-Lipsum  |  7.4       | 4.8                       | 1.5 x           |
+| Emoji-Lipsum    |  7.4       | 2.5                       | 3.0 x           |
+| Hebrew-Lipsum   |  7.4       | 3.5                       | 2.1 x           |
+| Hindi-Lipsum    |  7.3       | 3.0                       | 2.4 x           |
+| Japanese-Lipsum |  7.3       | 4.6                       | 1.6 x           |
+| Korean-Lipsum   |  7.4       | 1.8                       | 4.1 x           |
+| Latin-Lipsum    |  87        | 38                        | 2.3 x           |
+| Russian-Lipsum  |  7.4       | 2.7                       | 2.7 x           |
 
 
 ## Building the library
