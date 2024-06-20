@@ -924,7 +924,6 @@ namespace SimdUnicode
                     Vector512<byte> block1 = Avx512F.LoadVector512(pInputBuffer + asciirun);
                     Vector512<byte> block2 = Avx512F.LoadVector512(pInputBuffer + asciirun + 64);
                     Vector512<byte> or = Avx512F.Or(block1, block2);
-                    // Console.WriteLine($"--Found All ASCII chars!This is or.ExtractMostSignificantBits():{or.ExtractMostSignificantBits()}");
                     if (or.ExtractMostSignificantBits() != 0)
                     {
                         break;
