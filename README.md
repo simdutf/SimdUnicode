@@ -108,7 +108,7 @@ faster than the standard library.
 A realistic input is Twitter.json which is mostly ASCII with some Unicode content
 where we are 2.4 times faster.
 
-| data set        | SimdUnicode current AVX2 (GB/s) | .NET speed (GB/s) | speed up |
+| data set        | SimdUnicode AVX-512 (GB/s) | .NET speed (GB/s) | speed up |
 |:----------------|:------------------------|:-------------------|:-------------------|
 | Twitter.json    | 29                      | 12                | 2.4 x |
 | Arabic-Lipsum   | 12                    | 2.3               | 5.2 x |
