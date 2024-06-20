@@ -139,6 +139,14 @@ public unsafe class Utf8SIMDValidationTests
         simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse);
     }
 
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void simpleGoodSequencesAvx512()
+    {
+        simpleGoodSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
+
     private void BadSequences(Utf8ValidationFunction utf8ValidationDelegate)
     {
         string[] badSequences = {
@@ -209,6 +217,13 @@ public unsafe class Utf8SIMDValidationTests
         BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void BadSequencesAvx512()
+    {
+        BadSequences(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
     [Trait("Category", "arm64")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
     public void BadSequencesArm64()
@@ -261,6 +276,13 @@ public unsafe class Utf8SIMDValidationTests
     public void NoErrorAvx2()
     {
         NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void NoErrorAvx512()
+    {
+        NoError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
     }
 
     [Trait("Category", "arm64")]
@@ -323,6 +345,13 @@ public unsafe class Utf8SIMDValidationTests
         NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void NoErrorSpecificByteCountAvx512()
+    {
+        NoErrorSpecificByteCount(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
     [Trait("Category", "arm64")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
     public void NoErrorSpecificByteCountArm64()
@@ -344,14 +373,13 @@ public unsafe class Utf8SIMDValidationTests
                 allAscii.InsertRange(incompleteLocation, singleBytes);
 
                 var utf8 = allAscii.ToArray();
-                int cutOffLength = 128;//utf8.Length - rand.Next(1, firstCodeLength);
+                int cutOffLength = 128;
                 cutOffLength = Math.Min(cutOffLength, outputLength); // Ensure it doesn't exceed the length of truncatedUtf8
                 byte[] truncatedUtf8 = new byte[outputLength]; // Initialized to zero
 
                 Array.Copy(utf8, 0, truncatedUtf8, 0, cutOffLength);
 
                 bool isValidUtf8 = ValidateUtf8(truncatedUtf8, utf8ValidationDelegate);
-                // string utf8HexString = BitConverter.ToString(truncatedUtf8).Replace("-", " ");
                 try
                 {
                     Assert.False(isValidUtf8);
@@ -389,6 +417,13 @@ public unsafe class Utf8SIMDValidationTests
         NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void NoErrorIncompleteThenASCIIAvx512()
+    {
+        NoErrorIncompleteThenASCII(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
 
     [Trait("Category", "arm64")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
@@ -405,7 +440,7 @@ public unsafe class Utf8SIMDValidationTests
             {
                 var allAscii = new List<byte>(Enumerable.Repeat((byte)0, 256));
                 int firstcodeLength = rand.Next(2, 5);
-                List<byte> singlebytes = generator.Generate(1, firstcodeLength); //recall:generate a utf8 code between 2 and 4 bytes
+                List<byte> singlebytes = generator.Generate(1, firstcodeLength); //generate a utf8 code between 2 and 4 bytes
                 int incompleteLocation = 128 - rand.Next(1, firstcodeLength - 1);
                 allAscii.InsertRange(incompleteLocation, singlebytes);
 
@@ -448,6 +483,13 @@ public unsafe class Utf8SIMDValidationTests
     public void NoErrorIncompleteAt256VectorAvx2()
     {
         NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx51")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void NoErrorIncompleteAt256VectorAvx512()
+    {
+        NoErrorIncompleteAt256Vector(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
     }
 
     [Trait("Category", "arm64")]
@@ -513,6 +555,13 @@ public unsafe class Utf8SIMDValidationTests
         BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void BadHeaderBitsAvx512()
+    {
+        BadHeaderBits(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
     [Trait("Category", "arm64")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
     public void BadHeaderBitsArm64()
@@ -573,6 +622,13 @@ public unsafe class Utf8SIMDValidationTests
     public void TooShortErrorAvx2()
     {
         TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void TooShortErrorAvx512()
+    {
+        TooShortError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
     }
 
     [Trait("Category", "arm64")]
@@ -636,6 +692,14 @@ public unsafe class Utf8SIMDValidationTests
     {
         TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
+
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void TooLongErrorAvx512()
+    {
+        TooLongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
 
     [Trait("Category", "arm64")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
