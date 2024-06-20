@@ -100,7 +100,6 @@ sudo dotnet run -c Release
 ```
 
 
---anyCategories sse avx avx512
 ## Results (x64)
 
 On an Intel Ice Lake system, our validation function is up to 13 times
