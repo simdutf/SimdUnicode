@@ -125,10 +125,10 @@ namespace SimdUnicodeBenchmarks
         }
         // Parameters and variables for real data
         [Params(@"data/twitter.json",
-        @"data/Bogatov1069.utf8.txt",
-        @"data/Bogatov136.utf8.txt",
-        @"data/Bogatov286.utf8.txt",
-        @"data/Bogatov527.utf8.txt",
+                @"data/Bogatov1069.utf8.txt",
+                @"data/Bogatov136.utf8.txt",
+                @"data/Bogatov286.utf8.txt",
+                @"data/Bogatov527.utf8.txt",
                 @"data/Arabic-Lipsum.utf8.txt",
                 @"data/Hebrew-Lipsum.utf8.txt",
                 @"data/Korean-Lipsum.utf8.txt",
