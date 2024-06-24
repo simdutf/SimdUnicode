@@ -161,6 +161,9 @@ faster than the standard library.
 | Latin-Lipsum    |  42        | 17                        | 2.5 x           |
 | Russian-Lipsum  |  3.3       | 0.95                       | 3.5 x           |
 
+
+One difficulty with ARM processors is that they have varied SIMD/NEON performance. For example, Neoverse N1 processors, not to be confused with the Neoverse V1 design used by AWS Graviton 3, have weak SIMD performance. Of course, one can pick and choose which approach is best and it is not necessary to apply SimdUnicode is all cases. We expect good performance on recent ARM-based Qualcomm processors.
+
 ## Building the library
 
 ```
