@@ -1363,7 +1363,7 @@ namespace SimdUnicode
 
                         Vector128<byte> currentBlock = AdvSimd.LoadVector128(pInputBuffer + processedLength);
                         if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(AdvSimd.And(currentBlock, v80))).ToScalar() == 0)
-                        // We could it with (AdvSimd.Arm64.MaxAcross(currentBlock).ToScalar() <= 127) but it is slower on some
+                        // We could also use (AdvSimd.Arm64.MaxAcross(currentBlock).ToScalar() <= 127) but it is slower on some
                         // hardware.
                         {
                             // We have an ASCII block, no need to process it, but
