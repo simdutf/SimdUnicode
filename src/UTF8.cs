@@ -1388,7 +1388,7 @@ namespace SimdUnicode
                             prevIncomplete = Vector128<byte>.Zero;
                             // Often, we have a lot of ASCII characters in a row.
                             int localasciirun = 16;
-                            if (processedLength + localasciirun + 64 <= inputLength)
+                            if (processedLength + localasciirun + 16 <= inputLength)
                             {
                                 Vector128<byte> block = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun);
                                 if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(AdvSimd.And(block, v80))).ToScalar() == 0)
