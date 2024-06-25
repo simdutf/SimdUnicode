@@ -162,6 +162,22 @@ faster than the standard library.
 | Russian-Lipsum  |  3.3       | 0.95                       | 3.5 x           |
 
 
+On a Qualcomm 8cx gen3 (Windows Dev Kit 2023), we get roughly the same relative performance
+boost as the Neoverse V1.
+
+| data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |  speed up |
+|:----------------|:-----------|:--------------------------|:-------------------|
+| Twitter.json    |  15        | 10                        | 1.5 x           |
+| Arabic-Lipsum   |  4.0       | 2.3                       | 1.7 x           |
+| Chinese-Lipsum  |  4.0       | 2.9                       | 1.4 x           |
+| Emoji-Lipsum    |  4.0       | 0.9                       | 4.4 x           |
+| Hebrew-Lipsum   |  4.0       | 2.3                       | 1.7 x           |
+| Hindi-Lipsum    |  4.0       | 1.9                       | 2.1 x           |
+| Japanese-Lipsum |  4.0       | 2.7                       | 1.5 x           |
+| Korean-Lipsum   |  4.0       | 1.5                       | 2.7 x           |
+| Latin-Lipsum    |  50        | 20                       | 2.5 x           |
+| Russian-Lipsum  |  4.0       | 1.2                       | 3.3 x           |
+
 One difficulty with ARM processors is that they have varied SIMD/NEON performance. For example, Neoverse N1 processors, not to be confused with the Neoverse V1 design used by AWS Graviton 3, have weak SIMD performance. Of course, one can pick and choose which approach is best and it is not necessary to apply SimdUnicode is all cases. We expect good performance on recent ARM-based Qualcomm processors.
 
 ## Building the library

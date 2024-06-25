@@ -1388,20 +1388,28 @@ namespace SimdUnicode
                             prevIncomplete = Vector128<byte>.Zero;
                             // Often, we have a lot of ASCII characters in a row.
                             int localasciirun = 16;
-                            if (processedLength + localasciirun + 64 <= inputLength)
+                            if (processedLength + localasciirun + 16 <= inputLength)
                             {
-                                for (; processedLength + localasciirun + 64 <= inputLength; localasciirun += 64)
+                                Vector128<byte> block = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun);
+                                if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(AdvSimd.And(block, v80))).ToScalar() == 0)
                                 {
-                                    Vector128<byte> block1 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun);
-                                    Vector128<byte> block2 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 16);
-                                    Vector128<byte> block3 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 32);
-                                    Vector128<byte> block4 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 48);
-                                    Vector128<byte> or = AdvSimd.Or(AdvSimd.Or(block1, block2), AdvSimd.Or(block3, block4));
-                                    if (AdvSimd.Arm64.MaxAcross(or).ToScalar() > 127)
+                                    localasciirun += 16;
+                                    for (; processedLength + localasciirun + 64 <= inputLength; localasciirun += 64)
                                     {
-                                        break;
+                                        Vector128<byte> block1 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun);
+                                        Vector128<byte> block2 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 16);
+                                        Vector128<byte> block3 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 32);
+                                        Vector128<byte> block4 = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun + 48);
+                                        Vector128<byte> or = AdvSimd.Or(AdvSimd.Or(block1, block2), AdvSimd.Or(block3, block4));
+
+                                        if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(AdvSimd.And(or, v80))).ToScalar() != 0)
+                                        {
+                                            break;
+                                        }
                                     }
+
                                 }
+
                                 processedLength += localasciirun - 16;
                             }
                         }
