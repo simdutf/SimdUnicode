@@ -1352,6 +1352,8 @@ namespace SimdUnicode
                     Vector128<byte> fourthByte = Vector128.Create((byte)(0b11110000u - 0x80));
                     Vector128<byte> v0f = Vector128.Create((byte)0x0F);
                     Vector128<byte> v80 = Vector128.Create((byte)0x80);
+                    Vector128<byte> fourthByteMinusOne = Vector128.Create((byte)(0b11110000u - 1));
+                    Vector128<sbyte> largestcont = Vector128.Create((sbyte)-65); // -65 => 0b10111111
                     // Performance note: we could process 64 bytes at a time for better speed in some cases.
                     int start_point = processedLength;
 
@@ -1457,15 +1459,15 @@ namespace SimdUnicode
                                 return invalidBytePointer;
                             }
                             prevIncomplete = AdvSimd.SubtractSaturate(currentBlock, maxValue);
-                            Vector128<sbyte> largestcont = Vector128.Create((sbyte)-65); // -65 => 0b10111111
                             contbytes += -AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThanOrEqual(Vector128.AsSByte(currentBlock), largestcont)).ToScalar();
-
-                            // computing n4 is more expensive than we would like:
-                            Vector128<byte> fourthByteMinusOne = Vector128.Create((byte)(0b11110000u - 1));
                             Vector128<byte> largerthan0f = AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne);
-                            byte n4add = (byte)AdvSimd.Arm64.AddAcross(largerthan0f).ToScalar();
-                            int negn4add = (int)(byte)-n4add;
-                            n4 += negn4add;
+                            ulong n4marker = AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(largerthan0f)).ToScalar();
+                            if (n4marker != 0)
+                            {
+                                byte n4add = (byte)AdvSimd.Arm64.AddAcross(largerthan0f).ToScalar();
+                                int negn4add = (int)(byte)-n4add;
+                                n4 += negn4add;
+                            }
                         }
                     }
                     bool hasIncompete = AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(prevIncomplete)).ToScalar() != 0;
