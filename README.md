@@ -195,23 +195,23 @@ faster than the standard library.
 | Latin-Lipsum    |  42        | 17                        | 2.5 x           |
 | Russian-Lipsum  |  3.3       | 0.95                       | 3.5 x           |
 
-On a Neoverse N1 (Graviton 2), our validation function is up to three times
+On a Neoverse N1 (Graviton 2), our validation function is up to over three times
 faster than the standard library.
+
 
 | data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |  speed up |
 |:----------------|:-----------|:--------------------------|:-------------------|
-| Twitter.json    |  7.0        | 5.7                        | 1.2 x           |
-| Arabic-Lipsum   |  2.2       | 0.9                       | 2.4 x           |
-| Chinese-Lipsum  |  2.1       | 1.8                       | 1.1 x           |
-| Emoji-Lipsum    |  1.8       | 0.7                       | 2.6 x           |
-| Hebrew-Lipsum   |  2.0       | 0.9                       | 2.2 x           |
-| Hindi-Lipsum    |  2.0       | 1.0                       | 2.0 x           |
-| Japanese-Lipsum |  2.1       | 1.7                       | 1.2 x           |
-| Korean-Lipsum   |  2.2       | 1.0                       | 2.2 x           |
-| Latin-Lipsum    |  24        | 13                        | 1.8 x           |
-| Russian-Lipsum  |  2.1      | 0.7                       | 3.0 x           |
+| Twitter.json    |  7.8        | 5.7                        | 1.4 x           |
+| Arabic-Lipsum   |  2.5       | 0.9                       | 2.8 x           |
+| Chinese-Lipsum  |  2.5       | 1.8                       | 1.4 x           |
+| Emoji-Lipsum    |  2.5       | 0.7                       | 3.6 x           |
+| Hebrew-Lipsum   |  2.5       | 0.9                       | 2.7 x           |
+| Hindi-Lipsum    |  2.3       | 1.0                       | 2.3 x           |
+| Japanese-Lipsum |  2.4       | 1.7                       | 1.4 x           |
+| Korean-Lipsum   |  2.5       | 1.0                       | 2.5 x           |
+| Latin-Lipsum    |  23        | 13                        | 1.8 x           |
+| Russian-Lipsum  |  2.3      | 0.7                       | 3.3 x           |
 
-One difficulty with ARM processors is that they have varied SIMD/NEON performance. For example, Neoverse N1 processors, not to be confused with the Neoverse V1 design used by AWS Graviton 3, have weak SIMD performance. Of course, one can pick and choose which approach is best and it is not necessary to apply SimdUnicode is all cases. We expect good performance on recent ARM-based Qualcomm processors.
 
 ## Building the library
 
