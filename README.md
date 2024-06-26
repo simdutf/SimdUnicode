@@ -167,16 +167,16 @@ boost as the Neoverse V1.
 
 | data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |  speed up |
 |:----------------|:-----------|:--------------------------|:-------------------|
-| Twitter.json    |  15        | 10                        | 1.5 x           |
-| Arabic-Lipsum   |  4.0       | 2.3                       | 1.7 x           |
-| Chinese-Lipsum  |  4.0       | 2.9                       | 1.4 x           |
-| Emoji-Lipsum    |  4.0       | 0.9                       | 4.4 x           |
-| Hebrew-Lipsum   |  4.0       | 2.3                       | 1.7 x           |
-| Hindi-Lipsum    |  4.0       | 1.9                       | 2.1 x           |
-| Japanese-Lipsum |  4.0       | 2.7                       | 1.5 x           |
-| Korean-Lipsum   |  4.0       | 1.5                       | 2.7 x           |
+| Twitter.json    |  17        | 10                        | 1.7 x           |
+| Arabic-Lipsum   |  5.0       | 2.3                       | 2.2 x           |
+| Chinese-Lipsum  |  5.0       | 2.9                       | 1.7 x           |
+| Emoji-Lipsum    |  5.0       | 0.9                       | 5.5 x           |
+| Hebrew-Lipsum   |  5.0       | 2.3                       | 2.2 x           |
+| Hindi-Lipsum    |  5.0       | 1.9                       | 2.6 x           |
+| Japanese-Lipsum |  5.0       | 2.7                       | 1.9 x           |
+| Korean-Lipsum   |  5.0       | 1.5                       | 3.3 x           |
 | Latin-Lipsum    |  50        | 20                       | 2.5 x           |
-| Russian-Lipsum  |  4.0       | 1.2                       | 3.3 x           |
+| Russian-Lipsum  |  5.0       | 1.2                       | 5.2 x           |
 
 
 On a Neoverse N1 (Graviton 2), our validation function is 1.3 to over four times
