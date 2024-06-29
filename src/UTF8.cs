@@ -1277,18 +1277,6 @@ namespace SimdUnicode
             }
             return GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
         }
-        public static void ToString(Vector128<byte> v)
-        {
-            Span<byte> b = stackalloc byte[16];
-            v.CopyTo(b);
-            Console.WriteLine(Convert.ToHexString(b));
-        }
-        public static void ToString(Vector128<sbyte> v)
-        {
-            Span<byte> b = stackalloc byte[16];
-            v.AsByte().CopyTo(b);
-            Console.WriteLine(Convert.ToHexString(b));
-        }
         public unsafe static byte* GetPointerToFirstInvalidByteArm64(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
             int processedLength = 0;
