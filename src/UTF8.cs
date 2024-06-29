@@ -1277,7 +1277,6 @@ namespace SimdUnicode
             }
             return GetPointerToFirstInvalidByteScalar(pInputBuffer + processedLength, inputLength - processedLength, out utf16CodeUnitCountAdjustment, out scalarCountAdjustment);
         }
-
         public unsafe static byte* GetPointerToFirstInvalidByteArm64(byte* pInputBuffer, int inputLength, out int utf16CodeUnitCountAdjustment, out int scalarCountAdjustment)
         {
             int processedLength = 0;
@@ -1360,18 +1359,31 @@ namespace SimdUnicode
                     // The block goes from processedLength to processedLength/16*16.
                     int contbytes = 0; // number of continuation bytes in the block
                     int n4 = 0; // number of 4-byte sequences that start in this block
+                    /////
+                    // Design:
+                    // Instead of updating n4 and contbytes continuously, we accumulate
+                    // the values in n4v and contv, while using overflowCounter to make
+                    // sure we do not overflow. This allows you to reach good performance
+                    // on systems where summing across vectors is slow.
+                    ////
+                    Vector128<sbyte> n4v = Vector128<sbyte>.Zero;
+                    Vector128<sbyte> contv = Vector128<sbyte>.Zero;
+                    int overflowCounter = 0;
                     for (; processedLength + 16 <= inputLength; processedLength += 16)
                     {
 
                         Vector128<byte> currentBlock = AdvSimd.LoadVector128(pInputBuffer + processedLength);
                         if ((currentBlock & v80) == Vector128<byte>.Zero)
-                        // We could also use (AdvSimd.Arm64.MaxAcross(currentBlock).ToScalar() <= 127) but it is slower on some
-                        // hardware.
                         {
                             // We have an ASCII block, no need to process it, but
                             // we need to check if the previous block was incomplete.
                             if (prevIncomplete != Vector128<byte>.Zero)
                             {
+                                contbytes += -AdvSimd.Arm64.AddAcrossWidening(contv).ToScalar();
+                                if (n4v != Vector128<sbyte>.Zero)
+                                {
+                                    n4 += -AdvSimd.Arm64.AddAcrossWidening(n4v).ToScalar();
+                                }
                                 int off = processedLength >= 3 ? processedLength - 3 : processedLength;
                                 byte* invalidBytePointer = SimdUnicode.UTF8.SimpleRewindAndValidateWithErrors(16 - 3, pInputBuffer + processedLength - 3, inputLength - processedLength + 3);
                                 // So the code is correct up to invalidBytePointer
@@ -1432,11 +1444,13 @@ namespace SimdUnicode
                             Vector128<byte> must23 = AdvSimd.Or(isThirdByte, isFourthByte);
                             Vector128<byte> must23As80 = AdvSimd.And(must23, v80);
                             Vector128<byte> error = AdvSimd.Xor(must23As80, sc);
-                            // AdvSimd.Arm64.MaxAcross(error) works, but it might be slower
-                            // than AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(error)) on some
-                            // hardware:
                             if (error != Vector128<byte>.Zero)
                             {
+                                contbytes += -AdvSimd.Arm64.AddAcrossWidening(contv).ToScalar();
+                                if (n4v != Vector128<sbyte>.Zero)
+                                {
+                                    n4 += -AdvSimd.Arm64.AddAcrossWidening(n4v).ToScalar();
+                                }
                                 byte* invalidBytePointer;
                                 if (processedLength == 0)
                                 {
@@ -1459,17 +1473,32 @@ namespace SimdUnicode
                                 return invalidBytePointer;
                             }
                             prevIncomplete = AdvSimd.SubtractSaturate(currentBlock, maxValue);
-                            contbytes += -AdvSimd.Arm64.AddAcross(AdvSimd.CompareLessThanOrEqual(Vector128.AsSByte(currentBlock), largestcont)).ToScalar();
-                            Vector128<byte> largerthan0f = AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne);
-                            if (largerthan0f != Vector128<byte>.Zero)
+                            contv += AdvSimd.CompareLessThanOrEqual(Vector128.AsSByte(currentBlock), largestcont);
+                            n4v += AdvSimd.CompareGreaterThan(currentBlock, fourthByteMinusOne).AsSByte();
+                            overflowCounter++;
+                            // We have a risk of overflow if overflowCounter reaches 255,
+                            // in which case, we empty contv and n4v, and update contbytes and
+                            // n4.
+                            if (overflowCounter == 0xff)
                             {
-                                byte n4add = (byte)AdvSimd.Arm64.AddAcross(largerthan0f).ToScalar();
-                                int negn4add = (int)(byte)-n4add;
-                                n4 += negn4add;
+                                overflowCounter = 0;
+                                contbytes += -AdvSimd.Arm64.AddAcrossWidening(contv).ToScalar();
+                                contv = Vector128<sbyte>.Zero;
+                                if (n4v != Vector128<sbyte>.Zero)
+                                {
+                                    n4 += -AdvSimd.Arm64.AddAcrossWidening(n4v).ToScalar();
+                                    n4v = Vector128<sbyte>.Zero;
+                                }
                             }
                         }
                     }
-                    bool hasIncompete = (prevIncomplete !=  Vector128<byte>.Zero);
+                    contbytes += -AdvSimd.Arm64.AddAcrossWidening(contv).ToScalar();
+                    if (n4v != Vector128<sbyte>.Zero)
+                    {
+                        n4 += -AdvSimd.Arm64.AddAcrossWidening(n4v).ToScalar();
+                    }
+
+                    bool hasIncompete = (prevIncomplete != Vector128<byte>.Zero);
                     if (processedLength < inputLength || hasIncompete)
                     {
                         byte* invalidBytePointer;
