@@ -145,6 +145,22 @@ faster than the standard library.
 | Latin-Lipsum    |  87        | 38                        | 2.3 x           |
 | Russian-Lipsum  |  7.4       | 2.7                       | 2.7 x           |
 
+On a Graviton 3, our validation function is 1.2 to over five times
+faster than the standard library.
+
+| data set      | SimdUnicode speed (GB/s) | .NET speed (GB/s) |  speed up |
+|:----------------|:-----------|:--------------------------|:-------------------|
+| Twitter.json    |  19        | 11                        | 1.7 x           |
+| Arabic-Lipsum   |  5.2       | 2.7                       | 1.9 x           |
+| Chinese-Lipsum  |  5.2        | 4.5                       | 1.2 x           |
+| Emoji-Lipsum    |  5.2        | 0.9                       | 5.8 x           |
+| Hebrew-Lipsum   |  5.2        | 2.7                       | 1.9 x           |
+| Hindi-Lipsum    |  5.2        | 2.4                       | 2.2 x           |
+| Japanese-Lipsum | 5.2        |3.9                       | 1.3 x           |
+| Korean-Lipsum   |  5.2        | 1.5                       | 3.5 x           |
+| Latin-Lipsum    |  57        | 26                        | 2.2 x           |
+| Russian-Lipsum  |  5.2        | 2.8                       | 1.9 x           |
+
 On a Neoverse V1 (Graviton 3), our validation function is 1.3 to over five times
 faster than the standard library.
 
