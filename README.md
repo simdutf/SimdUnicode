@@ -269,6 +269,7 @@ You can print the content of a vector register like so:
 - Similarly `Vector128.Shuffle` is not the same as `AdvSimd.Arm64.VectorTableLookup`, use the latter.
 - `stackalloc` arrays should probably not be used in class instances.
 - In C#, `struct` might be preferable to `class` instances as it makes it clear that the data is thread local.
+- You can ask for an asm dump: `DOTNET_JitDisasm=NEON64HTMLScan dotnet run -c Release`.
 
 ## More reading 
 
