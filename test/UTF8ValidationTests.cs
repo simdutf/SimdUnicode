@@ -50,7 +50,7 @@ public unsafe class Utf8SIMDValidationTests
             switch (RuntimeInformation.ProcessArchitecture)
             {
                 case Architecture.Arm64:
-                    return requiredSystems.HasFlag(TestSystemRequirements.Arm64);
+                    return requiredSystems.HasFlag(TestSystemRequirements.Arm64) && AdvSimd.Arm64.IsSupported && BitConverter.IsLittleEndian;
                 case Architecture.X64:
                     return (requiredSystems.HasFlag(TestSystemRequirements.X64Avx512) && Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512F.IsSupported) ||
                         (requiredSystems.HasFlag(TestSystemRequirements.X64Avx2) && System.Runtime.Intrinsics.X86.Avx2.IsSupported) ||
