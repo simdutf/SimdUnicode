@@ -270,6 +270,7 @@ You can print the content of a vector register like so:
 - `stackalloc` arrays should probably not be used in class instances.
 - In C#, `struct` might be preferable to `class` instances as it makes it clear that the data is thread local.
 - You can ask for an asm dump: `DOTNET_JitDisasm=NEON64HTMLScan dotnet run -c Release`. See [Viewing JIT disassembly and dumps](https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/jit/viewing-jit-dumps.md).
+- You can get profiling data: `dotnet run -c Release -- -p EP`.
 
 ## More reading 
 
