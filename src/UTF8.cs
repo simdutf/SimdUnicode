@@ -1405,7 +1405,7 @@ namespace SimdUnicode
                             if (processedLength + localasciirun + 16 <= inputLength)
                             {
                                 Vector128<byte> block = AdvSimd.LoadVector128(pInputBuffer + processedLength + localasciirun);
-                                if (AdvSimd.Arm64.MaxAcross(Vector128.AsUInt32(AdvSimd.And(block, v80))).ToScalar() == 0)
+                                if ((block & v80) == Vector128<byte>.Zero)
                                 {
                                     localasciirun += 16;
                                     for (; processedLength + localasciirun + 64 <= inputLength; localasciirun += 64)
