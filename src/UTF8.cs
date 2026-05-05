@@ -124,7 +124,8 @@ namespace SimdUnicode
                     } // Too short
                     // range check
                     codePoint = (uint)(firstByte & 0b00011111) << 6 | (uint)(buf[pos + 1] & 0b00111111);
-                    if ((codePoint < 0x80) || (0x7ff < codePoint))
+                    // codePoint is necessarily <= 0x7ff
+                    if (codePoint < 0x80)
                     {
                         return buf + pos;
                     } // Overlong
@@ -141,7 +142,8 @@ namespace SimdUnicode
                                  (uint)(buf[pos + 1] & 0b00111111) << 6 |
                                  (uint)(buf[pos + 2] & 0b00111111);
                     // Either overlong or too large:
-                    if ((codePoint < 0x800) || (0xffff < codePoint) ||
+                    // codePoint is necessarily <= 0xffff
+                    if ((codePoint < 0x800) ||
                         (0xd7ff < codePoint && codePoint < 0xe000))
                     {
                         return buf + pos;
@@ -238,7 +240,8 @@ namespace SimdUnicode
                     } // Too short
                     // range check
                     codePoint = (uint)(firstByte & 0b00011111) << 6 | (uint)(pInputBuffer[pos + 1] & 0b00111111);
-                    if ((codePoint < 0x80) || (0x7ff < codePoint))
+                    // codePoint is necessarily <= 0x7ff
+                    if (codePoint < 0x80)
                     {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
                         scalarCountAdjustment = TempScalarCountAdjustment;
@@ -261,7 +264,8 @@ namespace SimdUnicode
                                  (uint)(pInputBuffer[pos + 1] & 0b00111111) << 6 |
                                  (uint)(pInputBuffer[pos + 2] & 0b00111111);
                     // Either overlong or too large:
-                    if ((codePoint < 0x800) || (0xffff < codePoint) ||
+                    // codePoint is necessarily <= 0xffff
+                    if ((codePoint < 0x800) ||
                         (0xd7ff < codePoint && codePoint < 0xe000))
                     {
                         utf16CodeUnitCountAdjustment = TempUtf16CodeUnitCountAdjustment;
