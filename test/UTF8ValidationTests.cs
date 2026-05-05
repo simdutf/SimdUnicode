@@ -1,4 +1,5 @@
 namespace tests;
+
 using System.Text;
 using SimdUnicode;
 using System.Diagnostics;
@@ -1245,7 +1246,8 @@ public unsafe class Utf8SIMDValidationTests
                 if ((data[pos + 1] & 0b11000000) != 0b10000000) return false;
 
                 codePoint = (uint)((byte1 & 0b00011111) << 6 | (data[pos + 1] & 0b00111111));
-                if (codePoint < 0x80 || 0x7ff < codePoint) return false;
+                // codePoint is necessarily <= 0x7ff
+                if (codePoint < 0x80) return false;
                 pos += 2;
             }
             else if ((byte1 & 0b11110000) == 0b11100000)
@@ -1255,7 +1257,7 @@ public unsafe class Utf8SIMDValidationTests
                 if ((data[pos + 2] & 0b11000000) != 0b10000000) return false;
 
                 codePoint = (uint)((byte1 & 0b00001111) << 12 | (data[pos + 1] & 0b00111111) << 6 | (data[pos + 2] & 0b00111111));
-                if (codePoint < 0x800 || 0xffff < codePoint || (0xd7ff < codePoint && codePoint < 0xe000)) return false;
+                if (codePoint < 0x800 || (0xd7ff < codePoint && codePoint < 0xe000)) return false;
                 pos += 3;
             }
             else if ((byte1 & 0b11111000) == 0b11110000)

@@ -1,4 +1,5 @@
 namespace tests;
+
 using System.Text;
 using SimdUnicode;
 
