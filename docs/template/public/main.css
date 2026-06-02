@@ -29,7 +29,7 @@
 body { font-feature-settings: "ss01", "cv01"; }
 
 /* Constrain the (large) simdutf logo in the navbar */
-#logo { height: 1.9rem; width: auto; }
+#logo { height: 2.3rem; width: auto; }
 [data-bs-theme="dark"] #logo { filter: invert(1) hue-rotate(180deg) brightness(1.1); }
 
 /* ------------------------------------------------------- Landing layout */
@@ -37,8 +37,8 @@ body { font-feature-settings: "ss01", "cv01"; }
    container, which looks stretched on wide monitors. Center it in a
    comfortable reading column instead, and let the hero bleed to that
    column's edges. */
-.landing main.container-xxl { max-width: 100%; }
-.landing article[data-uid=""] {
+[data-layout="landing"] main.container-xxl { max-width: 100%; }
+[data-layout="landing"] article[data-uid=""] {
   max-width: var(--su-page);
   margin-inline: auto;
   padding-inline: clamp(1rem, 4vw, 2rem);
@@ -185,12 +185,12 @@ body { font-feature-settings: "ss01", "cv01"; }
 .bench-note { color: var(--bs-secondary-color); font-size: .92rem; margin-top: .4rem; }
 
 /* ----------------------------------------------------- Misc polish */
-.landing h2 { margin-top: 2.6rem; scroll-margin-top: 5rem; }
+[data-layout="landing"] h2 { margin-top: 2.6rem; scroll-margin-top: 5rem; }
 /* Keep long-form prose on the landing page comfortable to read. */
-.landing article > p,
-.landing article > ul,
-.landing article > ol,
-.landing article > blockquote { max-width: 70ch; }
+[data-layout="landing"] article > p,
+[data-layout="landing"] article > ul,
+[data-layout="landing"] article > ol,
+[data-layout="landing"] article > blockquote { max-width: 70ch; }
 
 /* ------------------------------------------------------------- Responsive */
 @media (max-width: 760px) {
