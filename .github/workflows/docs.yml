@@ -1,0 +1,50 @@
+name: Documentation
+
+# Build the DocFX site and publish it to the gh-pages branch.
+#
+# Triggers:
+#   * Manually, from the Actions tab (workflow_dispatch).
+#   * Automatically, whenever a GitHub Release is published.
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+# Allow the job to push to the gh-pages branch.
+permissions:
+  contents: write
+
+# Never run two deployments at once; cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    name: Build and deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install DocFX
+        run: dotnet tool update -g docfx
+
+      - name: Build site
+        run: docfx docs/docfx.json
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: docs/_site
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'docs: publish site (${{ github.sha }})'
