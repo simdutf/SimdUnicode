@@ -26,7 +26,7 @@
 body { font-feature-settings: "ss01", "cv01"; }
 
 /* Constrain the (large) simdutf logo in the navbar */
-#logo { height: 1.3rem; width: auto; }
+#logo { height: 1.9rem; width: auto; }
 [data-bs-theme="dark"] #logo { filter: invert(1) hue-rotate(180deg) brightness(1.1); }
 
 /* Make the home page full-width (no article gutters) */
