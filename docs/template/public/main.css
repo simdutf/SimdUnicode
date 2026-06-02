@@ -8,6 +8,9 @@
   --su-cyan: #22d3ee;
   --su-ink: #0f1020;
   --su-grey: #9aa0b4;
+
+  /* Width of the centered reading column on the landing page. */
+  --su-page: 1080px;
 }
 
 /* Brand accent on the modern template */
@@ -29,14 +32,23 @@ body { font-feature-settings: "ss01", "cv01"; }
 #logo { height: 1.9rem; width: auto; }
 [data-bs-theme="dark"] #logo { filter: invert(1) hue-rotate(180deg) brightness(1.1); }
 
-/* Make the home page full-width (no article gutters) */
-article[data-uid=""] .container,
-.landing article { max-width: none; }
+/* ------------------------------------------------------- Landing layout */
+/* The modern template lets the landing article fill the whole 1320px
+   container, which looks stretched on wide monitors. Center it in a
+   comfortable reading column instead, and let the hero bleed to that
+   column's edges. */
+.landing main.container-xxl { max-width: 100%; }
+.landing article[data-uid=""] {
+  max-width: var(--su-page);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
 
 /* ----------------------------------------------------------------- Hero */
 .hero {
-  margin: -1.5rem -1rem 2.5rem;
-  padding: 5rem 1.5rem 5.5rem;
+  /* Pull out to the padding edges of the centered column for a full-bleed feel. */
+  margin: -1.5rem clamp(-2rem, -4vw, -1rem) 3rem;
+  padding: clamp(3rem, 8vw, 5.5rem) 1.5rem;
   text-align: center;
   color: #fff;
   background:
@@ -57,9 +69,9 @@ article[data-uid=""] .container,
   mask-image: radial-gradient(70% 70% at 50% 30%, #000 30%, transparent 75%);
   pointer-events: none;
 }
-.hero-inner { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; }
+.hero-inner { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
 .hero-title {
-  font-size: clamp(3rem, 9vw, 5.5rem);
+  font-size: clamp(2.6rem, 9vw, 5rem);
   font-weight: 800;
   letter-spacing: -.03em;
   margin: 0;
@@ -70,9 +82,9 @@ article[data-uid=""] .container,
   -webkit-text-fill-color: transparent;
 }
 .hero-tagline {
-  font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
   color: #cdd0e6;
-  max-width: 720px;
+  max-width: 660px;
   margin: 1.4rem auto 2.2rem;
   line-height: 1.5;
 }
@@ -108,7 +120,6 @@ article[data-uid=""] .container,
   gap: 1rem;
   margin: 0 0 3rem;
 }
-@media (max-width: 760px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
 .stat-card {
   text-align: center;
   padding: 1.5rem 1rem;
@@ -117,7 +128,7 @@ article[data-uid=""] .container,
   background: var(--bs-tertiary-bg);
 }
 .stat-num {
-  font-size: 2.4rem;
+  font-size: clamp(1.9rem, 6vw, 2.4rem);
   font-weight: 800;
   letter-spacing: -.02em;
   background: linear-gradient(135deg, var(--su-purple) 0%, var(--su-cyan) 100%);
@@ -134,7 +145,6 @@ article[data-uid=""] .container,
   gap: 1.1rem;
   margin: 1.5rem 0 1rem;
 }
-@media (max-width: 760px) { .feature-grid { grid-template-columns: 1fr; } }
 .feature {
   padding: 1.5rem;
   border-radius: 16px;
@@ -151,12 +161,13 @@ article[data-uid=""] .container,
 .bench { margin: 1.5rem 0; display: flex; flex-direction: column; gap: .6rem; }
 .bench-row { display: grid; grid-template-columns: 130px 1fr 52px; align-items: center; gap: .8rem; }
 .bench-name { font-size: .85rem; color: var(--bs-secondary-color); text-align: right; }
-.bench-bars { display: flex; flex-direction: column; gap: 3px; }
+.bench-bars { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .bar {
   height: 18px;
   border-radius: 5px;
   width: var(--v);
   min-width: 2.4rem;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -174,5 +185,31 @@ article[data-uid=""] .container,
 .bench-note { color: var(--bs-secondary-color); font-size: .92rem; margin-top: .4rem; }
 
 /* ----------------------------------------------------- Misc polish */
-h2 { margin-top: 2.4rem; }
-.landing h2 { scroll-margin-top: 5rem; }
+.landing h2 { margin-top: 2.6rem; scroll-margin-top: 5rem; }
+/* Keep long-form prose on the landing page comfortable to read. */
+.landing article > p,
+.landing article > ul,
+.landing article > ol,
+.landing article > blockquote { max-width: 70ch; }
+
+/* ------------------------------------------------------------- Responsive */
+@media (max-width: 760px) {
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .feature-grid { grid-template-columns: 1fr; }
+  .hero-cta .btn { width: 100%; max-width: 320px; }
+}
+@media (max-width: 520px) {
+  .stat-row { grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .stat-card { padding: 1.1rem .75rem; }
+  /* Stack each benchmark's label above its bars so nothing is cramped. */
+  .bench-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "name x"
+      "bars bars";
+    row-gap: .25rem;
+  }
+  .bench-name { grid-area: name; text-align: left; }
+  .bench-x { grid-area: x; text-align: right; }
+  .bench-bars { grid-area: bars; }
+}
