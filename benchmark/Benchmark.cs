@@ -62,7 +62,7 @@ namespace SimdUnicodeBenchmarks
     [Config(typeof(Config))]
     public class RealDataBenchmark
     {
-        // We only informs the user once about the SIMD support of the system.
+        // We only inform the user once about the SIMD support of the system.
         private static bool printed;
 #pragma warning disable CA1812
         private sealed class Config : ManualConfig
