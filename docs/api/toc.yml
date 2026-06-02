@@ -1,0 +1,13 @@
+### YamlMime:TableOfContent
+items:
+- uid: SimdUnicode
+  name: SimdUnicode
+  type: Namespace
+  items:
+  - uid: SimdUnicode.Ascii
+    name: Ascii
+    type: Class
+  - uid: SimdUnicode.UTF8
+    name: UTF8
+    type: Class
+memberLayout: SeparatePages

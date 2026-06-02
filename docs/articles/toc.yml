@@ -1,0 +1,8 @@
+- name: Getting started
+  href: getting-started.md
+- name: How it works
+  href: how-it-works.md
+- name: Benchmarks
+  href: benchmarks.md
+- name: Contributing &amp; building
+  href: contributing.md
