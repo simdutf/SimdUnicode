@@ -1130,14 +1130,14 @@ namespace SimdUnicode
                     *
                     * We can solve for n2 and n3 in terms of the other variables:
                     * n3 = n1 - 2 * n4 + 2 * ncon - length
-                    * n2 = -2 * n1 + n4 - 4 * ncon + 2 * length
+                    * n2 = -2 * n1 + n4 - 3 * ncon + 2 * length
                     * Thus we only need to count the number of continuation bytes,
                     * the number of ASCII bytes and the number of 4-byte sequences.
                     * But we need even less because we compute
                     * utfadjust = -2 * n4 - 2 * n3 - n2
                     * so n1 and length cancel out in the end. Thus we only need to compute
                     * n3' =  - 2 * n4 + 2 * ncon
-                    * n2' = n4 - 4 * ncon
+                    * n2' = n4 - 3 * ncon
                     */
                     ////////////
                     // The *block* here is what begins at processedLength and ends
