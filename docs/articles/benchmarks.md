@@ -13,22 +13,24 @@ dotnet run -c Release
 dotnet run -c Release --filter "*Twitter*"
 ```
 
-## x64 — Intel Ice Lake (AVX-512)
+## x64 — Intel Xeon Gold 6548N (AVX-512, .NET 10)
 
-Up to **13× faster** than the standard library; **2.4×** on realistic Twitter data.
+Up to **14× faster** than the standard library on multibyte text; **2.5×** on realistic Twitter data.
 
 | data set        | SimdUnicode AVX-512 (GB/s) | .NET (GB/s) | speed-up |
 |:----------------|:--------------------------:|:-----------:|:--------:|
-| Twitter.json    | 29 | 12  | 2.4× |
-| Arabic-Lipsum   | 12 | 2.3 | 5.2× |
-| Chinese-Lipsum  | 12 | 3.9 | 3.0× |
-| Emoji-Lipsum    | 12 | 0.9 | 13×  |
-| Hebrew-Lipsum   | 12 | 2.3 | 5.2× |
-| Hindi-Lipsum    | 12 | 2.1 | 5.7× |
-| Japanese-Lipsum | 10 | 3.5 | 2.9× |
-| Korean-Lipsum   | 10 | 1.3 | 7.7× |
-| Latin-Lipsum    | 76 | 76  | — |
-| Russian-Lipsum  | 12 | 1.2 | 10×  |
+| Twitter.json    | 36 | 14  | 2.5× |
+| Arabic-Lipsum   | 15 | 3.3 | 4.5× |
+| Chinese-Lipsum  | 15 | 5.3 | 2.8× |
+| Emoji-Lipsum    | 15 | 1.1 | 14×  |
+| Hebrew-Lipsum   | 15 | 3.2 | 4.5× |
+| Hindi-Lipsum    | 15 | 2.5 | 5.8× |
+| Japanese-Lipsum | 15 | 4.5 | 3.2× |
+| Korean-Lipsum   | 15 | 1.6 | 9.1× |
+| Latin-Lipsum    | 72 | 107 | — |
+| Russian-Lipsum  | 15 | 3.3 | 4.5× |
+
+On pure ASCII (Latin-Lipsum), .NET 10's own UTF-8 scanner is faster.
 
 On x64 SimdUnicode ships four kernels — a scalar fallback for legacy systems, SSE4.2 for
 older CPUs, AVX2 for current x64, and AVX-512 for the most recent processors (AMD Zen 4 or

@@ -31,7 +31,7 @@ At a high level, each vectorized block:
 A single public method picks the best kernel for the host CPU, in priority order:
 
 ```text
-ARM64 NEON  →  AVX-512 (VBMI)  →  AVX2  →  SSE4.2 / SSSE3  →  scalar fallback
+ARM64 NEON  →  AVX-512 (BW)  →  AVX2  →  SSE4.2 / SSSE3  →  scalar fallback
 ```
 
 This means you write one call and automatically get AVX-512 on a Zen 4 / Ice Lake server,
@@ -39,7 +39,7 @@ NEON on an Apple M-series laptop, and a correct scalar implementation everywhere
 
 | Back-end | Vector width | Typical hardware |
 |----------|--------------|------------------|
-| AVX-512 (VBMI) | 512-bit | AMD Zen 4, Intel Ice Lake+ |
+| AVX-512 (BW) | 512-bit | AMD Zen 4, Intel Ice Lake+ |
 | AVX2 | 256-bit | Most current x64 |
 | SSE4.2 / SSSE3 | 128-bit | Older x64 |
 | ARM64 NEON | 128-bit | Apple Silicon, AWS Graviton, Snapdragon |

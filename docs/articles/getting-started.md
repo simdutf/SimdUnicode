@@ -1,11 +1,11 @@
 # Getting started
 
 SimdUnicode is a small, dependency-free C# library that validates UTF-8 with SIMD
-instructions. It targets **.NET 8** (or better) and runs on x64 and ARM64.
+instructions. It targets **.NET 10** (or better) and runs on x64 and ARM64.
 
 ## Requirements
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) or newer.
+- [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) or newer.
 - A 64-bit x64 or ARM64 CPU for the SIMD kernels (a portable scalar fallback covers everything else).
 
 ## Build &amp; reference

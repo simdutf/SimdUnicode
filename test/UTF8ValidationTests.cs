@@ -53,7 +53,7 @@ public unsafe class Utf8SIMDValidationTests
                 case Architecture.Arm64:
                     return requiredSystems.HasFlag(TestSystemRequirements.Arm64) && AdvSimd.Arm64.IsSupported && BitConverter.IsLittleEndian;
                 case Architecture.X64:
-                    return (requiredSystems.HasFlag(TestSystemRequirements.X64Avx512) && Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512F.IsSupported) ||
+                    return (requiredSystems.HasFlag(TestSystemRequirements.X64Avx512) && Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512BW.IsSupported) ||
                         (requiredSystems.HasFlag(TestSystemRequirements.X64Avx2) && System.Runtime.Intrinsics.X86.Avx2.IsSupported) ||
                         (requiredSystems.HasFlag(TestSystemRequirements.X64Sse) && System.Runtime.Intrinsics.X86.Ssse3.IsSupported);
                 default:
@@ -774,6 +774,13 @@ public unsafe class Utf8SIMDValidationTests
         OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64);
     }
 
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void OverlongErrorAvx512()
+    {
+        OverlongError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
 
     private void TooShortErrorAtEnd(Utf8ValidationFunction utf8ValidationDelegate)
     {
@@ -847,6 +854,13 @@ public unsafe class Utf8SIMDValidationTests
         TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void TooShortErrorAtEndAvx512()
+    {
+        TooShortErrorAtEnd(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
     [Trait("Category", "arm64")]
     [FactOnSystemRequirementAttribute(TestSystemRequirements.Arm64)]
     public void TooShortErrorAtEndArm64()
@@ -895,6 +909,13 @@ public unsafe class Utf8SIMDValidationTests
     public void Invalid0xf50xffAvx2()
     {
         Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void Invalid0xf50xffAvx512()
+    {
+        Invalid0xf50xff(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
     }
 
 
@@ -1078,6 +1099,13 @@ public unsafe class Utf8SIMDValidationTests
         AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
     }
 
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void AsciiPlusContinuationAtEndErrorAvx512()
+    {
+        AsciiPlusContinuationAtEndError(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
+    }
+
     private void SurrogateErrorTest(Utf8ValidationFunction utf8ValidationDelegate)
     {
         foreach (int outputLength in outputLengths)
@@ -1133,6 +1161,13 @@ public unsafe class Utf8SIMDValidationTests
     public void SurrogateErrorTestAvx2()
     {
         SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void SurrogateErrorTestAvx512()
+    {
+        SurrogateErrorTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
     }
 
     [Trait("Category", "arm64")]
@@ -1214,6 +1249,13 @@ public unsafe class Utf8SIMDValidationTests
     public void BruteForceTestAvx2()
     {
         BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2);
+    }
+
+    [Trait("Category", "avx512")]
+    [FactOnSystemRequirementAttribute(TestSystemRequirements.X64Avx512)]
+    public void BruteForceTestAvx512()
+    {
+        BruteForceTest(SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512);
     }
 
 

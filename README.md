@@ -37,7 +37,7 @@ We apply the algorithm used by Node.js, Bun, Oracle GraalVM, by the PHP interpre
 
 ## Requirements
 
-We recommend you install .NET 8 or better: https://dotnet.microsoft.com/en-us/download/dotnet/8.0
+We recommend you install .NET 10 or better: https://dotnet.microsoft.com/en-us/download/dotnet/10.0
 
 
 ## Running tests
@@ -102,28 +102,29 @@ sudo dotnet run -c Release
 
 ## Results (x64)
 
-On an Intel Ice Lake system, our validation function is up to 13 times
-faster than the standard library.
+On an Intel Xeon Gold 6548N (.NET 10, AVX-512), our validation function is up to
+14 times faster than the standard library on non-ASCII text.
 A realistic input is Twitter.json which is mostly ASCII with some Unicode content
-where we are 2.4 times faster.
+where we are 2.5 times faster.
 
 | data set        | SimdUnicode AVX-512 (GB/s) | .NET speed (GB/s) | speed up |
 |:----------------|:------------------------|:-------------------|:-------------------|
-| Twitter.json    | 29                      | 12                | 2.4 x |
-| Arabic-Lipsum   | 12                    | 2.3               | 5.2 x |
-| Chinese-Lipsum  | 12                    | 3.9               | 3.0 x |
-| Emoji-Lipsum    | 12                     | 0.9               | 13 x |
-| Hebrew-Lipsum   |12                    | 2.3               | 5.2 x |
-| Hindi-Lipsum    | 12                     | 2.1               | 5.7 x |
-| Japanese-Lipsum | 10                     | 3.5               | 2.9 x |
-| Korean-Lipsum   | 10                     | 1.3               | 7.7 x |
-| Latin-Lipsum    | 76                      | 76                | --- |
-| Russian-Lipsum  | 12                    | 1.2               | 10 x |
+| Twitter.json    | 36                      | 14                | 2.5 x |
+| Arabic-Lipsum   | 15                    | 3.3               | 4.5 x |
+| Chinese-Lipsum  | 15                    | 5.3               | 2.8 x |
+| Emoji-Lipsum    | 15                     | 1.1               | 14 x |
+| Hebrew-Lipsum   | 15                    | 3.2               | 4.5 x |
+| Hindi-Lipsum    | 15                     | 2.5               | 5.8 x |
+| Japanese-Lipsum | 15                     | 4.5               | 3.2 x |
+| Korean-Lipsum   | 15                     | 1.6               | 9.1 x |
+| Latin-Lipsum    | 72                      | 107               | --- |
+| Russian-Lipsum  | 15                    | 3.3               | 4.5 x |
 
-
+On pure ASCII (Latin-Lipsum), .NET 10's own UTF-8 scanner is faster. On mixed
+and multibyte input, SimdUnicode is substantially faster.
 
 On x64 system, we offer several functions: a fallback function for legacy systems,
-a SSE42 function for older CPUs, an AVX2 function for current x64 systems and
+a SSE4.2 function for older CPUs, an AVX2 function for current x64 systems and
 an AVX-512 function for the most recent processors (AMD Zen 4 or better, Intel
 Ice Lake, etc.).
 

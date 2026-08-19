@@ -82,7 +82,7 @@ namespace SimdUnicodeBenchmarks
                 }
                 else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
                 {
-                    if (Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512Vbmi.IsSupported)
+                    if (Vector512.IsHardwareAccelerated && System.Runtime.Intrinsics.X86.Avx512BW.IsSupported)
                     {
                         if (!printed)
                         {

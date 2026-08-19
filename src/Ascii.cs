@@ -142,11 +142,10 @@ namespace SimdUnicode
             {
                 return GetIndexOfFirstNonAsciiByteArm64(pBuffer, bufferLength);
             }
-            // TODO: Add support for other architectures
-            /*if (Vector512.IsHardwareAccelerated && Avx512Vbmi2.IsSupported)
+            if (Vector512.IsHardwareAccelerated && Avx512BW.IsSupported)
             {
                 return GetIndexOfFirstNonAsciiByteAvx512(pBuffer, bufferLength);
-            }*/
+            }
             if (Avx2.IsSupported)
             {
                 return GetIndexOfFirstNonAsciiByteAvx2(pBuffer, bufferLength);
@@ -210,23 +209,94 @@ namespace SimdUnicode
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe nuint GetIndexOfFirstNonAsciiByteAvx512(byte* pBuffer, nuint bufferLength)
+        {
+            byte* buf_orig = pBuffer;
+            byte* end = pBuffer + bufferLength;
+
+            if (bufferLength >= 64)
+            {
+                // A 512-bit load whose *address* is not 64-byte aligned touches two cache lines
+                // and costs two accesses, which nearly halves the scan speed. So we check the
+                // first vector, then move to the next 64-byte boundary and stay on it. Only the
+                // address matters, not the instruction: an unaligned-load instruction on an
+                // aligned address is just as fast, and it cannot fault if the arithmetic is ever
+                // wrong. simdutf's util_find aligns the same way, also with loadu.
+                ulong head = Avx512F.LoadVector512(pBuffer).ExtractMostSignificantBits();
+                if (head != 0)
+                {
+                    return (nuint)BitOperations.TrailingZeroCount(head);
+                }
+                pBuffer = (byte*)(((nuint)pBuffer + 64) & ~(nuint)63);
+
+                // Four vectors per iteration: the loads then issue back to back instead of
+                // being serialized by one compare-and-branch per 64 bytes.
+                for (; pBuffer + 256 <= end; pBuffer += 256)
+                {
+                    Vector512<byte> block1 = Avx512F.LoadVector512(pBuffer);
+                    Vector512<byte> block2 = Avx512F.LoadVector512(pBuffer + 64);
+                    Vector512<byte> block3 = Avx512F.LoadVector512(pBuffer + 128);
+                    Vector512<byte> block4 = Avx512F.LoadVector512(pBuffer + 192);
+                    Vector512<byte> or = Avx512F.Or(Avx512F.Or(block1, block2), Avx512F.Or(block3, block4));
+                    if (or.ExtractMostSignificantBits() != 0)
+                    {
+                        break;
+                    }
+                }
+
+                for (; pBuffer + 64 <= end; pBuffer += 64)
+                {
+                    ulong notascii = Avx512F.LoadVector512(pBuffer).ExtractMostSignificantBits();
+                    if (notascii != 0)
+                    {
+                        return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                    }
+                }
+            }
+
+            nuint scalarResult = GetIndexOfFirstNonAsciiByteScalar(pBuffer, (nuint)(end - pBuffer));
+            return (nuint)(pBuffer - buf_orig) + scalarResult;
+        }
+
         public static unsafe nuint GetIndexOfFirstNonAsciiByteAvx2(byte* pBuffer, nuint bufferLength)
         {
             byte* buf_orig = pBuffer;
             byte* end = pBuffer + bufferLength;
 
-            for (; pBuffer + 32 <= end; pBuffer += 32)
+            if (bufferLength >= 32)
             {
-                Vector256<sbyte> input = Avx.LoadVector256((sbyte*)pBuffer);
-                int notascii = Avx2.MoveMask(input.AsByte());
-                if (notascii != 0)
+                // Same reasoning as the AVX-512 version: get the address onto a 32-byte boundary
+                // so that no load straddles a cache line, then read several vectors per
+                // compare-and-branch.
+                int head = Avx2.MoveMask(Avx.LoadVector256(pBuffer));
+                if (head != 0)
                 {
-                    return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                    return (nuint)BitOperations.TrailingZeroCount(head);
+                }
+                pBuffer = (byte*)(((nuint)pBuffer + 32) & ~(nuint)31);
+
+                for (; pBuffer + 128 <= end; pBuffer += 128)
+                {
+                    Vector256<byte> block1 = Avx.LoadVector256(pBuffer);
+                    Vector256<byte> block2 = Avx.LoadVector256(pBuffer + 32);
+                    Vector256<byte> block3 = Avx.LoadVector256(pBuffer + 64);
+                    Vector256<byte> block4 = Avx.LoadVector256(pBuffer + 96);
+                    Vector256<byte> or = Avx2.Or(Avx2.Or(block1, block2), Avx2.Or(block3, block4));
+                    if (Avx2.MoveMask(or) != 0)
+                    {
+                        break;
+                    }
+                }
+
+                for (; pBuffer + 32 <= end; pBuffer += 32)
+                {
+                    int notascii = Avx2.MoveMask(Avx.LoadVector256(pBuffer));
+                    if (notascii != 0)
+                    {
+                        return (nuint)(pBuffer - buf_orig) + (nuint)BitOperations.TrailingZeroCount(notascii);
+                    }
                 }
             }
-
-
 
             // Call the scalar function for the remaining bytes
             nuint scalarResult = GetIndexOfFirstNonAsciiByteScalar(pBuffer, (nuint)(end - pBuffer));

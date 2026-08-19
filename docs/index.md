@@ -6,7 +6,7 @@ title: SimdUnicode — fast UTF-8 validation for .NET
 <div class="hero">
   <div class="hero-inner">
     <h1 class="hero-title">SimdUnicode</h1>
-    <p class="hero-tagline">A blazing-fast C# library that validates UTF-8 strings <strong>up to&nbsp;13&times; faster</strong> than the .NET standard library — using AVX-512, AVX2, SSE and ARM NEON.</p>
+    <p class="hero-tagline">A blazing-fast C# library that validates UTF-8 strings <strong>up to&nbsp;14&times; faster</strong> than the .NET standard library — using AVX-512, AVX2, SSE and ARM NEON.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="articles/getting-started.md">Get started &rarr;</a>
       <a class="btn btn-ghost" href="api/index.md">API reference</a>
@@ -17,8 +17,8 @@ title: SimdUnicode — fast UTF-8 validation for .NET
 
 <div class="stat-row">
   <div class="stat-card">
-    <div class="stat-num">13&times;</div>
-    <div class="stat-label">faster on Emoji-heavy text (Ice Lake, AVX-512)</div>
+    <div class="stat-num">14&times;</div>
+    <div class="stat-label">faster on Emoji-heavy text (Xeon Gold 6548N, AVX-512)</div>
   </div>
   <div class="stat-card">
     <div class="stat-num">&lt; 1</div>
@@ -85,15 +85,15 @@ The right SIMD kernel is selected automatically at runtime: **ARM64 NEON**, **AV
 
 ## How fast is it?
 
-Throughput on an **Intel Ice Lake** system (AVX-512), validating UTF-8. Longer bars are faster — SimdUnicode in purple, the .NET standard library in grey.
+Throughput on an **Intel Xeon Gold 6548N** (.NET 10, AVX-512), validating UTF-8. Longer bars are faster — SimdUnicode in purple, the .NET standard library in grey.
 
 <div class="bench" data-unit="GB/s">
-  <div class="bench-row"><span class="bench-name">Emoji-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>12 GB/s</span></div><div class="bar bar-net" style="--v:7.5%"><span>0.9</span></div></div><span class="bench-x">13&times;</span></div>
-  <div class="bench-row"><span class="bench-name">Russian-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>12 GB/s</span></div><div class="bar bar-net" style="--v:10%"><span>1.2</span></div></div><span class="bench-x">10&times;</span></div>
-  <div class="bench-row"><span class="bench-name">Korean-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:83%"><span>10 GB/s</span></div><div class="bar bar-net" style="--v:10.8%"><span>1.3</span></div></div><span class="bench-x">7.7&times;</span></div>
-  <div class="bench-row"><span class="bench-name">Hindi-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>12 GB/s</span></div><div class="bar bar-net" style="--v:17.5%"><span>2.1</span></div></div><span class="bench-x">5.7&times;</span></div>
-  <div class="bench-row"><span class="bench-name">Arabic-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>12 GB/s</span></div><div class="bar bar-net" style="--v:19%"><span>2.3</span></div></div><span class="bench-x">5.2&times;</span></div>
-  <div class="bench-row"><span class="bench-name">Twitter.json</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>29 GB/s</span></div><div class="bar bar-net" style="--v:41%"><span>12</span></div></div><span class="bench-x">2.4&times;</span></div>
+  <div class="bench-row"><span class="bench-name">Emoji-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>15 GB/s</span></div><div class="bar bar-net" style="--v:7.3%"><span>1.1</span></div></div><span class="bench-x">14&times;</span></div>
+  <div class="bench-row"><span class="bench-name">Korean-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>15 GB/s</span></div><div class="bar bar-net" style="--v:11%"><span>1.6</span></div></div><span class="bench-x">9.1&times;</span></div>
+  <div class="bench-row"><span class="bench-name">Hindi-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>15 GB/s</span></div><div class="bar bar-net" style="--v:17%"><span>2.5</span></div></div><span class="bench-x">5.8&times;</span></div>
+  <div class="bench-row"><span class="bench-name">Arabic-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>15 GB/s</span></div><div class="bar bar-net" style="--v:22%"><span>3.3</span></div></div><span class="bench-x">4.5&times;</span></div>
+  <div class="bench-row"><span class="bench-name">Russian-Lipsum</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>15 GB/s</span></div><div class="bar bar-net" style="--v:22%"><span>3.3</span></div></div><span class="bench-x">4.5&times;</span></div>
+  <div class="bench-row"><span class="bench-name">Twitter.json</span><div class="bench-bars"><div class="bar bar-simd" style="--v:100%"><span>36 GB/s</span></div><div class="bar bar-net" style="--v:39%"><span>14</span></div></div><span class="bench-x">2.5&times;</span></div>
 </div>
 
 <p class="bench-note">On an <strong>Apple M2</strong> (NEON), SimdUnicode is 1.5&times;–4&times; faster than the standard library. See the full set of measurements across x64 and ARM in the <a href="articles/benchmarks.md">benchmarks</a>.</p>
