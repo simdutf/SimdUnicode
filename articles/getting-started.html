@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Getting started | SimdUnicode — fast UTF-8 validation for .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Getting started | SimdUnicode — fast UTF-8 validation for .NET ">
+      
+      
+      <link rel="icon" href="../logo.svg">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/simdutf/SimdUnicode/blob/main/docs/articles/getting-started.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="SimdUnicode">
+            SimdUnicode
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="getting-started">Getting started</h1>
+
+<p>SimdUnicode is a small, dependency-free C# library that validates UTF-8 with SIMD
+instructions. It targets <strong>.NET 10</strong> (or better) and runs on x64 and ARM64.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li><a href="https://dotnet.microsoft.com/en-us/download/dotnet/10.0">.NET 10 SDK</a> or newer.</li>
+<li>A 64-bit x64 or ARM64 CPU for the SIMD kernels (a portable scalar fallback covers everything else).</li>
+</ul>
+<h2 id="build--reference">Build &amp; reference</h2>
+<p>Clone the repository and build the library:</p>
+<pre><code class="lang-bash">git clone https://github.com/simdutf/SimdUnicode.git
+cd SimdUnicode/src
+dotnet build -c Release
+</code></pre>
+<p>Then add a project reference to <code>src/SimdUnicode.csproj</code> from your own project:</p>
+<pre><code class="lang-bash">dotnet add reference path/to/SimdUnicode/src/SimdUnicode.csproj
+</code></pre>
+<h2 id="validating-a-buffer">Validating a buffer</h2>
+<p>The core entry point is <a class="xref" href="../api/SimdUnicode.UTF8.html"><code>UTF8.GetPointerToFirstInvalidByte</code></a>.
+It scans <code>pInputBuffer</code> and returns a pointer to the <strong>first invalid byte</strong>, or a pointer to
+the end of the buffer when the input is well-formed.</p>
+<pre><code class="lang-csharp">using SimdUnicode;
+
+static unsafe bool IsValidUtf8(ReadOnlySpan&lt;byte&gt; data)
+{
+    fixed (byte* p = data)
+    {
+        byte* end = UTF8.GetPointerToFirstInvalidByte(
+            p, data.Length,
+            out _ /* utf16 code-unit adjustment */,
+            out _ /* scalar code-unit adjustment */);
+
+        return end == p + data.Length;
+    }
+}
+</code></pre>
+<h3 id="the-out-parameters">The out parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Utf16CodeUnitCountAdjustment</code></td>
+<td>Add this to the byte count to get the number of UTF-16 code units. Counts <code>-1</code> for each 2-byte character and <code>-2</code> for each 3- or 4-byte character.</td>
+</tr>
+<tr>
+<td><code>ScalarCodeUnitCountAdjustment</code></td>
+<td>Add this to the byte count to get the number of Unicode scalar values. Counts <code>-1</code> for each 4-byte character.</td>
+</tr>
+</tbody>
+</table>
+<p>These adjustments let you compute the resulting UTF-16 length (or scalar/code-point count)
+of a valid buffer <strong>for free</strong>, during validation — no second pass required.</p>
+<pre><code class="lang-csharp">unsafe
+{
+    fixed (byte* p = data)
+    {
+        byte* end = UTF8.GetPointerToFirstInvalidByte(p, data.Length,
+            out int utf16Adjust, out int scalarAdjust);
+
+        if (end == p + data.Length)
+        {
+            int utf16Length = data.Length + utf16Adjust;
+            int codePointCount = data.Length + scalarAdjust;
+        }
+    }
+}
+</code></pre>
+<h2 id="choosing-a-specific-kernel">Choosing a specific kernel</h2>
+<p><code>GetPointerToFirstInvalidByte</code> dispatches to the fastest kernel your CPU supports.
+You can also call a specific implementation directly — useful for testing or pinning behaviour:</p>
+<ul>
+<li><a class="xref" href="../api/SimdUnicode.UTF8.html"><code>GetPointerToFirstInvalidByteAvx512</code></a> — AMD Zen 4 / Intel Ice Lake and newer.</li>
+<li><a class="xref" href="../api/SimdUnicode.UTF8.html"><code>GetPointerToFirstInvalidByteAvx2</code></a> — current x64.</li>
+<li><a class="xref" href="../api/SimdUnicode.UTF8.html"><code>GetPointerToFirstInvalidByteSse</code></a> — older x64 (SSE4.2 / SSSE3).</li>
+<li><a class="xref" href="../api/SimdUnicode.UTF8.html"><code>GetPointerToFirstInvalidByteArm64</code></a> — ARM NEON (Apple Silicon, Graviton…).</li>
+<li><a class="xref" href="../api/SimdUnicode.UTF8.html"><code>GetPointerToFirstInvalidByteScalar</code></a> — portable fallback.</li>
+</ul>
+<h2 id="finding-the-first-non-ascii-byte">Finding the first non-ASCII byte</h2>
+<p>The <a class="xref" href="../api/SimdUnicode.Ascii.html"><code>Ascii</code></a> helper class offers fast ASCII scanning,
+including <code>GetIndexOfFirstNonAsciiByte</code> and architecture-specific variants.</p>
+<pre><code class="lang-csharp">using SimdUnicode;
+
+unsafe
+{
+    fixed (byte* p = data)
+    {
+        nuint idx = Ascii.GetIndexOfFirstNonAsciiByte(p, (nuint)data.Length);
+        bool allAscii = idx == (nuint)data.Length;
+    }
+}
+</code></pre>
+<p>Continue to <a href="how-it-works.html">How it works</a> or jump to the <a class="xref" href="../api/SimdUnicode.UTF8.html">API reference</a>.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/simdutf/SimdUnicode/blob/main/docs/articles/getting-started.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          SimdUnicode &copy; 2024-2026 &middot; Released under the Apache 2.0 License
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

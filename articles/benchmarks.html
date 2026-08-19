@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Benchmarks | SimdUnicode — fast UTF-8 validation for .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Benchmarks | SimdUnicode — fast UTF-8 validation for .NET ">
+      
+      
+      <link rel="icon" href="../logo.svg">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/simdutf/SimdUnicode/blob/main/docs/articles/benchmarks.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="SimdUnicode">
+            SimdUnicode
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="benchmarks">Benchmarks</h1>
+
+<p>All numbers are validation throughput in <strong>GB/s</strong> (higher is better) measured with
+<a href="https://benchmarkdotnet.org/">BenchmarkDotNet</a>. <code>Twitter.json</code> is a realistic, mostly-ASCII
+document; the <code>*-Lipsum</code> inputs are dense single-script text that stresses the multi-byte paths.</p>
+<p>To reproduce on your own machine:</p>
+<pre><code class="lang-bash">cd benchmark
+dotnet run -c Release
+# or a single input:
+dotnet run -c Release --filter &quot;*Twitter*&quot;
+</code></pre>
+<h2 id="x64--intel-xeon-gold-6548n-avx-512-net-10">x64 — Intel Xeon Gold 6548N (AVX-512, .NET 10)</h2>
+<p>Up to <strong>14× faster</strong> than the standard library on multibyte text; <strong>2.5×</strong> on realistic Twitter data.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">data set</th>
+<th style="text-align: center;">SimdUnicode AVX-512 (GB/s)</th>
+<th style="text-align: center;">.NET (GB/s)</th>
+<th style="text-align: center;">speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Twitter.json</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">2.5×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Arabic-Lipsum</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">3.3</td>
+<td style="text-align: center;">4.5×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Chinese-Lipsum</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">5.3</td>
+<td style="text-align: center;">2.8×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Emoji-Lipsum</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">1.1</td>
+<td style="text-align: center;">14×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hebrew-Lipsum</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">3.2</td>
+<td style="text-align: center;">4.5×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hindi-Lipsum</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">2.5</td>
+<td style="text-align: center;">5.8×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Japanese-Lipsum</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">3.2×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Korean-Lipsum</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">1.6</td>
+<td style="text-align: center;">9.1×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Latin-Lipsum</td>
+<td style="text-align: center;">72</td>
+<td style="text-align: center;">107</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Russian-Lipsum</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">3.3</td>
+<td style="text-align: center;">4.5×</td>
+</tr>
+</tbody>
+</table>
+<p>On pure ASCII (Latin-Lipsum), .NET 10's own UTF-8 scanner is faster.</p>
+<p>On x64 SimdUnicode ships four kernels — a scalar fallback for legacy systems, SSE4.2 for
+older CPUs, AVX2 for current x64, and AVX-512 for the most recent processors (AMD Zen 4 or
+better, Intel Ice Lake, etc.).</p>
+<h2 id="arm--apple-m2-neon">ARM — Apple M2 (NEON)</h2>
+<p>1.5×–4× faster than the standard library.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">data set</th>
+<th style="text-align: center;">SimdUnicode (GB/s)</th>
+<th style="text-align: center;">.NET (GB/s)</th>
+<th style="text-align: center;">speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Twitter.json</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">1.8×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Arabic-Lipsum</td>
+<td style="text-align: center;">7.4</td>
+<td style="text-align: center;">3.5</td>
+<td style="text-align: center;">2.1×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Chinese-Lipsum</td>
+<td style="text-align: center;">7.4</td>
+<td style="text-align: center;">4.8</td>
+<td style="text-align: center;">1.5×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Emoji-Lipsum</td>
+<td style="text-align: center;">7.4</td>
+<td style="text-align: center;">2.5</td>
+<td style="text-align: center;">3.0×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hebrew-Lipsum</td>
+<td style="text-align: center;">7.4</td>
+<td style="text-align: center;">3.5</td>
+<td style="text-align: center;">2.1×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hindi-Lipsum</td>
+<td style="text-align: center;">7.3</td>
+<td style="text-align: center;">3.0</td>
+<td style="text-align: center;">2.4×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Japanese-Lipsum</td>
+<td style="text-align: center;">7.3</td>
+<td style="text-align: center;">4.6</td>
+<td style="text-align: center;">1.6×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Korean-Lipsum</td>
+<td style="text-align: center;">7.4</td>
+<td style="text-align: center;">1.8</td>
+<td style="text-align: center;">4.1×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Latin-Lipsum</td>
+<td style="text-align: center;">87</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">2.3×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Russian-Lipsum</td>
+<td style="text-align: center;">7.4</td>
+<td style="text-align: center;">2.7</td>
+<td style="text-align: center;">2.7×</td>
+</tr>
+</tbody>
+</table>
+<h2 id="arm--aws-graviton-3-neoverse-v1">ARM — AWS Graviton 3 (Neoverse V1)</h2>
+<p>1.2× to over 5× faster than the standard library.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">data set</th>
+<th style="text-align: center;">SimdUnicode (GB/s)</th>
+<th style="text-align: center;">.NET (GB/s)</th>
+<th style="text-align: center;">speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Twitter.json</td>
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">1.7×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Arabic-Lipsum</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">2.7</td>
+<td style="text-align: center;">1.9×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Chinese-Lipsum</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">1.2×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Emoji-Lipsum</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">0.9</td>
+<td style="text-align: center;">5.8×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hebrew-Lipsum</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">2.7</td>
+<td style="text-align: center;">1.9×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hindi-Lipsum</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">2.4</td>
+<td style="text-align: center;">2.2×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Japanese-Lipsum</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">1.3×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Korean-Lipsum</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">1.5</td>
+<td style="text-align: center;">3.5×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Latin-Lipsum</td>
+<td style="text-align: center;">57</td>
+<td style="text-align: center;">26</td>
+<td style="text-align: center;">2.2×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Russian-Lipsum</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">2.8</td>
+<td style="text-align: center;">1.9×</td>
+</tr>
+</tbody>
+</table>
+<h2 id="arm--qualcomm-8cx-gen-3-windows-dev-kit-2023">ARM — Qualcomm 8cx Gen 3 (Windows Dev Kit 2023)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">data set</th>
+<th style="text-align: center;">SimdUnicode (GB/s)</th>
+<th style="text-align: center;">.NET (GB/s)</th>
+<th style="text-align: center;">speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Twitter.json</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">1.7×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Arabic-Lipsum</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">2.3</td>
+<td style="text-align: center;">2.2×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Chinese-Lipsum</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">2.9</td>
+<td style="text-align: center;">1.7×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Emoji-Lipsum</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">0.9</td>
+<td style="text-align: center;">5.5×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hebrew-Lipsum</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">2.3</td>
+<td style="text-align: center;">2.2×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hindi-Lipsum</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">1.9</td>
+<td style="text-align: center;">2.6×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Japanese-Lipsum</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">2.7</td>
+<td style="text-align: center;">1.9×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Korean-Lipsum</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">1.5</td>
+<td style="text-align: center;">3.3×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Latin-Lipsum</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">2.5×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Russian-Lipsum</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">1.2</td>
+<td style="text-align: center;">5.2×</td>
+</tr>
+</tbody>
+</table>
+<h2 id="arm--aws-graviton-2-neoverse-n1">ARM — AWS Graviton 2 (Neoverse N1)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">data set</th>
+<th style="text-align: center;">SimdUnicode (GB/s)</th>
+<th style="text-align: center;">.NET (GB/s)</th>
+<th style="text-align: center;">speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Twitter.json</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">8.7</td>
+<td style="text-align: center;">1.4×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Arabic-Lipsum</td>
+<td style="text-align: center;">3.4</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">1.7×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Chinese-Lipsum</td>
+<td style="text-align: center;">3.4</td>
+<td style="text-align: center;">2.6</td>
+<td style="text-align: center;">1.3×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Emoji-Lipsum</td>
+<td style="text-align: center;">3.4</td>
+<td style="text-align: center;">0.8</td>
+<td style="text-align: center;">4.3×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hebrew-Lipsum</td>
+<td style="text-align: center;">3.4</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">1.7×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hindi-Lipsum</td>
+<td style="text-align: center;">3.4</td>
+<td style="text-align: center;">1.6</td>
+<td style="text-align: center;">2.1×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Japanese-Lipsum</td>
+<td style="text-align: center;">3.4</td>
+<td style="text-align: center;">2.4</td>
+<td style="text-align: center;">1.4×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Korean-Lipsum</td>
+<td style="text-align: center;">3.4</td>
+<td style="text-align: center;">1.3</td>
+<td style="text-align: center;">2.6×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Latin-Lipsum</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">2.5×</td>
+</tr>
+<tr>
+<td style="text-align: left;">Russian-Lipsum</td>
+<td style="text-align: center;">3.3</td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">3.5×</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Hardware, compiler and input all affect these numbers. Treat the tables as representative,
+and measure on your own target hardware for decisions that matter.</p>
+</blockquote>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/simdutf/SimdUnicode/blob/main/docs/articles/benchmarks.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          SimdUnicode &copy; 2024-2026 &middot; Released under the Apache 2.0 License
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

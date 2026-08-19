@@ -1,0 +1,215 @@
+/* =========================================================================
+   SimdUnicode — custom DocFX (modern) theme
+   ========================================================================= */
+
+:root {
+  --su-purple: #8a5cf6;
+  --su-purple-2: #6d28d9;
+  --su-cyan: #22d3ee;
+  --su-ink: #0f1020;
+  --su-grey: #9aa0b4;
+
+  /* Width of the centered reading column on the landing page. */
+  --su-page: 1080px;
+}
+
+/* Brand accent on the modern template */
+:root,
+[data-bs-theme="light"] {
+  --bs-link-color: var(--su-purple-2);
+  --bs-link-color-rgb: 109, 40, 217;
+  --bs-link-hover-color: var(--su-purple);
+}
+[data-bs-theme="dark"] {
+  --bs-link-color: #b794ff;
+  --bs-link-color-rgb: 183, 148, 255;
+  --bs-link-hover-color: #d4bcff;
+}
+
+body { font-feature-settings: "ss01", "cv01"; }
+
+/* Constrain the (large) simdutf logo in the navbar */
+#logo { height: 2.3rem; width: auto; }
+[data-bs-theme="dark"] #logo { filter: invert(1) hue-rotate(180deg) brightness(1.1); }
+
+/* ------------------------------------------------------- Landing layout */
+/* The modern template lets the landing article fill the whole 1320px
+   container, which looks stretched on wide monitors. Center it in a
+   comfortable reading column instead, and let the hero bleed to that
+   column's edges. */
+[data-layout="landing"] main.container-xxl { max-width: 100%; }
+[data-layout="landing"] article[data-uid=""] {
+  max-width: var(--su-page);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+/* ----------------------------------------------------------------- Hero */
+.hero {
+  /* Pull out to the padding edges of the centered column for a full-bleed feel. */
+  margin: -1.5rem clamp(-2rem, -4vw, -1rem) 3rem;
+  padding: clamp(3rem, 8vw, 5.5rem) 1.5rem;
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(900px 420px at 78% -10%, rgba(34, 211, 238, 0.35), transparent 60%),
+    radial-gradient(1100px 520px at 12% 110%, rgba(138, 92, 246, 0.55), transparent 55%),
+    linear-gradient(135deg, #1b1140 0%, #2a1b63 45%, #120d2e 100%);
+  border-radius: 0 0 28px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: radial-gradient(70% 70% at 50% 30%, #000 30%, transparent 75%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
+.hero-title {
+  font-size: clamp(2.6rem, 9vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  margin: 0;
+  line-height: 1;
+  background: linear-gradient(90deg, #fff 0%, #d6c7ff 50%, #8be9ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-tagline {
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  color: #cdd0e6;
+  max-width: 660px;
+  margin: 1.4rem auto 2.2rem;
+  line-height: 1.5;
+}
+.hero-tagline strong { color: #fff; }
+.hero-cta { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+  display: inline-block;
+  padding: .7rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--su-purple) 0%, var(--su-purple-2) 100%);
+  box-shadow: 0 10px 30px -8px rgba(138, 92, 246, .7);
+}
+.btn-primary:hover { color: #fff; box-shadow: 0 14px 36px -8px rgba(138, 92, 246, .9); }
+.btn-ghost {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .35);
+  background: rgba(255, 255, 255, .06);
+}
+.btn-ghost:hover { color: #fff; background: rgba(255, 255, 255, .14); }
+
+/* ---------------------------------------------------------------- Stats */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 0 0 3rem;
+}
+.stat-card {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-tertiary-bg);
+}
+.stat-num {
+  font-size: clamp(1.9rem, 6vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  background: linear-gradient(135deg, var(--su-purple) 0%, var(--su-cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-label { color: var(--bs-secondary-color); font-size: .9rem; margin-top: .35rem; }
+
+/* ------------------------------------------------------------- Features */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.1rem;
+  margin: 1.5rem 0 1rem;
+}
+.feature {
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+  transition: border-color .15s ease, transform .15s ease;
+}
+.feature:hover { transform: translateY(-3px); border-color: var(--su-purple); }
+.feature-icon { font-size: 1.8rem; }
+.feature h3 { font-size: 1.1rem; margin: .6rem 0 .4rem; }
+.feature p { color: var(--bs-secondary-color); margin: 0; font-size: .95rem; }
+
+/* ----------------------------------------------------------- Benchmarks */
+.bench { margin: 1.5rem 0; display: flex; flex-direction: column; gap: .6rem; }
+.bench-row { display: grid; grid-template-columns: 130px 1fr 52px; align-items: center; gap: .8rem; }
+.bench-name { font-size: .85rem; color: var(--bs-secondary-color); text-align: right; }
+.bench-bars { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.bar {
+  height: 18px;
+  border-radius: 5px;
+  width: var(--v);
+  min-width: 2.4rem;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 .45rem;
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  animation: bargrow .9s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes bargrow { from { width: 0; } to { width: var(--v); } }
+.bar-simd { background: linear-gradient(90deg, var(--su-purple-2), var(--su-purple)); }
+.bar-net  { background: linear-gradient(90deg, #4b5169, #6b7290); }
+.bench-x { font-weight: 700; color: var(--su-purple); text-align: left; }
+.bench-note { color: var(--bs-secondary-color); font-size: .92rem; margin-top: .4rem; }
+
+/* ----------------------------------------------------- Misc polish */
+[data-layout="landing"] h2 { margin-top: 2.6rem; scroll-margin-top: 5rem; }
+/* Keep long-form prose on the landing page comfortable to read. */
+[data-layout="landing"] article > p,
+[data-layout="landing"] article > ul,
+[data-layout="landing"] article > ol,
+[data-layout="landing"] article > blockquote { max-width: 70ch; }
+
+/* ------------------------------------------------------------- Responsive */
+@media (max-width: 760px) {
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .feature-grid { grid-template-columns: 1fr; }
+  .hero-cta .btn { width: 100%; max-width: 320px; }
+}
+@media (max-width: 520px) {
+  .stat-row { grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .stat-card { padding: 1.1rem .75rem; }
+  /* Stack each benchmark's label above its bars so nothing is cramped. */
+  .bench-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "name x"
+      "bars bars";
+    row-gap: .25rem;
+  }
+  .bench-name { grid-area: name; text-align: left; }
+  .bench-x { grid-area: x; text-align: right; }
+  .bench-bars { grid-area: bars; }
+}

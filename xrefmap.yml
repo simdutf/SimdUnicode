@@ -1,0 +1,249 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: SimdUnicode
+  name: SimdUnicode
+  href: api/SimdUnicode.html
+  commentId: N:SimdUnicode
+  fullName: SimdUnicode
+  nameWithType: SimdUnicode
+- uid: SimdUnicode.Ascii
+  name: Ascii
+  href: api/SimdUnicode.Ascii.html
+  commentId: T:SimdUnicode.Ascii
+  fullName: SimdUnicode.Ascii
+  nameWithType: Ascii
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(System.Byte*,System.UIntPtr)
+  name: GetIndexOfFirstNonAsciiByte(byte*, nuint)
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte.html#SimdUnicode_Ascii_GetIndexOfFirstNonAsciiByte_System_Byte__System_UIntPtr_
+  commentId: M:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(System.Byte*,System.UIntPtr)
+  name.vb: GetIndexOfFirstNonAsciiByte(Byte*, UIntPtr)
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(byte*, nuint)
+  fullName.vb: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte(Byte*, System.UIntPtr)
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByte(byte*, nuint)
+  nameWithType.vb: Ascii.GetIndexOfFirstNonAsciiByte(Byte*, UIntPtr)
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte*
+  name: GetIndexOfFirstNonAsciiByte
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte.html
+  commentId: Overload:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByte
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64(System.Byte*,System.UIntPtr)
+  name: GetIndexOfFirstNonAsciiByteArm64(byte*, nuint)
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64.html#SimdUnicode_Ascii_GetIndexOfFirstNonAsciiByteArm64_System_Byte__System_UIntPtr_
+  commentId: M:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64(System.Byte*,System.UIntPtr)
+  name.vb: GetIndexOfFirstNonAsciiByteArm64(Byte*, UIntPtr)
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64(byte*, nuint)
+  fullName.vb: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64(Byte*, System.UIntPtr)
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteArm64(byte*, nuint)
+  nameWithType.vb: Ascii.GetIndexOfFirstNonAsciiByteArm64(Byte*, UIntPtr)
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64*
+  name: GetIndexOfFirstNonAsciiByteArm64
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64.html
+  commentId: Overload:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteArm64
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2(System.Byte*,System.UIntPtr)
+  name: GetIndexOfFirstNonAsciiByteAvx2(byte*, nuint)
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2.html#SimdUnicode_Ascii_GetIndexOfFirstNonAsciiByteAvx2_System_Byte__System_UIntPtr_
+  commentId: M:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2(System.Byte*,System.UIntPtr)
+  name.vb: GetIndexOfFirstNonAsciiByteAvx2(Byte*, UIntPtr)
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2(byte*, nuint)
+  fullName.vb: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2(Byte*, System.UIntPtr)
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteAvx2(byte*, nuint)
+  nameWithType.vb: Ascii.GetIndexOfFirstNonAsciiByteAvx2(Byte*, UIntPtr)
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2*
+  name: GetIndexOfFirstNonAsciiByteAvx2
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2.html
+  commentId: Overload:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteAvx2
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512(System.Byte*,System.UIntPtr)
+  name: GetIndexOfFirstNonAsciiByteAvx512(byte*, nuint)
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512.html#SimdUnicode_Ascii_GetIndexOfFirstNonAsciiByteAvx512_System_Byte__System_UIntPtr_
+  commentId: M:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512(System.Byte*,System.UIntPtr)
+  name.vb: GetIndexOfFirstNonAsciiByteAvx512(Byte*, UIntPtr)
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512(byte*, nuint)
+  fullName.vb: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512(Byte*, System.UIntPtr)
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteAvx512(byte*, nuint)
+  nameWithType.vb: Ascii.GetIndexOfFirstNonAsciiByteAvx512(Byte*, UIntPtr)
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512*
+  name: GetIndexOfFirstNonAsciiByteAvx512
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512.html
+  commentId: Overload:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteAvx512
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar(System.Byte*,System.UIntPtr)
+  name: GetIndexOfFirstNonAsciiByteScalar(byte*, nuint)
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar.html#SimdUnicode_Ascii_GetIndexOfFirstNonAsciiByteScalar_System_Byte__System_UIntPtr_
+  commentId: M:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar(System.Byte*,System.UIntPtr)
+  name.vb: GetIndexOfFirstNonAsciiByteScalar(Byte*, UIntPtr)
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar(byte*, nuint)
+  fullName.vb: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar(Byte*, System.UIntPtr)
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteScalar(byte*, nuint)
+  nameWithType.vb: Ascii.GetIndexOfFirstNonAsciiByteScalar(Byte*, UIntPtr)
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar*
+  name: GetIndexOfFirstNonAsciiByteScalar
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar.html
+  commentId: Overload:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteScalar
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2(System.Byte*,System.UIntPtr)
+  name: GetIndexOfFirstNonAsciiByteSse2(byte*, nuint)
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2.html#SimdUnicode_Ascii_GetIndexOfFirstNonAsciiByteSse2_System_Byte__System_UIntPtr_
+  commentId: M:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2(System.Byte*,System.UIntPtr)
+  name.vb: GetIndexOfFirstNonAsciiByteSse2(Byte*, UIntPtr)
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2(byte*, nuint)
+  fullName.vb: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2(Byte*, System.UIntPtr)
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteSse2(byte*, nuint)
+  nameWithType.vb: Ascii.GetIndexOfFirstNonAsciiByteSse2(Byte*, UIntPtr)
+- uid: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2*
+  name: GetIndexOfFirstNonAsciiByteSse2
+  href: api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2.html
+  commentId: Overload:SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2
+  fullName: SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2
+  nameWithType: Ascii.GetIndexOfFirstNonAsciiByteSse2
+- uid: SimdUnicode.Ascii.IsAscii(System.Char)
+  name: IsAscii(char)
+  href: api/SimdUnicode.Ascii.IsAscii.html#SimdUnicode_Ascii_IsAscii_System_Char_
+  commentId: M:SimdUnicode.Ascii.IsAscii(System.Char)
+  name.vb: IsAscii(Char)
+  fullName: SimdUnicode.Ascii.IsAscii(char)
+  fullName.vb: SimdUnicode.Ascii.IsAscii(Char)
+  nameWithType: Ascii.IsAscii(char)
+  nameWithType.vb: Ascii.IsAscii(Char)
+- uid: SimdUnicode.Ascii.IsAscii(System.ReadOnlySpan{System.Char})
+  name: IsAscii(ReadOnlySpan<char>)
+  href: api/SimdUnicode.Ascii.IsAscii.html#SimdUnicode_Ascii_IsAscii_System_ReadOnlySpan_System_Char__
+  commentId: M:SimdUnicode.Ascii.IsAscii(System.ReadOnlySpan{System.Char})
+  name.vb: IsAscii(ReadOnlySpan(Of Char))
+  fullName: SimdUnicode.Ascii.IsAscii(System.ReadOnlySpan<char>)
+  fullName.vb: SimdUnicode.Ascii.IsAscii(System.ReadOnlySpan(Of Char))
+  nameWithType: Ascii.IsAscii(ReadOnlySpan<char>)
+  nameWithType.vb: Ascii.IsAscii(ReadOnlySpan(Of Char))
+- uid: SimdUnicode.Ascii.IsAscii(System.String)
+  name: IsAscii(string)
+  href: api/SimdUnicode.Ascii.IsAscii.html#SimdUnicode_Ascii_IsAscii_System_String_
+  commentId: M:SimdUnicode.Ascii.IsAscii(System.String)
+  name.vb: IsAscii(String)
+  fullName: SimdUnicode.Ascii.IsAscii(string)
+  fullName.vb: SimdUnicode.Ascii.IsAscii(String)
+  nameWithType: Ascii.IsAscii(string)
+  nameWithType.vb: Ascii.IsAscii(String)
+- uid: SimdUnicode.Ascii.IsAscii*
+  name: IsAscii
+  href: api/SimdUnicode.Ascii.IsAscii.html
+  commentId: Overload:SimdUnicode.Ascii.IsAscii
+  fullName: SimdUnicode.Ascii.IsAscii
+  nameWithType: Ascii.IsAscii
+- uid: SimdUnicode.Ascii.SIMDIsAscii(System.ReadOnlySpan{System.Char})
+  name: SIMDIsAscii(ReadOnlySpan<char>)
+  href: api/SimdUnicode.Ascii.SIMDIsAscii.html#SimdUnicode_Ascii_SIMDIsAscii_System_ReadOnlySpan_System_Char__
+  commentId: M:SimdUnicode.Ascii.SIMDIsAscii(System.ReadOnlySpan{System.Char})
+  name.vb: SIMDIsAscii(ReadOnlySpan(Of Char))
+  fullName: SimdUnicode.Ascii.SIMDIsAscii(System.ReadOnlySpan<char>)
+  fullName.vb: SimdUnicode.Ascii.SIMDIsAscii(System.ReadOnlySpan(Of Char))
+  nameWithType: Ascii.SIMDIsAscii(ReadOnlySpan<char>)
+  nameWithType.vb: Ascii.SIMDIsAscii(ReadOnlySpan(Of Char))
+- uid: SimdUnicode.Ascii.SIMDIsAscii*
+  name: SIMDIsAscii
+  href: api/SimdUnicode.Ascii.SIMDIsAscii.html
+  commentId: Overload:SimdUnicode.Ascii.SIMDIsAscii
+  fullName: SimdUnicode.Ascii.SIMDIsAscii
+  nameWithType: Ascii.SIMDIsAscii
+- uid: SimdUnicode.UTF8
+  name: UTF8
+  href: api/SimdUnicode.UTF8.html
+  commentId: T:SimdUnicode.UTF8
+  fullName: SimdUnicode.UTF8
+  nameWithType: UTF8
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByte(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name: GetPointerToFirstInvalidByte(byte*, int, out int, out int)
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByte.html#SimdUnicode_UTF8_GetPointerToFirstInvalidByte_System_Byte__System_Int32_System_Int32__System_Int32__
+  commentId: M:SimdUnicode.UTF8.GetPointerToFirstInvalidByte(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name.vb: GetPointerToFirstInvalidByte(Byte*, Integer, Integer, Integer)
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByte(byte*, int, out int, out int)
+  fullName.vb: SimdUnicode.UTF8.GetPointerToFirstInvalidByte(Byte*, Integer, Integer, Integer)
+  nameWithType: UTF8.GetPointerToFirstInvalidByte(byte*, int, out int, out int)
+  nameWithType.vb: UTF8.GetPointerToFirstInvalidByte(Byte*, Integer, Integer, Integer)
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByte*
+  name: GetPointerToFirstInvalidByte
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByte.html
+  commentId: Overload:SimdUnicode.UTF8.GetPointerToFirstInvalidByte
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByte
+  nameWithType: UTF8.GetPointerToFirstInvalidByte
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name: GetPointerToFirstInvalidByteArm64(byte*, int, out int, out int)
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64.html#SimdUnicode_UTF8_GetPointerToFirstInvalidByteArm64_System_Byte__System_Int32_System_Int32__System_Int32__
+  commentId: M:SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name.vb: GetPointerToFirstInvalidByteArm64(Byte*, Integer, Integer, Integer)
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64(byte*, int, out int, out int)
+  fullName.vb: SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64(Byte*, Integer, Integer, Integer)
+  nameWithType: UTF8.GetPointerToFirstInvalidByteArm64(byte*, int, out int, out int)
+  nameWithType.vb: UTF8.GetPointerToFirstInvalidByteArm64(Byte*, Integer, Integer, Integer)
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64*
+  name: GetPointerToFirstInvalidByteArm64
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64.html
+  commentId: Overload:SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64
+  nameWithType: UTF8.GetPointerToFirstInvalidByteArm64
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name: GetPointerToFirstInvalidByteAvx2(byte*, int, out int, out int)
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2.html#SimdUnicode_UTF8_GetPointerToFirstInvalidByteAvx2_System_Byte__System_Int32_System_Int32__System_Int32__
+  commentId: M:SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name.vb: GetPointerToFirstInvalidByteAvx2(Byte*, Integer, Integer, Integer)
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2(byte*, int, out int, out int)
+  fullName.vb: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2(Byte*, Integer, Integer, Integer)
+  nameWithType: UTF8.GetPointerToFirstInvalidByteAvx2(byte*, int, out int, out int)
+  nameWithType.vb: UTF8.GetPointerToFirstInvalidByteAvx2(Byte*, Integer, Integer, Integer)
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2*
+  name: GetPointerToFirstInvalidByteAvx2
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2.html
+  commentId: Overload:SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2
+  nameWithType: UTF8.GetPointerToFirstInvalidByteAvx2
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name: GetPointerToFirstInvalidByteAvx512(byte*, int, out int, out int)
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512.html#SimdUnicode_UTF8_GetPointerToFirstInvalidByteAvx512_System_Byte__System_Int32_System_Int32__System_Int32__
+  commentId: M:SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name.vb: GetPointerToFirstInvalidByteAvx512(Byte*, Integer, Integer, Integer)
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512(byte*, int, out int, out int)
+  fullName.vb: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512(Byte*, Integer, Integer, Integer)
+  nameWithType: UTF8.GetPointerToFirstInvalidByteAvx512(byte*, int, out int, out int)
+  nameWithType.vb: UTF8.GetPointerToFirstInvalidByteAvx512(Byte*, Integer, Integer, Integer)
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512*
+  name: GetPointerToFirstInvalidByteAvx512
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512.html
+  commentId: Overload:SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512
+  nameWithType: UTF8.GetPointerToFirstInvalidByteAvx512
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name: GetPointerToFirstInvalidByteScalar(byte*, int, out int, out int)
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar.html#SimdUnicode_UTF8_GetPointerToFirstInvalidByteScalar_System_Byte__System_Int32_System_Int32__System_Int32__
+  commentId: M:SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name.vb: GetPointerToFirstInvalidByteScalar(Byte*, Integer, Integer, Integer)
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(byte*, int, out int, out int)
+  fullName.vb: SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar(Byte*, Integer, Integer, Integer)
+  nameWithType: UTF8.GetPointerToFirstInvalidByteScalar(byte*, int, out int, out int)
+  nameWithType.vb: UTF8.GetPointerToFirstInvalidByteScalar(Byte*, Integer, Integer, Integer)
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar*
+  name: GetPointerToFirstInvalidByteScalar
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar.html
+  commentId: Overload:SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar
+  nameWithType: UTF8.GetPointerToFirstInvalidByteScalar
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name: GetPointerToFirstInvalidByteSse(byte*, int, out int, out int)
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse.html#SimdUnicode_UTF8_GetPointerToFirstInvalidByteSse_System_Byte__System_Int32_System_Int32__System_Int32__
+  commentId: M:SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse(System.Byte*,System.Int32,System.Int32@,System.Int32@)
+  name.vb: GetPointerToFirstInvalidByteSse(Byte*, Integer, Integer, Integer)
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse(byte*, int, out int, out int)
+  fullName.vb: SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse(Byte*, Integer, Integer, Integer)
+  nameWithType: UTF8.GetPointerToFirstInvalidByteSse(byte*, int, out int, out int)
+  nameWithType.vb: UTF8.GetPointerToFirstInvalidByteSse(Byte*, Integer, Integer, Integer)
+- uid: SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse*
+  name: GetPointerToFirstInvalidByteSse
+  href: api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse.html
+  commentId: Overload:SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse
+  fullName: SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse
+  nameWithType: UTF8.GetPointerToFirstInvalidByteSse
