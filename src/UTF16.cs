@@ -215,9 +215,11 @@ namespace SimdUnicode
             return pInputBuffer + inputLength;
         }
 
-        // Without AVX-512, we rely on the runtime's vectorized IndexOfAnyInRange to skip
-        // everything that is not a surrogate.
-        private unsafe static char* GetPointerToFirstInvalidCharFallback(char* pInputBuffer, int inputLength)
+        /// <summary>
+        /// Portable version used when no SIMD kernel applies (no ARM64 NEON, AVX-512, AVX2 or SSE4.1):
+        /// we rely on the runtime's vectorized IndexOfAnyInRange to skip everything that is not a surrogate.
+        /// </summary>
+        public unsafe static char* GetPointerToFirstInvalidCharFallback(char* pInputBuffer, int inputLength)
         {
             ReadOnlySpan<char> s = new ReadOnlySpan<char>(pInputBuffer, inputLength);
             int i = 0;
@@ -240,7 +242,10 @@ namespace SimdUnicode
             }
         }
 
-        private unsafe static void ToWellFormedFallback(char* pInputBuffer, int inputLength, char* pOutputBuffer)
+        /// <summary>
+        /// Portable version used when no SIMD kernel applies (see <see cref="GetPointerToFirstInvalidCharFallback"/>).
+        /// </summary>
+        public unsafe static void ToWellFormedFallback(char* pInputBuffer, int inputLength, char* pOutputBuffer)
         {
             if (pInputBuffer != pOutputBuffer)
             {

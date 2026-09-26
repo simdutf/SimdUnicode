@@ -348,6 +348,24 @@ public unsafe class UTF16WellFormedTests
     [Trait("Category", "arm64")]
     public void SparseArm64() => SparseTest(UTF16.ToWellFormedArm64, UTF16.GetPointerToFirstInvalidCharArm64);
 
+    // The IndexOfAnyInRange fallback, used only when no SIMD kernel applies: we call it
+    // directly so that it is tested on every system.
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void HardCodedFallback() => HardCodedTest(UTF16.ToWellFormedFallback, UTF16.GetPointerToFirstInvalidCharFallback);
+
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void RandomFallback() => RandomTest(UTF16.ToWellFormedFallback, UTF16.GetPointerToFirstInvalidCharFallback);
+
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void SingleErrorFallback() => SingleErrorTest(UTF16.ToWellFormedFallback, UTF16.GetPointerToFirstInvalidCharFallback);
+
+    [Fact]
+    [Trait("Category", "scalar")]
+    public void SparseFallback() => SparseTest(UTF16.ToWellFormedFallback, UTF16.GetPointerToFirstInvalidCharFallback);
+
     // The dispatching entry points (AVX-512 or the IndexOfAnyInRange fallback).
     [Fact]
     public void HardCodedDefault() => HardCodedTest(UTF16.ToWellFormed, UTF16.GetPointerToFirstInvalidChar);

@@ -234,8 +234,8 @@ faster than the standard library.
 
 .NET strings may contain lone surrogates. `SimdUnicode.UTF16.ToWellFormed` replaces each
 lone surrogate by the replacement character U+FFFD, like JavaScript's
-`String.prototype.toWellFormed()`, and `SimdUnicode.UTF16.IsWellFormed` checks whether
-there is any (like `isWellFormed()`).
+`String.prototype.toWellFormed()`, and `SimdUnicode.UTF16.IsWellFormed` returns true when
+there is no lone surrogate (like `isWellFormed()`).
 
 ```cs
 string s = UTF16.ToWellFormed("ab\uD800cd"); // "ab\uFFFDcd"
