@@ -1,7 +1,7 @@
 # SimdUnicode
 [![.NET](https://github.com/simdutf/SimdUnicode/actions/workflows/dotnet.yml/badge.svg)](https://github.com/simdutf/SimdUnicode/actions/workflows/dotnet.yml)
 
-This is a fast C# library to validate UTF-8 strings.
+This is a fast C# library to validate UTF-8 strings and to make UTF-16 strings well formed.
 
 
 ## Motivation
@@ -229,6 +229,108 @@ faster than the standard library.
 | Latin-Lipsum    |  23        | 13                        | 1.8 x           |
 | Russian-Lipsum  |  2.3      | 0.7                       | 3.3 x           |
 
+
+## Well-formed UTF-16 strings
+
+.NET strings may contain lone surrogates. `SimdUnicode.UTF16.ToWellFormed` replaces each
+lone surrogate by the replacement character U+FFFD, like JavaScript's
+`String.prototype.toWellFormed()`, and `SimdUnicode.UTF16.IsWellFormed` checks whether
+there is any (like `isWellFormed()`).
+
+```cs
+string s = UTF16.ToWellFormed("ab\uD800cd"); // "ab\uFFFDcd"
+// Well-formed strings are returned as is, without allocation.
+bool ok = UTF16.IsWellFormed(span);
+// Buffer to buffer, or in place (same pointer for input and output).
+UTF16.ToWellFormed(char* input, int length, char* output);
+// Returns a pointer to the first lone surrogate, or input + length.
+char* p = UTF16.GetPointerToFirstInvalidChar(char* input, int length);
+```
+
+We provide AVX-512, AVX2, SSE (SSE4.1) and ARM64 (NEON) kernels, selected at runtime, based on simdutf's
+algorithms described in the following article:
+
+- Robert Clausecker, Daniel Lemire, Fixing ill-formed UTF-16 strings with SIMD instructions, Software: Practice and Experience, 2026
+
+Other systems fall back on the runtime's vectorized `IndexOfAnyInRange`.
+
+We compare against the best approach we know that uses only public .NET APIs: return the input
+when it is well formed, otherwise copy it and fix the errors found with the vectorized
+`IndexOfAnyInRange('\uD800', '\uDFFF')`. It is fast on text without surrogates,
+but it stops at every surrogate pair, so it is slow on text such as emojis. The idiomatic
+`string.Concat(s.EnumerateRunes())` runs at 0.2 GB/s to 0.4 GB/s, and a round trip through
+`Encoding.Unicode` at 1.3 GB/s to 7 GB/s.
+
+To reproduce: `dotnet run -c Release --filter "*UTF16WellFormed*"` in the `benchmark` directory.
+All results are in GB/s of UTF-16 input, for well-formed inputs. "validate" is `IsWellFormed`
+(and `ToWellFormed(string)`, which returns well-formed strings as is); "buffer" writes the
+output to a separate buffer; "short strings" cuts the input into strings of 1 to 64 code units
+and calls `ToWellFormed(string)` on each.
+
+Intel Xeon Gold 6548N (.NET 10), AVX-512:
+
+| data set | validate: SimdUnicode | validate: IndexOfAnyInRange | buffer: SimdUnicode | buffer: copy + IndexOfAnyInRange | plain copy | short strings: SimdUnicode | short strings: IndexOfAnyInRange |
+|:--|--:|--:|--:|--:|--:|--:|--:|
+| Twitter.json | 69 | 31 | 26 | 15 | 28 | 9.2 | 7.1 |
+| Arabic-Lipsum | 68 | 33 | 43 | 20 | 46 | 17 | 17 |
+| Chinese-Lipsum | 115 | 39 | 43 | 20 | 46 | 17 | 16 |
+| Emoji-Lipsum | 53 | 0.39 | 40 | 0.39 | 44 | 3.1 | 0.43 |
+| Hindi-Lipsum | 68 | 33 | 43 | 21 | 45 | 17 | 17 |
+| Japanese-Lipsum | 115 | 39 | 43 | 20 | 46 | 17 | 16 |
+| Korean-Lipsum | 68 | 33 | 42 | 20 | 46 | 17 | 17 |
+| Latin-Lipsum | 69 | 33 | 43 | 20 | 46 | 17 | 17 |
+| Russian-Lipsum | 69 | 33 | 43 | 19 | 46 | 17 | 17 |
+
+Same machine with AVX-512 disabled (`DOTNET_EnableAVX512=0`), AVX2 kernel (Haswell level):
+
+| data set | validate: SimdUnicode | validate: IndexOfAnyInRange | buffer: SimdUnicode | buffer: copy + IndexOfAnyInRange | plain copy | short strings: SimdUnicode | short strings: IndexOfAnyInRange |
+|:--|--:|--:|--:|--:|--:|--:|--:|
+| Twitter.json | 58 | 41 | 27 | 17 | 28 | 6.5 | 6.4 |
+| Arabic-Lipsum | 58 | 42 | 43 | 23 | 47 | 17 | 17 |
+| Chinese-Lipsum | 80 | 50 | 43 | 23 | 46 | 17 | 17 |
+| Emoji-Lipsum | 35 | 0.50 | 28 | 0.49 | 45 | 3.4 | 0.53 |
+| Hindi-Lipsum | 58 | 42 | 43 | 24 | 45 | 17 | 17 |
+| Japanese-Lipsum | 77 | 50 | 43 | 24 | 46 | 17 | 17 |
+| Korean-Lipsum | 58 | 42 | 43 | 23 | 46 | 17 | 17 |
+| Latin-Lipsum | 58 | 42 | 43 | 24 | 46 | 17 | 17 |
+| Russian-Lipsum | 58 | 42 | 43 | 22 | 47 | 17 | 17 |
+
+Same machine with AVX disabled (`DOTNET_EnableAVX=0`), SSE kernel (Westmere level):
+
+| data set | validate: SimdUnicode | validate: IndexOfAnyInRange | buffer: SimdUnicode | buffer: copy + IndexOfAnyInRange | plain copy | short strings: SimdUnicode | short strings: IndexOfAnyInRange |
+|:--|--:|--:|--:|--:|--:|--:|--:|
+| Twitter.json | 50 | 28 | 26 | 15 | 26 | 6.1 | 6.1 |
+| Arabic-Lipsum | 51 | 28 | 45 | 18 | 46 | 15 | 13 |
+| Chinese-Lipsum | 63 | 28 | 43 | 18 | 46 | 15 | 13 |
+| Emoji-Lipsum | 26 | 0.56 | 22 | 0.56 | 45 | 3.3 | 0.55 |
+| Hindi-Lipsum | 50 | 28 | 43 | 17 | 45 | 15 | 13 |
+| Japanese-Lipsum | 64 | 28 | 44 | 18 | 46 | 15 | 13 |
+| Korean-Lipsum | 50 | 28 | 43 | 18 | 46 | 16 | 14 |
+| Latin-Lipsum | 51 | 28 | 45 | 18 | 47 | 15 | 13 |
+| Russian-Lipsum | 51 | 28 | 45 | 18 | 47 | 15 | 13 |
+
+Apple M4 Max (.NET 10), NEON:
+
+| data set | validate: SimdUnicode | validate: IndexOfAnyInRange | buffer: SimdUnicode | buffer: copy + IndexOfAnyInRange | plain copy | short strings: SimdUnicode | short strings: IndexOfAnyInRange |
+|:--|--:|--:|--:|--:|--:|--:|--:|
+| Twitter.json | 106 | 62 | 71 | 35 | 84 | 23 | 21 |
+| Arabic-Lipsum | 135 | 64 | 64 | 31 | 109 | 22 | 22 |
+| Chinese-Lipsum | 134 | 64 | 66 | 40 | 75 | 22 | 22 |
+| Emoji-Lipsum | 52 | 2.0 | 52 | 1.6 | 63 | 5.0 | 0.80 |
+| Hindi-Lipsum | 135 | 64 | 73 | 38 | 85 | 23 | 23 |
+| Japanese-Lipsum | 135 | 64 | 68 | 40 | 82 | 23 | 23 |
+| Korean-Lipsum | 135 | 65 | 52 | 40 | 76 | 22 | 23 |
+| Latin-Lipsum | 102 | 63 | 80 | 32 | 82 | 23 | 23 |
+| Russian-Lipsum | 135 | 65 | 68 | 27 | 106 | 22 | 23 |
+
+- Validation is 1.4 to 3 times faster than `IndexOfAnyInRange`, and 25 to 140 times faster
+  on emoji-heavy text.
+- Buffer to buffer, on x64 we are within 10% of the speed of a plain copy (except on emojis),
+  and 1.3 to 2.5 times faster than copying and then scanning with `IndexOfAnyInRange` on all systems
+  (30 to 110 times faster on emojis). On the M4 Max, we do not reach the speed of a plain copy.
+- On short strings, we are on par (within 5%) or faster, and 6 to 8 times faster on emojis.
+- When the string must be fixed (100 lone surrogates per million code units), both approaches
+  are dominated by the allocation of the new string, except on emojis.
 
 ## Building the library
 

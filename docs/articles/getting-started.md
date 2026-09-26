@@ -104,3 +104,36 @@ unsafe
 ```
 
 Continue to [How it works](how-it-works.md) or jump to the [API reference](xref:SimdUnicode.UTF8).
+
+## Making UTF-16 strings well formed
+
+.NET strings are sequences of UTF-16 code units and may contain *lone surrogates*
+(a high surrogate not followed by a low surrogate, or a low surrogate not preceded by a
+high surrogate). [`UTF16.ToWellFormed`](xref:SimdUnicode.UTF16) replaces each lone surrogate
+by the replacement character U+FFFD, like JavaScript's `String.prototype.toWellFormed()`.
+
+```csharp
+using SimdUnicode;
+
+string fixedString = UTF16.ToWellFormed("ab\uD800cd"); // "ab\uFFFDcd"
+
+// Already well-formed strings are returned as is, without allocation.
+string s = "héllo 😀";
+bool same = ReferenceEquals(UTF16.ToWellFormed(s), s); // true
+
+// Validation only (like JavaScript's isWellFormed()).
+bool ok = UTF16.IsWellFormed(s.AsSpan());
+
+// Buffer to buffer, or in place when source and destination are the same.
+char[] buffer = "x\uDC00y".ToCharArray();
+UTF16.ToWellFormed(buffer, buffer);
+```
+
+There is also a pointer API: `UTF16.ToWellFormed(char* input, int length, char* output)` and
+`UTF16.GetPointerToFirstInvalidChar(char* input, int length)`, which returns a pointer to the
+first lone surrogate, or to the end of the buffer when the input is well formed.
+
+On AVX-512, AVX2, SSE4.1 and ARM64 (NEON) hardware, we use algorithms based on simdutf's, described in
+Robert Clausecker, Daniel Lemire, *Fixing ill-formed UTF-16 strings with SIMD instructions*,
+Software: Practice and Experience, 2026. Other systems fall back on the runtime's
+vectorized `IndexOfAnyInRange`.
