@@ -1,0 +1,605 @@
+{
+  "docfx_version": "2.81.0+ba844df625370a6bd7c1ecab0d0ec4d1d9128ac4",
+  "source_base_path": "/home/runner/work/SimdUnicode/SimdUnicode/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.IsAscii.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii.IsAscii",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.SIMDIsAscii.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii.SIMDIsAscii",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByte",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteArm64",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteScalar",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteAvx512",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.Ascii.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.Ascii.GetIndexOfFirstNonAsciiByteSse2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.ToWellFormedFallback.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.ToWellFormedFallback",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.ToWellFormedArm64.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.ToWellFormedArm64",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.GetPointerToFirstInvalidCharArm64.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.GetPointerToFirstInvalidCharArm64",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.GetPointerToFirstInvalidChar.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.GetPointerToFirstInvalidChar",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.ReplacementCharacter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.ReplacementCharacter",
+      "Summary": "<p sourcefile=\"api/SimdUnicode.UTF16.yml\" sourcestartlinenumber=\"1\">The replacement character U+FFFD.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.ToWellFormedScalar.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.ToWellFormedScalar",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.GetPointerToFirstInvalidCharFallback.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.GetPointerToFirstInvalidCharFallback",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.ToWellFormed.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.ToWellFormed",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.IsWellFormed.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.IsWellFormed",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.ToWellFormedAvx2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.ToWellFormedAvx2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.GetPointerToFirstInvalidCharAvx2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.GetPointerToFirstInvalidCharAvx2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.ToWellFormedSse.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.ToWellFormedSse",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.GetPointerToFirstInvalidCharSse.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.GetPointerToFirstInvalidCharSse",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.ToWellFormedAvx512.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.ToWellFormedAvx512",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.GetPointerToFirstInvalidCharAvx512.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.GetPointerToFirstInvalidCharAvx512",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF16.GetPointerToFirstInvalidCharScalar.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF16.GetPointerToFirstInvalidCharScalar",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF8.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF8",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF8.GetPointerToFirstInvalidByte.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF8.GetPointerToFirstInvalidByte",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx512",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF8.GetPointerToFirstInvalidByteAvx2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF8.GetPointerToFirstInvalidByteSse",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF8.GetPointerToFirstInvalidByteScalar",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.UTF8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode.UTF8.GetPointerToFirstInvalidByteArm64",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SimdUnicode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SimdUnicode.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "SimdUnicode",
+      "Summary": null
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/benchmarks.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/benchmarks.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/contributing.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/contributing.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/how-it-works.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/how-it-works.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "logo.svg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
